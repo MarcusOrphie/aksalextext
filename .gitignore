@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+autopilot/article.json
+autopilot/cover_test.jpg
+autopilot/*.log
+_dl/
