@@ -38,6 +38,7 @@
     $("email-note").hidden = false;
     $("email-note").textContent = error ? ("Ошибка: " + error.message) : "Проверь почту - там ссылка для входа.";
   };
+  $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
   $("logout").onclick = async () => { await sb.auth.signOut(); };
   $("tab-profile").onclick = () => show("profile");
   $("btn-back").onclick = () => show("app");

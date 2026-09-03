@@ -16,6 +16,7 @@ from slowapi.errors import RateLimitExceeded
 
 import auth
 import generate as gen
+import oauth
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 
@@ -24,6 +25,7 @@ app = FastAPI(title="Zalihvat Content Machine API", docs_url=None, redoc_url=Non
 app.state.limiter = limiter
 app.add_middleware(CORSMiddleware, allow_origins=[ALLOWED_ORIGIN],
                    allow_methods=["POST", "GET"], allow_headers=["authorization", "content-type"])
+app.include_router(oauth.router)
 
 @app.exception_handler(RateLimitExceeded)
 def _ratelimit(request: Request, exc):
