@@ -1,0 +1,16 @@
+[Unit]
+Description=Zalihvat Content Machine API (FastAPI)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/zalihvat-app/backend
+EnvironmentFile=/opt/zalihvat-app/.env
+ExecStart=/opt/zalihvat-app/venv/bin/uvicorn main:app --host 127.0.0.1 --port 8800
+Restart=always
+RestartSec=3
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

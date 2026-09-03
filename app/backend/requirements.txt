@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+pyjwt[crypto]
+slowapi
+pydantic>=2

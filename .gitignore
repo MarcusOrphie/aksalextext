@@ -5,3 +5,4 @@ autopilot/cover_test.jpg
 autopilot/*.log
 _dl/
 ideas/brief.json
+app/backend/.env
