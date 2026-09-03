@@ -145,6 +145,23 @@
 .machine .mprice .amt{font-size:34px;line-height:1}
 .machine .mprice .per{color:#c9bfb0;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .machine .mcta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.machine .mplans{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:660px;margin:4px auto 0;text-align:left}
+.mplan{background:var(--paper2);color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:22px 20px;box-shadow:6px 6px 0 rgba(0,0,0,.3);position:relative;display:flex;flex-direction:column}
+.mplan.mp-pro{border-color:var(--coral);box-shadow:6px 6px 0 var(--coral)}
+.mp-badge{position:absolute;top:-13px;right:16px;background:var(--coral);color:var(--paper);border:2.5px solid var(--ink);border-radius:999px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.06em;padding:3px 12px}
+.mp-name{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:15px;color:var(--muted)}
+.mp-price{font-family:"Oswald";font-weight:700;display:flex;align-items:baseline;gap:5px;margin:2px 0 14px}
+.mp-price .amt{font-size:38px;line-height:1;color:var(--coral-deep)}
+.mp-price svg{color:var(--coral-deep);width:.8em;height:.8em}
+.mp-price .per{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;font-weight:600}
+.mp-list{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px}
+.mp-list li{position:relative;padding-left:23px;font-size:14px;font-weight:600;color:#2c2621;line-height:1.35}
+.mp-list li::before{content:"";position:absolute;left:0;top:5px;width:12px;height:12px;border-radius:50%;background:var(--coral);border:2px solid var(--ink)}
+.mplan .btn{margin-top:auto;width:100%;text-align:center}
+.machine .mhint{margin:16px 0 0}
+.machine .mhint a{color:#c9bfb0;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;text-decoration:none}
+.machine .mhint a:hover{color:var(--coral)}
+@media(max-width:560px){.machine .mplans{grid-template-columns:1fr}}
   .card .tags{display:flex;align-items:center;gap:8px;margin-bottom:12px}
   .tag{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.06em;
     padding:5px 12px;border-radius:999px;border:2px solid var(--ink)}
@@ -314,11 +331,31 @@
       <div class="mfeat">
         <span>Reels</span><span>Shorts</span><span>YouTube</span><span>TikTok</span><span>Карусель</span><span>Пост</span><span>Stories</span>
       </div>
-      <div class="mprice"><span class="amt">2000</span><svg class="icon fill star"><use href="#i-star"/></svg><span class="per">/ месяц</span></div>
-      <div class="mcta">
-        <a class="btn btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть кабинет →</a>
-        <a class="btn btn-ghost" href="#how">Как это работает</a>
+      <div class="mplans">
+        <div class="mplan">
+          <div class="mp-name">Старт</div>
+          <div class="mp-price"><span class="amt">750</span><svg class="icon fill star"><use href="#i-star"/></svg><span class="per">/ мес</span></div>
+          <ul class="mp-list">
+            <li>До 5 генераций в день</li>
+            <li>Все 7 платформ</li>
+            <li>Персонализация под твою нишу</li>
+          </ul>
+          <a class="btn btn-ghost" href="https://app.aksalex.com" target="_blank" rel="noopener">Начать со Старта →</a>
+        </div>
+        <div class="mplan mp-pro">
+          <div class="mp-badge">Хит</div>
+          <div class="mp-name">Pro</div>
+          <div class="mp-price"><span class="amt">2000</span><svg class="icon fill star"><use href="#i-star"/></svg><span class="per">/ мес</span></div>
+          <ul class="mp-list">
+            <li>Безлимит генераций</li>
+            <li>Все платформы + Stories от лица автора</li>
+            <li>Загрузка своих материалов</li>
+            <li>Приоритетная скорость</li>
+          </ul>
+          <a class="btn btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Взять Pro →</a>
+        </div>
       </div>
+      <p class="mhint"><a href="#how">Как это работает →</a></p>
     </div>
   </section>
 
