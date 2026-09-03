@@ -6,3 +6,4 @@ autopilot/*.log
 _dl/
 ideas/brief.json
 app/backend/.env
+app/frontend/avatar-src.jpg
