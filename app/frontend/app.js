@@ -38,7 +38,6 @@
     $("email-note").hidden = false;
     $("email-note").textContent = error ? ("Ошибка: " + error.message) : "Проверь почту - там ссылка для входа.";
   };
-  $("btn-google").onclick = () => sb.auth.signInWithOAuth({ provider: "google", options: { redirectTo: location.origin } });
   $("logout").onclick = async () => { await sb.auth.signOut(); };
   $("tab-profile").onclick = () => show("profile");
   $("btn-back").onclick = () => show("app");
