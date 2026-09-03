@@ -134,6 +134,17 @@
   .cards{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
   .card{background:var(--paper2);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);padding:24px 22px;position:relative;display:flex;flex-direction:column;height:100%}
   .card.feat{background:var(--coral-soft);box-shadow:8px 8px 0 var(--coral-deep)}
+.machine{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:26px;box-shadow:10px 10px 0 var(--coral);padding:36px 30px;text-align:center;position:relative;overflow:hidden}
+.machine .eyebrow{color:var(--coral)}
+.machine h2{font-size:clamp(26px,5.2vw,42px);line-height:1.03;margin:8px 0 12px;color:var(--paper)}
+.machine h2 em{color:var(--coral);font-style:normal}
+.machine .mlead{color:#efe7d9;font-size:17px;max-width:660px;margin:0 auto 18px}
+.machine .mfeat{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
+.machine .mfeat span{background:rgba(255,255,255,.07);border:2px solid var(--coral);border-radius:999px;padding:6px 14px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--paper)}
+.machine .mprice{color:var(--coral);font-family:"Oswald";font-weight:700;display:inline-flex;align-items:baseline;gap:7px;margin-bottom:18px}
+.machine .mprice .amt{font-size:34px;line-height:1}
+.machine .mprice .per{color:#c9bfb0;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.machine .mcta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
   .card .tags{display:flex;align-items:center;gap:8px;margin-bottom:12px}
   .tag{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.06em;
     padding:5px 12px;border-radius:999px;border:2px solid var(--ink)}
@@ -268,11 +279,12 @@
   <div class="in">
     <a class="brand" href="/"><img src="apple-touch-icon.png" alt="Саша Аксенов">Залихват</a>
     <div class="navlinks">
+      <a href="#machine">Машина</a>
       <a href="#how">Как это работает</a>
       <a href="#guides">Гайды</a>
       <a href="#about">Кто я</a>
       <a href="/blog/">Блог</a>
-      <a class="btn sm btn-primary navcta" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Открыть бот</a>
+      <a class="btn sm btn-primary navcta" href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
     </div>
   </div>
 </nav>
@@ -292,6 +304,23 @@
       <a class="btn btn-ghost" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Открыть бот</a>
     </div>
   </header>
+
+  <!-- MACHINE (веб-приложение, подписка) -->
+  <section id="machine">
+    <div class="machine">
+      <span class="eyebrow">Новинка · автопилот</span>
+      <h2>Залихват — <em>автоматическая</em> контент-машина</h2>
+      <p class="mlead">Личный кабинет, где ты выбираешь платформу, а нейросеть выдаёт готовый контент под тебя за секунды: идеи, хуки, сценарии и тексты - с учётом твоей ниши и стиля.</p>
+      <div class="mfeat">
+        <span>Reels</span><span>Shorts</span><span>YouTube</span><span>TikTok</span><span>Карусель</span><span>Пост</span><span>Stories</span>
+      </div>
+      <div class="mprice"><span class="amt">2000</span><svg class="icon fill star"><use href="#i-star"/></svg><span class="per">/ месяц</span></div>
+      <div class="mcta">
+        <a class="btn btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть кабинет →</a>
+        <a class="btn btn-ghost" href="#how">Как это работает</a>
+      </div>
+    </div>
+  </section>
 
   <!-- PAIN -->
   <section id="pain">
@@ -440,12 +469,13 @@
   <footer>
     <a class="brand fbrand" href="/"><img src="/apple-touch-icon.png" alt="Саша Аксенов">Залихват</a>
     <div class="navlinks fmenu">
+      <a href="/#machine">Машина</a>
       <a href="/#how">Как это работает</a>
       <a href="/#guides">Гайды</a>
       <a href="/#about">Кто я</a>
       <a href="/blog/">Блог</a>
       <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram</a>
-      <a class="btn sm btn-primary" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Открыть бот</a>
+      <a class="btn sm btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
     </div>
     <p class="fnote">Залихват · <b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
   </footer>
