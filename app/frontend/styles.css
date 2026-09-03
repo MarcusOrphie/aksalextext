@@ -13,6 +13,10 @@ em{font-style:normal;color:var(--coral)}
 .brand .dot{width:30px;height:30px;border-radius:50%;background:var(--coral);color:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font-size:16px}
 .brand{text-decoration:none}
 .brand .avatar{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 25%;box-shadow:2px 2px 0 var(--ink)}
+.navright{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.homebtn{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;background:var(--paper2);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:7px 12px;transition:transform .1s,box-shadow .1s}
+.homebtn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);color:var(--coral-deep)}
+.homebtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 .userbox{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .usermail{font-size:13px;color:var(--muted);font-weight:700}
 .linkbtn{background:none;border:none;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--muted);cursor:pointer}
@@ -41,7 +45,8 @@ em{font-style:normal;color:var(--coral)}
 .btn.soon:hover{transform:none;box-shadow:3px 3px 0 var(--ink)}
 .or{font-family:"Oswald";text-transform:uppercase;font-size:12px;letter-spacing:.1em;color:var(--muted);margin:12px 0}
 .fine{font-size:11px;color:var(--muted);margin-top:12px}
-.tg-login{display:flex;justify-content:center;margin:10px 0}
+.btn-ico{display:flex;align-items:center;justify-content:center;gap:9px}
+.btn-ico svg{flex:none}
 .note{background:var(--coral-soft);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700;color:#2a2015;margin:10px 0}
 
 .platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}

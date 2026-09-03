@@ -39,6 +39,13 @@
     $("email-note").textContent = error ? ("Ошибка: " + error.message) : "Проверь почту - там ссылка для входа.";
   };
   $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
+  $("btn-telegram").onclick = () => {
+    if (!(window.Telegram && window.Telegram.Login)) { alert("Telegram ещё грузится, попробуй через секунду"); return; }
+    window.Telegram.Login.auth({ bot_id: "8717449931", request_access: "write", lang: "ru" }, (user) => {
+      if (!user) return;
+      location.href = API + "/auth/telegram/callback?" + new URLSearchParams(user).toString();
+    });
+  };
   $("logout").onclick = async () => { await sb.auth.signOut(); };
   $("tab-profile").onclick = () => show("profile");
   $("btn-back").onclick = () => show("app");

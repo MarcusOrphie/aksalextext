@@ -14,11 +14,17 @@
 <body>
 <div class="wrap">
   <header class="nav">
-    <a class="brand" href="/"><img class="avatar" src="/avatar.jpg" alt="Залихват">ЗАЛИХВАТ</a>
-    <div id="userbox" class="userbox" hidden>
-      <span id="usermail" class="usermail"></span>
-      <button id="tab-profile" class="linkbtn">Мои данные</button>
-      <button id="logout" class="linkbtn">Выйти</button>
+    <a class="brand" href="https://aksalex.com/"><img class="avatar" src="/avatar.jpg" alt="Залихват">ЗАЛИХВАТ</a>
+    <div class="navright">
+      <a class="homebtn" href="https://aksalex.com/" title="На главный сайт" aria-label="На главную">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>
+        <span>На сайт</span>
+      </a>
+      <div id="userbox" class="userbox" hidden>
+        <span id="usermail" class="usermail"></span>
+        <button id="tab-profile" class="linkbtn">Мои данные</button>
+        <button id="logout" class="linkbtn">Выйти</button>
+      </div>
     </div>
   </header>
 
@@ -32,8 +38,12 @@
       <button id="btn-email" class="btn btn-primary">Получить ссылку для входа</button>
       <div id="email-note" class="note" hidden>Проверь почту - там ссылка для входа.</div>
       <div class="or">или</div>
-      <div class="tg-login"><script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="zalihvat_bot" data-size="large" data-radius="14" data-auth-url="https://app.aksalex.com/api/auth/telegram/callback" data-request-access="write"></script></div>
-      <button id="btn-yandex" class="btn btn-ghost">Войти через Яндекс ID</button>
+      <button id="btn-telegram" class="btn btn-ghost btn-ico">
+        <svg viewBox="0 0 240 240" width="20" height="20" aria-hidden="true"><circle cx="120" cy="120" r="120" fill="#2AABEE"/><path fill="#fff" d="M53 118l114-44c5-2 10 1 8 9l-19 92c-1 6-5 7-10 4l-28-21-14 13c-2 2-3 3-6 3l2-30 55-50c2-2-1-3-4-1l-68 43-29-9c-6-2-6-6 1-9z"/></svg>
+        Войти через Telegram</button>
+      <button id="btn-yandex" class="btn btn-ghost btn-ico">
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FC3F1D"/><path fill="#fff" d="M13.3 6.4h-1.1c-2 0-3.1 1-3.1 2.6 0 1.8.8 2.6 2.4 3.7l1.3.9-3.8 5.6H6.2l3.4-5c-2-1.4-3-2.8-3-5C6.6 4.6 8.4 3 11.9 3h3.4v16.2h-2V6.4z"/></svg>
+        Войти через Яндекс ID</button>
       <p class="fine">Продолжая, ты соглашаешься с обработкой данных для генерации контента.</p>
     </div>
   </section>
@@ -73,6 +83,7 @@
   <footer class="foot">Контент-машина «Залихват» · данные под защитой, видишь только своё</footer>
 </div>
 
+<script async src="https://telegram.org/js/telegram-widget.js?22"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
 <script src="/config.js"></script>
