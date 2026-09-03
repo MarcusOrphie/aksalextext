@@ -62,4 +62,11 @@ em{font-style:normal;color:var(--coral)}
 .history .h b{color:var(--coral-deep);font-family:"Oswald";text-transform:uppercase}
 .uploads{font-size:13px;color:var(--muted);margin:8px 0}
 .foot{margin-top:30px;padding-top:16px;border-top:2px solid var(--ink);text-align:center;font-size:12px;color:var(--muted);font-weight:700}
+.pdf-content{background:var(--paper2);border-radius:12px;padding:16px}
+.pdf-title{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:16px;color:var(--ink);margin-bottom:14px;border-bottom:2px solid var(--ink);padding-bottom:8px}
+.pdf-title span{color:var(--coral-deep)}
+.pdfbar{margin:6px 0 12px}
+.pdfdl{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.03em;color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:9px 16px;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.pdfdl:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.pdfdl:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 @media(min-width:640px){.platforms{grid-template-columns:repeat(3,1fr)}}

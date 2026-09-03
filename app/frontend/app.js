@@ -51,7 +51,7 @@
       c.appendChild(el("div", null, name));
       c.appendChild(el("small", null, sub));
       c.onclick = () => { platform = id; renderPlatforms(); };
-      box.appendChild(c);
+      content.appendChild(c);
     });
   }
 
@@ -85,10 +85,29 @@
   function copyBtn(getText) { const b = el("button", "copy", "копировать"); b.onclick = () => navigator.clipboard.writeText(getText()); return b; }
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
 
+  const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram" };
+
+  function savePdf(node, platform) {
+    if (!window.html2pdf) return;
+    const date = new Date().toISOString().slice(0, 10);
+    window.html2pdf().set({
+      margin: 8, filename: "zalihvat-" + platform + "-" + date + ".pdf",
+      image: { type: "jpeg", quality: 0.96 },
+      html2canvas: { scale: 2, backgroundColor: "#faf5ec", useCORS: true },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      pagebreak: { mode: ["css", "legacy", "avoid-all"] },
+    }).from(node).save();
+  }
+
   function renderResult(out) {
     const box = $("result"); box.textContent = "";
     const d = out.data || {};
     const p = out.platform;
+    const content = el("div", "pdf-content");
+    const title = el("div", "pdf-title");
+    title.appendChild(el("b", null, "Контент-машина Залихват"));
+    title.appendChild(el("span", null, "  ·  " + (PLABEL[p] || p)));
+    content.appendChild(title);
     if (["reels", "shorts", "tiktok"].includes(p)) {
       (d.ideas || []).forEach((it, i) => {
         const c = el("div", "rcard");
@@ -99,7 +118,7 @@
         c.appendChild(row("Визуал", it.visual));
         c.appendChild(el("div", "why", "Почему " + (it.virality || 0) + "%: " + (it.virality_reason || "")));
         c.appendChild(copyBtn(() => it.hook + "\n\n" + it.scenario));
-        box.appendChild(c);
+        content.appendChild(c);
       });
     } else if (p === "youtube_long") {
       const c = el("div", "rcard");
@@ -108,14 +127,14 @@
       c.appendChild(row("Хук", d.hook, "hook"));
       (d.sections || []).forEach(s => { c.appendChild(row(s.h, s.points)); });
       c.appendChild(row("Финал", d.outro));
-      box.appendChild(c);
+      content.appendChild(c);
     } else if (p === "carousel") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(row("Слайд-крючок", d.hook_slide, "hook"));
       (d.slides || []).forEach((s, i) => c.appendChild(row("Слайд " + (i + 2) + " · " + s.title, s.text)));
       c.appendChild(row("Финальный слайд", d.cta_slide));
-      box.appendChild(c);
+      content.appendChild(c);
     } else if (p === "post") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
@@ -123,13 +142,19 @@
       c.appendChild(row("Текст", d.body));
       c.appendChild(row("Призыв", d.cta));
       c.appendChild(copyBtn(() => d.hook + "\n\n" + d.body + "\n\n" + d.cta));
-      box.appendChild(c);
+      content.appendChild(c);
     } else if (p === "stories") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       (d.frames || []).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
-      box.appendChild(c);
+      content.appendChild(c);
     }
+    const pdfbar = el("div", "pdfbar");
+    const pdfbtn = el("button", "pdfdl", "⬇ Скачать PDF");
+    pdfbtn.onclick = () => savePdf(content, p);
+    pdfbar.appendChild(pdfbtn);
+    box.appendChild(pdfbar);
+    box.appendChild(content);
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
