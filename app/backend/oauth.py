@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Мост Яндекс ID -> сессия Supabase (через admin generate_link / magiclink)."""
-import os, json, secrets, urllib.request, urllib.parse
+import os, json, secrets, hmac, hashlib, time, urllib.request, urllib.parse
 from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 
@@ -12,6 +12,15 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
 SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "").strip()
 APP_URL = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 REDIRECT = APP_URL + "/api/auth/yandex/callback"
+TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "").strip()
+
+def _supabase_magiclink(email, meta=None):
+    admin_h = {"apikey": SERVICE_KEY, "Authorization": "Bearer " + SERVICE_KEY}
+    body = {"type": "magiclink", "email": email, "options": {"redirect_to": APP_URL}}
+    if meta:
+        body["options"]["data"] = meta
+    link = _post_json(SUPABASE_URL + "/auth/v1/admin/generate_link", body, admin_h)
+    return link.get("action_link") or (link.get("properties") or {}).get("action_link")
 
 # простая защита от CSRF: одноразовый state в куке
 _STATE_COOKIE = "yx_state"
@@ -67,11 +76,7 @@ def yandex_callback(request: Request):
             email = info["emails"][0]
         if not email:
             return _fail("noemail")
-        admin_h = {"apikey": SERVICE_KEY, "Authorization": "Bearer " + SERVICE_KEY}
-        link = _post_json(SUPABASE_URL + "/auth/v1/admin/generate_link", {
-            "type": "magiclink", "email": email,
-            "options": {"redirect_to": APP_URL}}, admin_h)
-        action = link.get("action_link") or (link.get("properties") or {}).get("action_link")
+        action = _supabase_magiclink(email, {"provider": "yandex"})
         if not action:
             return _fail("link")
         resp = RedirectResponse(action, status_code=302)
@@ -79,3 +84,34 @@ def yandex_callback(request: Request):
         return resp
     except Exception:
         return _fail("yandex")
+
+
+@router.get("/api/auth/telegram/callback")
+def telegram_callback(request: Request):
+    params = dict(request.query_params)
+    tg_hash = params.pop("hash", None)
+    if not tg_hash or not TG_BOT_TOKEN:
+        return _fail("tg")
+    check = "\n".join(f"{k}={params[k]}" for k in sorted(params))
+    secret = hashlib.sha256(TG_BOT_TOKEN.encode()).digest()
+    calc = hmac.new(secret, check.encode(), hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(calc, tg_hash):
+        return _fail("tg_hash")
+    try:
+        if int(time.time()) - int(params.get("auth_date", "0")) > 86400:
+            return _fail("tg_old")
+    except Exception:
+        return _fail("tg")
+    tg_id = params.get("id")
+    if not tg_id:
+        return _fail("tg")
+    email = f"tg{tg_id}@tg.aksalex.com"
+    try:
+        action = _supabase_magiclink(email, {
+            "provider": "telegram", "telegram_id": tg_id,
+            "name": params.get("first_name"), "username": params.get("username")})
+        if not action:
+            return _fail("link")
+        return RedirectResponse(action, status_code=302)
+    except Exception:
+        return _fail("tg")
