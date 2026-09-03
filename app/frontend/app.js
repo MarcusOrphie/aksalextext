@@ -46,7 +46,10 @@
       location.href = API + "/auth/telegram/callback?" + new URLSearchParams(user).toString();
     });
   };
-  $("logout").onclick = async () => { await sb.auth.signOut(); };
+  $("logout").onclick = async () => {
+    try { await sb.auth.signOut(); } catch (e) {}
+    location.href = "/";
+  };
   $("tab-profile").onclick = () => show("profile");
   $("btn-back").onclick = () => show("app");
 
@@ -58,7 +61,7 @@
       c.appendChild(el("div", null, name));
       c.appendChild(el("small", null, sub));
       c.onclick = () => { platform = id; renderPlatforms(); };
-      content.appendChild(c);
+      box.appendChild(c);
     });
   }
 
