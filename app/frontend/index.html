@@ -35,8 +35,10 @@
       <h1>Контент-машина <em>Залихват</em></h1>
       <p class="lead">Заходи, загрузи данные о себе и получай контент под любую платформу за секунды.</p>
       <label class="fld"><span>Email</span><input id="email" type="email" placeholder="you@mail.com" autocomplete="email"></label>
-      <button id="btn-email" class="btn btn-primary">Получить ссылку для входа</button>
-      <div id="email-note" class="note" hidden>Проверь почту - там ссылка для входа.</div>
+      <label class="fld"><span>Пароль</span><input id="password" type="password" placeholder="минимум 6 символов" autocomplete="current-password"></label>
+      <button id="btn-email" class="btn btn-primary">Войти</button>
+      <button id="btn-register" class="btn btn-ghost">Создать аккаунт</button>
+      <div id="email-note" class="note" hidden></div>
       <div class="or">или</div>
       <button id="btn-telegram" class="btn btn-ghost btn-ico">
         <svg viewBox="0 0 240 240" width="20" height="20" aria-hidden="true"><circle cx="120" cy="120" r="120" fill="#2AABEE"/><path fill="#fff" d="M53 118l114-44c5-2 10 1 8 9l-19 92c-1 6-5 7-10 4l-28-21-14 13c-2 2-3 3-6 3l2-30 55-50c2-2-1-3-4-1l-68 43-29-9c-6-2-6-6 1-9z"/></svg>
@@ -81,6 +83,29 @@
   </section>
 
   <footer class="foot">Контент-машина «Залихват» · данные под защитой, видишь только своё</footer>
+</div>
+
+<div id="paywall" class="modal" hidden>
+  <div class="modal-card">
+    <button id="paywall-close" class="modal-x" aria-label="Закрыть">&times;</button>
+    <div class="eyebrow">Бесплатная генерация использована</div>
+    <h2 class="pw-h">Продолжим на <em>подписке</em>?</h2>
+    <p class="pw-lead">Ты уже попробовал(а) машину. Дальше - полный доступ к контенту под все платформы.</p>
+    <div class="pw-plans">
+      <div class="pw-plan">
+        <div class="pw-name">Старт</div>
+        <div class="pw-price">750 <svg class="star" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 3l2.5 5.3 5.8.5-4.4 3.8 1.3 5.7L12 21.3 6.8 18.6l1.3-5.7L3.7 8.8l5.8-.5Z"/></svg> <span class="per">/ мес</span></div>
+        <div class="pw-sub">до 5 генераций в день</div>
+        <a class="btn btn-ghost" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Оформить Старт</a>
+      </div>
+      <div class="pw-plan pw-pro">
+        <div class="pw-name">Pro</div>
+        <div class="pw-price">2000 <svg class="star" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M12 3l2.5 5.3 5.8.5-4.4 3.8 1.3 5.7L12 21.3 6.8 18.6l1.3-5.7L3.7 8.8l5.8-.5Z"/></svg> <span class="per">/ мес</span></div>
+        <div class="pw-sub">безлимит + всё включено</div>
+        <a class="btn btn-primary" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Оформить Pro</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script async src="https://telegram.org/js/telegram-widget.js?22"></script>

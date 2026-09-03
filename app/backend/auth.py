@@ -17,14 +17,17 @@ def _client():
         _jwk_client = PyJWKClient(JWKS_URL)
     return _jwk_client
 
-def verify(token: str) -> str:
-    """Вернуть user_id (sub) если токен валиден, иначе бросить исключение."""
+def verify_full(token: str) -> dict:
+    """Вернуть claims целиком (sub, email, ...) если токен валиден."""
     signing_key = _client().get_signing_key_from_jwt(token).key
-    claims = jwt.decode(
+    return jwt.decode(
         token, signing_key,
         algorithms=["RS256", "ES256"],
         audience="authenticated",
         issuer=ISSUER,
         options={"require": ["exp", "sub"]},
     )
-    return claims["sub"]
+
+def verify(token: str) -> str:
+    """Вернуть user_id (sub) если токен валиден, иначе бросить исключение."""
+    return verify_full(token)["sub"]

@@ -31,12 +31,20 @@
   }
   sb.auth.onAuthStateChange(() => refresh());
 
+  function authNote(msg) { $("email-note").hidden = false; $("email-note").textContent = msg; }
   $("btn-email").onclick = async () => {
-    const email = $("email").value.trim();
-    if (!email) return;
-    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin } });
-    $("email-note").hidden = false;
-    $("email-note").textContent = error ? ("Ошибка: " + error.message) : "Проверь почту - там ссылка для входа.";
+    const email = $("email").value.trim(), password = $("password").value;
+    if (!email || !password) return authNote("Введи почту и пароль.");
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) authNote("Не вышло: " + error.message);
+  };
+  $("btn-register").onclick = async () => {
+    const email = $("email").value.trim(), password = $("password").value;
+    if (!email || !password) return authNote("Введи почту и пароль (минимум 6 символов).");
+    if (password.length < 6) return authNote("Пароль минимум 6 символов.");
+    const { data, error } = await sb.auth.signUp({ email, password });
+    if (error) return authNote("Не вышло: " + error.message);
+    if (!data.session) authNote("Аккаунт создан. Подтверди почту и войди.");
   };
   $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
   $("btn-telegram").onclick = () => {
@@ -52,6 +60,10 @@
   };
   $("tab-profile").onclick = () => show("profile");
   $("btn-back").onclick = () => show("app");
+
+  function showPaywall() { $("paywall").hidden = false; }
+  $("paywall-close").onclick = () => { $("paywall").hidden = true; };
+  $("paywall").onclick = (e) => { if (e.target === $("paywall")) $("paywall").hidden = true; };
 
   // ---------- PLATFORM PICKER ----------
   function renderPlatforms() {
@@ -79,11 +91,11 @@
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
         body: JSON.stringify({ platform, topic, profile }),
       });
+      if (res.status === 402) { st.hidden = true; showPaywall(); return; }
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || e.error || res.status); }
       const out = await res.json();
       renderResult(out);
       st.hidden = true;
-      await sb.from("generations").insert({ platform: out.platform, topic, output: out.data });
       await loadHistory();
     } catch (e) {
       st.textContent = "Не вышло: " + e.message;
