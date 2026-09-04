@@ -76,7 +76,6 @@
     return false;
   }
   $("btn-email").onclick = async () => {
-    if (!consentOk()) return;
     const email = $("email").value.trim(), password = $("password").value;
     if (!email || !password) return authNote("Введи почту и пароль.");
     const { error } = await sb.auth.signInWithPassword({ email, password });
@@ -108,7 +107,7 @@
     recovering = false;
     location.replace("/");
   };
-  $("btn-yandex").onclick = () => { if (!consentOk()) return; location.href = API + "/auth/yandex/start"; };
+  $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
   $("logout").onclick = async () => {
     try { await sb.auth.signOut(); } catch (e) {}
     location.href = "/";
