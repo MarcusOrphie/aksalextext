@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Учёт генераций через Supabase REST (service-ключ, минуя RLS).
 Используется для лимита бесплатных генераций и истории пользователя."""
-import os, json, urllib.request, urllib.parse
+import os, json, logging, urllib.request, urllib.parse, urllib.error
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
 SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "").strip()
@@ -28,5 +28,7 @@ def record(user_id: str, platform: str, topic: str, output) -> None:
     req = urllib.request.Request(REST + "/generations", data=body, headers=h, method="POST")
     try:
         urllib.request.urlopen(req, timeout=15).read()
-    except Exception:
-        pass  # учёт не должен ломать выдачу результата
+    except urllib.error.HTTPError as e:
+        logging.error("usage.record HTTP %s: %s", e.code, e.read().decode(errors="replace")[:300])
+    except Exception as e:
+        logging.error("usage.record failed: %r", e)
