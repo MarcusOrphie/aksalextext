@@ -12,6 +12,21 @@ def _dash(o):
     if isinstance(o, dict): return {k: _dash(v) for k, v in o.items()}
     return o
 
+def _coerce_arrays(data):
+    """Иногда модель отдаёт поле-массив строкой-JSON - распарсим обратно."""
+    if not isinstance(data, dict):
+        return data
+    for key in ("ideas", "sections", "slides", "frames"):
+        v = data.get(key)
+        if isinstance(v, str):
+            s = v.strip()
+            if s.startswith("[") or s.startswith("{"):
+                try:
+                    data[key] = json.loads(s)
+                except Exception:
+                    pass
+    return data
+
 _idea = {"type": "object", "properties": {
     "idea": {"type": "string"}, "hook": {"type": "string"}, "scenario": {"type": "string"},
     "visual": {"type": "string"}, "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
@@ -67,5 +82,5 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         d = json.loads(r.read().decode("utf-8"))
     for b in d.get("content", []):
         if b.get("type") == "tool_use":
-            return {"platform": platform, "data": _dash(b.get("input", {}))}
+            return {"platform": platform, "data": _coerce_arrays(_dash(b.get("input", {})))}
     raise RuntimeError("no tool_use in response")

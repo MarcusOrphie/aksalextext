@@ -194,6 +194,7 @@
     return b;
   }
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
+  function arr(v) { if (Array.isArray(v)) return v; if (typeof v === "string") { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch (e) { return []; } } return []; }
 
   const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram" };
 
@@ -221,7 +222,7 @@
     title.appendChild(el("span", null, "  ·  " + (PLABEL[p] || p)));
     content.appendChild(title);
     if (["reels", "shorts", "tiktok"].includes(p)) {
-      (d.ideas || []).forEach((it, i) => {
+      arr(d.ideas).forEach((it, i) => {
         const c = el("div", "rcard");
         c.appendChild(el("span", "viral", (it.virality || 0) + "%"));
         c.appendChild(el("h3", null, (i + 1) + ". " + it.idea));
@@ -237,14 +238,14 @@
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(el("h3", null, d.title || "Сценарий"));
       c.appendChild(row("Хук", d.hook, "hook"));
-      (d.sections || []).forEach(s => { c.appendChild(row(s.h, s.points)); });
+      arr(d.sections).forEach(s => { c.appendChild(row(s.h, s.points)); });
       c.appendChild(row("Финал", d.outro));
       content.appendChild(c);
     } else if (p === "carousel") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(row("Слайд-крючок", d.hook_slide, "hook"));
-      (d.slides || []).forEach((s, i) => c.appendChild(row("Слайд " + (i + 2) + " · " + s.title, s.text)));
+      arr(d.slides).forEach((s, i) => c.appendChild(row("Слайд " + (i + 2) + " · " + s.title, s.text)));
       c.appendChild(row("Финальный слайд", d.cta_slide));
       content.appendChild(c);
     } else if (p === "post") {
@@ -258,7 +259,7 @@
     } else if (p === "stories") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
-      (d.frames || []).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
+      arr(d.frames).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
       content.appendChild(c);
     }
     box.appendChild(content);
