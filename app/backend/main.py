@@ -85,7 +85,7 @@ def platforms():
 @app.get("/api/me")
 def me(user: dict = Depends(get_user)):
     unlimited = user["email"] in UNLIMITED_EMAILS
-    used = 0 if unlimited else usage.count(user["id"])
+    used = usage.count(user["id"])
     return {"email": user["email"], "unlimited": unlimited,
             "used": used, "free_limit": FREE_LIMIT,
             "remaining": None if unlimited else max(0, FREE_LIMIT - used)}
