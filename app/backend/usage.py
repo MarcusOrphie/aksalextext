@@ -20,6 +20,34 @@ def count(user_id: str) -> int:
     return int(total) if total.isdigit() else 0
 
 
+def recent_titles(user_id: str, platform: str, rows: int = 12) -> list:
+    """Названия идей/видео, уже выданных пользователю на этой платформе, - чтобы не повторяться."""
+    url = (REST + "/generations?select=output&user_id=eq." + urllib.parse.quote(user_id, safe="")
+           + "&platform=eq." + urllib.parse.quote(platform, safe="")
+           + "&order=created_at.desc&limit=" + str(rows))
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=_H), timeout=15) as r:
+            data = json.loads(r.read().decode())
+    except Exception as e:
+        logging.error("usage.recent_titles failed: %r", e)
+        return []
+    out = []
+    for row in data:
+        o = row.get("output") or {}
+        if not isinstance(o, dict):
+            continue
+        for it in (o.get("ideas") or []):
+            if isinstance(it, dict) and it.get("idea"):
+                out.append(str(it["idea"]))
+        if o.get("title"):
+            out.append(str(o["title"]))
+    seen, res = set(), []
+    for x in out:
+        if x not in seen:
+            seen.add(x); res.append(x)
+    return res[:40]
+
+
 def record(user_id: str, platform: str, topic: str, output) -> None:
     """Записать факт генерации (авторитетно, с user_id)."""
     body = json.dumps({"user_id": user_id, "platform": platform,

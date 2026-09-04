@@ -104,7 +104,11 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
                 "used": used, "free_limit": FREE_LIMIT})
     profile = req.profile.model_dump(exclude_none=True) if req.profile else None
     try:
-        result = gen.generate(req.platform, req.topic, profile)
+        avoid = usage.recent_titles(user["id"], req.platform)
+    except Exception:
+        avoid = []
+    try:
+        result = gen.generate(req.platform, req.topic, profile, avoid=avoid)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     usage.record(user["id"], req.platform, req.topic, result.get("data"))

@@ -46,16 +46,17 @@ SCHEMAS = {
 }
 PLATFORMS = set(SCHEMAS.keys())
 
-def generate(platform: str, topic: str, profile: dict | None = None) -> dict:
+def generate(platform: str, topic: str, profile: dict | None = None, avoid: list | None = None) -> dict:
     if platform not in PLATFORMS:
         raise ValueError("unknown platform")
     if not API_KEY:
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
+    max_tokens = 6000 if platform == "youtube_long" else 4000
     payload = {
-        "model": MODEL, "max_tokens": 4000,
-        "system": build_system(platform, profile),
+        "model": MODEL, "max_tokens": max_tokens,
+        "system": build_system(platform, profile, avoid),
         "messages": [{"role": "user", "content": build_user(topic, platform)}],
         "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"},
     }
