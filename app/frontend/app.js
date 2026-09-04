@@ -246,8 +246,14 @@
     const pdfbtn = el("button", "pdfdl", "⬇ Скачать PDF");
     pdfbtn.onclick = () => savePdf(content, p);
     const again = el("button", "againdl", "↻ Сгенерировать ещё");
-    again.onclick = () => $("btn-gen").click();
-    actions.appendChild(pdfbtn); actions.appendChild(again);
+    again.onclick = () => $("btn-gen").click();       // та же тема (из поля topic)
+    const newtopic = el("button", "againdl", "✎ Новая тема");
+    newtopic.onclick = () => {
+      $("topic").value = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(() => $("topic").focus({ preventScroll: true }), 450);
+    };
+    actions.appendChild(pdfbtn); actions.appendChild(again); actions.appendChild(newtopic);
     box.appendChild(actions);
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
