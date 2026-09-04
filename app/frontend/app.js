@@ -49,25 +49,43 @@
   });
 
   function authNote(msg) { $("email-note").hidden = false; $("email-note").textContent = msg; }
+  function ruErr(m) {
+    m = m || "";
+    const map = [
+      [/invalid login credentials/i, "Неверная почта или пароль"],
+      [/email not confirmed/i, "Почта ещё не подтверждена"],
+      [/already registered/i, "Эта почта уже зарегистрирована"],
+      [/password should be at least/i, "Пароль минимум 6 символов"],
+      [/should be different from the old/i, "Новый пароль должен отличаться от старого"],
+      [/unable to validate email|invalid format/i, "Некорректный формат почты"],
+      [/email rate limit exceeded/i, "Слишком много писем - попробуй позже"],
+      [/for security purposes.*after|only request this after/i, "Слишком часто - попробуй чуть позже"],
+      [/token has expired|invalid.*token|otp_expired/i, "Ссылка устарела или недействительна"],
+      [/signups? (not allowed|is disabled)/i, "Регистрация временно отключена"],
+      [/failed to fetch|networkerror|load failed/i, "Нет связи с сервером - проверь интернет"],
+    ];
+    for (const [re, ru] of map) if (re.test(m)) return ru;
+    return m;
+  }
   $("btn-email").onclick = async () => {
     const email = $("email").value.trim(), password = $("password").value;
     if (!email || !password) return authNote("Введи почту и пароль.");
     const { error } = await sb.auth.signInWithPassword({ email, password });
-    if (error) authNote("Не вышло: " + error.message);
+    if (error) authNote(ruErr(error.message));
   };
   $("btn-register").onclick = async () => {
     const email = $("email").value.trim(), password = $("password").value;
     if (!email || !password) return authNote("Введи почту и пароль (минимум 6 символов).");
     if (password.length < 6) return authNote("Пароль минимум 6 символов.");
     const { data, error } = await sb.auth.signUp({ email, password });
-    if (error) return authNote("Не вышло: " + error.message);
+    if (error) return authNote(ruErr(error.message));
     if (!data.session) authNote("Аккаунт создан. Подтверди почту и войди.");
   };
   $("btn-forgot").onclick = async () => {
     const email = $("email").value.trim();
     if (!email) return authNote("Впиши почту - пришлём ссылку для сброса пароля.");
     const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin });
-    authNote(error ? ("Ошибка: " + error.message) : ("Письмо со ссылкой для сброса отправлено на " + email + "."));
+    authNote(error ? ruErr(error.message) : ("Письмо со ссылкой для сброса отправлено на " + email + "."));
   };
   $("btn-setpass").onclick = async () => {
     const password = $("newpass").value;
@@ -75,7 +93,7 @@
     if (!password || password.length < 6) { note.hidden = false; note.textContent = "Пароль минимум 6 символов."; return; }
     const { error } = await sb.auth.updateUser({ password });
     note.hidden = false;
-    if (error) { note.textContent = "Не вышло: " + error.message; return; }
+    if (error) { note.textContent = ruErr(error.message); return; }
     note.textContent = "Пароль обновлён, входим...";
     recovering = false;
     location.replace("/");
