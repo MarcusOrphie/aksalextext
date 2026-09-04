@@ -44,6 +44,8 @@ em{font-style:normal;color:var(--coral)}
 .btn.soon{opacity:.5;cursor:not-allowed;box-shadow:3px 3px 0 var(--ink)}
 .btn.soon:hover{transform:none;box-shadow:3px 3px 0 var(--ink)}
 .or{font-family:"Oswald";text-transform:uppercase;font-size:12px;letter-spacing:.1em;color:var(--muted);margin:12px 0}
+.forgot{display:block;margin:2px auto 4px;background:none;border:none;font-family:"Nunito";font-weight:700;font-size:13px;color:var(--muted);cursor:pointer;text-decoration:underline}
+.forgot:hover{color:var(--coral-deep)}
 .fine{font-size:11px;color:var(--muted);margin-top:12px}
 .btn-ico{display:flex;align-items:center;justify-content:center;gap:9px}
 .btn-ico svg{flex:none}

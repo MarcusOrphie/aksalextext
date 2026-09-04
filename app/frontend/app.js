@@ -11,10 +11,11 @@
   ];
   let platform = "reels";
   let profile = {};
+  let recovering = false;
 
   const $ = (id) => document.getElementById(id);
   function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
-  function show(view) { ["auth", "app", "profile"].forEach(v => $("view-" + v).hidden = (v !== view)); }
+  function show(view) { ["auth", "recover", "app", "profile"].forEach(v => $("view-" + v).hidden = (v !== view)); }
 
   // ---------- AUTH ----------
   async function refresh() {
@@ -29,7 +30,11 @@
       $("userbox").hidden = true; show("auth");
     }
   }
-  sb.auth.onAuthStateChange(() => refresh());
+  sb.auth.onAuthStateChange((event) => {
+    if (event === "PASSWORD_RECOVERY") { recovering = true; $("userbox").hidden = true; show("recover"); return; }
+    if (recovering) return;  // не выкидывать из экрана «новый пароль»
+    refresh();
+  });
 
   function authNote(msg) { $("email-note").hidden = false; $("email-note").textContent = msg; }
   $("btn-email").onclick = async () => {
@@ -45,6 +50,23 @@
     const { data, error } = await sb.auth.signUp({ email, password });
     if (error) return authNote("Не вышло: " + error.message);
     if (!data.session) authNote("Аккаунт создан. Подтверди почту и войди.");
+  };
+  $("btn-forgot").onclick = async () => {
+    const email = $("email").value.trim();
+    if (!email) return authNote("Впиши почту - пришлём ссылку для сброса пароля.");
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin });
+    authNote(error ? ("Ошибка: " + error.message) : ("Письмо со ссылкой для сброса отправлено на " + email + "."));
+  };
+  $("btn-setpass").onclick = async () => {
+    const password = $("newpass").value;
+    const note = $("recover-note");
+    if (!password || password.length < 6) { note.hidden = false; note.textContent = "Пароль минимум 6 символов."; return; }
+    const { error } = await sb.auth.updateUser({ password });
+    note.hidden = false;
+    if (error) { note.textContent = "Не вышло: " + error.message; return; }
+    note.textContent = "Пароль обновлён.";
+    recovering = false;
+    refresh();
   };
   $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
   $("btn-telegram").onclick = () => {
