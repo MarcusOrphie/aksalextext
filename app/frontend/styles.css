@@ -53,6 +53,29 @@ em{font-style:normal;color:var(--coral)}
 
 .usage{text-align:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--coral-soft);border:2px solid var(--ink);border-radius:999px;padding:7px 14px;margin:0 auto 16px;max-width:max-content}
 .usage b{color:var(--coral-deep)}
+
+/* copy button feedback + hover */
+.copy{transition:transform .1s,box-shadow .1s,background .1s,color .1s;box-shadow:2px 2px 0 var(--ink)}
+.copy:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink);background:var(--coral-soft)}
+.copy:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+.copy.copied{background:var(--coral);color:var(--paper);border-color:var(--ink)}
+
+/* result actions (pdf + again) at the end */
+.result-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.againdl{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.03em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:9px 16px;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.againdl:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.againdl:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+
+/* first-visit hint near «Мои данные» */
+.hint-wrap{position:relative;display:inline-flex}
+.hint{position:absolute;top:calc(100% + 12px);right:0;width:224px;background:var(--ink);color:var(--paper);font-family:"Nunito";font-weight:700;font-size:12.5px;line-height:1.4;text-transform:none;letter-spacing:0;border-radius:12px;padding:11px 30px 11px 13px;box-shadow:4px 4px 0 var(--coral);z-index:70;text-align:left}
+.hint::before{content:"";position:absolute;top:-8px;right:22px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--ink)}
+.hint-x{position:absolute;top:5px;right:8px;background:none;border:none;cursor:pointer;font-size:17px;line-height:1;color:var(--coral);font-family:"Oswald"}
+
+/* consent checkbox on auth */
+.consent{display:flex;align-items:flex-start;gap:9px;text-align:left;margin:2px 0 12px;font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.4}
+.consent input{margin-top:2px;width:18px;height:18px;accent-color:var(--coral);flex:none;cursor:pointer}
+.consent a{color:var(--coral-deep)}
 .platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .pf{background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:14px;cursor:pointer;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.02em;transition:transform .08s}
 .pf small{display:block;font-family:"Nunito";font-weight:700;text-transform:none;letter-spacing:0;font-size:12px;color:var(--muted);margin-top:3px}

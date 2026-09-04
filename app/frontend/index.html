@@ -22,7 +22,10 @@
       </a>
       <div id="userbox" class="userbox" hidden>
         <span id="usermail" class="usermail"></span>
-        <button id="tab-profile" class="linkbtn">Мои данные</button>
+        <span class="hint-wrap">
+          <button id="tab-profile" class="linkbtn">Мои данные</button>
+          <span id="profile-hint" class="hint" hidden>Заполни информацию о себе, чтобы результат был лучше<button id="hint-x" class="hint-x" aria-label="Закрыть">&times;</button></span>
+        </span>
         <button id="logout" class="linkbtn">Выйти</button>
       </div>
     </div>
@@ -36,6 +39,7 @@
       <p class="lead">Заходи, загрузи данные о себе и получай контент под любую платформу за секунды.</p>
       <label class="fld"><span>Email</span><input id="email" type="email" placeholder="you@mail.com" autocomplete="email"></label>
       <label class="fld"><span>Пароль</span><input id="password" type="password" placeholder="минимум 6 символов" autocomplete="current-password"></label>
+      <label class="consent"><input type="checkbox" id="consent"><span>Согласен(а) на <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">обработку персональных данных</a> и принимаю <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener">оферту</a></span></label>
       <button id="btn-email" class="btn btn-primary">Войти</button>
       <button id="btn-register" class="btn btn-ghost">Создать аккаунт</button>
       <button id="btn-forgot" class="forgot">Забыли пароль?</button>
@@ -44,7 +48,6 @@
       <button id="btn-yandex" class="btn btn-ghost btn-ico">
         <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FC3F1D"/><path fill="#fff" d="M13.3 6.4h-1.1c-2 0-3.1 1-3.1 2.6 0 1.8.8 2.6 2.4 3.7l1.3.9-3.8 5.6H6.2l3.4-5c-2-1.4-3-2.8-3-5C6.6 4.6 8.4 3 11.9 3h3.4v16.2h-2V6.4z"/></svg>
         Войти через Яндекс ID</button>
-      <p class="fine">Продолжая, ты соглашаешься с обработкой данных для генерации контента.</p>
     </div>
   </section>
 

@@ -27,7 +27,7 @@
       $("userbox").hidden = false;
       $("usermail").textContent = s.user.email || s.user.phone || "профиль";
       show("app");
-      await loadProfile(); await loadHistory(); await loadMe();
+      await loadProfile(); maybeShowHint(); await loadHistory(); await loadMe();
     } else {
       $("userbox").hidden = true; show("auth");
       if (window.__authErr) { authNote("Ссылка устарела или уже использована - запроси новую через «Забыли пароль?». (" + window.__authErr + ")"); window.__authErr = null; }
@@ -69,13 +69,21 @@
     for (const [re, ru] of map) if (re.test(m)) return ru;
     return m;
   }
+  function consentOk() {
+    const c = $("consent");
+    if (c && c.checked) return true;
+    authNote("Отметь согласие на обработку персональных данных.");
+    return false;
+  }
   $("btn-email").onclick = async () => {
+    if (!consentOk()) return;
     const email = $("email").value.trim(), password = $("password").value;
     if (!email || !password) return authNote("Введи почту и пароль.");
     const { error } = await sb.auth.signInWithPassword({ email, password });
     if (error) authNote(ruErr(error.message));
   };
   $("btn-register").onclick = async () => {
+    if (!consentOk()) return;
     const email = $("email").value.trim(), password = $("password").value;
     if (!email || !password) return authNote("Введи почту и пароль (минимум 6 символов).");
     if (password.length < 6) return authNote("Пароль минимум 6 символов.");
@@ -100,12 +108,19 @@
     recovering = false;
     location.replace("/");
   };
-  $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
+  $("btn-yandex").onclick = () => { if (!consentOk()) return; location.href = API + "/auth/yandex/start"; };
   $("logout").onclick = async () => {
     try { await sb.auth.signOut(); } catch (e) {}
     location.href = "/";
   };
-  $("tab-profile").onclick = () => show("profile");
+  function dismissHint() { try { localStorage.setItem("zh_hint_profile", "1"); } catch (e) {} const h = $("profile-hint"); if (h) h.hidden = true; }
+  function maybeShowHint() {
+    try { if (localStorage.getItem("zh_hint_profile")) return; } catch (e) { return; }
+    if (profile && (profile.niche || profile.audience || profile.personality)) return;
+    const h = $("profile-hint"); if (h) h.hidden = false;
+  }
+  $("hint-x").onclick = (e) => { e.stopPropagation(); dismissHint(); };
+  $("tab-profile").onclick = () => { dismissHint(); show("profile"); };
   $("btn-back").onclick = () => show("app");
 
   function showPaywall() { $("paywall").hidden = false; }
@@ -151,7 +166,15 @@
     }
   };
 
-  function copyBtn(getText) { const b = el("button", "copy", "копировать"); b.onclick = () => navigator.clipboard.writeText(getText()); return b; }
+  function copyBtn(getText) {
+    const b = el("button", "copy", "Копировать");
+    b.onclick = () => {
+      try { navigator.clipboard.writeText(getText()); } catch (e) {}
+      b.textContent = "Скопировано!"; b.classList.add("copied");
+      setTimeout(() => { b.textContent = "Копировать"; b.classList.remove("copied"); }, 1500);
+    };
+    return b;
+  }
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
 
   const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram" };
@@ -218,12 +241,14 @@
       (d.frames || []).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
       content.appendChild(c);
     }
-    const pdfbar = el("div", "pdfbar");
+    box.appendChild(content);
+    const actions = el("div", "result-actions");
     const pdfbtn = el("button", "pdfdl", "⬇ Скачать PDF");
     pdfbtn.onclick = () => savePdf(content, p);
-    pdfbar.appendChild(pdfbtn);
-    box.appendChild(pdfbar);
-    box.appendChild(content);
+    const again = el("button", "againdl", "↻ Сгенерировать ещё");
+    again.onclick = () => $("btn-gen").click();
+    actions.appendChild(pdfbtn); actions.appendChild(again);
+    box.appendChild(actions);
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
