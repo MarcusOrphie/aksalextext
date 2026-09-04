@@ -39,12 +39,12 @@ const wordmark = `
 
 // --- lockup: chevron mark + wordmark (transparent) ---
 const lockup = `
-<svg viewBox="0 0 640 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-  <path d="M30 44 L74 88 L30 132" fill="none" stroke="#151210" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M62 44 L106 88 L62 132" fill="none" stroke="#ff7f50" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+<svg viewBox="0 0 560 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
   <g transform="skewX(-13)" font-family="Oswald" font-weight="700" font-size="72" letter-spacing="0.5">
-    <text x="150" y="112" fill="#151210">ЗАЛИХВАТ</text>
-    <text x="146" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text>
+    <text x="142" y="112" fill="#151210">ЗАЛИХВАТ</text>
+    <text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text>
   </g>
 </svg>`;
 
@@ -56,7 +56,7 @@ const assets = [
   { name: "logo-badge-512.png", w: 512, h: 512, svg: badge(false), transparent: true },
   { name: "logo-mark-transparent.png", w: 600, h: 520, svg: mark, transparent: true },
   { name: "logo-wordmark-transparent.png", w: 1040, h: 300, svg: wordmark, transparent: true },
-  { name: "logo-lockup-transparent.png", w: 1280, h: 300, svg: lockup, transparent: true },
+  { name: "logo-lockup-transparent.png", w: 1120, h: 300, svg: lockup, transparent: true },
 ];
 
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new", args: ["--no-sandbox"] });
