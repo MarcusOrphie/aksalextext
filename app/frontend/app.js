@@ -19,7 +19,9 @@
 
   // ---------- AUTH ----------
   async function refresh() {
+    if (recovering) return;                 // не перерисовывать экран сброса пароля кабинетом
     const { data } = await sb.auth.getSession();
+    if (recovering) return;                 // событие сброса могло прийти во время await
     const s = data.session;
     if (s) {
       $("userbox").hidden = false;
