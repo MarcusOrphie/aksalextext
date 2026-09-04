@@ -76,6 +76,12 @@ em{font-style:normal;color:var(--coral)}
 .consent{display:flex;align-items:flex-start;gap:9px;text-align:left;margin:2px 0 12px;font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.4}
 .consent input{margin-top:2px;width:18px;height:18px;accent-color:var(--coral);flex:none;cursor:pointer}
 .consent a{color:var(--coral-deep)}
+
+/* login / register tabs */
+.authtabs{display:flex;border:2.5px solid var(--ink);border-radius:12px;overflow:hidden;margin-bottom:16px;box-shadow:3px 3px 0 var(--ink)}
+.authtab{flex:1;background:var(--paper2);border:none;padding:11px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.04em;color:var(--muted);cursor:pointer;transition:background .1s,color .1s}
+.authtab.on{background:var(--coral);color:var(--paper)}
+.authtab+.authtab{border-left:2.5px solid var(--ink)}
 .platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .pf{background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:14px;cursor:pointer;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.02em;transition:transform .08s}
 .pf small{display:block;font-family:"Nunito";font-weight:700;text-transform:none;letter-spacing:0;font-size:12px;color:var(--muted);margin-top:3px}

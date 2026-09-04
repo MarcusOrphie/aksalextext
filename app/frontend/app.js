@@ -108,6 +108,25 @@
     location.replace("/");
   };
   $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
+
+  function setAuthMode(mode) {
+    const login = mode !== "register";
+    $("tab-login").classList.toggle("on", login);
+    $("tab-reg").classList.toggle("on", !login);
+    $("btn-email").hidden = !login;
+    $("btn-forgot").hidden = !login;
+    $("btn-register").hidden = login;
+    $("consent-row").hidden = login;
+    $("auth-title").textContent = login ? "С возвращением!" : "Создать аккаунт";
+    $("auth-lead").textContent = login
+      ? "Заходи и получай контент под любую платформу за секунды."
+      : "Зарегистрируйся, расскажи о себе - и получай готовый контент за секунды.";
+    $("password").setAttribute("autocomplete", login ? "current-password" : "new-password");
+    $("email-note").hidden = true;
+  }
+  $("tab-login").onclick = () => setAuthMode("login");
+  $("tab-reg").onclick = () => setAuthMode("register");
+  setAuthMode("login");
   $("logout").onclick = async () => {
     try { await sb.auth.signOut(); } catch (e) {}
     location.href = "/";
@@ -179,15 +198,17 @@
   const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram" };
 
   function savePdf(node, platform) {
-    if (!window.html2pdf) return;
+    if (!window.html2pdf) { alert("PDF ещё грузится, попробуй через секунду"); return; }
     const date = new Date().toISOString().slice(0, 10);
-    window.html2pdf().set({
-      margin: 8, filename: "zalihvat-" + platform + "-" + date + ".pdf",
-      image: { type: "jpeg", quality: 0.96 },
+    const opt = {
+      margin: 10, filename: "zalihvat-" + platform + "-" + date + ".pdf",
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2, backgroundColor: "#faf5ec", useCORS: true },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-      pagebreak: { mode: ["css", "legacy", "avoid-all"] },
-    }).from(node).save();
+      pagebreak: { mode: ["css", "legacy"], avoid: ".rcard" },
+    };
+    const run = () => window.html2pdf().set(opt).from(node).save();
+    (document.fonts && document.fonts.ready) ? document.fonts.ready.then(run) : run();
   }
 
   function renderResult(out) {

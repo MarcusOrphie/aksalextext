@@ -34,14 +34,17 @@
   <!-- AUTH -->
   <section id="view-auth" class="view">
     <div class="card auth">
-      <div class="eyebrow">Вход в кабинет</div>
-      <h1>Контент-машина <em>Залихват</em></h1>
-      <p class="lead">Заходи, загрузи данные о себе и получай контент под любую платформу за секунды.</p>
+      <div class="authtabs">
+        <button id="tab-login" class="authtab on">Вход</button>
+        <button id="tab-reg" class="authtab">Регистрация</button>
+      </div>
+      <h1 id="auth-title">С возвращением!</h1>
+      <p class="lead" id="auth-lead">Заходи и получай контент под любую платформу за секунды.</p>
       <label class="fld"><span>Email</span><input id="email" type="email" placeholder="you@mail.com" autocomplete="email"></label>
       <label class="fld"><span>Пароль</span><input id="password" type="password" placeholder="минимум 6 символов" autocomplete="current-password"></label>
-      <label class="consent"><input type="checkbox" id="consent"><span>Согласен(а) на <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">обработку персональных данных</a> и принимаю <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener">оферту</a></span></label>
+      <label class="consent" id="consent-row" hidden><input type="checkbox" id="consent"><span>Согласен(а) на <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">обработку персональных данных</a> и принимаю <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener">оферту</a></span></label>
       <button id="btn-email" class="btn btn-primary">Войти</button>
-      <button id="btn-register" class="btn btn-ghost">Создать аккаунт</button>
+      <button id="btn-register" class="btn btn-primary" hidden>Создать аккаунт</button>
       <button id="btn-forgot" class="forgot">Забыли пароль?</button>
       <div id="email-note" class="note" hidden></div>
       <div class="or">или</div>
