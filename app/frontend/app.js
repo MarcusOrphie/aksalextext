@@ -28,10 +28,22 @@
       await loadProfile(); await loadHistory();
     } else {
       $("userbox").hidden = true; show("auth");
+      if (window.__authErr) { authNote("Ссылка устарела или уже использована - запроси новую через «Забыли пароль?». (" + window.__authErr + ")"); window.__authErr = null; }
     }
   }
-  sb.auth.onAuthStateChange((event) => {
-    if (event === "PASSWORD_RECOVERY") { recovering = true; $("userbox").hidden = true; show("recover"); return; }
+  // Ссылка из письма: пометить режим восстановления / поймать ошибку (устаревшая ссылка)
+  (function () {
+    const hp = new URLSearchParams((location.hash || "").replace(/^#/, ""));
+    const qp = new URLSearchParams(location.search || "");
+    if ((hp.get("type") || qp.get("type")) === "recovery") recovering = true;
+    const err = hp.get("error_description") || hp.get("error") || qp.get("error_description") || qp.get("error");
+    if (err) window.__authErr = decodeURIComponent(err.replace(/\+/g, " "));
+  })();
+
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY" || (recovering && session)) {
+      recovering = true; $("userbox").hidden = true; show("recover"); return;
+    }
     if (recovering) return;  // не выкидывать из экрана «новый пароль»
     refresh();
   });
@@ -64,9 +76,9 @@
     const { error } = await sb.auth.updateUser({ password });
     note.hidden = false;
     if (error) { note.textContent = "Не вышло: " + error.message; return; }
-    note.textContent = "Пароль обновлён.";
+    note.textContent = "Пароль обновлён, входим...";
     recovering = false;
-    refresh();
+    location.replace("/");
   };
   $("btn-yandex").onclick = () => { location.href = API + "/auth/yandex/start"; };
   $("btn-telegram").onclick = () => {
