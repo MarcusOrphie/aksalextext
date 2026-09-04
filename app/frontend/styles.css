@@ -51,6 +51,8 @@ em{font-style:normal;color:var(--coral)}
 .btn-ico svg{flex:none}
 .note{background:var(--coral-soft);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700;color:#2a2015;margin:10px 0}
 
+.usage{text-align:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--coral-soft);border:2px solid var(--ink);border-radius:999px;padding:7px 14px;margin:0 auto 16px;max-width:max-content}
+.usage b{color:var(--coral-deep)}
 .platforms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px}
 .pf{background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:14px;cursor:pointer;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.02em;transition:transform .08s}
 .pf small{display:block;font-family:"Nunito";font-weight:700;text-transform:none;letter-spacing:0;font-size:12px;color:var(--muted);margin-top:3px}

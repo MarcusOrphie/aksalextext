@@ -25,7 +25,7 @@
       $("userbox").hidden = false;
       $("usermail").textContent = s.user.email || s.user.phone || "профиль";
       show("app");
-      await loadProfile(); await loadHistory();
+      await loadProfile(); await loadHistory(); await loadMe();
     } else {
       $("userbox").hidden = true; show("auth");
       if (window.__authErr) { authNote("Ссылка устарела или уже использована - запроси новую через «Забыли пароль?». (" + window.__authErr + ")"); window.__authErr = null; }
@@ -141,7 +141,7 @@
       const out = await res.json();
       renderResult(out);
       st.hidden = true;
-      await loadHistory();
+      await loadHistory(); await loadMe();
     } catch (e) {
       st.textContent = "Не вышло: " + e.message;
     } finally {
@@ -273,6 +273,21 @@
       h.onclick = () => renderResult({ platform: g.platform, data: g.output });
       box.appendChild(h);
     });
+  }
+
+  async function loadMe() {
+    const box = $("usage");
+    try {
+      const { data } = await sb.auth.getSession();
+      const token = data.session && data.session.access_token;
+      if (!token) { box.hidden = true; return; }
+      const res = await fetch(API + "/me", { headers: { authorization: "Bearer " + token } });
+      if (!res.ok) { box.hidden = true; return; }
+      const m = await res.json();
+      box.hidden = false;
+      if (m.unlimited) box.innerHTML = "Генераций сделано: <b>" + m.used + "</b> · безлимит";
+      else box.innerHTML = "Генераций сделано: <b>" + m.used + "</b> · осталось бесплатных: <b>" + m.remaining + "</b>";
+    } catch (e) { box.hidden = true; }
   }
 
   renderPlatforms();

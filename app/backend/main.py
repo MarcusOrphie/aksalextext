@@ -18,11 +18,13 @@ import auth
 import generate as gen
 import oauth
 import usage
+import mailer
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
 UNLIMITED_EMAILS = {e.strip().lower() for e in
                     os.environ.get("UNLIMITED_EMAILS", "aksenovwork@yandex.ru").split(",") if e.strip()}
+WELCOME_HOOK_SECRET = os.environ.get("WELCOME_HOOK_SECRET", "").strip()
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="Zalihvat Content Machine API", docs_url=None, redoc_url=None)
@@ -60,6 +62,20 @@ class GenReq(BaseModel):
 
 @app.get("/api/health")
 def health():
+    return {"ok": True}
+
+@app.post("/api/hooks/user-created")
+async def user_created(request: Request):
+    if not WELCOME_HOOK_SECRET or request.headers.get("x-webhook-secret") != WELCOME_HOOK_SECRET:
+        raise HTTPException(status_code=401, detail="bad secret")
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="bad payload")
+    rec = (body or {}).get("record") or {}
+    email = (rec.get("email") or "").strip()
+    if email and "@" in email and not email.endswith("@tg.aksalex.com"):
+        mailer.send_welcome(email)
     return {"ok": True}
 
 @app.get("/api/platforms")
