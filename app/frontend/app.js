@@ -27,7 +27,7 @@
       $("userbox").hidden = false;
       $("usermail").textContent = s.user.email || s.user.phone || "профиль";
       show("app");
-      await loadProfile(); maybeShowHint(); await loadHistory(); await loadMe();
+      loadMe(); await loadProfile(); maybeShowHint(); await loadHistory();
     } else {
       $("userbox").hidden = true; show("auth");
       if (window.__authErr) { authNote("Ссылка устарела или уже использована - запроси новую через «Забыли пароль?». (" + window.__authErr + ")"); window.__authErr = null; }
