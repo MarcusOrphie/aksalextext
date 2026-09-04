@@ -60,7 +60,7 @@
   .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
   .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
   .navlinks{display:flex;gap:18px;align-items:center}
-  .navlinks a{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
   .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
   .nav .navcta{display:inline-flex}
   @media (max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}
