@@ -184,13 +184,24 @@
     }
   };
 
-  function copyBtn(getText) {
-    const b = el("button", "copy", "Копировать");
+  function copyBtn(getText, label) {
+    label = label || "Копировать";
+    const b = el("button", "copy", label);
     b.onclick = () => {
       try { navigator.clipboard.writeText(getText()); } catch (e) {}
       b.textContent = "Скопировано!"; b.classList.add("copied");
-      setTimeout(() => { b.textContent = "Копировать"; b.classList.remove("copied"); }, 1500);
+      setTimeout(() => { b.textContent = label; b.classList.remove("copied"); }, 1500);
     };
+    return b;
+  }
+  function copyPack(it) {
+    const tags = arr(it.hashtags).map(t => "#" + String(t).replace(/^#/, "")).join(" ");
+    const parts = [];
+    if (it.caption) parts.push(it.caption);
+    if (tags) parts.push(tags);
+    if (it.first_comment) parts.push("Первый коммент: " + it.first_comment);
+    const b = copyBtn(() => parts.join("\n\n"), "Копировать пакет");
+    b.classList.add("copypack");
     return b;
   }
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
@@ -227,10 +238,52 @@
         c.appendChild(el("span", "viral", (it.virality || 0) + "%"));
         c.appendChild(el("h3", null, (i + 1) + ". " + it.idea));
         c.appendChild(row("Хук", it.hook, "hook"));
+        const alt = arr(it.hooks_alt);
+        if (alt.length) {
+          const wrap = el("div", "rrow");
+          wrap.appendChild(el("div", "rk", "A/B хуки"));
+          const box2 = el("div", null);
+          alt.forEach(h => box2.appendChild(el("div", "abhook", "• " + h)));
+          wrap.appendChild(box2); c.appendChild(wrap);
+        }
         c.appendChild(row("Сценарий", it.scenario));
-        c.appendChild(row("Визуал", it.visual));
+        const shots = arr(it.shot_list);
+        if (shots.length) {
+          const wrap = el("div", "rrow");
+          wrap.appendChild(el("div", "rk", "Шот-лист"));
+          const ol = el("ol", "shotlist");
+          shots.forEach(s => ol.appendChild(el("li", null, s)));
+          wrap.appendChild(ol); c.appendChild(wrap);
+        }
+        const ost = arr(it.on_screen_text);
+        if (ost.length) c.appendChild(row("Текст на экране", ost.join(" · ")));
+        if (it.teleprompter) {
+          const wrap = el("div", "rrow");
+          wrap.appendChild(el("div", "rk", "Телесуфлёр"));
+          const tp = el("div", "teleprompter", it.teleprompter);
+          wrap.appendChild(tp); c.appendChild(wrap);
+          c.appendChild(copyBtn(() => it.teleprompter));
+        }
+        if (it.caption) {
+          const wrap = el("div", "rrow");
+          wrap.appendChild(el("div", "rk", "Подпись"));
+          wrap.appendChild(el("div", "caption", it.caption));
+          c.appendChild(wrap);
+        }
+        const tags = arr(it.hashtags);
+        if (tags.length) c.appendChild(row("Хэштеги", tags.map(t => "#" + String(t).replace(/^#/, "")).join(" "), "hashtags"));
+        if (it.first_comment) c.appendChild(row("Первый коммент", it.first_comment));
+        if (it.length_rec) c.appendChild(row("Длина", it.length_rec));
+        const refs = arr(it.references);
+        if (refs.length) {
+          const wrap = el("div", "rrow");
+          wrap.appendChild(el("div", "rk", "Похожее залетало"));
+          const ul = el("ul", "refs");
+          refs.forEach(r => ul.appendChild(el("li", null, r)));
+          wrap.appendChild(ul); c.appendChild(wrap);
+        }
         c.appendChild(el("div", "why", "Почему " + (it.virality || 0) + "%: " + (it.virality_reason || "")));
-        c.appendChild(copyBtn(() => it.hook + "\n\n" + it.scenario));
+        c.appendChild(copyPack(it));
         content.appendChild(c);
       });
     } else if (p === "youtube_long") {
@@ -252,9 +305,24 @@
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(row("Хук", d.hook, "hook"));
+      const alt = arr(d.hooks_alt);
+      if (alt.length) {
+        const wrap = el("div", "rrow");
+        wrap.appendChild(el("div", "rk", "A/B хуки"));
+        const box2 = el("div", null);
+        alt.forEach(h => box2.appendChild(el("div", "abhook", "• " + h)));
+        wrap.appendChild(box2); c.appendChild(wrap);
+      }
       c.appendChild(row("Текст", d.body));
       c.appendChild(row("Призыв", d.cta));
-      c.appendChild(copyBtn(() => d.hook + "\n\n" + d.body + "\n\n" + d.cta));
+      const tags = arr(d.hashtags);
+      if (tags.length) c.appendChild(row("Хэштеги", tags.map(t => "#" + String(t).replace(/^#/, "")).join(" "), "hashtags"));
+      if (d.first_comment) c.appendChild(row("Первый коммент", d.first_comment));
+      c.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
+      c.appendChild(copyBtn(() => {
+        const t = tags.map(x => "#" + String(x).replace(/^#/, "")).join(" ");
+        return [d.hook, d.body, d.cta, t].filter(Boolean).join("\n\n");
+      }, "Копировать пост"));
       content.appendChild(c);
     } else if (p === "stories") {
       const c = el("div", "rcard");
