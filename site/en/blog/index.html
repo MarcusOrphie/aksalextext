@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112136771', 'ym');
+
+    ym(112136771, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112136771" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blog about AI and content - Zalihvat</title>
+<meta name="description" content="Articles about AI, automation and running a blog. How to make content with AI in an hour instead of a week - guides, prompts, breakdowns.">
+<link rel="canonical" href="https://aksalex.com/en/blog/">
+<link rel="alternate" hreflang="ru" href="https://aksalex.com/en/blog/">
+<link rel="alternate" hreflang="en" href="https://aksalex.com/en/blog/">
+<link rel="alternate" hreflang="x-default" href="https://aksalex.com/en/blog/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog about AI and content - Zalihvat">
+<meta property="og:description" content="Articles about AI, automation and running a blog.">
+<meta property="og:url" content="https://aksalex.com/en/blog/">
+<meta property="og:site_name" content="Zalihvat">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Blog","name":"Zalihvat Blog","url":"https://aksalex.com/en/blog/","description":"Articles about AI, automation and running a blog.","publisher":{"@type":"Organization","name":"Zalihvat","logo":{"@type":"ImageObject","url":"https://aksalex.com/apple-touch-icon.png"}}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://aksalex.com/"},
+{"@type":"ListItem","position":2,"name":"Blog","item":"https://aksalex.com/en/blog/"}]}
+</script>
+<style>
+  :root{--paper:#faf5ec;--paper2:#fffdf8;--ink:#151210;--coral:#ff7f50;--coral-deep:#e85f2c;--coral-soft:#ffe6d8;--muted:#7b7168;--line:#e6ddcd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:#241f1b;font-family:"Nunito",system-ui,sans-serif;font-weight:600;line-height:1.6;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,127,80,.14) 1.1px,transparent 1.2px);background-size:16px 16px}
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+  a{color:var(--coral-deep);text-decoration:none}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink);margin-bottom:26px}
+  .nav .in{max-width:820px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .navlinks{display:flex;gap:18px;align-items:center}
+  .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .nav .navcta{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .nav .navcta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .nav .navcta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  @media(max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}.brand{font-size:14px}.brand img{width:28px;height:28px}.nav .navcta{padding:7px 13px;font-size:12px;min-height:38px}}
+  .head{text-align:center;margin-bottom:30px}
+  .head .eyebrow{font-family:"Oswald";font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral-deep)}
+  .head h1{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:46px;color:var(--coral);-webkit-text-stroke:3px var(--ink);text-shadow:5px 5px 0 var(--ink);margin:8px 0 8px}
+  .head p{color:#3a332c;max-width:44ch;margin:0 auto;font-size:16px}
+  .posts{display:flex;flex-direction:column;gap:22px}
+  .post{display:block;background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--ink);overflow:hidden;transition:transform .05s,box-shadow .05s}
+  .post:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+  .post img{width:100%;aspect-ratio:16/9;height:auto;object-fit:cover;display:block;border-bottom:3px solid var(--ink);background:var(--coral-soft)}
+  .pbody{padding:20px 22px}
+  .pdate{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .post h2{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:24px;color:var(--ink);letter-spacing:.01em;margin:6px 0 8px;line-height:1.05}
+  .post p{color:#4a443d;font-size:15px;margin-bottom:12px}
+  .pread{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.04em;color:var(--coral-deep)}
+  footer{margin-top:44px;padding-top:28px;border-top:2px solid var(--ink);text-align:center}
+  .fbrand{display:inline-flex;align-items:center;gap:9px;justify-content:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);margin-bottom:16px}
+  .fbrand img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .fmenu{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 22px;margin-bottom:18px}
+  .fmenu a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .fmenu a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .fmenu .btn{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .fmenu .btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .fmenu .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .fnote{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .fnote b{color:var(--coral-deep)}
+  @media(max-width:600px){.fnote{white-space:normal}}
+  @media(min-width:640px){.pbody{padding:24px 26px}.post h2{font-size:28px}}
+.langsw{display:inline-flex;border:2px solid var(--ink);border-radius:9px;overflow:hidden;vertical-align:middle}.langsw a{padding:5px 9px;font-family:"Oswald";font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--muted);text-decoration:none;background:var(--paper2)}.langsw a.on{background:var(--ink);color:var(--paper)}@media(max-width:759px){.langsw a{display:inline-block!important}}</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="/en/"><svg viewBox="0 0 560 150" style="height:56px;width:auto;display:block" role="img" aria-label="Zalihvat"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ZALIHVAT</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ZALIHVAT</text></g></svg></a>
+    <div class="navlinks">
+      <a href="/en/#machine">Machine</a>
+      <a href="/en/#how">How it works</a>
+      <a href="/en/#guides">Products</a>
+      <a href="/en/#about">About me</a>
+      <a href="/en/blog/">Blog</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Help</a>
+      <span class="langsw"><a href="/blog/">RU</a><a href="/en/blog/" class="on">EN</a></span>
+      <a class="btn sm btn-primary navcta" href="https://app.aksalex.com/?lang=en" target="_blank" rel="noopener">Log in</a>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+
+  <div class="head">
+    <div class="eyebrow">Blog</div>
+    <h1>AI and Content</h1>
+    <p>How to run a blog and make content with AI - in an hour instead of a week.</p>
+  </div>
+
+  <div class="posts">
+    <a class="post" href="/en/blog/kak-sdelat-seriyu-rolikov-na-odnu-temu/">
+      <img src="/blog/kak-sdelat-seriyu-rolikov-na-odnu-temu/cover.jpg" alt="How to make a series of videos on one topic">
+      <div class="pbody">
+        <div class="pdate">September 5, 2026</div>
+        <h2>How to make a series of videos on one topic</h2>
+        <p>A series of videos holds a viewer's attention better than a single video. We break down the structure and the hooks that connect episodes.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/montazh-reels-na-telefone-prilozheniya/">
+      <img src="/blog/montazh-reels-na-telefone-prilozheniya/cover.jpg" alt="Editing Reels on a phone: apps and combos">
+      <div class="pbody">
+        <div class="pdate">September 5, 2026</div>
+        <h2>Editing Reels on a phone: apps and combos</h2>
+        <p>We put together a combo of apps for editing Reels straight from your phone - no computer, no extra software.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-nastroit-regulyarnost-i-ne-vygoret/">
+      <img src="/blog/kak-nastroit-regulyarnost-i-ne-vygoret/cover.jpg" alt="How to set up consistency in your blog without burning out">
+      <div class="pbody">
+        <div class="pdate">September 5, 2026</div>
+        <h2>How to set up consistency in your blog without burning out</h2>
+        <p>Consistency in a blog isn't about posting frequently at any cost. We break down the rhythm that lasts for months, not weeks.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/neyroseti-dlya-idey-kontenta-na-mesyac/">
+      <img src="/blog/neyroseti-dlya-idey-kontenta-na-mesyac/cover.jpg" alt="AI for a month's worth of content ideas">
+      <div class="pbody">
+        <div class="pdate">September 5, 2026</div>
+        <h2>AI for a month's worth of content ideas</h2>
+        <p>How to get a month's worth of blog topics from AI in one evening without getting lost in the idea list.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-pereupakovat-rolik-v-5-formatov/">
+      <img src="/blog/kak-pereupakovat-rolik-v-5-formatov/cover.jpg" alt="How to repackage one video into 5 formats">
+      <div class="pbody">
+        <div class="pdate">September 5, 2026</div>
+        <h2>How to repackage one video into 5 formats</h2>
+        <p>One video - five content formats. We break down how to squeeze the most out of a single shoot without reshooting.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/storitelling-v-reels/">
+      <img src="/blog/storitelling-v-reels/cover.jpg" alt="Storytelling in Reels: how to hold attention">
+      <div class="pbody">
+        <div class="pdate">September 4, 2026</div>
+        <h2>Storytelling in Reels: how to hold attention</h2>
+        <p>We break down the storytelling structure for Reels and techniques that genuinely keep viewers watching to the end.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-nahodit-trendy-cherez-neyroseti/">
+      <img src="/blog/kak-nahodit-trendy-cherez-neyroseti/cover.jpg" alt="How to find content trends using AI">
+      <div class="pbody">
+        <div class="pdate">September 4, 2026</div>
+        <h2>How to find content trends using AI</h2>
+        <p>We break down how AI helps you find trending topics and formats without scrolling through your feed for hours.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/oshibki-novichkov-v-bloge/">
+      <img src="/blog/oshibki-novichkov-v-bloge/cover.jpg" alt="Beginner blogging mistakes and how to avoid them">
+      <div class="pbody">
+        <div class="pdate">September 4, 2026</div>
+        <h2>Beginner blogging mistakes and how to avoid them</h2>
+        <p>The most common beginner blogging mistakes and specific steps to avoid repeating them.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-vesti-blog-bez-lica-s-ii/">
+      <img src="/blog/kak-vesti-blog-bez-lica-s-ii/cover.jpg" alt="How to run a faceless blog with AI">
+      <div class="pbody">
+        <div class="pdate">September 4, 2026</div>
+        <h2>How to run a faceless blog with AI</h2>
+        <p>We break down faceless blog formats: from AI avatars to voiceover, and what actually works.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/neyroseti-dlya-oblozhek-i-prevyu/">
+      <img src="/blog/neyroseti-dlya-oblozhek-i-prevyu/cover.jpg" alt="AI for blog covers and previews">
+      <div class="pbody">
+        <div class="pdate">September 4, 2026</div>
+        <h2>AI for blog covers and previews</h2>
+        <p>Comparing AI tools for covers and previews and breaking down how to build a workflow without a designer.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-sdelat-scenariy-reels-za-5-minut/">
+      <img src="/blog/kak-sdelat-scenariy-reels-za-5-minut/cover.jpg" alt="How to write a Reels script in 5 minutes">
+      <div class="pbody">
+        <div class="pdate">September 3, 2026</div>
+        <h2>How to write a Reels script in 5 minutes</h2>
+        <p>A step-by-step scheme for putting together a working Reels script in 5 minutes using AI.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/golosovye-neyroseti-dlya-ozvuchki-rolikov/">
+      <img src="/blog/golosovye-neyroseti-dlya-ozvuchki-rolikov/cover.jpg" alt="AI voice tools for video voiceovers">
+      <div class="pbody">
+        <div class="pdate">September 3, 2026</div>
+        <h2>AI voice tools for video voiceovers</h2>
+        <p>We break down where an AI voice saves a creator time, and where a real human voice still matters more.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-pisat-virusnye-zagolovki-s-neyrosetyu/">
+      <img src="/blog/kak-pisat-virusnye-zagolovki-s-neyrosetyu/cover.jpg" alt="How to write viral headlines with AI">
+      <div class="pbody">
+        <div class="pdate">September 3, 2026</div>
+        <h2>How to write viral headlines with AI</h2>
+        <p>A practical scheme for generating headlines with AI, complete with example formulas and common mistakes.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/ii-avatary-dlya-bloga/">
+      <img src="/blog/ii-avatary-dlya-bloga/cover.jpg" alt="AI avatars for your blog: overview and how to use them">
+      <div class="pbody">
+        <div class="pdate">September 3, 2026</div>
+        <h2>AI avatars for your blog: overview and how to use them</h2>
+        <p>We break down AI avatars for blogs: when they're useful, and when they only hurt your credibility.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-vyrasti-v-ohvatah-s-neyrosetyami/">
+      <img src="/blog/kak-vyrasti-v-ohvatah-s-neyrosetyami/cover.jpg" alt="How to grow your reach with AI">
+      <div class="pbody">
+        <div class="pdate">September 3, 2026</div>
+        <h2>How to grow your reach with AI</h2>
+        <p>How AI helps you increase your reach without burning out or losing content quality.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/prompty-dlya-scenariev-reels/">
+      <img src="/blog/prompty-dlya-scenariev-reels/cover.jpg" alt="Prompts for Reels scripts: ready-made formulas">
+      <div class="pbody">
+        <div class="pdate">September 2, 2026</div>
+        <h2>Prompts for Reels scripts: ready-made formulas</h2>
+        <p>Prompt formulas that turn an idea into a working Reels script in a couple of minutes.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-avtomatizirovat-posting-v-socsetyah/">
+      <img src="/blog/kak-avtomatizirovat-posting-v-socsetyah/cover.jpg" alt="How to automate posting on social media">
+      <div class="pbody">
+        <div class="pdate">September 2, 2026</div>
+        <h2>How to automate posting on social media</h2>
+        <p>What you can automate in content posting, and what's better done by hand.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/neyroseti-dlya-montazha-video/">
+      <img src="/blog/neyroseti-dlya-montazha-video/cover.jpg" alt="AI tools for video editing: what beginners should pick">
+      <div class="pbody">
+        <div class="pdate">September 2, 2026</div>
+        <h2>AI tools for video editing: what beginners should pick</h2>
+        <p>Which AI video editing tools a beginner should choose and where to start with no experience in editors.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-pridumat-huk-dlya-reels/">
+      <img src="/blog/kak-pridumat-huk-dlya-reels/cover.jpg" alt="How to come up with a hook for Reels that grabs attention">
+      <div class="pbody">
+        <div class="pdate">September 2, 2026</div>
+        <h2>How to come up with a hook for Reels that grabs attention</h2>
+        <p>The structure of a strong Reels hook and formulas you can apply right away.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kontent-plan-na-mesyac-s-ii/">
+      <img src="/blog/kontent-plan-na-mesyac-s-ii/cover.jpg" alt="A month's content plan in one hour with AI">
+      <div class="pbody">
+        <div class="pdate">September 2, 2026</div>
+        <h2>A month's content plan in one hour with AI</h2>
+        <p>The method and prompt: how to put together a month's content plan in an hour using AI.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-vybrat-nishu-dlya-bloga-s-neyrosetyami/">
+      <img src="/blog/kak-vybrat-nishu-dlya-bloga-s-neyrosetyami/cover.jpg" alt="How to choose a blog niche with AI">
+      <div class="pbody">
+        <div class="pdate">September 2, 2026</div>
+        <h2>How to choose a blog niche with AI</h2>
+        <p>We break down how to find a blog niche with AI without burning out at the start. Specific steps and selection criteria.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+
+    <a class="post" href="/en/blog/prompty-dlya-kontenta/">
+      <img src="/blog/prompty-dlya-kontenta/cover.jpg" alt="Prompts for content: how to write requests to AI">
+      <div class="pbody">
+        <div class="pdate">September 1, 2026</div>
+        <h2>Prompts for content: how to write requests to AI</h2>
+        <p>What makes a strong prompt, the formula, and ready-made templates for ideas, hooks, scripts and slides.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/idei-dlya-reels-s-neyrosetyami/">
+      <img src="/blog/idei-dlya-reels-s-neyrosetyami/cover.jpg" alt="How to come up with Reels ideas using AI">
+      <div class="pbody">
+        <div class="pdate">September 1, 2026</div>
+        <h2>How to come up with Reels ideas using AI</h2>
+        <p>A method for generating ideas for your niche, 5 working formats, and how to pick topics with reach potential.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+    <a class="post" href="/en/blog/kak-vesti-blog-s-neyrosetyami/">
+      <img src="/blog/kak-vesti-blog-s-neyrosetyami/cover.jpg" alt="How to run a blog with AI">
+      <div class="pbody">
+        <div class="pdate">September 1, 2026</div>
+        <h2>How to run a blog with AI: a step-by-step guide</h2>
+        <p>Ideas, scripts and visuals powered by AI: how to publish content in an hour a week without burning out.</p>
+        <span class="pread">Read →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <footer>
+    <a class="fbrand" href="/en/"><svg viewBox="0 0 560 150" style="height:60px;width:auto;display:block" role="img" aria-label="Zalihvat"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ZALIHVAT</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ZALIHVAT</text></g></svg></a>
+    <div class="fmenu">
+      <a href="/en/#machine">Machine</a>
+      <a href="/en/#how">How it works</a>
+      <a href="/en/#guides">Products</a>
+      <a href="/en/#about">About me</a>
+      <a href="/en/blog/">Blog</a>
+      <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Help</a>
+      <a class="btn" href="https://app.aksalex.com/?lang=en" target="_blank" rel="noopener">Log in</a>
+    </div>
+    <p class="fnote">Zalihvat · <b>Sasha Aksenov</b>. AI and automation for your blog, work and life.</p>
+    <p class="fnote" style="margin-top:6px"><a href="/offer.pdf" target="_blank" rel="noopener" style="color:#e85f2c;text-decoration:underline">Public offer</a></p>
+  </footer>
+</div>
+</body>
+</html>

@@ -2,6 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://aksalex.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://aksalex.com/en/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://aksalex.com/en/blog/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aksalex.com/en/blog/golosovye-neyroseti-dlya-ozvuchki-rolikov/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/idei-dlya-reels-s-neyrosetyami/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/ii-avatary-dlya-bloga/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-avtomatizirovat-posting-v-socsetyah/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-nahodit-trendy-cherez-neyroseti/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-nastroit-regulyarnost-i-ne-vygoret/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-pereupakovat-rolik-v-5-formatov/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-pisat-virusnye-zagolovki-s-neyrosetyu/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-pridumat-huk-dlya-reels/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-sdelat-scenariy-reels-za-5-minut/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-sdelat-seriyu-rolikov-na-odnu-temu/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-vesti-blog-bez-lica-s-ii/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-vesti-blog-s-neyrosetyami/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-vybrat-nishu-dlya-bloga-s-neyrosetyami/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kak-vyrasti-v-ohvatah-s-neyrosetyami/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/kontent-plan-na-mesyac-s-ii/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/montazh-reels-na-telefone-prilozheniya/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/neyroseti-dlya-idey-kontenta-na-mesyac/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/neyroseti-dlya-montazha-video/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/neyroseti-dlya-oblozhek-i-prevyu/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/oshibki-novichkov-v-bloge/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/prompty-dlya-kontenta/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/prompty-dlya-scenariev-reels/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aksalex.com/en/blog/storitelling-v-reels/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://aksalex.com/blog/</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://aksalex.com/blog/kak-vesti-blog-s-neyrosetyami/</loc><lastmod>2026-09-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://aksalex.com/blog/idei-dlya-reels-s-neyrosetyami/</loc><lastmod>2026-09-01</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
