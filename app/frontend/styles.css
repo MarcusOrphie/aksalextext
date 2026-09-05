@@ -18,6 +18,9 @@ em{font-style:normal;color:var(--coral)}
 .iconbtn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);color:var(--coral-deep)}
 .iconbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 .usermail{font-size:13px;color:var(--muted);font-weight:700;margin-right:2px}
+.langsw{display:inline-flex;border:2px solid var(--ink);border-radius:9px;overflow:hidden}
+.langsw a{padding:4px 8px;font-family:"Oswald";font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--muted);text-decoration:none;background:var(--paper2)}
+.langsw a.on{background:var(--ink);color:var(--paper)}
 .linkbtn{background:none;border:none;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--muted);cursor:pointer}
 .linkbtn:hover{color:var(--coral)}
 

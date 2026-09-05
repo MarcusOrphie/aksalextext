@@ -18,17 +18,18 @@
     <div class="navright">
       <span id="usermail" class="usermail authonly" hidden></span>
       <span class="hint-wrap authonly" hidden>
-        <button id="tab-profile" class="iconbtn" title="Мои данные" aria-label="Мои данные">
+        <button id="tab-profile" class="iconbtn" data-i18n-title="profile_btn" title="Мои данные" aria-label="Мои данные">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20c.7-4 3.8-6 7.5-6s6.8 2 7.5 6"/></svg>
         </button>
-        <span id="profile-hint" class="hint" hidden>Заполни информацию о себе, чтобы результат был лучше<button id="hint-x" class="hint-x" aria-label="Закрыть">&times;</button></span>
+        <span id="profile-hint" class="hint" hidden><span data-i18n="profile_hint">Заполни информацию о себе, чтобы результат был лучше</span><button id="hint-x" class="hint-x" aria-label="Закрыть">&times;</button></span>
       </span>
-      <a id="homebtn" class="iconbtn" href="/" title="В кабинет" aria-label="В кабинет">
+      <a id="homebtn" class="iconbtn" href="/" data-i18n-title="home_btn" title="В кабинет" aria-label="В кабинет">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>
       </a>
-      <button id="logout" class="iconbtn authonly" title="Выйти" aria-label="Выйти" hidden>
+      <button id="logout" class="iconbtn authonly" data-i18n-title="logout_btn" title="Выйти" aria-label="Выйти" hidden>
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M14 4h4a1 1 0 011 1v14a1 1 0 01-1 1h-4M9 16l-4-4 4-4M5 12h10"/></svg>
       </button>
+      <span class="langsw"><a href="#" data-lang="ru">RU</a><a href="#" data-lang="en">EN</a></span>
     </div>
   </header>
 
@@ -36,95 +37,95 @@
   <section id="view-auth" class="view">
     <div class="card auth">
       <div class="authtabs">
-        <button id="tab-login" class="authtab on">Вход</button>
-        <button id="tab-reg" class="authtab">Регистрация</button>
+        <button id="tab-login" class="authtab on" data-i18n="tab_login">Вход</button>
+        <button id="tab-reg" class="authtab" data-i18n="tab_reg">Регистрация</button>
       </div>
       <h1 id="auth-title">С возвращением!</h1>
       <p class="lead" id="auth-lead">Заходи и получай контент под любую платформу за секунды.</p>
-      <label class="fld"><span>Email</span><input id="email" type="email" placeholder="you@mail.com" autocomplete="email"></label>
-      <label class="fld"><span>Пароль</span><input id="password" type="password" placeholder="минимум 6 символов" autocomplete="current-password"></label>
-      <label class="consent" id="consent-row" hidden><input type="checkbox" id="consent"><span>Согласен(а) на <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">обработку персональных данных</a> и принимаю <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener">оферту</a></span></label>
-      <button id="btn-email" class="btn btn-primary">Войти</button>
-      <button id="btn-register" class="btn btn-primary" hidden>Создать аккаунт</button>
-      <button id="btn-forgot" class="forgot">Забыли пароль?</button>
+      <label class="fld"><span data-i18n="lbl_email">Email</span><input id="email" type="email" placeholder="you@mail.com" autocomplete="email"></label>
+      <label class="fld"><span data-i18n="lbl_password">Пароль</span><input id="password" type="password" data-i18n-ph="ph_password" placeholder="минимум 6 символов" autocomplete="current-password"></label>
+      <label class="consent" id="consent-row" hidden><input type="checkbox" id="consent"><span data-i18n-html="consent_html">Согласен(а) на <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">обработку персональных данных</a> и принимаю <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener">оферту</a></span></label>
+      <button id="btn-email" class="btn btn-primary" data-i18n="btn_login">Войти</button>
+      <button id="btn-register" class="btn btn-primary" hidden data-i18n="btn_register">Создать аккаунт</button>
+      <button id="btn-forgot" class="forgot" data-i18n="btn_forgot">Забыли пароль?</button>
       <div id="email-note" class="note" hidden></div>
-      <div class="or">или</div>
+      <div class="or" data-i18n="or">или</div>
       <button id="btn-yandex" class="btn btn-ghost btn-ico">
         <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#FC3F1D"/><path fill="#fff" d="M13.3 6.4h-1.1c-2 0-3.1 1-3.1 2.6 0 1.8.8 2.6 2.4 3.7l1.3.9-3.8 5.6H6.2l3.4-5c-2-1.4-3-2.8-3-5C6.6 4.6 8.4 3 11.9 3h3.4v16.2h-2V6.4z"/></svg>
-        Войти через Яндекс ID</button>
+        <span data-i18n="btn_yandex">Войти через Яндекс ID</span></button>
     </div>
   </section>
 
   <!-- RECOVER (после ссылки сброса пароля) -->
   <section id="view-recover" class="view" hidden>
     <div class="card auth">
-      <div class="eyebrow">Сброс пароля</div>
-      <h1>Новый <em>пароль</em></h1>
-      <p class="lead">Придумай новый пароль для входа в кабинет.</p>
-      <label class="fld"><span>Новый пароль</span><input id="newpass" type="password" placeholder="минимум 6 символов" autocomplete="new-password"></label>
-      <button id="btn-setpass" class="btn btn-primary">Сохранить пароль</button>
+      <div class="eyebrow" data-i18n="recover_eyebrow">Сброс пароля</div>
+      <h1 data-i18n-html="recover_h_html">Новый <em>пароль</em></h1>
+      <p class="lead" data-i18n="recover_lead">Придумай новый пароль для входа в кабинет.</p>
+      <label class="fld"><span data-i18n="lbl_newpass">Новый пароль</span><input id="newpass" type="password" data-i18n-ph="ph_password" placeholder="минимум 6 символов" autocomplete="new-password"></label>
+      <button id="btn-setpass" class="btn btn-primary" data-i18n="btn_setpass">Сохранить пароль</button>
       <div id="recover-note" class="note" hidden></div>
     </div>
   </section>
 
   <!-- DASHBOARD -->
   <section id="view-app" class="view" hidden>
-    <div class="sec-h"><div class="eyebrow">Что генерим</div><h2>Выбери <em>платформу</em></h2></div>
+    <div class="sec-h"><div class="eyebrow" data-i18n="dash_eyebrow">Что генерим</div><h2 data-i18n-html="dash_h_html">Выбери <em>платформу</em></h2></div>
     <div id="usage" class="usage" hidden></div>
     <div id="platforms" class="platforms"></div>
-    <label class="fld"><span>Тема или запрос (можно пусто - возьму твою нишу)</span>
-      <input id="topic" type="text" placeholder="напр. киноляпы, которые видно в кадре"></label>
-    <button id="btn-gen" class="btn btn-primary big">Сгенерировать</button>
+    <label class="fld"><span data-i18n="lbl_topic">Тема или запрос (можно пусто - возьму твою нишу)</span>
+      <input id="topic" type="text" data-i18n-ph="ph_topic" placeholder="напр. киноляпы, которые видно в кадре"></label>
+    <button id="btn-gen" class="btn btn-primary big" data-i18n="btn_gen">Сгенерировать</button>
     <div id="gen-status" class="note" hidden></div>
     <div id="result" class="result"></div>
 
-    <div class="sec-h"><div class="eyebrow">История</div><h2>Что <em>уже сделали</em></h2></div>
+    <div class="sec-h"><div class="eyebrow" data-i18n="hist_eyebrow">История</div><h2 data-i18n-html="hist_h_html">Что <em>уже сделали</em></h2></div>
     <div id="history" class="history"></div>
   </section>
 
   <!-- PROFILE -->
   <section id="view-profile" class="view" hidden>
-    <div class="sec-h"><div class="eyebrow">Личные данные</div><h2>Расскажи <em>о себе</em></h2></div>
+    <div class="sec-h"><div class="eyebrow" data-i18n="prof_eyebrow">Личные данные</div><h2 data-i18n-html="prof_h_html">Расскажи <em>о себе</em></h2></div>
     <div class="card">
-      <label class="fld"><span>Ниша</span><input id="p-niche" placeholder="факты про кино и слова"></label>
-      <label class="fld"><span>Аудитория</span><input id="p-audience" placeholder="молодёжь, любители кино"></label>
-      <label class="fld"><span>Тон</span><input id="p-tone" placeholder="живой, с юмором"></label>
-      <label class="fld"><span>Личность автора (для Stories и голоса)</span><textarea id="p-personality" rows="3" placeholder="как рассказываешь, что любишь, твоя манера"></textarea></label>
-      <label class="fld"><span>Языки</span><input id="p-languages" placeholder="русский"></label>
-      <label class="fld"><span>Бренд/заметки</span><textarea id="p-brand" rows="2" placeholder="цвета, ссылки, что важно"></textarea></label>
-      <label class="fld"><span>Загрузить материалы для голоса (расшифровки, посты, субтитры .txt/.srt) - генерация будет писать твоим голосом</span><input id="p-file" type="file"></label>
+      <label class="fld"><span data-i18n="lbl_niche">Ниша</span><input id="p-niche" data-i18n-ph="ph_niche" placeholder="факты про кино и слова"></label>
+      <label class="fld"><span data-i18n="lbl_audience">Аудитория</span><input id="p-audience" data-i18n-ph="ph_audience" placeholder="молодёжь, любители кино"></label>
+      <label class="fld"><span data-i18n="lbl_tone">Тон</span><input id="p-tone" data-i18n-ph="ph_tone" placeholder="живой, с юмором"></label>
+      <label class="fld"><span data-i18n="lbl_personality">Личность автора (для Stories и голоса)</span><textarea id="p-personality" rows="3" data-i18n-ph="ph_personality" placeholder="как рассказываешь, что любишь, твоя манера"></textarea></label>
+      <label class="fld"><span data-i18n="lbl_languages">Языки</span><input id="p-languages" data-i18n-ph="ph_languages" placeholder="русский"></label>
+      <label class="fld"><span data-i18n="lbl_brand">Бренд/заметки</span><textarea id="p-brand" rows="2" data-i18n-ph="ph_brand" placeholder="цвета, ссылки, что важно"></textarea></label>
+      <label class="fld"><span data-i18n="lbl_file">Загрузить материалы для голоса (расшифровки, посты, субтитры .txt/.srt) - генерация будет писать твоим голосом</span><input id="p-file" type="file"></label>
       <div id="uploads" class="uploads"></div>
-      <button id="btn-save" class="btn btn-primary">Сохранить</button>
-      <button id="btn-back" class="btn btn-ghost">Назад</button>
-      <div id="save-note" class="note" hidden>Сохранено.</div>
+      <button id="btn-save" class="btn btn-primary" data-i18n="btn_save">Сохранить</button>
+      <button id="btn-back" class="btn btn-ghost" data-i18n="btn_back">Назад</button>
+      <div id="save-note" class="note" hidden data-i18n="save_note">Сохранено.</div>
     </div>
   </section>
 
   <footer class="foot">
-    Залихват · <b style="color:var(--coral-deep)">Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.<br>
-    <span style="display:inline-block;margin-top:6px;color:#9a8f83">Аксенов Александр Андреевич · ИНН 773102096413</span><br>
-    <a href="https://aksalex.com/" rel="noopener" style="display:inline-block;margin-top:8px;color:var(--coral-deep);text-decoration:underline">На сайт</a> · <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener" style="color:var(--coral-deep);text-decoration:underline">Публичная оферта</a> · <a href="https://t.me/xAkse" target="_blank" rel="noopener" style="color:var(--coral-deep);text-decoration:underline">Помощь</a>
+    <span data-i18n-html="foot_tag_html">Залихват · <b style="color:var(--coral-deep)">Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</span><br>
+    <span style="display:inline-block;margin-top:6px;color:#9a8f83" data-i18n="foot_legal">Аксенов Александр Андреевич · ИНН 773102096413</span><br>
+    <a href="https://aksalex.com/" rel="noopener" style="display:inline-block;margin-top:8px;color:var(--coral-deep);text-decoration:underline" data-i18n="foot_site">На сайт</a> · <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener" style="color:var(--coral-deep);text-decoration:underline" data-i18n="foot_offer">Публичная оферта</a> · <a href="https://t.me/xAkse" target="_blank" rel="noopener" style="color:var(--coral-deep);text-decoration:underline" data-i18n="foot_help">Помощь</a>
   </footer>
 </div>
 
 <div id="paywall" class="modal" hidden>
   <div class="modal-card">
     <button id="paywall-close" class="modal-x" aria-label="Закрыть">&times;</button>
-    <div class="eyebrow">Бесплатная генерация использована</div>
-    <h2 class="pw-h">Продолжим на <em>подписке</em>?</h2>
-    <p class="pw-lead">Ты уже попробовал(а) машину. Дальше - полный доступ к контенту под все платформы.</p>
+    <div class="eyebrow" data-i18n="pw_eyebrow">Бесплатная генерация использована</div>
+    <h2 class="pw-h" data-i18n-html="pw_h_html">Продолжим на <em>подписке</em>?</h2>
+    <p class="pw-lead" data-i18n="pw_lead">Ты уже попробовал(а) машину. Дальше - полный доступ к контенту под все платформы.</p>
     <div class="pw-plans">
       <div class="pw-plan">
-        <div class="pw-name">Старт</div>
-        <div class="pw-price">999 <span class="per">₽ / мес</span></div>
-        <div class="pw-sub">до 5 генераций в день</div>
-        <a class="btn btn-ghost" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Оформить Старт</a>
+        <div class="pw-name" data-i18n="pw_start_name">Старт</div>
+        <div class="pw-price" data-i18n-html="pw_start_price_html">999 <span class="per">₽ / мес</span></div>
+        <div class="pw-sub" data-i18n="pw_start_sub">до 5 генераций в день</div>
+        <a class="btn btn-ghost" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener" data-i18n="pw_start_cta">Оформить Старт</a>
       </div>
       <div class="pw-plan pw-pro">
-        <div class="pw-name">Pro</div>
-        <div class="pw-price">2499 <span class="per">₽ / мес</span></div>
-        <div class="pw-sub">до 30 генераций в день + всё включено</div>
-        <a class="btn btn-primary" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Оформить Pro</a>
+        <div class="pw-name" data-i18n="pw_pro_name">Pro</div>
+        <div class="pw-price" data-i18n-html="pw_pro_price_html">2499 <span class="per">₽ / мес</span></div>
+        <div class="pw-sub" data-i18n="pw_pro_sub">до 30 генераций в день + всё включено</div>
+        <a class="btn btn-primary" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener" data-i18n="pw_pro_cta">Оформить Pro</a>
       </div>
     </div>
   </div>
@@ -133,6 +134,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
 <script src="/config.js"></script>
+<script src="/i18n.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

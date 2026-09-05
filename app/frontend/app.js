@@ -4,16 +4,13 @@
   const sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
   const API = cfg.API_BASE || "/api";
 
-  const PLATFORMS = [
-    ["reels", "Reels", "Instagram"], ["shorts", "Shorts", "YouTube"], ["tiktok", "TikTok", "коротко"],
-    ["youtube_long", "YouTube", "длинное видео"], ["carousel", "Карусель", "Instagram"],
-    ["post", "Пост", "Instagram"], ["stories", "Stories", "Instagram"],
-    ["content_plan", "Контент-план", "неделя/две"],
-  ];
+  const t = window.t || ((k) => k);
+  const PLATFORM_IDS = ["reels", "shorts", "tiktok", "youtube_long", "carousel", "post", "stories", "content_plan"];
   let platform = "reels";
   let profile = {};
   let recovering = false;
   let signedIn = false;   // уже показали кабинет для этой сессии
+  let lastOut = null;     // последняя выдача - чтобы перерисовать при смене языка
 
   const $ = (id) => document.getElementById(id);
   function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -35,7 +32,7 @@
     } else {
       signedIn = false;
       setAuthUI(false); show("auth");
-      if (window.__authErr) { authNote("Ссылка устарела или уже использована - запроси новую через «Забыли пароль?». (" + window.__authErr + ")"); window.__authErr = null; }
+      if (window.__authErr) { authNote(t("note_link_expired") + window.__authErr + ")"); window.__authErr = null; }
     }
   }
   // Ссылка из письма: пометить режим восстановления / поймать ошибку (устаревшая ссылка)
@@ -63,56 +60,56 @@
   function ruErr(m) {
     m = m || "";
     const map = [
-      [/invalid login credentials/i, "Неверная почта или пароль"],
-      [/email not confirmed/i, "Почта ещё не подтверждена"],
-      [/already registered/i, "Эта почта уже зарегистрирована"],
-      [/password should be at least/i, "Пароль минимум 6 символов"],
-      [/should be different from the old/i, "Новый пароль должен отличаться от старого"],
-      [/unable to validate email|invalid format/i, "Некорректный формат почты"],
-      [/email rate limit exceeded/i, "Слишком много писем - попробуй позже"],
-      [/for security purposes.*after|only request this after/i, "Слишком часто - попробуй чуть позже"],
-      [/token has expired|invalid.*token|otp_expired/i, "Ссылка устарела или недействительна"],
-      [/signups? (not allowed|is disabled)/i, "Регистрация временно отключена"],
-      [/failed to fetch|networkerror|load failed/i, "Нет связи с сервером - проверь интернет"],
+      [/invalid login credentials/i, "err_bad_creds"],
+      [/email not confirmed/i, "err_not_confirmed"],
+      [/already registered/i, "err_registered"],
+      [/password should be at least/i, "err_pass_min"],
+      [/should be different from the old/i, "err_pass_diff"],
+      [/unable to validate email|invalid format/i, "err_email_fmt"],
+      [/email rate limit exceeded/i, "err_rate"],
+      [/for security purposes.*after|only request this after/i, "err_too_often"],
+      [/token has expired|invalid.*token|otp_expired/i, "err_token"],
+      [/signups? (not allowed|is disabled)/i, "err_signup_off"],
+      [/failed to fetch|networkerror|load failed/i, "err_network"],
     ];
-    for (const [re, ru] of map) if (re.test(m)) return ru;
+    for (const [re, key] of map) if (re.test(m)) return t(key);
     return m;
   }
   function consentOk() {
     const c = $("consent");
     if (c && c.checked) return true;
-    authNote("Отметь согласие на обработку персональных данных.");
+    authNote(t("note_consent"));
     return false;
   }
   $("btn-email").onclick = async () => {
     const email = $("email").value.trim(), password = $("password").value;
-    if (!email || !password) return authNote("Введи почту и пароль.");
+    if (!email || !password) return authNote(t("note_need_creds"));
     const { error } = await sb.auth.signInWithPassword({ email, password });
     if (error) authNote(ruErr(error.message));
   };
   $("btn-register").onclick = async () => {
     if (!consentOk()) return;
     const email = $("email").value.trim(), password = $("password").value;
-    if (!email || !password) return authNote("Введи почту и пароль (минимум 6 символов).");
-    if (password.length < 6) return authNote("Пароль минимум 6 символов.");
+    if (!email || !password) return authNote(t("note_need_creds_reg"));
+    if (password.length < 6) return authNote(t("note_pass_short"));
     const { data, error } = await sb.auth.signUp({ email, password });
     if (error) return authNote(ruErr(error.message));
-    if (!data.session) authNote("Аккаунт создан. Подтверди почту и войди.");
+    if (!data.session) authNote(t("note_account_created"));
   };
   $("btn-forgot").onclick = async () => {
     const email = $("email").value.trim();
-    if (!email) return authNote("Впиши почту - пришлём ссылку для сброса пароля.");
+    if (!email) return authNote(t("note_forgot_empty"));
     const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin });
-    authNote(error ? ruErr(error.message) : ("Письмо со ссылкой для сброса отправлено на " + email + "."));
+    authNote(error ? ruErr(error.message) : (t("note_forgot_sent") + email + "."));
   };
   $("btn-setpass").onclick = async () => {
     const password = $("newpass").value;
     const note = $("recover-note");
-    if (!password || password.length < 6) { note.hidden = false; note.textContent = "Пароль минимум 6 символов."; return; }
+    if (!password || password.length < 6) { note.hidden = false; note.textContent = t("note_recover_short"); return; }
     const { error } = await sb.auth.updateUser({ password });
     note.hidden = false;
     if (error) { note.textContent = ruErr(error.message); return; }
-    note.textContent = "Пароль обновлён, входим...";
+    note.textContent = t("note_recover_ok");
     recovering = false;
     location.replace("/");
   };
@@ -126,15 +123,29 @@
     $("btn-forgot").hidden = !login;
     $("btn-register").hidden = login;
     $("consent-row").hidden = login;
-    $("auth-title").textContent = login ? "С возвращением!" : "Создать аккаунт";
-    $("auth-lead").textContent = login
-      ? "Заходи и получай контент под любую платформу за секунды."
-      : "Зарегистрируйся, расскажи о себе - и получай готовый контент за секунды.";
+    $("auth-title").textContent = login ? t("auth_title_login") : t("auth_title_reg");
+    $("auth-lead").textContent = login ? t("auth_lead_login") : t("auth_lead_reg");
     $("password").setAttribute("autocomplete", login ? "current-password" : "new-password");
     $("email-note").hidden = true;
   }
   $("tab-login").onclick = () => setAuthMode("login");
   $("tab-reg").onclick = () => setAuthMode("register");
+
+  // ---------- i18n ----------
+  function applyI18n() { if (window.ZI18N) window.ZI18N.apply(); }
+  function currentAuthMode() { return $("tab-reg").classList.contains("on") ? "register" : "login"; }
+  function switchLang(l) {
+    window.ZI18N.setLang(l);
+    applyI18n();
+    setAuthMode(currentAuthMode());
+    renderPlatforms();
+    if (signedIn) { loadMe(); loadHistory(); }
+    if (lastOut) renderResult(lastOut);
+  }
+  document.querySelectorAll(".langsw a").forEach(a => {
+    a.onclick = (e) => { e.preventDefault(); switchLang(a.getAttribute("data-lang")); };
+  });
+  applyI18n();
   setAuthMode("login");
   $("logout").onclick = async () => {
     try { await sb.auth.signOut(); } catch (e) {}
@@ -157,10 +168,10 @@
   // ---------- PLATFORM PICKER ----------
   function renderPlatforms() {
     const box = $("platforms"); box.textContent = "";
-    PLATFORMS.forEach(([id, name, sub]) => {
+    PLATFORM_IDS.forEach((id) => {
       const c = el("div", "pf" + (id === platform ? " on" : ""));
-      c.appendChild(el("div", null, name));
-      c.appendChild(el("small", null, sub));
+      c.appendChild(el("div", null, t("p_" + id)));
+      c.appendChild(el("small", null, t("p_" + id + "_s")));
       c.onclick = () => { platform = id; renderPlatforms(); };
       box.appendChild(c);
     });
@@ -173,13 +184,13 @@
     if (!token) return refresh();
     const topic = $("topic").value.trim();
     const st = $("gen-status"); st.hidden = false;
-    st.textContent = "Генерю: смотрю свежие тренды и собираю пакет. Первый раз по теме - до полминуты, дальше быстрее...";
+    st.textContent = t("gen_status");
     $("btn-gen").disabled = true;
     try {
       const res = await fetch(API + "/generate", {
         method: "POST",
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
-        body: JSON.stringify({ platform, topic, profile }),
+        body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang() }),
       });
       if (res.status === 402) { st.hidden = true; showPaywall(); return; }
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || e.error || res.status); }
@@ -188,18 +199,18 @@
       st.hidden = true;
       await loadHistory(); await loadMe();
     } catch (e) {
-      st.textContent = "Не вышло: " + e.message;
+      st.textContent = t("gen_fail") + e.message;
     } finally {
       $("btn-gen").disabled = false;
     }
   };
 
   function copyBtn(getText, label) {
-    label = label || "Копировать";
+    label = label || t("copy");
     const b = el("button", "copy", label);
     b.onclick = () => {
       try { navigator.clipboard.writeText(getText()); } catch (e) {}
-      b.textContent = "Скопировано!"; b.classList.add("copied");
+      b.textContent = t("copied"); b.classList.add("copied");
       setTimeout(() => { b.textContent = label; b.classList.remove("copied"); }, 1500);
     };
     return b;
@@ -209,8 +220,8 @@
     const parts = [];
     if (it.caption) parts.push(it.caption);
     if (tags) parts.push(tags);
-    if (it.first_comment) parts.push("Первый коммент: " + it.first_comment);
-    const b = copyBtn(() => parts.join("\n\n"), "Копировать пакет");
+    if (it.first_comment) parts.push(t("r_first_comment") + ": " + it.first_comment);
+    const b = copyBtn(() => parts.join("\n\n"), t("copy_pack"));
     b.classList.add("copypack");
     return b;
   }
@@ -228,10 +239,10 @@
   }
   function voteBtns(plat, item) {
     const wrap = el("div", "votes");
-    wrap.appendChild(el("span", "voteq", "Как тебе?"));
+    wrap.appendChild(el("span", "voteq", t("vote_q")));
     const up = el("button", "vote", "👍");
     const down = el("button", "vote", "👎");
-    up.title = "Нравится - хочу такое ещё"; down.title = "Не заходит - меньше такого";
+    up.title = t("vote_up"); down.title = t("vote_down");
     up.onclick = () => { sendVote(plat, item, "up"); up.classList.add("on"); down.classList.remove("on"); };
     down.onclick = () => { sendVote(plat, item, "down"); down.classList.add("on"); up.classList.remove("on"); };
     wrap.appendChild(up); wrap.appendChild(down);
@@ -240,10 +251,22 @@
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
   function arr(v) { if (Array.isArray(v)) return v; if (typeof v === "string") { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch (e) { return []; } } return []; }
 
-  const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram", content_plan: "Контент-план" };
+  function plabel(p) {
+    switch (p) {
+      case "reels": return t("p_reels") + " · Instagram";
+      case "shorts": return t("p_shorts") + " · YouTube";
+      case "tiktok": return "TikTok";
+      case "youtube_long": return "YouTube · " + t("p_youtube_long_s");
+      case "carousel": return t("p_carousel") + " · Instagram";
+      case "post": return t("p_post") + " · Instagram";
+      case "stories": return "Stories · Instagram";
+      case "content_plan": return t("p_content_plan");
+      default: return p;
+    }
+  }
 
   function savePdf(node, platform) {
-    if (!window.html2pdf) { alert("PDF ещё грузится, попробуй через секунду"); return; }
+    if (!window.html2pdf) { alert(t("pdf_loading")); return; }
     const date = new Date().toISOString().slice(0, 10);
     const opt = {
       margin: 10, filename: "zalihvat-" + platform + "-" + date + ".pdf",
@@ -257,71 +280,72 @@
   }
 
   function renderResult(out) {
+    lastOut = out;
     const box = $("result"); box.textContent = "";
     const d = out.data || {};
     const p = out.platform;
     const content = el("div", "pdf-content");
     const title = el("div", "pdf-title");
-    title.appendChild(el("b", null, "Контент-машина Залихват"));
-    title.appendChild(el("span", null, "  ·  " + (PLABEL[p] || p)));
+    title.appendChild(el("b", null, t("pdf_title")));
+    title.appendChild(el("span", null, "  ·  " + plabel(p)));
     content.appendChild(title);
     if (["reels", "shorts", "tiktok"].includes(p)) {
       arr(d.ideas).forEach((it, i) => {
         const c = el("div", "rcard");
         c.appendChild(el("span", "viral", (it.virality || 0) + "%"));
         c.appendChild(el("h3", null, (i + 1) + ". " + it.idea));
-        c.appendChild(row("Хук", it.hook, "hook"));
+        c.appendChild(row(t("r_hook"), it.hook, "hook"));
         const alt = arr(it.hooks_alt);
         if (alt.length) {
           const wrap = el("div", "rrow");
-          wrap.appendChild(el("div", "rk", "A/B хуки"));
+          wrap.appendChild(el("div", "rk", t("r_abhooks")));
           const box2 = el("div", null);
           alt.forEach(h => box2.appendChild(el("div", "abhook", "• " + h)));
           wrap.appendChild(box2); c.appendChild(wrap);
         }
-        c.appendChild(row("Сценарий", it.scenario));
+        c.appendChild(row(t("r_scenario"), it.scenario));
         const shots = arr(it.shot_list);
         if (shots.length) {
           const wrap = el("div", "rrow");
-          wrap.appendChild(el("div", "rk", "Шот-лист"));
+          wrap.appendChild(el("div", "rk", t("r_shotlist")));
           const ol = el("ol", "shotlist");
           shots.forEach(s => ol.appendChild(el("li", null, s)));
           wrap.appendChild(ol); c.appendChild(wrap);
         }
         const ost = arr(it.on_screen_text);
-        if (ost.length) c.appendChild(row("Текст на экране", ost.join(" · ")));
+        if (ost.length) c.appendChild(row(t("r_onscreen"), ost.join(" · ")));
         if (it.teleprompter) {
           const wrap = el("div", "rrow");
-          wrap.appendChild(el("div", "rk", "Телесуфлёр"));
+          wrap.appendChild(el("div", "rk", t("r_teleprompter")));
           const tp = el("div", "teleprompter", it.teleprompter);
           wrap.appendChild(tp); c.appendChild(wrap);
           c.appendChild(copyBtn(() => it.teleprompter));
         }
         if (it.caption) {
           const wrap = el("div", "rrow");
-          wrap.appendChild(el("div", "rk", "Подпись"));
+          wrap.appendChild(el("div", "rk", t("r_caption")));
           wrap.appendChild(el("div", "caption", it.caption));
           c.appendChild(wrap);
         }
         const tags = arr(it.hashtags);
-        if (tags.length) c.appendChild(row("Хэштеги", tags.map(t => "#" + String(t).replace(/^#/, "")).join(" "), "hashtags"));
-        if (it.first_comment) c.appendChild(row("Первый коммент", it.first_comment));
-        if (it.length_rec) c.appendChild(row("Длина", it.length_rec));
+        if (tags.length) c.appendChild(row(t("r_hashtags"), tags.map(x => "#" + String(x).replace(/^#/, "")).join(" "), "hashtags"));
+        if (it.first_comment) c.appendChild(row(t("r_first_comment"), it.first_comment));
+        if (it.length_rec) c.appendChild(row(t("r_length"), it.length_rec));
         const refs = arr(it.references);
         if (refs.length) {
           const wrap = el("div", "rrow");
-          wrap.appendChild(el("div", "rk", "Похожее залетало"));
+          wrap.appendChild(el("div", "rk", t("r_references")));
           const ul = el("ul", "refs");
           refs.forEach(r => ul.appendChild(el("li", null, r)));
           wrap.appendChild(ul); c.appendChild(wrap);
         }
         if (it.fact_check) {
           const fc = el("div", "factcheck");
-          fc.appendChild(el("span", "fclabel", "✓ Фактчек — проверь перед публикацией"));
+          fc.appendChild(el("span", "fclabel", t("r_factcheck")));
           fc.appendChild(el("div", null, it.fact_check));
           c.appendChild(fc);
         }
-        c.appendChild(el("div", "why", "Почему " + (it.virality || 0) + "%: " + (it.virality_reason || "")));
+        c.appendChild(el("div", "why", t("r_why") + (it.virality || 0) + "%: " + (it.virality_reason || "")));
         const bar = el("div", "cardbar");
         bar.appendChild(copyPack(it));
         bar.appendChild(voteBtns(p, it.idea || it.hook));
@@ -331,13 +355,13 @@
     } else if (p === "youtube_long") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
-      c.appendChild(el("h3", null, d.title || "Сценарий"));
-      c.appendChild(row("Хук", d.hook, "hook"));
+      c.appendChild(el("h3", null, d.title || t("r_scenario")));
+      c.appendChild(row(t("r_hook"), d.hook, "hook"));
       arr(d.sections).forEach(s => { c.appendChild(row(s.h, s.points)); });
-      c.appendChild(row("Финал", d.outro));
+      c.appendChild(row(t("r_outro"), d.outro));
       if (d.fact_check) {
         const fc = el("div", "factcheck");
-        fc.appendChild(el("span", "fclabel", "✓ Фактчек — проверь перед публикацией"));
+        fc.appendChild(el("span", "fclabel", t("r_factcheck")));
         fc.appendChild(el("div", null, d.fact_check));
         c.appendChild(fc);
       }
@@ -346,47 +370,47 @@
     } else if (p === "carousel") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
-      c.appendChild(row("Слайд-крючок", d.hook_slide, "hook"));
-      arr(d.slides).forEach((s, i) => c.appendChild(row("Слайд " + (i + 2) + " · " + s.title, s.text)));
-      c.appendChild(row("Финальный слайд", d.cta_slide));
+      c.appendChild(row(t("r_hookslide"), d.hook_slide, "hook"));
+      arr(d.slides).forEach((s, i) => c.appendChild(row(t("r_slide") + " " + (i + 2) + " · " + s.title, s.text)));
+      c.appendChild(row(t("r_finalslide"), d.cta_slide));
       c.appendChild(voteBtns(p, d.hook_slide));
       content.appendChild(c);
     } else if (p === "post") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
-      c.appendChild(row("Хук", d.hook, "hook"));
+      c.appendChild(row(t("r_hook"), d.hook, "hook"));
       const alt = arr(d.hooks_alt);
       if (alt.length) {
         const wrap = el("div", "rrow");
-        wrap.appendChild(el("div", "rk", "A/B хуки"));
+        wrap.appendChild(el("div", "rk", t("r_abhooks")));
         const box2 = el("div", null);
         alt.forEach(h => box2.appendChild(el("div", "abhook", "• " + h)));
         wrap.appendChild(box2); c.appendChild(wrap);
       }
-      c.appendChild(row("Текст", d.body));
-      c.appendChild(row("Призыв", d.cta));
+      c.appendChild(row(t("r_body"), d.body));
+      c.appendChild(row(t("r_cta"), d.cta));
       const tags = arr(d.hashtags);
-      if (tags.length) c.appendChild(row("Хэштеги", tags.map(t => "#" + String(t).replace(/^#/, "")).join(" "), "hashtags"));
-      if (d.first_comment) c.appendChild(row("Первый коммент", d.first_comment));
+      if (tags.length) c.appendChild(row(t("r_hashtags"), tags.map(x => "#" + String(x).replace(/^#/, "")).join(" "), "hashtags"));
+      if (d.first_comment) c.appendChild(row(t("r_first_comment"), d.first_comment));
       if (d.fact_check) {
         const fc = el("div", "factcheck");
-        fc.appendChild(el("span", "fclabel", "✓ Фактчек — проверь перед публикацией"));
+        fc.appendChild(el("span", "fclabel", t("r_factcheck")));
         fc.appendChild(el("div", null, d.fact_check));
         c.appendChild(fc);
       }
-      c.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
+      c.appendChild(el("div", "why", t("r_why") + (d.virality || 0) + "%: " + (d.virality_reason || "")));
       const pbar = el("div", "cardbar");
       pbar.appendChild(copyBtn(() => {
-        const t = tags.map(x => "#" + String(x).replace(/^#/, "")).join(" ");
-        return [d.hook, d.body, d.cta, t].filter(Boolean).join("\n\n");
-      }, "Копировать пост"));
+        const tg = tags.map(x => "#" + String(x).replace(/^#/, "")).join(" ");
+        return [d.hook, d.body, d.cta, tg].filter(Boolean).join("\n\n");
+      }, t("copy_post")));
       pbar.appendChild(voteBtns(p, d.hook));
       c.appendChild(pbar);
       content.appendChild(c);
     } else if (p === "stories") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
-      arr(d.frames).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
+      arr(d.frames).forEach((f, i) => { const r = row(t("r_frame") + " " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
       const fr = arr(d.frames)[0];
       c.appendChild(voteBtns(p, fr && fr.text || "stories"));
       content.appendChild(c);
@@ -394,13 +418,13 @@
       const rub = arr(d.rubrics);
       if (rub.length) {
         const rc = el("div", "rcard");
-        rc.appendChild(el("h3", null, "Постоянные рубрики"));
+        rc.appendChild(el("h3", null, t("r_rubrics")));
         rub.forEach(r => rc.appendChild(row(r.name, r.idea)));
         content.appendChild(rc);
       }
       const pc = el("div", "rcard");
       pc.appendChild(el("span", "viral", (d.virality || 0) + "%"));
-      pc.appendChild(el("h3", null, "План публикаций"));
+      pc.appendChild(el("h3", null, t("r_plan")));
       arr(d.plan).forEach((it) => {
         const item = el("div", "planitem");
         const head = el("div", "planhead");
@@ -409,21 +433,21 @@
         if (it.goal) head.appendChild(el("span", "plangoal", it.goal));
         item.appendChild(head);
         item.appendChild(el("div", "planidea", (it.rubric ? it.rubric + ": " : "") + (it.idea || "")));
-        if (it.hook) item.appendChild(el("div", "planhook", "Хук: " + it.hook));
+        if (it.hook) item.appendChild(el("div", "planhook", t("r_planhook") + it.hook));
         pc.appendChild(item);
       });
-      pc.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
+      pc.appendChild(el("div", "why", t("r_why") + (d.virality || 0) + "%: " + (d.virality_reason || "")));
       const rub0 = arr(d.rubrics)[0];
       pc.appendChild(voteBtns(p, rub0 && rub0.name || "content_plan"));
       content.appendChild(pc);
     }
     box.appendChild(content);
     const actions = el("div", "result-actions");
-    const pdfbtn = el("button", "pdfdl", "⬇ Скачать PDF");
+    const pdfbtn = el("button", "pdfdl", t("pdf_dl"));
     pdfbtn.onclick = () => savePdf(content, p);
-    const again = el("button", "againdl", "↻ Ещё");
+    const again = el("button", "againdl", t("again"));
     again.onclick = () => $("btn-gen").click();       // та же тема (из поля topic)
-    const newtopic = el("button", "againdl", "✎ Новая тема");
+    const newtopic = el("button", "againdl", t("new_topic"));
     newtopic.onclick = () => {
       $("topic").value = "";
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -453,15 +477,15 @@
       languages: $("p-languages").value.trim(), brand_notes: $("p-brand").value.trim(), updated_at: new Date().toISOString(),
     };
     const { error } = await sb.from("profiles").upsert(profile);
-    $("save-note").hidden = false; $("save-note").textContent = error ? ("Ошибка: " + error.message) : "Сохранено.";
+    $("save-note").hidden = false; $("save-note").textContent = error ? (t("save_err") + error.message) : t("save_note");
   };
   $("p-file").onchange = async (e) => {
     const f = e.target.files[0]; if (!f) return;
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
-    if (f.size > 15 * 1024 * 1024) { alert("Файл больше 15 МБ"); return; }
+    if (f.size > 15 * 1024 * 1024) { alert(t("file_too_big")); return; }
     const path = u.user.id + "/" + Date.now() + "_" + f.name.replace(/[^\w.\-]/g, "_");
     const { error } = await sb.storage.from("uploads").upload(path, f);
-    if (error) alert("Ошибка загрузки: " + error.message); else loadUploads();
+    if (error) alert(t("upload_err") + error.message); else loadUploads();
   };
   async function loadUploads() {
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
@@ -478,7 +502,7 @@
       const h = el("div", "h");
       const b = el("b", null, g.platform + " ");
       h.appendChild(b);
-      h.appendChild(document.createTextNode((g.topic || "без темы") + " · " + new Date(g.created_at).toLocaleString("ru")));
+      h.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
       h.onclick = () => renderResult({ platform: g.platform, data: g.output });
       box.appendChild(h);
     });
@@ -494,8 +518,8 @@
       if (!res.ok) { box.hidden = true; return; }
       const m = await res.json();
       box.hidden = false;
-      if (m.unlimited) box.innerHTML = "Генераций сделано: <b>" + m.used + "</b> · безлимит";
-      else box.innerHTML = "Генераций сделано: <b>" + m.used + "</b> · осталось бесплатных: <b>" + m.remaining + "</b>";
+      if (m.unlimited) box.innerHTML = t("usage_unlim") + "<b>" + m.used + "</b>" + t("usage_unlim2");
+      else box.innerHTML = t("usage_left") + "<b>" + m.used + "</b>" + t("usage_left2") + "<b>" + m.remaining + "</b>";
     } catch (e) { box.hidden = true; }
   }
 
