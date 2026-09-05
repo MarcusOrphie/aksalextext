@@ -37,8 +37,12 @@ PLATFORM = {
 }
 
 def build_system(platform: str, profile: dict | None, avoid: list | None = None, voice: str | None = None,
-                 liked: list | None = None, disliked: list | None = None) -> str:
+                 liked: list | None = None, disliked: list | None = None, trends: str | None = None) -> str:
     s = BASE + "\n" + PLATFORM.get(platform, PLATFORM["reels"])
+    if trends:
+        s += ("\n\nСВЕЖИЕ ТРЕНДЫ СЕЙЧАС (живой ресёрч под нишу и платформу). "
+              "Опирайся на актуальное, привязывай идеи к тому, что залетает прямо сейчас, "
+              "но не копируй слепо - адаптируй под голос автора:\n" + trends[:1800])
     if voice:
         s += ("\n\nОБРАЗЦЫ РЕЧИ АВТОРА (его собственные тексты/расшифровки). "
               "Изучи манеру, лексику, ритм и интонацию и пиши ТАКИМ ЖЕ голосом - "

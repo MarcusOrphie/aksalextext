@@ -21,6 +21,7 @@ import usage
 import mailer
 import voice
 import feedback
+import trends
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -118,8 +119,13 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     except Exception:
         liked, disliked = [], []
     try:
+        niche = (profile or {}).get("niche") or req.topic
+        live_trends = trends.get(user["id"], niche, req.platform)
+    except Exception:
+        live_trends = ""
+    try:
         result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
-                              liked=liked, disliked=disliked)
+                              liked=liked, disliked=disliked, trends=live_trends)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     usage.record(user["id"], req.platform, req.topic, result.get("data"))
