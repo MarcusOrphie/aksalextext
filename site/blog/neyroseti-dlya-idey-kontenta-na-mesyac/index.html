@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112136771', 'ym');
+
+    ym(112136771, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112136771" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Нейросети для идей контента на месяц вперёд</title>
+<meta name="description" content="Как с помощью нейросети собрать список тем для блога на месяц за один вечер. Промпты, схема сортировки идей и частые ошибки.">
+<link rel="canonical" href="https://aksalex.com/blog/neyroseti-dlya-idey-kontenta-na-mesyac/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Саша Аксенов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Нейросети для идей контента на месяц вперёд">
+<meta property="og:description" content="Как за один вечер получить от нейросети месяц тем для блога и не потеряться в списке идей.">
+<meta property="og:url" content="https://aksalex.com/blog/neyroseti-dlya-idey-kontenta-na-mesyac/">
+<meta property="og:image" content="https://aksalex.com/blog/neyroseti-dlya-idey-kontenta-na-mesyac/cover.jpg">
+<meta property="og:site_name" content="Залихват">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Нейросети для идей контента на месяц вперёд", "description": "Как за один вечер получить от нейросети месяц тем для блога и не потеряться в списке идей.", "image": "https://aksalex.com/blog/neyroseti-dlya-idey-kontenta-na-mesyac/cover.jpg", "datePublished": "2026-09-05", "dateModified": "2026-09-05", "author": {"@type": "Person", "name": "Саша Аксенов", "url": "https://aksalex.com/"}, "publisher": {"@type": "Organization", "name": "Залихват", "logo": {"@type": "ImageObject", "url": "https://aksalex.com/apple-touch-icon.png"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://aksalex.com/blog/neyroseti-dlya-idey-kontenta-na-mesyac/"}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Какая нейросеть лучше подходит для генерации идей контента?", "acceptedAnswer": {"@type": "Answer", "text": "Подойдёт любая современная языковая модель с чатом - результат больше зависит от качества промпта, чем от конкретного инструмента."}}, {"@type": "Question", "name": "Сколько идей нужно на месяц контента?", "acceptedAnswer": {"@type": "Answer", "text": "Обычно 20-30 идей с запасом хватает на месяц публикаций с учётом того, что часть тем отсеется на этапе сортировки."}}, {"@type": "Question", "name": "Можно ли снимать ролики точно по формулировкам нейросети?", "acceptedAnswer": {"@type": "Answer", "text": "Лучше использовать их как основу и добавлять свой опыт, примеры и подачу - иначе контент будет звучать обезличенно."}}, {"@type": "Question", "name": "Как часто обновлять контент-план с помощью нейросети?", "acceptedAnswer": {"@type": "Answer", "text": "Раз в месяц достаточно для большинства блогов, плюс можно точечно догенерировать идеи, если тема внезапно выстрелила."}}, {"@type": "Question", "name": "Что делать, если нейросеть повторяет одни и те же идеи?", "acceptedAnswer": {"@type": "Answer", "text": "Дай ей более подробный список уже снятых тем и попроси сузить фокус до конкретной подрубрики - это почти всегда разнообразит ответ."}}]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://aksalex.com/"}, {"@type": "ListItem", "position": 2, "name": "Блог", "item": "https://aksalex.com/blog/"}, {"@type": "ListItem", "position": 3, "name": "Нейросети для идей контента на месяц вперёд", "item": "https://aksalex.com/blog/neyroseti-dlya-idey-kontenta-na-mesyac/"}]}
+</script>
+<style>
+  :root{--paper:#faf5ec;--paper2:#fffdf8;--ink:#151210;--coral:#ff7f50;--coral-deep:#e85f2c;--coral-soft:#ffe6d8;--muted:#7b7168;--line:#e6ddcd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:#241f1b;font-family:"Nunito",system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.7;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,127,80,.14) 1.1px,transparent 1.2px);background-size:16px 16px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+  a{color:var(--coral-deep)}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink);margin-bottom:22px}
+  .nav .in{max-width:760px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .navlinks{display:flex;gap:18px;align-items:center}
+  .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .nav .navcta{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .nav .navcta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .nav .navcta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  @media(max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}.brand{font-size:14px}.brand img{width:28px;height:28px}.nav .navcta{padding:7px 13px;font-size:12px;min-height:38px}}
+  .crumbs{font-size:13px;color:var(--muted);font-weight:700;margin:8px 0 14px}
+  .crumbs a{text-decoration:none}
+  h1{font-family:"Oswald";font-weight:700;text-transform:uppercase;line-height:1.02;font-size:38px;color:var(--ink);letter-spacing:.005em;text-wrap:balance;margin-bottom:10px}
+  .ameta{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:18px}
+  .hero{width:100%;border-radius:18px;border:3px solid var(--ink);box-shadow:7px 7px 0 var(--ink);display:block;margin:0 0 26px;aspect-ratio:16/9;height:auto;object-fit:cover;background:var(--coral-soft)}
+  article p{font-size:17px;margin:16px 0;color:#2c2621}
+  article h2{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:27px;color:var(--coral-deep);letter-spacing:.01em;margin:34px 0 6px}
+  article h3{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:19px;color:var(--ink);letter-spacing:.01em;margin:22px 0 4px}
+  article ul{margin:14px 0;list-style:none;display:flex;flex-direction:column;gap:9px}
+  article ul li{position:relative;padding-left:26px;font-size:17px;color:#2c2621}
+  article ul li::before{content:"";position:absolute;left:2px;top:11px;width:10px;height:10px;border-radius:2px;background:var(--coral);border:2px solid var(--ink);transform:rotate(45deg)}
+  blockquote{background:var(--coral-soft);border:2px solid var(--ink);border-left:6px solid var(--coral);border-radius:12px;padding:16px 20px;margin:22px 0;font-size:18px;font-weight:800;color:#2a2015;box-shadow:5px 5px 0 var(--ink)}
+  .tablewrap{overflow-x:auto;margin:22px 0;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink)}
+  table{width:100%;border-collapse:collapse;font-size:15px;background:var(--paper2);min-width:520px}
+  thead th{background:var(--coral);color:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.04em;text-align:left;padding:12px 14px;border-bottom:3px solid var(--ink)}
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--line);color:#2c2621;font-weight:700}
+  tbody tr:nth-child(even){background:#fbf6ec}
+  tbody tr:last-child td{border-bottom:none}
+  .faq{margin-top:36px;border-top:2px solid var(--ink);padding-top:8px}
+  .faq h3{color:var(--coral-deep)}
+  .faq p{margin-top:4px}
+  .cta{background:var(--coral);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:28px 24px;text-align:center;margin:40px 0 10px}
+  .cta img{width:78px;height:78px;border-radius:50%;border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.3);object-fit:cover;object-position:50% 22%;display:block;margin:0 auto 14px}
+  .cta .h{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.05;color:var(--paper);-webkit-text-stroke:2px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+  .cta .s{margin-top:10px;color:#3a2418;font-weight:800;font-size:15px}
+  .cta .btn{display:inline-block;margin-top:16px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:12px 26px;border-radius:999px;box-shadow:4px 4px 0 var(--ink);text-decoration:none}
+  footer{margin-top:44px;padding-top:28px;border-top:2px solid var(--ink);text-align:center}
+  .fbrand{display:inline-flex;align-items:center;gap:9px;justify-content:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);margin-bottom:16px}
+  .fbrand img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .fmenu{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 22px;margin-bottom:18px}
+  .fmenu a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .fmenu a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .fmenu .btn{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .fmenu .btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .fmenu .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .fnote{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .fnote b{color:var(--coral-deep)}
+  @media(max-width:600px){.fnote{white-space:normal}}
+  @media(min-width:640px){h1{font-size:48px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="/"><svg viewBox="0 0 560 150" style="height:56px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <div class="navlinks">
+      <a href="/#machine">Машина</a>
+      <a href="/#how">Как это работает</a>
+      <a href="/#guides">Продукты</a>
+      <a href="/#about">Кто я</a>
+      <a href="/blog/">Блог</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a class="btn sm btn-primary navcta" href="https://app.aksalex.com" target="_blank" rel="noopener">Войти</a>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+
+  <div class="crumbs"><a href="/">Главная</a> · <a href="/blog/">Блог</a> · Нейросети для идей контента на месяц вперёд</div>
+
+  <article>
+    <h1>Нейросети для идей контента на месяц вперёд</h1>
+    <div class="ameta">Саша Аксенов · 5 сентября 2026 · 5 мин чтения</div>
+    <img class="hero" src="cover.jpg" alt="Нейросети для идей контента на месяц вперёд" width="1280" height="720">
+
+    <p>Самый частый вопрос у блогера утром - о чём сегодня снимать. Если тратить на это время каждый день, контент-план превращается в вечную беготню. Нейросеть закрывает эту задачу быстрее человека: она не устаёт придумывать и не боится повторов. Разберём, как за один вечер получить от неё рабочий список тем на месяц, а не набор общих фраз.</p>
+    <h2>Зачем планировать темы на месяц, а не по одному ролику</h2>
+    <p>Когда тема ищется в день съёмки, решение почти всегда принимается в спешке и падает на то, что легче снять, а не на то, что нужно аудитории. План на месяц снимает это давление: ты заранее видишь, какие темы уже закрыты, а какие ещё не раскрыты, и можешь распределить сложные форматы между лёгкими.</p>
+    <p>Есть и другой эффект - видна общая картина рубрик. Без плана легко скатиться в одну и ту же тему неделями подряд, даже не замечая этого.</p>
+    <h2>Как нейросеть помогает набросать список тем</h2>
+    <p>Нейросеть хороша не тем, что придумывает гениальные идеи с нуля, а тем, что быстро закрывает объём. Ты даёшь ей нишу, аудиторию и несколько уже отснятых тем - она достраивает список до тридцати пунктов за пару минут.</p>
+    <h3>Что дать нейросети перед запросом</h3>
+    <ul><li>Нишу и формат блога в одном-двух предложениях</li><li>Портрет аудитории: кто смотрит и с какой проблемой приходит</li><li>Список из 5-10 уже снятых тем, чтобы не было повторов</li><li>Желаемое количество идей и разбивку по рубрикам</li></ul>
+    <h2>Промпт-схема для генерации идей</h2>
+    <p>Хорошо работает пошаговый запрос, а не одна общая фраза вроде «придумай идеи для блога». Вот структура, которая даёт более конкретный результат.</p>
+    <div class="tablewrap"><table><thead><tr><th>Шаг промпта</th><th>Что писать</th><th>Зачем</th></tr></thead><tbody><tr><td>Контекст</td><td>Ниша, аудитория, тон блога</td><td>Нейросеть не путает твою тему с общими советами</td></tr><tr><td>Ограничение</td><td>Список уже снятых тем</td><td>Убирает повторы и заезженные форматы</td></tr><tr><td>Формат вывода</td><td>Таблица: тема, рубрика, формат</td><td>Сразу удобно сортировать и переносить в план</td></tr><tr><td>Количество</td><td>Например, 30 идей на месяц</td><td>Даёт запас, из которого потом выбираешь лучшее</td></tr></tbody></table></div>
+    <h2>Как сортировать идеи и не публиковать всё подряд</h2>
+    <p>Список от нейросети - это черновик, а не готовый план. Часть идей будет слишком общей, часть - не про твою аудиторию. Пройдись по списку и отметь три категории: снимаю на этой неделе, откладываю на потом, не подходит вообще.</p>
+    <ul><li>Оставляй темы, которые можешь подкрепить личным опытом</li><li>Убирай формулировки, под которыми уже вышли десятки роликов у других</li><li>Группируй похожие идеи в рубрики, а не публикуй вразнобой</li><li>Не бойся откладывать сильную идею, если сейчас не готов формат под неё</li></ul>
+    <blockquote>Нейросеть даёт объём идей, а выбор смысла и подачи всегда остаётся за автором.</blockquote>
+    <h2>Ошибки при работе с нейросетью для контент-плана</h2>
+    <p>Главная ошибка - брать список идей без правок и снимать по нему один в один. Формулировки нейросети часто звучат обезличенно, и без твоей истории и примеров ролик получается таким же, как у всех, кто пользуется тем же инструментом.</p>
+    <p>Вторая ошибка - просить сразу тридцать идей без контекста о нише и аудитории. Результат в этом случае будет общим и подойдёт кому угодно, а значит, не зацепит именно твоих читателей.</p>
+
+    <section class="faq">
+      <h2>Частые вопросы</h2>
+      <h3>Какая нейросеть лучше подходит для генерации идей контента?</h3>
+      <p>Подойдёт любая современная языковая модель с чатом - результат больше зависит от качества промпта, чем от конкретного инструмента.</p>
+      <h3>Сколько идей нужно на месяц контента?</h3>
+      <p>Обычно 20-30 идей с запасом хватает на месяц публикаций с учётом того, что часть тем отсеется на этапе сортировки.</p>
+      <h3>Можно ли снимать ролики точно по формулировкам нейросети?</h3>
+      <p>Лучше использовать их как основу и добавлять свой опыт, примеры и подачу - иначе контент будет звучать обезличенно.</p>
+      <h3>Как часто обновлять контент-план с помощью нейросети?</h3>
+      <p>Раз в месяц достаточно для большинства блогов, плюс можно точечно догенерировать идеи, если тема внезапно выстрелила.</p>
+      <h3>Что делать, если нейросеть повторяет одни и те же идеи?</h3>
+      <p>Дай ей более подробный список уже снятых тем и попроси сузить фокус до конкретной подрубрики - это почти всегда разнообразит ответ.</p>
+    </section>
+
+    <div class="cta">
+      <img src="/apple-touch-icon.png" alt="Саша Аксенов">
+      <div class="h">Контент на автопилоте,<br>а не вручную</div>
+      <div class="s">«Залихват: автоматическая контент-машина» - выбираешь платформу, и нейросеть за секунды собирает идеи, хуки, сценарии и тексты под твою нишу.</div>
+      <a class="btn" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть Залихват →</a>
+    </div>
+  </article>
+
+  <footer>
+    <a class="fbrand" href="/"><svg viewBox="0 0 560 150" style="height:60px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <div class="fmenu">
+      <a href="/#machine">Машина</a>
+      <a href="/#how">Как это работает</a>
+      <a href="/#guides">Продукты</a>
+      <a href="/#about">Кто я</a>
+      <a href="/blog/">Блог</a>
+      <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a class="btn" href="https://app.aksalex.com" target="_blank" rel="noopener">Войти</a>
+    </div>
+    <p class="fnote">Залихват · <b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
+    <p class="fnote" style="margin-top:6px"><a href="/offer.pdf" target="_blank" rel="noopener" style="color:#e85f2c;text-decoration:underline">Публичная оферта</a></p>
+  </footer>
+</div>
+</body>
+</html>
