@@ -315,6 +315,12 @@
           refs.forEach(r => ul.appendChild(el("li", null, r)));
           wrap.appendChild(ul); c.appendChild(wrap);
         }
+        if (it.fact_check) {
+          const fc = el("div", "factcheck");
+          fc.appendChild(el("span", "fclabel", "✓ Фактчек — проверь перед публикацией"));
+          fc.appendChild(el("div", null, it.fact_check));
+          c.appendChild(fc);
+        }
         c.appendChild(el("div", "why", "Почему " + (it.virality || 0) + "%: " + (it.virality_reason || "")));
         const bar = el("div", "cardbar");
         bar.appendChild(copyPack(it));
@@ -329,6 +335,12 @@
       c.appendChild(row("Хук", d.hook, "hook"));
       arr(d.sections).forEach(s => { c.appendChild(row(s.h, s.points)); });
       c.appendChild(row("Финал", d.outro));
+      if (d.fact_check) {
+        const fc = el("div", "factcheck");
+        fc.appendChild(el("span", "fclabel", "✓ Фактчек — проверь перед публикацией"));
+        fc.appendChild(el("div", null, d.fact_check));
+        c.appendChild(fc);
+      }
       c.appendChild(voteBtns(p, d.title || d.hook));
       content.appendChild(c);
     } else if (p === "carousel") {
@@ -356,6 +368,12 @@
       const tags = arr(d.hashtags);
       if (tags.length) c.appendChild(row("Хэштеги", tags.map(t => "#" + String(t).replace(/^#/, "")).join(" "), "hashtags"));
       if (d.first_comment) c.appendChild(row("Первый коммент", d.first_comment));
+      if (d.fact_check) {
+        const fc = el("div", "factcheck");
+        fc.appendChild(el("span", "fclabel", "✓ Фактчек — проверь перед публикацией"));
+        fc.appendChild(el("div", null, d.fact_check));
+        c.appendChild(fc);
+      }
       c.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
       const pbar = el("div", "cardbar");
       pbar.appendChild(copyBtn(() => {

@@ -119,8 +119,8 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     except Exception:
         liked, disliked = [], []
     try:
-        niche = (profile or {}).get("niche") or req.topic
-        live_trends = trends.get(user["id"], niche, req.platform)
+        niche = (profile or {}).get("niche") or ""
+        live_trends = trends.get(user["id"], niche, req.platform, req.topic)
     except Exception:
         live_trends = ""
     try:

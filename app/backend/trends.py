@@ -26,8 +26,8 @@ def _key(user_id: str) -> str:
     return user_id + "/_trends.json"
 
 
-def _sig(niche: str, platform: str) -> str:
-    return hashlib.sha1((niche + "|" + platform).encode("utf-8")).hexdigest()[:16]
+def _sig(niche: str, platform: str, topic: str = "") -> str:
+    return hashlib.sha1((niche + "|" + platform + "|" + topic).encode("utf-8")).hexdigest()[:16]
 
 
 def _cache_get(user_id: str, sig: str) -> str | None:
@@ -52,12 +52,20 @@ def _cache_put(user_id: str, sig: str, text: str) -> None:
         logging.error("trends._cache_put failed: %r", e)
 
 
-def _research(niche: str, platform: str) -> str:
+def _research(niche: str, platform: str, topic: str = "") -> str:
     plat = _PLAT.get(platform, "соцсети")
-    q = (f"Что прямо сейчас в тренде на {plat} по теме/нише: {niche}? "
-         "Найди свежие актуальные тренды, форматы, звуки, ходы и темы, которые залетают в последние недели. "
-         "Верни короткий дайджест: 5-8 пунктов, каждый - конкретный тренд или приём одной строкой, "
-         "на русском, без воды и без ссылок в тексте.")
+    topic = (topic or "").strip()
+    if topic:
+        q = (f"Тема запроса: {topic}. Ниша: {niche}. Платформа: {plat}. "
+             "Собери ПРОВЕРЯЕМЫЕ конкретные факты по этой теме, которые реально можно использовать в контенте: "
+             "что действительно происходит/обсуждается сейчас, конкретные названия, даты, детали, цифры, реальные события. "
+             "Бери только подтверждаемое источниками. Если что-то слух или не подтверждено - явно помечай '(не подтверждено)'. "
+             "Не выдумывай несуществующее. Верни 6-10 коротких пунктов на русском, каждый - один конкретный факт, без ссылок в тексте.")
+    else:
+        q = (f"Что прямо сейчас в тренде на {plat} по теме/нише: {niche}? "
+             "Найди свежие актуальные тренды, форматы, звуки, ходы и темы, которые залетают в последние недели. "
+             "Верни короткий дайджест: 5-8 пунктов, каждый - конкретный тренд или приём одной строкой, "
+             "на русском, без воды и без ссылок в тексте.")
     payload = {
         "model": MODEL, "max_tokens": 1200,
         "messages": [{"role": "user", "content": q}],
@@ -76,18 +84,19 @@ def _research(niche: str, platform: str) -> str:
     return txt[:MAX_LEN]
 
 
-def get(user_id: str, niche: str, platform: str) -> str:
-    """Свежий дайджест трендов под нишу/платформу. Кэш 12ч. Best-effort."""
+def get(user_id: str, niche: str, platform: str, topic: str = "") -> str:
+    """Свежий ресёрч под тему/нишу: проверяемые факты (если есть тема) или тренды ниши. Кэш 12ч. Best-effort."""
     niche = (niche or "").strip()
-    if not API_KEY or not niche:
+    topic = (topic or "").strip()
+    if not API_KEY or (not niche and not topic):
         return ""
-    sig = _sig(niche, platform)
+    sig = _sig(niche, platform, topic)
     if user_id and SERVICE_KEY:
         cached = _cache_get(user_id, sig)
         if cached is not None:
             return cached
     try:
-        txt = _research(niche, platform)
+        txt = _research(niche, platform, topic)
     except Exception as e:
         logging.error("trends._research failed: %r", e)
         return ""

@@ -114,6 +114,8 @@ em{font-style:normal;color:var(--coral)}
 .plangoal{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border:1.5px solid var(--muted);border-radius:6px;padding:1px 7px}
 .planidea{font-size:15px;color:#2c2621;font-weight:600}
 .planhook{font-size:13px;color:var(--muted);margin-top:2px}
+.factcheck{background:#f3f8f0;border:1.5px solid #7fae6a;border-left:4px solid #7fae6a;border-radius:8px;padding:8px 12px;margin:10px 0 4px;font-size:13px;color:#33402c;line-height:1.5}
+.factcheck .fclabel{display:block;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.05em;color:#4d7a3a;margin-bottom:3px}
 .cardbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
 .votes{display:inline-flex;align-items:center;gap:6px}
 .voteq{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.05em;color:var(--muted)}

@@ -40,9 +40,10 @@ _idea = {"type": "object", "properties": {
     "first_comment": {"type": "string", "description": "первый закреплённый комментарий"},
     "length_rec": {"type": "string", "description": "рекомендованная длина, напр. '25-35 сек'"},
     "references": {"type": "array", "items": {"type": "string"}, "description": "2-3 похожих виральных ориентира"},
+    "fact_check": {"type": "string", "description": "самопроверка: факт vs гипотеза, что перепроверить"},
     "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
     "required": ["idea", "hook", "hooks_alt", "scenario", "shot_list", "teleprompter", "caption",
-                 "hashtags", "first_comment", "length_rec", "references", "virality", "virality_reason"]}
+                 "hashtags", "first_comment", "length_rec", "references", "fact_check", "virality", "virality_reason"]}
 
 _short = {"type": "object", "properties": {"ideas": {"type": "array", "items": _idea}},
           "required": ["ideas"]}
@@ -53,8 +54,9 @@ SCHEMAS = {
         "title": {"type": "string"}, "hook": {"type": "string"},
         "sections": {"type": "array", "items": {"type": "object", "properties": {
             "h": {"type": "string"}, "points": {"type": "string"}}, "required": ["h", "points"]}},
-        "outro": {"type": "string"}, "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["title", "hook", "sections", "outro", "virality", "virality_reason"]},
+        "outro": {"type": "string"}, "fact_check": {"type": "string", "description": "самопроверка: факт vs гипотеза, что перепроверить"},
+        "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
+        "required": ["title", "hook", "sections", "outro", "fact_check", "virality", "virality_reason"]},
     "carousel": {"type": "object", "properties": {
         "hook_slide": {"type": "string"},
         "slides": {"type": "array", "items": {"type": "object", "properties": {
@@ -66,8 +68,9 @@ SCHEMAS = {
         "body": {"type": "string"}, "cta": {"type": "string"},
         "hashtags": {"type": "array", "items": {"type": "string"}},
         "first_comment": {"type": "string"},
+        "fact_check": {"type": "string", "description": "самопроверка: факт vs гипотеза, что перепроверить"},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["hook", "body", "cta", "hashtags", "virality", "virality_reason"]},
+        "required": ["hook", "body", "cta", "hashtags", "fact_check", "virality", "virality_reason"]},
     "content_plan": {"type": "object", "properties": {
         "rubrics": {"type": "array", "items": {"type": "object", "properties": {
             "name": {"type": "string"}, "idea": {"type": "string"}}, "required": ["name", "idea"]}},
