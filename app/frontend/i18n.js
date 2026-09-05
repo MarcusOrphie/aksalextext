@@ -116,7 +116,7 @@
       lbl_brand: "Brand/notes", ph_brand: "colors, links, what matters",
       lbl_file: "Upload voice materials (transcripts, posts, subtitles .txt/.srt) - generation will write in your voice",
       btn_save: "Save", btn_back: "Back", save_note: "Saved.",
-      foot_tag_html: 'Zalihvat · <b style="color:var(--coral-deep)">Sasha Aksenov</b>. AI and automation for your blog, work and life.',
+      foot_tag_html: 'Zalihvat · <b style="color:var(--coral-deep)">Alex Aksenov</b>. AI and automation for your blog, work and life.',
       foot_legal: "Aleksandr Aksenov · INN 773102096413",
       foot_site: "To the site", foot_offer: "Public offer", foot_help: "Help",
       pw_eyebrow: "Free generation used", pw_h_html: "Continue on a <em>subscription</em>?",

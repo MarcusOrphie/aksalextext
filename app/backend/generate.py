@@ -43,7 +43,7 @@ _idea = {"type": "object", "properties": {
     "fact_check": {"type": "string", "description": "самопроверка: факт vs гипотеза, что перепроверить"},
     "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
     "required": ["idea", "hook", "hooks_alt", "scenario", "shot_list", "teleprompter", "caption",
-                 "hashtags", "first_comment", "length_rec", "references", "fact_check", "virality", "virality_reason"]}
+                 "hashtags", "first_comment", "length_rec", "references", "fact_check"]}
 
 _short = {"type": "object", "properties": {"ideas": {"type": "array", "items": _idea}},
           "required": ["ideas"]}
@@ -56,13 +56,13 @@ SCHEMAS = {
             "h": {"type": "string"}, "points": {"type": "string"}}, "required": ["h", "points"]}},
         "outro": {"type": "string"}, "fact_check": {"type": "string", "description": "самопроверка: факт vs гипотеза, что перепроверить"},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["title", "hook", "sections", "outro", "fact_check", "virality", "virality_reason"]},
+        "required": ["title", "hook", "sections", "outro", "fact_check"]},
     "carousel": {"type": "object", "properties": {
         "hook_slide": {"type": "string"},
         "slides": {"type": "array", "items": {"type": "object", "properties": {
             "title": {"type": "string"}, "text": {"type": "string"}}, "required": ["title", "text"]}},
         "cta_slide": {"type": "string"}, "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["hook_slide", "slides", "cta_slide", "virality", "virality_reason"]},
+        "required": ["hook_slide", "slides", "cta_slide"]},
     "post": {"type": "object", "properties": {
         "hook": {"type": "string"}, "hooks_alt": {"type": "array", "items": {"type": "string"}},
         "body": {"type": "string"}, "cta": {"type": "string"},
@@ -70,7 +70,7 @@ SCHEMAS = {
         "first_comment": {"type": "string"},
         "fact_check": {"type": "string", "description": "самопроверка: факт vs гипотеза, что перепроверить"},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["hook", "body", "cta", "hashtags", "fact_check", "virality", "virality_reason"]},
+        "required": ["hook", "body", "cta", "hashtags", "fact_check"]},
     "content_plan": {"type": "object", "properties": {
         "rubrics": {"type": "array", "items": {"type": "object", "properties": {
             "name": {"type": "string"}, "idea": {"type": "string"}}, "required": ["name", "idea"]}},
@@ -79,12 +79,12 @@ SCHEMAS = {
             "idea": {"type": "string"}, "hook": {"type": "string"}, "goal": {"type": "string"}},
             "required": ["day", "format", "idea", "hook", "goal"]}},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["rubrics", "plan", "virality", "virality_reason"]},
+        "required": ["rubrics", "plan"]},
     "stories": {"type": "object", "properties": {
         "frames": {"type": "array", "items": {"type": "object", "properties": {
             "visual": {"type": "string"}, "text": {"type": "string"}}, "required": ["visual", "text"]}},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
-        "required": ["frames", "virality", "virality_reason"]},
+        "required": ["frames"]},
 }
 PLATFORMS = set(SCHEMAS.keys())
 

@@ -292,7 +292,6 @@
     if (["reels", "shorts", "tiktok"].includes(p)) {
       arr(d.ideas).forEach((it, i) => {
         const c = el("div", "rcard");
-        c.appendChild(el("span", "viral", (it.virality || 0) + "%"));
         c.appendChild(el("h3", null, (i + 1) + ". " + it.idea));
         c.appendChild(row(t("r_hook"), it.hook, "hook"));
         const alt = arr(it.hooks_alt);
@@ -345,7 +344,6 @@
           fc.appendChild(el("div", null, it.fact_check));
           c.appendChild(fc);
         }
-        c.appendChild(el("div", "why", t("r_why") + (it.virality || 0) + "%: " + (it.virality_reason || "")));
         const bar = el("div", "cardbar");
         bar.appendChild(copyPack(it));
         bar.appendChild(voteBtns(p, it.idea || it.hook));
@@ -354,7 +352,6 @@
       });
     } else if (p === "youtube_long") {
       const c = el("div", "rcard");
-      c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(el("h3", null, d.title || t("r_scenario")));
       c.appendChild(row(t("r_hook"), d.hook, "hook"));
       arr(d.sections).forEach(s => { c.appendChild(row(s.h, s.points)); });
@@ -369,7 +366,6 @@
       content.appendChild(c);
     } else if (p === "carousel") {
       const c = el("div", "rcard");
-      c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(row(t("r_hookslide"), d.hook_slide, "hook"));
       arr(d.slides).forEach((s, i) => c.appendChild(row(t("r_slide") + " " + (i + 2) + " · " + s.title, s.text)));
       c.appendChild(row(t("r_finalslide"), d.cta_slide));
@@ -377,7 +373,6 @@
       content.appendChild(c);
     } else if (p === "post") {
       const c = el("div", "rcard");
-      c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       c.appendChild(row(t("r_hook"), d.hook, "hook"));
       const alt = arr(d.hooks_alt);
       if (alt.length) {
@@ -398,7 +393,6 @@
         fc.appendChild(el("div", null, d.fact_check));
         c.appendChild(fc);
       }
-      c.appendChild(el("div", "why", t("r_why") + (d.virality || 0) + "%: " + (d.virality_reason || "")));
       const pbar = el("div", "cardbar");
       pbar.appendChild(copyBtn(() => {
         const tg = tags.map(x => "#" + String(x).replace(/^#/, "")).join(" ");
@@ -409,7 +403,6 @@
       content.appendChild(c);
     } else if (p === "stories") {
       const c = el("div", "rcard");
-      c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       arr(d.frames).forEach((f, i) => { const r = row(t("r_frame") + " " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
       const fr = arr(d.frames)[0];
       c.appendChild(voteBtns(p, fr && fr.text || "stories"));
@@ -423,7 +416,6 @@
         content.appendChild(rc);
       }
       const pc = el("div", "rcard");
-      pc.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       pc.appendChild(el("h3", null, t("r_plan")));
       arr(d.plan).forEach((it) => {
         const item = el("div", "planitem");
@@ -436,7 +428,6 @@
         if (it.hook) item.appendChild(el("div", "planhook", t("r_planhook") + it.hook));
         pc.appendChild(item);
       });
-      pc.appendChild(el("div", "why", t("r_why") + (d.virality || 0) + "%: " + (d.virality_reason || "")));
       const rub0 = arr(d.rubrics)[0];
       pc.appendChild(voteBtns(p, rub0 && rub0.name || "content_plan"));
       content.appendChild(pc);

@@ -73,6 +73,7 @@ em{font-style:normal;color:var(--coral)}
 .hint{position:absolute;top:calc(100% + 12px);right:0;width:224px;background:var(--ink);color:var(--paper);font-family:"Nunito";font-weight:700;font-size:12.5px;line-height:1.4;text-transform:none;letter-spacing:0;border-radius:12px;padding:11px 30px 11px 13px;box-shadow:4px 4px 0 var(--coral);z-index:70;text-align:left}
 .hint::before{content:"";position:absolute;top:-8px;right:22px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--ink)}
 .hint-x{position:absolute;top:5px;right:8px;background:none;border:none;cursor:pointer;font-size:17px;line-height:1;color:var(--coral);font-family:"Oswald"}
+@media(max-width:560px){.hint{position:fixed;top:60px;left:12px;right:12px;width:auto;max-width:none}.hint::before{right:26px}}
 
 /* consent checkbox on auth */
 .consent{display:flex;align-items:flex-start;gap:9px;text-align:left;margin:2px 0 12px;font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.4}
