@@ -55,8 +55,8 @@ def sample(user_id: str) -> str:
     chunks, used = [], 0
     for it in items:
         name = it.get("name") or ""
-        if not name or name.endswith("/"):
-            continue
+        if not name or name.endswith("/") or name.startswith("_"):
+            continue  # служебные файлы (напр. _taste.json) - не голос
         low = name.lower()
         if not low.endswith(TEXT_EXT):
             continue

@@ -20,6 +20,7 @@ import oauth
 import usage
 import mailer
 import voice
+import feedback
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -113,8 +114,26 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     except Exception:
         author_voice = ""
     try:
-        result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice)
+        liked, disliked = feedback.for_prompt(user["id"], req.platform)
+    except Exception:
+        liked, disliked = [], []
+    try:
+        result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
+                              liked=liked, disliked=disliked)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     usage.record(user["id"], req.platform, req.topic, result.get("data"))
     return result
+
+class FeedbackReq(BaseModel):
+    platform: str = Field(max_length=32)
+    item: str = Field(max_length=300)
+    vote: str = Field(max_length=8)
+
+@app.post("/api/feedback")
+@limiter.limit("120/hour")
+def feedback_endpoint(request: Request, req: FeedbackReq, user: dict = Depends(get_user)):
+    if req.vote not in ("up", "down"):
+        raise HTTPException(status_code=400, detail="плохая оценка")
+    ok = feedback.record(user["id"], req.platform, req.item, req.vote)
+    return {"ok": bool(ok)}

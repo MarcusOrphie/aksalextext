@@ -36,7 +36,8 @@ PLATFORM = {
     "stories":     "Платформа: Instagram Stories. Собери последовательность сторис по теме ОТ ЛИЦА АВТОРА, в его личной закулисной интонации (используй личность и тон автора из профиля). frames - 4-7 кадров, у каждого visual (что на экране) и text (короткая живая подпись/реплика). Личный тон, как будто автор делится в моменте. Плюс virality и virality_reason.",
 }
 
-def build_system(platform: str, profile: dict | None, avoid: list | None = None, voice: str | None = None) -> str:
+def build_system(platform: str, profile: dict | None, avoid: list | None = None, voice: str | None = None,
+                 liked: list | None = None, disliked: list | None = None) -> str:
     s = BASE + "\n" + PLATFORM.get(platform, PLATFORM["reels"])
     if voice:
         s += ("\n\nОБРАЗЦЫ РЕЧИ АВТОРА (его собственные тексты/расшифровки). "
@@ -56,6 +57,12 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
         lst = "\n".join(f"- {a}" for a in avoid[:40])
         s += ("\n\nЭТО УЖЕ БЫЛО ВЫДАНО этому пользователю ранее. НЕ повторяй и НЕ перефразируй, "
               "предложи полностью новое и другое:\n" + lst)
+    if liked:
+        s += ("\n\nЭТО ПОНРАВИЛОСЬ автору (он поставил 👍). Держи такой же вкус, угол и подачу, "
+              "но БЕЗ повторов - новые идеи в этом же духе:\n" + "\n".join(f"- {x}" for x in liked[:12]))
+    if disliked:
+        s += ("\n\nЭТО НЕ ЗАШЛО автору (он поставил 👎). Избегай такого угла, тона и типа идей:\n"
+              + "\n".join(f"- {x}" for x in disliked[:12]))
     return s
 
 def build_user(topic: str, platform: str) -> str:

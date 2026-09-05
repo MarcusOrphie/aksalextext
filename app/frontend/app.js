@@ -205,6 +205,29 @@
     b.classList.add("copypack");
     return b;
   }
+  async function sendVote(plat, item, vote) {
+    try {
+      const { data } = await sb.auth.getSession();
+      const token = data.session && data.session.access_token;
+      if (!token) return;
+      await fetch(API + "/feedback", {
+        method: "POST",
+        headers: { "content-type": "application/json", "authorization": "Bearer " + token },
+        body: JSON.stringify({ platform: plat, item: String(item || "").slice(0, 300), vote }),
+      });
+    } catch (e) {}
+  }
+  function voteBtns(plat, item) {
+    const wrap = el("div", "votes");
+    wrap.appendChild(el("span", "voteq", "Как тебе?"));
+    const up = el("button", "vote", "👍");
+    const down = el("button", "vote", "👎");
+    up.title = "Нравится - хочу такое ещё"; down.title = "Не заходит - меньше такого";
+    up.onclick = () => { sendVote(plat, item, "up"); up.classList.add("on"); down.classList.remove("on"); };
+    down.onclick = () => { sendVote(plat, item, "down"); down.classList.add("on"); up.classList.remove("on"); };
+    wrap.appendChild(up); wrap.appendChild(down);
+    return wrap;
+  }
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
   function arr(v) { if (Array.isArray(v)) return v; if (typeof v === "string") { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch (e) { return []; } } return []; }
 
@@ -284,7 +307,10 @@
           wrap.appendChild(ul); c.appendChild(wrap);
         }
         c.appendChild(el("div", "why", "Почему " + (it.virality || 0) + "%: " + (it.virality_reason || "")));
-        c.appendChild(copyPack(it));
+        const bar = el("div", "cardbar");
+        bar.appendChild(copyPack(it));
+        bar.appendChild(voteBtns(p, it.idea || it.hook));
+        c.appendChild(bar);
         content.appendChild(c);
       });
     } else if (p === "youtube_long") {
@@ -294,6 +320,7 @@
       c.appendChild(row("Хук", d.hook, "hook"));
       arr(d.sections).forEach(s => { c.appendChild(row(s.h, s.points)); });
       c.appendChild(row("Финал", d.outro));
+      c.appendChild(voteBtns(p, d.title || d.hook));
       content.appendChild(c);
     } else if (p === "carousel") {
       const c = el("div", "rcard");
@@ -301,6 +328,7 @@
       c.appendChild(row("Слайд-крючок", d.hook_slide, "hook"));
       arr(d.slides).forEach((s, i) => c.appendChild(row("Слайд " + (i + 2) + " · " + s.title, s.text)));
       c.appendChild(row("Финальный слайд", d.cta_slide));
+      c.appendChild(voteBtns(p, d.hook_slide));
       content.appendChild(c);
     } else if (p === "post") {
       const c = el("div", "rcard");
@@ -320,15 +348,20 @@
       if (tags.length) c.appendChild(row("Хэштеги", tags.map(t => "#" + String(t).replace(/^#/, "")).join(" "), "hashtags"));
       if (d.first_comment) c.appendChild(row("Первый коммент", d.first_comment));
       c.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
-      c.appendChild(copyBtn(() => {
+      const pbar = el("div", "cardbar");
+      pbar.appendChild(copyBtn(() => {
         const t = tags.map(x => "#" + String(x).replace(/^#/, "")).join(" ");
         return [d.hook, d.body, d.cta, t].filter(Boolean).join("\n\n");
       }, "Копировать пост"));
+      pbar.appendChild(voteBtns(p, d.hook));
+      c.appendChild(pbar);
       content.appendChild(c);
     } else if (p === "stories") {
       const c = el("div", "rcard");
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       arr(d.frames).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
+      const fr = arr(d.frames)[0];
+      c.appendChild(voteBtns(p, fr && fr.text || "stories"));
       content.appendChild(c);
     } else if (p === "content_plan") {
       const rub = arr(d.rubrics);
@@ -353,6 +386,8 @@
         pc.appendChild(item);
       });
       pc.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
+      const rub0 = arr(d.rubrics)[0];
+      pc.appendChild(voteBtns(p, rub0 && rub0.name || "content_plan"));
       content.appendChild(pc);
     }
     box.appendChild(content);
