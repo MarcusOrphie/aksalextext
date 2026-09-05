@@ -164,7 +164,8 @@
     const token = data.session && data.session.access_token;
     if (!token) return refresh();
     const topic = $("topic").value.trim();
-    const st = $("gen-status"); st.hidden = false; st.textContent = "Генерю, это займёт несколько секунд...";
+    const st = $("gen-status"); st.hidden = false;
+    st.textContent = "Генерю: смотрю свежие тренды и собираю пакет. Первый раз по теме - до полминуты, дальше быстрее...";
     $("btn-gen").disabled = true;
     try {
       const res = await fetch(API + "/generate", {
