@@ -63,9 +63,11 @@ def _wrap(draw, text, font, maxw):
         lines.append(cur)
     return lines
 
-def make_cover(title, tag, out_jpg):
+def make_cover(title, tag, out_jpg, lang="ru"):
     title = (title or "").upper().strip()
-    tag = (tag or "Нейросети · блог").upper().strip()
+    tag = (tag or ("AI · BLOG" if lang == "en" else "Нейросети · блог")).upper().strip()
+    brand = "ZALIHVAT" if lang == "en" else "ЗАЛИХВАТ"
+    glyph = "Z" if lang == "en" else "З"
     img = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(img)
 
@@ -120,13 +122,13 @@ def make_cover(title, tag, out_jpg):
     d.ellipse([bx + 3, by + 3, bx + 49, by + 49], fill=INK)         # тень
     d.ellipse([bx, by, bx + 46, by + 46], fill=CORAL, outline=INK, width=3)
     zf = _font(26, 700)
-    zb = d.textbbox((0, 0), "З", font=zf)
+    zb = d.textbbox((0, 0), glyph, font=zf)
     d.text((bx + 23 - (zb[2] - zb[0]) / 2, by + 23 - (zb[3] - zb[1]) / 2 - zb[1]),
-           "З", font=zf, fill=PAPER)
+           glyph, font=zf, fill=PAPER)
     nf = _font(27, 700)
     nx = bx + 60
-    d.text((nx, by + 8), "ЗАЛИХВАТ", font=nf, fill=INK)
-    nw = d.textlength("ЗАЛИХВАТ", font=nf)
+    d.text((nx, by + 8), brand, font=nf, fill=INK)
+    nw = d.textlength(brand, font=nf)
     d.text((nx + nw + 10, by + 11), "· AKSALEX.COM", font=_font(21, 600), fill=MUTED)
 
     img.save(out_jpg, "JPEG", quality=88, optimize=True)
