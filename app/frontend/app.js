@@ -421,7 +421,7 @@
     const actions = el("div", "result-actions");
     const pdfbtn = el("button", "pdfdl", "⬇ Скачать PDF");
     pdfbtn.onclick = () => savePdf(content, p);
-    const again = el("button", "againdl", "↻ Сгенерировать ещё");
+    const again = el("button", "againdl", "↻ Ещё");
     again.onclick = () => $("btn-gen").click();       // та же тема (из поля topic)
     const newtopic = el("button", "againdl", "✎ Новая тема");
     newtopic.onclick = () => {
