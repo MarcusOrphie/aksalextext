@@ -85,7 +85,8 @@ SCHEMAS = {
 }
 PLATFORMS = set(SCHEMAS.keys())
 
-def generate(platform: str, topic: str, profile: dict | None = None, avoid: list | None = None) -> dict:
+def generate(platform: str, topic: str, profile: dict | None = None, avoid: list | None = None,
+             voice: str | None = None) -> dict:
     if platform not in PLATFORMS:
         raise ValueError("unknown platform")
     if not API_KEY:
@@ -95,7 +96,7 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
     max_tokens = 8000 if platform in ("reels", "shorts", "tiktok") else (6000 if platform in ("youtube_long", "content_plan") else 4000)
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
-        "system": build_system(platform, profile, avoid),
+        "system": build_system(platform, profile, avoid, voice),
         "messages": [{"role": "user", "content": build_user(topic, platform)}],
         "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"},
     }

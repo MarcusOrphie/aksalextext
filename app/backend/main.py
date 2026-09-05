@@ -19,6 +19,7 @@ import generate as gen
 import oauth
 import usage
 import mailer
+import voice
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -108,7 +109,11 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     except Exception:
         avoid = []
     try:
-        result = gen.generate(req.platform, req.topic, profile, avoid=avoid)
+        author_voice = voice.sample(user["id"])
+    except Exception:
+        author_voice = ""
+    try:
+        result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     usage.record(user["id"], req.platform, req.topic, result.get("data"))

@@ -36,8 +36,12 @@ PLATFORM = {
     "stories":     "Платформа: Instagram Stories. Собери последовательность сторис по теме ОТ ЛИЦА АВТОРА, в его личной закулисной интонации (используй личность и тон автора из профиля). frames - 4-7 кадров, у каждого visual (что на экране) и text (короткая живая подпись/реплика). Личный тон, как будто автор делится в моменте. Плюс virality и virality_reason.",
 }
 
-def build_system(platform: str, profile: dict | None, avoid: list | None = None) -> str:
+def build_system(platform: str, profile: dict | None, avoid: list | None = None, voice: str | None = None) -> str:
     s = BASE + "\n" + PLATFORM.get(platform, PLATFORM["reels"])
+    if voice:
+        s += ("\n\nОБРАЗЦЫ РЕЧИ АВТОРА (его собственные тексты/расшифровки). "
+              "Изучи манеру, лексику, ритм и интонацию и пиши ТАКИМ ЖЕ голосом - "
+              "не копируй дословно, а попадай в стиль:\n\"\"\"\n" + voice[:6000] + "\n\"\"\"")
     if profile:
         parts = []
         if profile.get("niche"): parts.append(f"Ниша автора: {profile['niche']}.")
