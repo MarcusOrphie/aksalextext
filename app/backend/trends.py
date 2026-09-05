@@ -20,14 +20,19 @@ _PLAT = {
     "youtube_long": "YouTube", "carousel": "Instagram", "post": "Instagram",
     "stories": "Instagram Stories", "content_plan": "соцсети",
 }
+_PLAT_EN = {
+    "reels": "Instagram Reels", "shorts": "YouTube Shorts", "tiktok": "TikTok",
+    "youtube_long": "YouTube", "carousel": "Instagram", "post": "Instagram",
+    "stories": "Instagram Stories", "content_plan": "social media",
+}
 
 
 def _key(user_id: str) -> str:
     return user_id + "/_trends.json"
 
 
-def _sig(niche: str, platform: str, topic: str = "") -> str:
-    return hashlib.sha1((niche + "|" + platform + "|" + topic).encode("utf-8")).hexdigest()[:16]
+def _sig(niche: str, platform: str, topic: str = "", lang: str = "ru") -> str:
+    return hashlib.sha1((niche + "|" + platform + "|" + topic + "|" + lang).encode("utf-8")).hexdigest()[:16]
 
 
 def _cache_get(user_id: str, sig: str) -> str | None:
@@ -52,10 +57,24 @@ def _cache_put(user_id: str, sig: str, text: str) -> None:
         logging.error("trends._cache_put failed: %r", e)
 
 
-def _research(niche: str, platform: str, topic: str = "") -> str:
+def _research(niche: str, platform: str, topic: str = "", lang: str = "ru") -> str:
     plat = _PLAT.get(platform, "соцсети")
     topic = (topic or "").strip()
-    if topic:
+    en = (lang == "en")
+    if en:
+        plat_en = _PLAT_EN.get(platform, "social media")
+        if topic:
+            q = (f"Topic: {topic}. Niche: {niche}. Platform: {plat_en}. "
+                 "Gather VERIFIABLE concrete facts on this topic that can actually be used in content: "
+                 "what is really happening/being discussed now, specific titles, dates, details, numbers, real events. "
+                 "Only take what is supported by sources. If something is a rumor or unconfirmed, mark it '(unconfirmed)'. "
+                 "Do not invent anything. Return 6-10 short bullet points in English, each one concrete fact, no links in the text.")
+        else:
+            q = (f"What is trending right now on {plat_en} for the niche: {niche}? "
+                 "Find fresh current trends, formats, sounds, moves and topics blowing up in recent weeks. "
+                 "Return a short digest: 5-8 points, each a concrete trend or technique in one line, "
+                 "in English, no filler and no links in the text.")
+    elif topic:
         q = (f"Тема запроса: {topic}. Ниша: {niche}. Платформа: {plat}. "
              "Собери ПРОВЕРЯЕМЫЕ конкретные факты по этой теме, которые реально можно использовать в контенте: "
              "что действительно происходит/обсуждается сейчас, конкретные названия, даты, детали, цифры, реальные события. "
@@ -84,19 +103,19 @@ def _research(niche: str, platform: str, topic: str = "") -> str:
     return txt[:MAX_LEN]
 
 
-def get(user_id: str, niche: str, platform: str, topic: str = "") -> str:
+def get(user_id: str, niche: str, platform: str, topic: str = "", lang: str = "ru") -> str:
     """Свежий ресёрч под тему/нишу: проверяемые факты (если есть тема) или тренды ниши. Кэш 12ч. Best-effort."""
     niche = (niche or "").strip()
     topic = (topic or "").strip()
     if not API_KEY or (not niche and not topic):
         return ""
-    sig = _sig(niche, platform, topic)
+    sig = _sig(niche, platform, topic, lang)
     if user_id and SERVICE_KEY:
         cached = _cache_get(user_id, sig)
         if cached is not None:
             return cached
     try:
-        txt = _research(niche, platform, topic)
+        txt = _research(niche, platform, topic, lang)
     except Exception as e:
         logging.error("trends._research failed: %r", e)
         return ""

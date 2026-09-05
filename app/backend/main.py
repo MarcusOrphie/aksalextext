@@ -62,6 +62,7 @@ class GenReq(BaseModel):
     platform: str = Field(max_length=32)
     topic: str = Field(default="", max_length=500)
     profile: Profile | None = None
+    lang: str = Field(default="ru", max_length=5)
 
 @app.get("/api/health")
 def health():
@@ -118,14 +119,15 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
         liked, disliked = feedback.for_prompt(user["id"], req.platform)
     except Exception:
         liked, disliked = [], []
+    lang = "en" if (req.lang or "").lower().startswith("en") else "ru"
     try:
         niche = (profile or {}).get("niche") or ""
-        live_trends = trends.get(user["id"], niche, req.platform, req.topic)
+        live_trends = trends.get(user["id"], niche, req.platform, req.topic, lang)
     except Exception:
         live_trends = ""
     try:
         result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
-                              liked=liked, disliked=disliked, trends=live_trends)
+                              liked=liked, disliked=disliked, trends=live_trends, lang=lang)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     usage.record(user["id"], req.platform, req.topic, result.get("data"))
