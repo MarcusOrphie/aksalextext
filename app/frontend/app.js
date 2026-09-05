@@ -8,6 +8,7 @@
     ["reels", "Reels", "Instagram"], ["shorts", "Shorts", "YouTube"], ["tiktok", "TikTok", "коротко"],
     ["youtube_long", "YouTube", "длинное видео"], ["carousel", "Карусель", "Instagram"],
     ["post", "Пост", "Instagram"], ["stories", "Stories", "Instagram"],
+    ["content_plan", "Контент-план", "неделя/две"],
   ];
   let platform = "reels";
   let profile = {};
@@ -207,7 +208,7 @@
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
   function arr(v) { if (Array.isArray(v)) return v; if (typeof v === "string") { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch (e) { return []; } } return []; }
 
-  const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram" };
+  const PLABEL = { reels: "Reels · Instagram", shorts: "Shorts · YouTube", tiktok: "TikTok", youtube_long: "YouTube · длинное", carousel: "Карусель · Instagram", post: "Пост · Instagram", stories: "Stories · Instagram", content_plan: "Контент-план" };
 
   function savePdf(node, platform) {
     if (!window.html2pdf) { alert("PDF ещё грузится, попробуй через секунду"); return; }
@@ -329,6 +330,30 @@
       c.appendChild(el("span", "viral", (d.virality || 0) + "%"));
       arr(d.frames).forEach((f, i) => { const r = row("Кадр " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
       content.appendChild(c);
+    } else if (p === "content_plan") {
+      const rub = arr(d.rubrics);
+      if (rub.length) {
+        const rc = el("div", "rcard");
+        rc.appendChild(el("h3", null, "Постоянные рубрики"));
+        rub.forEach(r => rc.appendChild(row(r.name, r.idea)));
+        content.appendChild(rc);
+      }
+      const pc = el("div", "rcard");
+      pc.appendChild(el("span", "viral", (d.virality || 0) + "%"));
+      pc.appendChild(el("h3", null, "План публикаций"));
+      arr(d.plan).forEach((it) => {
+        const item = el("div", "planitem");
+        const head = el("div", "planhead");
+        head.appendChild(el("span", "planday", it.day || ""));
+        if (it.format) head.appendChild(el("span", "planfmt", it.format));
+        if (it.goal) head.appendChild(el("span", "plangoal", it.goal));
+        item.appendChild(head);
+        item.appendChild(el("div", "planidea", (it.rubric ? it.rubric + ": " : "") + (it.idea || "")));
+        if (it.hook) item.appendChild(el("div", "planhook", "Хук: " + it.hook));
+        pc.appendChild(item);
+      });
+      pc.appendChild(el("div", "why", "Почему " + (d.virality || 0) + "%: " + (d.virality_reason || "")));
+      content.appendChild(pc);
     }
     box.appendChild(content);
     const actions = el("div", "result-actions");

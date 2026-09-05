@@ -16,7 +16,7 @@ def _coerce_arrays(data):
     """Иногда модель отдаёт поле-массив строкой-JSON - распарсим обратно."""
     if not isinstance(data, dict):
         return data
-    for key in ("ideas", "sections", "slides", "frames"):
+    for key in ("ideas", "sections", "slides", "frames", "rubrics", "plan"):
         v = data.get(key)
         if isinstance(v, str):
             s = v.strip()
@@ -68,6 +68,15 @@ SCHEMAS = {
         "first_comment": {"type": "string"},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
         "required": ["hook", "body", "cta", "hashtags", "virality", "virality_reason"]},
+    "content_plan": {"type": "object", "properties": {
+        "rubrics": {"type": "array", "items": {"type": "object", "properties": {
+            "name": {"type": "string"}, "idea": {"type": "string"}}, "required": ["name", "idea"]}},
+        "plan": {"type": "array", "items": {"type": "object", "properties": {
+            "day": {"type": "string"}, "rubric": {"type": "string"}, "format": {"type": "string"},
+            "idea": {"type": "string"}, "hook": {"type": "string"}, "goal": {"type": "string"}},
+            "required": ["day", "format", "idea", "hook", "goal"]}},
+        "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
+        "required": ["rubrics", "plan", "virality", "virality_reason"]},
     "stories": {"type": "object", "properties": {
         "frames": {"type": "array", "items": {"type": "object", "properties": {
             "visual": {"type": "string"}, "text": {"type": "string"}}, "required": ["visual", "text"]}},
@@ -83,7 +92,7 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
-    max_tokens = 8000 if platform in ("reels", "shorts", "tiktok") else (6000 if platform == "youtube_long" else 4000)
+    max_tokens = 8000 if platform in ("reels", "shorts", "tiktok") else (6000 if platform in ("youtube_long", "content_plan") else 4000)
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
         "system": build_system(platform, profile, avoid),

@@ -107,6 +107,14 @@ em{font-style:normal;color:var(--coral)}
 .teleprompter{background:#fff;border:2px dashed var(--coral);border-radius:8px;padding:9px 12px;font-size:15px;line-height:1.5;color:#2a2015;white-space:pre-wrap}
 .caption{background:var(--paper);border:1.5px solid var(--ink);border-radius:8px;padding:8px 11px;font-size:14px;white-space:pre-wrap;color:#2c2621}
 .hashtags{color:var(--coral-deep);font-weight:700;font-size:14px}
+.planitem{border-top:1.5px solid #e6dcc9;padding:9px 0;margin-top:6px}
+.planitem:first-child{border-top:none}
+.planhead{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:3px}
+.planday{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;color:var(--ink)}
+.planfmt{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.04em;background:var(--coral-soft);border:1.5px solid var(--coral);border-radius:6px;padding:1px 7px;color:#2a2015}
+.plangoal{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);border:1.5px solid var(--muted);border-radius:6px;padding:1px 7px}
+.planidea{font-size:15px;color:#2c2621;font-weight:600}
+.planhook{font-size:13px;color:var(--muted);margin-top:2px}
 
 .history .h{background:var(--paper2);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);padding:10px 14px;margin-bottom:8px;font-size:13px;font-weight:700;cursor:pointer}
 .history .h b{color:var(--coral-deep);font-family:"Oswald";text-transform:uppercase}
