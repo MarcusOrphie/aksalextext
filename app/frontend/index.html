@@ -72,6 +72,23 @@
   <section id="view-app" class="view" hidden>
     <div class="sec-h"><div class="eyebrow" data-i18n="dash_eyebrow">Что генерим</div><h2 data-i18n-html="dash_h_html">Выбери <em>платформу</em></h2></div>
     <div id="usage" class="usage" hidden></div>
+    <div id="cab-plans" class="cab-plans" hidden>
+      <div class="cab-plans-top"><b data-i18n="cab_plans_h">Тарифы</b><span data-i18n="cab_plans_lead">У тебя пробный доступ. Оформи тариф - и генерируй без ограничений.</span></div>
+      <div class="cab-plans-grid">
+        <div class="cab-plan">
+          <div class="pw-name" data-i18n="pw_start_name">Старт</div>
+          <div class="pw-price" data-i18n-html="pw_start_price_html">999 <span class="per">₽ / мес</span></div>
+          <div class="pw-sub" data-i18n="pw_start_sub">до 5 генераций в день</div>
+          <a id="pay-start" class="btn btn-ghost" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener" data-i18n="pw_start_cta">Оформить Старт</a>
+        </div>
+        <div class="cab-plan pw-pro">
+          <div class="pw-name" data-i18n="pw_pro_name">Pro</div>
+          <div class="pw-price" data-i18n-html="pw_pro_price_html">2499 <span class="per">₽ / мес</span></div>
+          <div class="pw-sub" data-i18n="pw_pro_sub">до 30 генераций в день + всё включено</div>
+          <a id="pay-pro" class="btn btn-primary" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener" data-i18n="pw_pro_cta">Оформить Pro</a>
+        </div>
+      </div>
+    </div>
     <div id="platforms" class="platforms"></div>
     <label class="fld"><span data-i18n="lbl_topic">Тема или запрос (можно пусто - возьму твою нишу)</span>
       <input id="topic" type="text" data-i18n-ph="ph_topic" placeholder="напр. киноляпы, которые видно в кадре"></label>

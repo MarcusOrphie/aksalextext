@@ -5,6 +5,8 @@
   const API = cfg.API_BASE || "/api";
 
   const t = window.t || ((k) => k);
+  // Ссылки оплаты Продамус (появятся в config.js; пока запасной вариант - бот)
+  const PAY = { start: cfg.PAY_START || "https://t.me/zalihvat_bot", pro: cfg.PAY_PRO || "https://t.me/zalihvat_bot" };
   const PLATFORM_IDS = ["reels", "shorts", "tiktok", "youtube_long", "carousel", "post", "stories", "content_plan"];
   let platform = "reels";
   let profile = {};
@@ -499,21 +501,25 @@
     });
   }
 
+  function showPlans(free) { const cp = $("cab-plans"); if (cp) cp.hidden = !free; }
   async function loadMe() {
     const box = $("usage");
     try {
       const { data } = await sb.auth.getSession();
       const token = data.session && data.session.access_token;
-      if (!token) { box.hidden = true; return; }
+      if (!token) { box.hidden = true; showPlans(false); return; }
       const res = await fetch(API + "/me", { headers: { authorization: "Bearer " + token } });
-      if (!res.ok) { box.hidden = true; return; }
+      if (!res.ok) { box.hidden = true; showPlans(false); return; }
       const m = await res.json();
       box.hidden = false;
       if (m.unlimited) box.innerHTML = t("usage_unlim") + "<b>" + m.used + "</b>" + t("usage_unlim2");
       else box.innerHTML = t("usage_left") + "<b>" + m.used + "</b>" + t("usage_left2") + "<b>" + m.remaining + "</b>";
-    } catch (e) { box.hidden = true; }
+      showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
+    } catch (e) { box.hidden = true; showPlans(false); }
   }
 
+  if ($("pay-start")) $("pay-start").href = PAY.start;
+  if ($("pay-pro")) $("pay-pro").href = PAY.pro;
   renderPlatforms();
   refresh();
 })();

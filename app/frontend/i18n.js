@@ -44,6 +44,7 @@
       pw_start_sub: "до 5 генераций в день", pw_start_cta: "Оформить Старт",
       pw_pro_name: "Pro", pw_pro_price_html: '2499 <span class="per">₽ / мес</span>',
       pw_pro_sub: "до 30 генераций в день + всё включено", pw_pro_cta: "Оформить Pro",
+      cab_plans_h: "Тарифы", cab_plans_lead: "У тебя пробный доступ. Оформи тариф - и генерируй без ограничений.",
       // dynamic (app.js)
       gen_status: "Генерю: смотрю свежие тренды и собираю пакет. Первый раз по теме - до полминуты, дальше быстрее...",
       gen_fail: "Не вышло: ",
@@ -125,6 +126,7 @@
       pw_start_sub: "up to 5 generations per day", pw_start_cta: "Get Start",
       pw_pro_name: "Pro", pw_pro_price_html: '$24.99 <span class="per">/ mo</span>',
       pw_pro_sub: "up to 30 generations per day + everything included", pw_pro_cta: "Get Pro",
+      cab_plans_h: "Plans", cab_plans_lead: "You're on a trial. Get a plan and generate without limits.",
       gen_status: "Generating: checking fresh trends and building the package. First time on a topic - up to 30 sec, faster after that...",
       gen_fail: "Didn't work: ",
       note_need_creds: "Enter your email and password.",
