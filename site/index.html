@@ -62,6 +62,10 @@
   .navlinks{display:flex;gap:18px;align-items:center}
   .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
   .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .langsw{display:inline-flex;border:2px solid var(--ink);border-radius:9px;overflow:hidden}
+  .langsw a{padding:5px 9px;font-family:"Oswald";font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--muted);text-decoration:none;background:var(--paper2)}
+  .langsw a.on{background:var(--ink);color:var(--paper)}
+  @media(max-width:759px){.navlinks .langsw{display:inline-flex}.navlinks .langsw a{display:inline-block}}
   .nav .navcta{display:inline-flex}
   @media (max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}
     .nav .in{padding:11px 16px}.brand{font-size:14px}.brand img{width:28px;height:28px}
