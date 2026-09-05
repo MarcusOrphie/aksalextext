@@ -18,6 +18,7 @@
   const $ = (id) => document.getElementById(id);
   function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function show(view) { ["auth", "recover", "app", "profile"].forEach(v => $("view-" + v).hidden = (v !== view)); }
+  function setAuthUI(on) { document.querySelectorAll(".authonly").forEach(e => { e.hidden = !on; }); }
 
   // ---------- AUTH ----------
   async function refresh() {
@@ -27,13 +28,13 @@
     const s = data.session;
     if (s) {
       signedIn = true;
-      $("userbox").hidden = false;
+      setAuthUI(true);
       $("usermail").textContent = s.user.email || s.user.phone || "профиль";
       show("app");
       loadMe(); await loadProfile(); maybeShowHint(); await loadHistory();
     } else {
       signedIn = false;
-      $("userbox").hidden = true; show("auth");
+      setAuthUI(false); show("auth");
       if (window.__authErr) { authNote("Ссылка устарела или уже использована - запроси новую через «Забыли пароль?». (" + window.__authErr + ")"); window.__authErr = null; }
     }
   }
@@ -48,7 +49,7 @@
 
   sb.auth.onAuthStateChange((event, session) => {
     if (event === "PASSWORD_RECOVERY" || (recovering && session)) {
-      recovering = true; $("userbox").hidden = true; show("recover"); return;
+      recovering = true; setAuthUI(false); show("recover"); return;
     }
     if (recovering) return;  // не выкидывать из экрана «новый пароль»
     // Перерисовываем/переключаем вид только на реальных переходах входа-выхода.

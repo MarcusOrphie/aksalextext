@@ -16,17 +16,19 @@
   <header class="nav">
     <a class="brand" href="/" aria-label="Залихват - в кабинет"><svg viewBox="0 0 560 150" style="height:34px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
     <div class="navright">
-      <a class="homebtn" href="/" title="В кабинет" aria-label="В кабинет">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>
+      <span id="usermail" class="usermail authonly" hidden></span>
+      <span class="hint-wrap authonly" hidden>
+        <button id="tab-profile" class="iconbtn" title="Мои данные" aria-label="Мои данные">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M12 12a4 4 0 100-8 4 4 0 000 8zM4.5 20c.7-4 3.8-6 7.5-6s6.8 2 7.5 6"/></svg>
+        </button>
+        <span id="profile-hint" class="hint" hidden>Заполни информацию о себе, чтобы результат был лучше<button id="hint-x" class="hint-x" aria-label="Закрыть">&times;</button></span>
+      </span>
+      <a id="homebtn" class="iconbtn" href="/" title="В кабинет" aria-label="В кабинет">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>
       </a>
-      <div id="userbox" class="userbox" hidden>
-        <span id="usermail" class="usermail"></span>
-        <span class="hint-wrap">
-          <button id="tab-profile" class="linkbtn">Мои данные</button>
-          <span id="profile-hint" class="hint" hidden>Заполни информацию о себе, чтобы результат был лучше<button id="hint-x" class="hint-x" aria-label="Закрыть">&times;</button></span>
-        </span>
-        <button id="logout" class="linkbtn">Выйти</button>
-      </div>
+      <button id="logout" class="iconbtn authonly" title="Выйти" aria-label="Выйти" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M14 4h4a1 1 0 011 1v14a1 1 0 01-1 1h-4M9 16l-4-4 4-4M5 12h10"/></svg>
+      </button>
     </div>
   </header>
 

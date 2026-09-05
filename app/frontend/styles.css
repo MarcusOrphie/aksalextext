@@ -13,12 +13,11 @@ em{font-style:normal;color:var(--coral)}
 .brand .dot{width:30px;height:30px;border-radius:50%;background:var(--coral);color:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font-size:16px}
 .brand{text-decoration:none}
 .brand .avatar{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 25%;box-shadow:2px 2px 0 var(--ink)}
-.navright{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.homebtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:7px;transition:transform .1s,box-shadow .1s}
-.homebtn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink);color:var(--coral-deep)}
-.homebtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-.userbox{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.usermail{font-size:13px;color:var(--muted);font-weight:700}
+.navright{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.iconbtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink);background:var(--paper2);border:2px solid var(--ink);border-radius:9px;box-shadow:2px 2px 0 var(--ink);padding:5px;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.iconbtn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);color:var(--coral-deep)}
+.iconbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.usermail{font-size:13px;color:var(--muted);font-weight:700;margin-right:2px}
 .linkbtn{background:none;border:none;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--muted);cursor:pointer}
 .linkbtn:hover{color:var(--coral)}
 
