@@ -16,9 +16,10 @@ PLAN_DAYS = 31
 def _read() -> dict:
     if not SUPABASE_URL or not SERVICE_KEY:
         return {}
-    url = STORAGE + "/object/" + BUCKET + "/" + urllib.parse.quote(KEY)
+    # cache-buster: Supabase Storage GET кэшируется, свежий доступ иначе не виден сразу
+    url = STORAGE + "/object/" + BUCKET + "/" + urllib.parse.quote(KEY) + "?t=" + str(int(time.time()))
     try:
-        with urllib.request.urlopen(urllib.request.Request(url, headers=_H), timeout=15) as r:
+        with urllib.request.urlopen(urllib.request.Request(url, headers={**_H, "Cache-Control": "no-cache"}), timeout=15) as r:
             d = json.loads(r.read().decode())
             return d if isinstance(d, dict) else {}
     except urllib.error.HTTPError as e:

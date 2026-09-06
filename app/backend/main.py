@@ -227,6 +227,10 @@ async def prodamus_hook(request: Request):
         elif item["kind"] == "sub":
             access.grant(email, item["plan"])
             mailer.send_sub_activated(email, item["label"])
+            try:
+                mailer.send_bonus_guide(email)   # бесплатный гайд каждому оплатившему подписку
+            except Exception as e:
+                logging.error("PRODAMUS bonus guide failed: %r", e)
     except Exception as e:
         logging.error("PRODAMUS deliver failed: %r", e)
     return {"ok": True}

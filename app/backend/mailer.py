@@ -73,11 +73,22 @@ def send_welcome(email: str):
 
 
 GUIDES = {
+    "start": {"file": "start.pdf", "title": "С чего начать блог с AI",
+              "desc": "Пошаговый старт: ниша, идеи, автоматизация - и первый ролик уже на этой неделе."},
     "formats": {"file": "formats.pdf", "title": "30 форматов рилзов",
                 "desc": "6 категорий и 30 готовых форматов - выбирай, подставляй тему и снимай."},
     "prompts": {"file": "prompts.pdf", "title": "Гайд: промпты для контента",
                 "desc": "6 профи-промптов для блога: идеи, хуки, сценарии и слайды на нейросети."},
 }
+
+
+def send_bonus_guide(email: str) -> bool:
+    """Бесплатный гайд-бонус подписчику."""
+    g = GUIDES["start"]
+    path = os.path.join(GUIDES_DIR, g["file"])
+    send(email, "Бонус к подписке: " + g["title"], _guide_html(g["title"], g["desc"]),
+         attachments=[{"path": path, "filename": g["file"]}])
+    return True
 
 
 def _guide_html(title: str, desc: str) -> str:
