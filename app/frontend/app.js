@@ -376,13 +376,13 @@
 
   function plabel(p) {
     switch (p) {
-      case "reels": return t("p_reels") + " · Instagram";
+      case "reels": return t("p_reels") + " · " + t("ig");
       case "shorts": return t("p_shorts") + " · YouTube";
       case "tiktok": return "TikTok";
       case "youtube_long": return "YouTube · " + t("p_youtube_long_s");
-      case "carousel": return t("p_carousel") + " · Instagram";
-      case "post": return t("p_post") + " · Instagram";
-      case "stories": return "Stories · Instagram";
+      case "carousel": return t("p_carousel") + " · " + t("ig");
+      case "post": return t("p_post") + " · " + t("ig");
+      case "stories": return "Stories · " + t("ig");
       case "content_plan": return t("p_content_plan");
       default: return p;
     }

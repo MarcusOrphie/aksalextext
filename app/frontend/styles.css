@@ -54,8 +54,13 @@ em{font-style:normal;color:var(--coral)}
 .note{background:var(--coral-soft);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700;color:#2a2015;margin:10px 0}
 
 .usage{text-align:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--coral-soft);border:2px solid var(--ink);border-radius:999px;padding:7px 14px;margin:0 auto 16px;max-width:max-content}
-.cab-tips{max-width:620px;margin:0 auto 16px}
-.cab-tips-h{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:14px;color:var(--coral);margin:0 0 9px 2px;display:flex;align-items:center;gap:6px}
+.cab-tips{max-width:620px;margin:0 auto 20px}
+.cab-tips>summary.cab-tips-h{list-style:none;cursor:pointer;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:14px;color:var(--coral);display:flex;align-items:center;gap:7px;padding:8px 2px;user-select:none;transition:opacity .15s}
+.cab-tips>summary.cab-tips-h::-webkit-details-marker{display:none}
+.cab-tips>summary.cab-tips-h::after{content:"";flex:0 0 auto;width:8px;height:8px;border-right:2.5px solid var(--coral);border-bottom:2.5px solid var(--coral);transform:rotate(-45deg);transition:transform .18s;margin-left:2px}
+.cab-tips[open]>summary.cab-tips-h::after{transform:rotate(45deg)}
+.cab-tips>summary.cab-tips-h:hover{opacity:.82}
+.cab-tips-in{margin-top:10px}
 .cab-tip-item{background:var(--coral-soft);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);margin-bottom:8px;overflow:hidden}
 .cab-tip-item>summary{list-style:none;cursor:pointer;font-size:13.5px;font-weight:700;line-height:1.4;color:var(--ink);padding:10px 14px;display:flex;align-items:center;gap:10px;user-select:none;transition:color .15s}
 .cab-tip-item>summary::-webkit-details-marker{display:none}
@@ -63,6 +68,8 @@ em{font-style:normal;color:var(--coral)}
 .cab-tip-item[open]>summary::before{transform:rotate(45deg)}
 .cab-tip-item>summary:hover{color:var(--coral)}
 .cab-tip-b{font-size:13px;font-weight:500;line-height:1.5;color:#3a2a1e;padding:0 14px 12px 32px}
+.foot-meta{display:block;margin-top:10px;font-style:italic;font-size:11px;color:#9a8f83;line-height:1.4}
+.foot-meta:empty{display:none}
 .cab-tip b{color:var(--coral-deep)}
 .usage b{color:var(--coral-deep)}
 
