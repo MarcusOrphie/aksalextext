@@ -108,6 +108,7 @@ def me(user: dict = Depends(get_user)):
     return {"email": user["email"], "unlimited": unlimited, "plan": plan,
             "used": used, "free_limit": FREE_LIMIT,
             "remaining": None if unlimited else max(0, FREE_LIMIT - used),
+            "carousel_pro": plan in ("pro", "unlimited"),
             "carousel_used": car_used, "carousel_limit": CAROUSEL_WEEKLY,
             "carousel_left": max(0, CAROUSEL_WEEKLY - car_used)}
 
@@ -117,7 +118,9 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     if req.platform not in gen.PLATFORMS:
         raise HTTPException(status_code=400, detail="неизвестная платформа")
     if req.platform == "carousel":
-        # карусель - своя недельная квота (для всех), не считается в общий бесплатный лимит
+        # карусель - только тариф Pro (или безлимит-белый список), с недельной квотой
+        if paid_plan(user["email"]) not in ("pro", "unlimited"):
+            return JSONResponse(status_code=402, content={"error": "limit", "reason": "carousel_pro"})
         try:
             cw = usage.count_recent(user["id"], "carousel", 7)
         except Exception:

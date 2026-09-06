@@ -183,6 +183,7 @@
       const c = el("div", "pf" + (id === platform ? " on" : ""));
       c.appendChild(el("div", null, t("p_" + id)));
       c.appendChild(el("small", null, t("p_" + id + "_s")));
+      if (id === "carousel") c.appendChild(el("span", "pf-pro", "PRO"));
       c.onclick = () => { platform = id; renderPlatforms(); };
       box.appendChild(c);
     });
@@ -196,6 +197,7 @@
     if (!token) return refresh();
     const topic = $("topic").value.trim();
     const st = $("gen-status"); st.hidden = false;
+    if (platform === "carousel" && !carState.pro) { st.textContent = t("car_pro_msg"); showPaywall(); return; }
     st.textContent = t("gen_status");
     $("btn-gen").disabled = true;
     try {
@@ -207,6 +209,7 @@
       if (res.status === 402) {
         const e = await res.json().catch(() => ({}));
         if (e.reason === "carousel_weekly") { st.textContent = t("car_weekly_msg"); return; }
+        if (e.reason === "carousel_pro") { st.textContent = t("car_pro_msg"); showPaywall(); return; }
         st.hidden = true; showPaywall(); return;
       }
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || e.error || res.status); }
@@ -532,13 +535,13 @@
       else box.innerHTML = t("usage_left") + "<b>" + m.used + "</b>" + t("usage_left2") + "<b>" + m.remaining + "</b>";
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
-      carState.left = m.carousel_left; updateCarouselPanel();
+      carState.left = m.carousel_left; carState.pro = !!m.carousel_pro; carState.email = m.email || ""; updateCarouselPanel();
     } catch (e) { box.hidden = true; showPlans(false); }
   }
 
   // ---------- CAROUSEL (визуальный генератор) ----------
   const CTEMPLATES = ["coral", "cream", "ink", "sunset", "mint", "noir", "paper", "blush", "sky", "forest"];
-  const carState = { design: "my", myDesign: "coral", customBg: null, left: null };
+  const carState = { design: "my", myDesign: "coral", customBg: null, left: null, pro: false, email: "" };
   try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
 
   function blobToDataURL(blob) { return new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); }); }
@@ -594,10 +597,23 @@
     const p = $("carousel-panel"); if (!p) return;
     const on = platform === "carousel";
     p.hidden = !on;
-    if (on) {
-      renderChips($("car-designs"), genChipList(), carState.design, (id) => { carState.design = id; });
-      if (carState.left != null) $("car-left").textContent = t("car_left_lbl") + carState.left + "/3";
+    if (!on) return;
+    const box = $("car-designs"), left = $("car-left");
+    if (!carState.pro) {
+      left.textContent = "";
+      box.textContent = "";
+      const lock = el("div", "car-lock");
+      lock.appendChild(el("div", "car-lock-t", "🔒 " + t("car_pro_only")));
+      lock.appendChild(el("div", "car-lock-m", t("car_pro_msg")));
+      const btn = el("a", "btn btn-primary", t("pw_pro_cta"));
+      btn.href = PAY.pro + (carState.email ? "&customer_email=" + encodeURIComponent(carState.email) : "");
+      btn.target = "_blank"; btn.rel = "noopener";
+      lock.appendChild(btn);
+      box.appendChild(lock);
+      return;
     }
+    renderChips(box, genChipList(), carState.design, (id) => { carState.design = id; });
+    if (carState.left != null) left.textContent = t("car_left_lbl") + carState.left + "/3";
   }
 
   function effectiveDesign() {
