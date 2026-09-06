@@ -1,0 +1,42 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Чипы шаблонов</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&family=Archivo:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Manrope:wght@500;600;700;800&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../app/frontend/styles.css">
+<style>
+  body{margin:0;background:#faf5ec;padding:26px;font-family:"Nunito"}
+  h1{font-family:"Oswald";text-transform:uppercase;font-size:18px;margin:0 0 16px}
+  #g{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;max-width:760px}
+  .lab{font-family:"Oswald";font-size:8px;text-transform:uppercase;text-align:center;color:#7b7168;margin-top:3px;letter-spacing:.03em}
+  .cell{}
+</style>
+<h1>Превью-чипы: 20 шаблонов (узнаваемы по бренд-бару, шрифту, палитре, декору)</h1>
+<div id="g"></div>
+<script>
+function _flower(cx,cy,s,petal,center){let p="";for(let i=0;i<5;i++)p+='<ellipse cx="'+cx+'" cy="'+(cy-s*0.6)+'" rx="'+(s*0.34)+'" ry="'+(s*0.6)+'" fill="'+petal+'" transform="rotate('+(i*72)+' '+cx+' '+cy+')"/>';return "<g>"+p+'<circle cx="'+cx+'" cy="'+cy+'" r="'+(s*0.34)+'" fill="'+center+'"/></g>';}
+function _leaf(cx,cy,s,rot,c){return '<path d="M'+cx+' '+(cy-s)+' Q '+(cx+s*0.7)+' '+cy+' '+cx+' '+(cy+s)+' Q '+(cx-s*0.7)+' '+cy+' '+cx+' '+(cy-s)+' Z" fill="'+c+'" transform="rotate('+rot+' '+cx+' '+cy+')"/>';}
+function _spk(cx,cy,s,c){return '<path d="M'+cx+' '+(cy-s)+' C '+(cx+s*0.18)+' '+(cy-s*0.18)+' '+(cx+s*0.18)+' '+(cy-s*0.18)+' '+(cx+s)+' '+cy+' C '+(cx+s*0.18)+' '+(cy+s*0.18)+' '+(cx+s*0.18)+' '+(cy+s*0.18)+' '+cx+' '+(cy+s)+' C '+(cx-s*0.18)+' '+(cy+s*0.18)+' '+(cx-s*0.18)+' '+(cy+s*0.18)+' '+(cx-s)+' '+cy+' C '+(cx-s*0.18)+' '+(cy-s*0.18)+' '+(cx-s*0.18)+' '+(cy-s*0.18)+' '+cx+' '+(cy-s)+' Z" fill="'+c+'"/>';}
+function miniDecoSVG(style,a,b){let inner;if(style==="sparkle"||style==="boho")inner=_spk(40,20,18,a);else if(style==="botanical")inner=_leaf(42,22,18,25,a);else inner=_flower(40,22,20,a,b);return '<svg class="cd-deco" viewBox="0 0 60 60">'+inner+"</svg>";}
+function markSVG(acc,title){return '<svg class="cs-logo" viewBox="14 16 116 68"><path d="M86 34 L112 50 L86 66" fill="none" stroke="'+title+'" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(50,50) rotate(-90) scale(0.62)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="'+acc+'" stroke="'+title+'" stroke-width="4"/></g></svg>';}
+const FPAIR={oswald:{tf:"Oswald,'Arial Black',sans-serif",up:1,wght:700},fraunces:{tf:"Fraunces,Georgia,serif",up:0,wght:600},cormorant:{tf:"'Cormorant Garamond',Georgia,serif",up:0,ital:1,wght:600},poppins:{tf:"Poppins,sans-serif",up:0,wght:800},space:{tf:"'Space Grotesk',sans-serif",up:0,wght:700},archivo:{tf:"Archivo,sans-serif",up:0,wght:800}};
+const CFONT={blush:"fraunces",rose:"cormorant",berry:"poppins",peach:"oswald",coral:"oswald",honey:"poppins",butter:"archivo",sand:"fraunces",cream:"cormorant",mocha:"fraunces",terra:"oswald",sage:"cormorant",mint:"poppins",ocean:"archivo",sky:"space",lavender:"poppins",plum:"cormorant",noir:"space",ink:"space",linen:"fraunces"};
+const CDEF={blush:{s:"floral",a:"#e6a996",b:"#c98b7a"},rose:{s:"scallop",a:"#c98a92",b:"#b56b74"},berry:{s:"scallop",a:"#c67a92",b:"#b0526f"},peach:{s:"arch",a:"#eaa877",b:"#e08a54"},coral:{s:"floral",a:"#ffd9c6",b:"#ffb99a"},honey:{s:"floral",a:"#e6bd5a",b:"#d9a341"},butter:{s:"floral",a:"#e6c766",b:"#d9b74e"},sand:{s:"arch",a:"#cdb488",b:"#c2a878"},cream:{s:"botanical",a:"#cdb27a",b:"#c9a86a"},mocha:{s:"botanical",a:"#b08a5f",b:"#8a6540"},terra:{s:"boho",a:"#c07a52",b:"#a85f38"},sage:{s:"botanical",a:"#8fae87",b:"#6e8a66"},mint:{s:"botanical",a:"#79c1a2",b:"#5cae8e"},ocean:{s:"botanical",a:"#6fb0aa",b:"#4f9c96"},sky:{s:"sparkle",a:"#8fb0d8",b:"#6f96c4"},lavender:{s:"sparkle",a:"#b3a1d8",b:"#9884c0"},plum:{s:"sparkle",a:"#c98fb0",b:"#e0aecb"},noir:{s:"sparkle",a:"#d8b25a",b:"#e6c877"},ink:{s:"sparkle",a:"#ff7f50",b:"#e85f2c"},linen:{s:"botanical",a:"#c8a56a",b:"#b98a54"}};
+const NAMES={blush:"Пудра",rose:"Роза",berry:"Ягода",peach:"Персик",coral:"Коралл",honey:"Мёд",butter:"Ваниль",sand:"Песок",cream:"Крем",mocha:"Мокко",terra:"Терракота",sage:"Шалфей",mint:"Мята",ocean:"Океан",sky:"Небо",lavender:"Лаванда",plum:"Слива",noir:"Нуар",ink:"Графит",linen:"Лён"};
+const g=document.getElementById("g");
+Object.keys(CFONT).forEach(id=>{
+  const fp=FPAIR[CFONT[id]];const d=CDEF[id];
+  const cell=document.createElement("div");cell.className="cell";
+  const chip=document.createElement("div");chip.className="cdchip";
+  const mini=document.createElement("div");mini.className="cd-mini ct-"+id;
+  const top=document.createElement("div");top.className="cd-top";
+  top.insertAdjacentHTML("afterbegin",markSVG("var(--t-acc)","var(--t-title)"));
+  const nm=document.createElement("span");nm.textContent="Залихват";top.appendChild(nm);mini.appendChild(top);
+  const m1=document.createElement("div");m1.className="m1";m1.textContent="Аа";
+  m1.style.fontFamily=fp.tf;m1.style.textTransform=fp.up?"uppercase":"none";m1.style.fontStyle=fp.ital?"italic":"normal";m1.style.fontWeight=fp.wght;mini.appendChild(m1);
+  mini.appendChild(Object.assign(document.createElement("div"),{className:"m2"}));
+  mini.insertAdjacentHTML("beforeend",miniDecoSVG(d.s,d.a,d.b));
+  chip.appendChild(mini);cell.appendChild(chip);
+  const lab=document.createElement("div");lab.className="lab";lab.textContent=NAMES[id];cell.appendChild(lab);
+  g.appendChild(cell);
+});
+</script>

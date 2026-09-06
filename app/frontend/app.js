@@ -683,8 +683,14 @@
     const mini = el("div", "cd-mini " + cls);
     if (custom && carState.customBg) mini.style.backgroundImage = "url(" + carState.customBg + ")";
     const id = cls.replace("ct-", "");
-    const m1 = el("div", "m1", "Aa");
     const fp = fontOf(id);
+    // мини бренд-бар (как на реальном слайде) - для узнаваемости шаблона
+    const top = el("div", "cd-top");
+    top.insertAdjacentHTML("afterbegin", markSVG("var(--t-acc)", "var(--t-title)"));
+    top.appendChild(el("span", null, "Залихват"));
+    mini.appendChild(top);
+    // образец шрифта заголовка в цвете шаблона
+    const m1 = el("div", "m1", "Аа");
     m1.style.fontFamily = fp.tf; m1.style.textTransform = fp.up ? "uppercase" : "none";
     m1.style.fontStyle = fp.ital ? "italic" : "normal"; m1.style.fontWeight = fp.wght || 700;
     mini.appendChild(m1); mini.appendChild(el("div", "m2"));
