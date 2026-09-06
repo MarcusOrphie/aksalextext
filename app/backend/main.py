@@ -31,6 +31,7 @@ UNLIMITED_EMAILS = {e.strip().lower() for e in
                     os.environ.get("UNLIMITED_EMAILS", "aksenovwork@yandex.ru").split(",") if e.strip()}
 WELCOME_HOOK_SECRET = os.environ.get("WELCOME_HOOK_SECRET", "").strip()
 CAROUSEL_WEEKLY = int(os.environ.get("CAROUSEL_WEEKLY", "3"))
+VISUAL_MONTHLY = int(os.environ.get("VISUAL_MONTHLY", "30"))  # пост/сториз - 30 картинок в месяц
 
 def paid_plan(email: str):
     """Активный платный доступ пользователя: 'unlimited' (белый список) | plan | None."""
@@ -101,34 +102,49 @@ def me(user: dict = Depends(get_user)):
     plan = paid_plan(user["email"])
     unlimited = plan is not None      # активная подписка / белый список = без пейвола
     used = usage.count(user["id"])
-    try:
-        car_used = usage.count_recent(user["id"], "carousel", 7)
-    except Exception:
-        car_used = 0
+    def _cr(p, days):
+        try:
+            return usage.count_recent(user["id"], p, days)
+        except Exception:
+            return 0
+    car_used = _cr("carousel", 7)
+    post_used = _cr("post", 30)
+    stories_used = _cr("stories", 30)
+    visual_pro = plan in ("pro", "unlimited")
     return {"email": user["email"], "unlimited": unlimited, "plan": plan,
             "used": used, "free_limit": FREE_LIMIT,
             "remaining": None if unlimited else max(0, FREE_LIMIT - used),
-            "carousel_pro": plan in ("pro", "unlimited"),
-            "carousel_used": car_used, "carousel_limit": CAROUSEL_WEEKLY,
-            "carousel_left": max(0, CAROUSEL_WEEKLY - car_used)}
+            "visual_pro": visual_pro, "carousel_pro": visual_pro,
+            "carousel_limit": CAROUSEL_WEEKLY, "carousel_left": max(0, CAROUSEL_WEEKLY - car_used),
+            "visual_monthly": VISUAL_MONTHLY,
+            "post_left": max(0, VISUAL_MONTHLY - post_used),
+            "stories_left": max(0, VISUAL_MONTHLY - stories_used)}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")
 def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_user)):
     if req.platform not in gen.PLATFORMS:
         raise HTTPException(status_code=400, detail="неизвестная платформа")
-    if req.platform == "carousel":
-        # карусель - только тариф Pro (или безлимит-белый список), с недельной квотой
+    if req.platform in ("carousel", "post", "stories"):
+        # визуальные генераторы картинок - только Pro (или безлимит-белый список)
         if paid_plan(user["email"]) not in ("pro", "unlimited"):
-            return JSONResponse(status_code=402, content={"error": "limit", "reason": "carousel_pro"})
-        try:
-            cw = usage.count_recent(user["id"], "carousel", 7)
-        except Exception:
-            cw = 0
-        if cw >= CAROUSEL_WEEKLY:
-            return JSONResponse(status_code=402, content={
-                "error": "limit", "reason": "carousel_weekly",
-                "used": cw, "limit": CAROUSEL_WEEKLY})
+            return JSONResponse(status_code=402, content={"error": "limit", "reason": "visual_pro"})
+        if req.platform == "carousel":
+            try:
+                cw = usage.count_recent(user["id"], "carousel", 7)
+            except Exception:
+                cw = 0
+            if cw >= CAROUSEL_WEEKLY:
+                return JSONResponse(status_code=402, content={
+                    "error": "limit", "reason": "carousel_weekly", "used": cw, "limit": CAROUSEL_WEEKLY})
+        else:
+            try:
+                vm = usage.count_recent(user["id"], req.platform, 30)
+            except Exception:
+                vm = 0
+            if vm >= VISUAL_MONTHLY:
+                return JSONResponse(status_code=402, content={
+                    "error": "limit", "reason": "visual_monthly", "used": vm, "limit": VISUAL_MONTHLY})
     else:
         unlimited = paid_plan(user["email"]) is not None
         if not unlimited:
