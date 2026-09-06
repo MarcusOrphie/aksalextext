@@ -54,7 +54,7 @@
   .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
   a{color:var(--coral-deep)}
   .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink);margin-bottom:22px}
-  .nav .in{max-width:900px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .nav .in{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:nowrap}
   .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
   .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
   .navlinks{display:flex;gap:12px;align-items:center}
@@ -63,7 +63,7 @@
   .nav .navcta{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
   .nav .navcta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
   .nav .navcta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
-  @media(max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}.brand{font-size:14px}.brand img{width:28px;height:28px}.nav .navcta{padding:7px 13px;font-size:12px;min-height:38px}}
+  @media(max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}.brand{font-size:14px}.brand img{width:28px;height:28px}.brand svg{height:40px!important}.nav .navcta{padding:7px 13px;font-size:12px;min-height:38px}}
   .crumbs{font-size:13px;color:var(--muted);font-weight:700;margin:8px 0 14px}
   .crumbs a{text-decoration:none}
   h1{font-family:"Oswald";font-weight:700;text-transform:uppercase;line-height:1.02;font-size:38px;color:var(--ink);letter-spacing:.005em;text-wrap:balance;margin-bottom:10px}
