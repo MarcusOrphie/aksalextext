@@ -294,8 +294,9 @@
   .floater{position:absolute;will-change:transform}
   .floater .fl-in{display:block;animation:flbob var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s)}
   .floater svg{display:block}
-  @keyframes flbob{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-13px) rotate(calc(var(--r,0deg) + 9deg))}}
+  @keyframes flbob{0%,100%{transform:translate(0,0) rotate(var(--r,0deg))}25%{transform:translate(7px,-18px) rotate(calc(var(--r,0deg) + 7deg))}50%{transform:translate(-6px,-34px) rotate(calc(var(--r,0deg) + 14deg))}75%{transform:translate(-9px,-16px) rotate(calc(var(--r,0deg) - 5deg))}}
   @media (prefers-reduced-motion:reduce){.floater .fl-in{animation:none}}
+  .cursor-heart{position:fixed;z-index:60;pointer-events:none;will-change:transform,opacity;animation:cheart .85s ease-out forwards}\n  @keyframes cheart{0%{opacity:.9;transform:translate(-50%,-50%) scale(1) rotate(var(--cr,0deg))}100%{opacity:0;transform:translate(-50%,calc(-50% - 28px)) scale(.35) rotate(var(--cr,0deg))}}
 </style>
 </head>
 <body>
@@ -590,10 +591,10 @@
     f.style.opacity=(k[1]==="#151210"?0.62:0.85);
     var span=document.createElement("span"); span.className="fl-in";
     span.style.setProperty("--r",rot+"deg");
-    span.style.setProperty("--d",(5+rnd()*4).toFixed(1)+"s");
+    span.style.setProperty("--d",(3+rnd()*2.5).toFixed(1)+"s");
     span.style.setProperty("--dl",(-rnd()*5).toFixed(1)+"s");
     span.innerHTML=svg; f.appendChild(span); host.appendChild(f);
-    items.push({el:f,speed:(0.04+rnd()*0.12)*(rnd()<0.5?-1:1)});
+    items.push({el:f,speed:(0.08+rnd()*0.2)*(rnd()<0.5?-1:1)});
   }
   var H=window.innerHeight;
   function layout(){
@@ -620,5 +621,25 @@
   layout();
 })();
 </script>
+<script>
+/* искорки-сердечки за курсором (только мышь) */
+(function(){
+  if(matchMedia('(hover:none)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var HTML='<svg width="@S" height="@S" viewBox="0 0 24 24"><path d="M12 21C4 14 2 9.5 4.8 6.3 6.7 4.1 9.8 4.8 12 7.7 14.2 4.8 17.3 4.1 19.2 6.3 22 9.5 20 14 12 21Z" fill="@C"/></svg>';
+  var COL=['#ff7f50','#e85f2c','#ff9d76'],last=0;
+  window.addEventListener('mousemove',function(e){
+    var now=Date.now(); if(now-last<45) return; last=now;
+    var s=8+(Math.random()*7|0);
+    var d=document.createElement('div'); d.className='cursor-heart';
+    d.style.left=(e.clientX+(Math.random()*12-6))+'px';
+    d.style.top=(e.clientY+(Math.random()*12-6))+'px';
+    d.style.setProperty('--cr',(Math.random()*54-27)+'deg');
+    d.innerHTML=HTML.replace(/@S/g,s).replace('@C',COL[Math.random()*COL.length|0]);
+    document.body.appendChild(d);
+    setTimeout(function(){d.remove();},860);
+  },{passive:true});
+})();
+</script>
 </body>
+
 </html>
