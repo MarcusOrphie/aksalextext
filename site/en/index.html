@@ -583,7 +583,7 @@
     // в основном по боковым полям (на десктопе видно вокруг контента), иногда по центру
     var left=(i%2)?(84+rnd()*13):(2+rnd()*12);
     if(i%5===4) left=20+rnd()*58;
-    var top=1.5+(i/N)*95+(rnd()*4-2);
+    var top=6+(i/N)*86+(rnd()*3);
     var svg=(k[0]==="heart"?HEART:SPARK).replace(/@S/g,size).replace("@C",k[1]);
     var rot=Math.floor(rnd()*50-25);
     var f=document.createElement("div"); f.className="floater";
