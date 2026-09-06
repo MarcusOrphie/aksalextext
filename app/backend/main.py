@@ -158,12 +158,9 @@ def feedback_endpoint(request: Request, req: FeedbackReq, user: dict = Depends(g
 
 @app.post("/api/hooks/prodamus")
 async def prodamus_hook(request: Request):
+    import urllib.parse
     raw = await request.body()
-    try:
-        form = await request.form()
-        items = [(k, str(v)) for k, v in form.multi_items()]
-    except Exception:
-        items = []
+    items = urllib.parse.parse_qsl(raw.decode("utf-8", errors="replace"), keep_blank_values=True)
     data = prodamus.parse_form(items)
     sign = request.headers.get("sign") or request.headers.get("Sign") or ""
     ok_sign = prodamus.verify(data, sign)
