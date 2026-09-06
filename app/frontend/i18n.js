@@ -20,6 +20,7 @@
       lbl_newpass: "Новый пароль", btn_setpass: "Сохранить пароль",
       // dashboard
       dash_eyebrow: "Что генерим", dash_h_html: "Выбери <em>платформу</em>",
+      cab_tip_html: "💡 <b>Ритм для роста в Instagram:</b> в день - 1 видео, 1 пост или карусель и 1 короткое видео в пробные Reels.",
       lbl_topic: "Тема (можно не придумывать - возьму из твоего блога)",
       ph_topic: "напр. киноляпы, которые видно в кадре",
       lbl_usertext: "Твой текст (необязательно - если есть, соберу контент на его основе)",
@@ -122,6 +123,7 @@
       recover_lead: "Set a new password to log in.",
       lbl_newpass: "New password", btn_setpass: "Save password",
       dash_eyebrow: "What we generate", dash_h_html: "Pick a <em>platform</em>",
+      cab_tip_html: "💡 <b>Rhythm for Instagram growth:</b> per day - 1 video, 1 post or carousel, and 1 short test Reel.",
       lbl_topic: "Topic (no need to think it up - I'll take it from your blog)",
       ph_topic: "e.g. movie mistakes you can spot on screen",
       lbl_usertext: "Your text (optional - if you have one, I'll build the content from it)",

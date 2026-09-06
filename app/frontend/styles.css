@@ -54,6 +54,8 @@ em{font-style:normal;color:var(--coral)}
 .note{background:var(--coral-soft);border:2px solid var(--ink);border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700;color:#2a2015;margin:10px 0}
 
 .usage{text-align:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--coral-soft);border:2px solid var(--ink);border-radius:999px;padding:7px 14px;margin:0 auto 16px;max-width:max-content}
+.cab-tip{font-size:13.5px;font-weight:700;line-height:1.45;color:#3a2a1e;background:var(--coral-soft);border:2.5px solid var(--ink);border-radius:14px;box-shadow:3px 3px 0 var(--ink);padding:11px 15px;margin:0 auto 16px;max-width:620px}
+.cab-tip b{color:var(--coral-deep)}
 .usage b{color:var(--coral-deep)}
 
 /* copy button feedback + hover */
