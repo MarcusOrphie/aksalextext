@@ -195,9 +195,11 @@
       box.appendChild(head);
       if (visual && meState) {
         const row = el("div", "pg-usage-vis");
+        const unlim = !!meState.visual_unlimited;
         const item = (label, made, limit) => {
           const s = el("span", "pg-uv");
-          s.innerHTML = "<b>" + label + "</b> " + t("u_made") + made + " · " + t("u_left") + Math.max(0, limit - made);
+          if (unlim) s.innerHTML = "<b>" + label + "</b> " + t("u_unlim");
+          else s.innerHTML = "<b>" + label + "</b> " + t("u_made") + made + " · " + t("u_left") + Math.max(0, limit - made);
           return s;
         };
         const cLim = meState.carousel_limit || 0, vLim = meState.visual_monthly || 0;
@@ -568,7 +570,7 @@
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
       carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left;
-      carState.pro = !!m.visual_pro; carState.email = m.email || ""; meState = m;
+      carState.pro = !!m.visual_pro; carState.visualUnlim = !!m.visual_unlimited; carState.email = m.email || ""; meState = m;
       updateCarouselPanel(); renderPlatforms();
     } catch (e) { box.hidden = true; showPlans(false); }
   }
@@ -701,7 +703,8 @@
       return;
     }
     renderChips(box, genChipList(), carState.design, (id) => { carState.design = id; });
-    if (platform === "carousel" && carState.left != null) left.textContent = t("car_left_lbl") + carState.left + "/3";
+    if (carState.visualUnlim) left.textContent = t("u_unlim");
+    else if (platform === "carousel" && carState.left != null) left.textContent = t("car_left_lbl") + carState.left + "/3";
     else if (platform === "post" && carState.postLeft != null) left.textContent = t("car_month_lbl") + carState.postLeft + "/30";
     else if (platform === "stories" && carState.storiesLeft != null) left.textContent = t("car_month_lbl") + carState.storiesLeft + "/30";
     else left.textContent = "";

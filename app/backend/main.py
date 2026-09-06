@@ -112,10 +112,12 @@ def me(user: dict = Depends(get_user)):
     post_used = _cr("post", 30)
     stories_used = _cr("stories", 30)
     visual_pro = plan in ("pro", "unlimited")
+    visual_unlimited = plan == "unlimited"   # белый список - визуалы без лимитов
     return {"email": user["email"], "unlimited": unlimited, "plan": plan,
             "used": used, "free_limit": FREE_LIMIT,
             "remaining": None if unlimited else max(0, FREE_LIMIT - used),
             "visual_pro": visual_pro, "carousel_pro": visual_pro,
+            "visual_unlimited": visual_unlimited,
             "carousel_limit": CAROUSEL_WEEKLY, "carousel_left": max(0, CAROUSEL_WEEKLY - car_used),
             "visual_monthly": VISUAL_MONTHLY,
             "post_left": max(0, VISUAL_MONTHLY - post_used),
@@ -128,24 +130,27 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
         raise HTTPException(status_code=400, detail="неизвестная платформа")
     if req.platform in ("carousel", "post", "stories"):
         # визуальные генераторы картинок - только Pro (или безлимит-белый список)
-        if paid_plan(user["email"]) not in ("pro", "unlimited"):
+        vplan = paid_plan(user["email"])
+        if vplan not in ("pro", "unlimited"):
             return JSONResponse(status_code=402, content={"error": "limit", "reason": "visual_pro"})
-        if req.platform == "carousel":
-            try:
-                cw = usage.count_recent(user["id"], "carousel", 7)
-            except Exception:
-                cw = 0
-            if cw >= CAROUSEL_WEEKLY:
-                return JSONResponse(status_code=402, content={
-                    "error": "limit", "reason": "carousel_weekly", "used": cw, "limit": CAROUSEL_WEEKLY})
-        else:
-            try:
-                vm = usage.count_recent(user["id"], req.platform, 30)
-            except Exception:
-                vm = 0
-            if vm >= VISUAL_MONTHLY:
-                return JSONResponse(status_code=402, content={
-                    "error": "limit", "reason": "visual_monthly", "used": vm, "limit": VISUAL_MONTHLY})
+        # белый список (unlimited) - без недельных/месячных лимитов на визуалы
+        if vplan != "unlimited":
+            if req.platform == "carousel":
+                try:
+                    cw = usage.count_recent(user["id"], "carousel", 7)
+                except Exception:
+                    cw = 0
+                if cw >= CAROUSEL_WEEKLY:
+                    return JSONResponse(status_code=402, content={
+                        "error": "limit", "reason": "carousel_weekly", "used": cw, "limit": CAROUSEL_WEEKLY})
+            else:
+                try:
+                    vm = usage.count_recent(user["id"], req.platform, 30)
+                except Exception:
+                    vm = 0
+                if vm >= VISUAL_MONTHLY:
+                    return JSONResponse(status_code=402, content={
+                        "error": "limit", "reason": "visual_monthly", "used": vm, "limit": VISUAL_MONTHLY})
     else:
         unlimited = paid_plan(user["email"]) is not None
         if not unlimited:
