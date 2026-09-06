@@ -55,12 +55,13 @@ em{font-style:normal;color:var(--coral)}
 
 .usage{text-align:center;font-size:13px;font-weight:700;color:var(--muted);background:var(--coral-soft);border:2px solid var(--ink);border-radius:999px;padding:7px 14px;margin:0 auto 16px;max-width:max-content}
 .cab-tips{max-width:620px;margin:0 auto 20px}
-.cab-tips>summary.cab-tips-h{list-style:none;cursor:pointer;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:14px;color:var(--coral);display:flex;align-items:center;gap:7px;padding:8px 2px;user-select:none;transition:opacity .15s}
+.cab-tips>summary.cab-tips-h{list-style:none;cursor:pointer;background:var(--paper2);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);padding:10px 14px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:13px;color:var(--coral-deep);display:flex;align-items:center;user-select:none}
 .cab-tips>summary.cab-tips-h::-webkit-details-marker{display:none}
-.cab-tips>summary.cab-tips-h::after{content:"";flex:0 0 auto;width:8px;height:8px;border-right:2.5px solid var(--coral);border-bottom:2.5px solid var(--coral);transform:rotate(-45deg);transition:transform .18s;margin-left:2px}
-.cab-tips[open]>summary.cab-tips-h::after{transform:rotate(45deg)}
-.cab-tips>summary.cab-tips-h:hover{opacity:.82}
-.cab-tips-in{margin-top:10px}
+.cab-tips>summary.cab-tips-h::before{content:"▸";color:var(--coral-deep);font-weight:700;margin-right:8px;display:inline-block;transition:transform .18s}
+.cab-tips[open]>summary.cab-tips-h::before{transform:rotate(90deg)}
+.cab-tips[open]>summary.cab-tips-h{border-radius:12px 12px 0 0;box-shadow:none}
+.cab-tips-in{background:var(--paper);border:2.5px solid var(--ink);border-top:none;border-radius:0 0 12px 12px;box-shadow:3px 3px 0 var(--ink);padding:12px 14px}
+.cab-tips-in .cab-tip-item:last-child{margin-bottom:0}
 .cab-tip-item{background:var(--coral-soft);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);margin-bottom:8px;overflow:hidden}
 .cab-tip-item>summary{list-style:none;cursor:pointer;font-size:13.5px;font-weight:700;line-height:1.4;color:var(--ink);padding:10px 14px;display:flex;align-items:center;gap:10px;user-select:none;transition:color .15s}
 .cab-tip-item>summary::-webkit-details-marker{display:none}
