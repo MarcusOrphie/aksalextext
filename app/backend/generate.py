@@ -1,10 +1,23 @@
 # -*- coding: utf-8 -*-
 """Генерация контента через Anthropic API (tool-use под каждую платформу)."""
 import os, json, urllib.request
-from prompts import build_system, build_user, build_redo
+from prompts import build_system, build_user, build_redo, BASE, BASE_EN
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 MODEL = os.environ.get("MODEL", "claude-sonnet-5").strip()
+
+
+def _cached_system(full: str, lang: str):
+    """Оборачиваем статичный префикс (BASE - большие правила крафта, одинаковы для всех)
+    в кэш-блок Anthropic prompt caching. Динамику (платформа, тренды, профиль) - отдельным блоком."""
+    base = BASE_EN if lang == "en" else BASE
+    if isinstance(full, str) and full.startswith(base) and len(base) > 400:
+        rest = full[len(base):]
+        blocks = [{"type": "text", "text": base, "cache_control": {"type": "ephemeral"}}]
+        if rest:
+            blocks.append({"type": "text", "text": rest})
+        return blocks
+    return full
 
 def _dash(o):
     if isinstance(o, str): return o.replace("—", "-").replace("–", "-")
@@ -97,10 +110,10 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
-    max_tokens = 8000 if platform in ("reels", "shorts", "tiktok") else (6000 if platform in ("youtube_long", "content_plan") else 4000)
+    max_tokens = 6000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan") else 4000
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
-        "system": build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text),
+        "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text), lang),
         "messages": [{"role": "user", "content": build_user(topic, platform, lang, user_text)}],
         "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"},
     }
@@ -127,7 +140,7 @@ def redo(platform: str, title: str, text: str, has_text: bool, instruction: str,
     tool = {"name": "redo_slide", "description": "Новый вариант этого слайда строго по формату.",
             "input_schema": {"type": "object", "properties": props, "required": required}}
     system, userc = build_redo(platform, title, text, has_text, instruction, profile, lang)
-    payload = {"model": MODEL, "max_tokens": 1500, "system": system,
+    payload = {"model": MODEL, "max_tokens": 1500, "system": _cached_system(system, lang),
                "messages": [{"role": "user", "content": userc}],
                "tools": [tool], "tool_choice": {"type": "tool", "name": "redo_slide"}}
     body = json.dumps(payload).encode("utf-8")

@@ -681,6 +681,7 @@
   }
   const carState = { design: "my", myDesign: "coral", customBg: null, left: null, postLeft: null, storiesLeft: null, pro: false, email: "" };
   let meState = null;
+  let renderSeq = 0;   // защита от гонки: актуален только последний запуск рендера визуалов
   try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
 
   function blobToDataURL(blob) { return new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); }); }
@@ -899,7 +900,21 @@
     form.appendChild(inp); form.appendChild(go); rw.appendChild(rb); rw.appendChild(form); thumb.appendChild(rw);
     return thumb;
   }
+  async function zipDownload(urls, mode, btn) {
+    const names = urls.map((u, i) => mode + "-" + (i + 1) + ".png");
+    if (!window.JSZip) { document.querySelectorAll("#result .cs-thumb a.cs-dl").forEach((a, idx) => setTimeout(() => a.click(), idx * 400)); return; }
+    const old = btn.textContent; btn.disabled = true; btn.textContent = t("car_zipping");
+    try {
+      const zip = new JSZip();
+      urls.forEach((u, idx) => { if (u) { const b64 = u.split(",")[1]; if (b64) zip.file(names[idx], b64, { base64: true }); } });
+      const blob = await zip.generateAsync({ type: "blob" });
+      const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = mode + "-slides.zip";
+      document.body.appendChild(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(link.href), 3000);
+    } catch (e) { document.querySelectorAll("#result .cs-thumb a.cs-dl").forEach((a, idx) => setTimeout(() => a.click(), idx * 400)); }
+    btn.disabled = false; btn.textContent = old;
+  }
   async function renderVisual(out, mode) {
+    const rseq = ++renderSeq;
     const d = out.data || {};
     const box = $("result"); box.textContent = "";
     const st = $("gen-status"); st.hidden = false; st.textContent = t("car_rendering");
@@ -909,6 +924,7 @@
       await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
+    if (rseq !== renderSeq) return;   // пока грузились шрифты, кликнули другую запись
     const eff = d._design || effectiveDesign(), useCustom = (eff === "custom");
     const slides = [];
     if (mode === "carousel") {
@@ -922,12 +938,14 @@
     const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
       const cell = await buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs);
+      if (rseq !== renderSeq) return;   // кликнули другую запись - бросаем устаревший рендер
       if (cell) outBox.appendChild(cell);
     }
+    if (rseq !== renderSeq) return;
     box.appendChild(outBox);
     const actions = el("div", "result-actions");
     const all = el("button", "pdfdl", t("car_download_all"));
-    all.onclick = () => outBox.querySelectorAll("a").forEach((a, idx) => setTimeout(() => a.click(), idx * 400));
+    all.onclick = () => zipDownload(urls, mode, all);
     const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
     actions.appendChild(all); actions.appendChild(again);
     box.appendChild(actions);
@@ -935,6 +953,7 @@
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
   async function renderPost(out) {
+    const rseq = ++renderSeq;
     const d = out.data || {};
     const box = $("result"); box.textContent = "";
     const st = $("gen-status"); st.hidden = false; st.textContent = t("car_rendering");
@@ -944,11 +963,13 @@
       await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
+    if (rseq !== renderSeq) return;
     const eff = d._design || effectiveDesign(), useCustom = (eff === "custom");
     const slides = [{ cover: true, title: d.hook }];
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
     const cell = await buildVisualCell(slides, 0, "post", eff, useCustom, urls, thumbs);
+    if (rseq !== renderSeq) return;
     if (cell) outBox.appendChild(cell);
     box.appendChild(outBox);
     const tags = arr(d.hashtags).map(x => "#" + String(x).replace(/^#/, "")).join(" ");

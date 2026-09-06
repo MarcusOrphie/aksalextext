@@ -33,7 +33,7 @@ WELCOME_HOOK_SECRET = os.environ.get("WELCOME_HOOK_SECRET", "").strip()
 CAROUSEL_WEEKLY = int(os.environ.get("CAROUSEL_WEEKLY", "3"))
 VISUAL_MONTHLY = int(os.environ.get("VISUAL_MONTHLY", "30"))  # пост/сториз - 30 картинок в месяц
 START_DAILY = int(os.environ.get("START_DAILY", "5"))   # тариф Старт - тем/сценариев в день
-PRO_DAILY = int(os.environ.get("PRO_DAILY", "30"))      # тариф Pro - тем/сценариев в день
+PRO_DAILY = int(os.environ.get("PRO_DAILY", "20"))      # тариф Pro - тем/сценариев в день
 PLAN_DAILY = {"start": START_DAILY, "pro": PRO_DAILY}
 
 def paid_plan(email: str):

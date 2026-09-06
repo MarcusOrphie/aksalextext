@@ -12,7 +12,7 @@ STORAGE = SUPABASE_URL + "/storage/v1"
 BUCKET = "uploads"
 _H = {"apikey": SERVICE_KEY, "Authorization": "Bearer " + SERVICE_KEY}
 
-TTL = 12 * 3600      # свежесть кэша, сек
+TTL = 24 * 3600      # свежесть кэша, сек (сутки - больше попаданий, меньше web-search вызовов)
 MAX_LEN = 1800       # длина дайджеста, символов
 
 _PLAT = {
