@@ -751,7 +751,8 @@
     else inner = _flower(40, 22, 20, d.a, d.b);
     return '<svg class="cd-deco" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">' + inner + "</svg>";
   }
-  const carState = { design: "my", myDesign: "coral", customBg: null, left: null, postLeft: null, storiesLeft: null, pro: false, email: "" };
+  const carState = { design: "my", myDesign: "coral", customBg: null, left: null, postLeft: null, storiesLeft: null, pro: false, email: "", carSize: "45" };
+  try { const s = localStorage.getItem("zh_car_size"); if (s === "34" || s === "45") carState.carSize = s; } catch (e) {}
   let meState = null;
   let renderSeq = 0;   // защита от гонки: актуален только последний запуск рендера визуалов
   try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
@@ -815,8 +816,20 @@
   function toggleCoverPanel() {
     const p = $("cover-panel"); if (p) p.hidden = !(platform === "reels_cover" && carState.pro);
   }
+  function renderCarSize() {
+    const box = $("car-size"); if (!box) return;
+    if (platform !== "carousel" || !carState.pro) { box.hidden = true; box.textContent = ""; return; }
+    box.hidden = false; box.textContent = "";
+    box.appendChild(el("span", "car-size-lbl", t("car_size_lbl")));
+    [["45", "4:5"], ["34", "3:4"]].forEach(([val, label]) => {
+      const b = el("button", "car-size-b" + (carState.carSize === val ? " on" : ""), label);
+      b.onclick = () => { carState.carSize = val; try { localStorage.setItem("zh_car_size", val); } catch (e) {} renderCarSize(); };
+      box.appendChild(b);
+    });
+  }
   function updateCarouselPanel() {
     toggleCoverPanel();
+    renderCarSize();
     const p = $("carousel-panel"); if (!p) return;
     const on = !!VISUAL[platform];
     p.hidden = !on;
@@ -872,7 +885,9 @@
   }
   async function captureSlide(s, mode, idx, total, eff, useCustom) {
     const dim = DIMS[mode];
-    const node = el("div", "cslide ct-" + eff + (dim.cls ? " " + dim.cls : "") + (s.cover ? " cover" : ""));
+    let dimH = dim.h, extraCls = dim.cls;
+    if (mode === "carousel" && carState.carSize === "34") { dimH = 1440; extraCls = "r34"; }
+    const node = el("div", "cslide ct-" + eff + (extraCls ? " " + extraCls : "") + (s.cover ? " cover" : ""));
     const onPhoto = !!s.bg;   // обложка: фон - фото пользователя
     if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
     else if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
@@ -892,7 +907,7 @@
     fitSlide(node);
     let url = "";
     try {
-      const canvas = await window.html2canvas(node, { width: dim.w, height: dim.h, scale: 1, backgroundColor: null, useCORS: true, logging: false });
+      const canvas = await window.html2canvas(node, { width: dim.w, height: dimH, scale: 1, backgroundColor: null, useCORS: true, logging: false });
       url = canvas.toDataURL("image/png");
     } catch (e) { console.error("capture", e); }
     stage.removeChild(node);

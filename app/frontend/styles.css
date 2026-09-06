@@ -269,6 +269,12 @@ em{font-style:normal;color:var(--coral)}
 .cslide.st .cs-top{top:120px}.cslide.st .cs-foot{bottom:120px}
 .cslide.sq .cs-brandname{font-size:34px}.cslide.sq .cs-url,.cslide.sq .cs-foot{font-size:23px}
 /* форматы: квадрат (пост) и вертикаль (сториз) */
+.cslide.r34{height:1440px}
+.car-size{display:flex;align-items:center;gap:8px;margin:0 0 12px}
+.car-size-lbl{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--muted)}
+.car-size-b{font-family:"Oswald";font-weight:700;font-size:13px;letter-spacing:.03em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:9px;padding:5px 12px;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.car-size-b.on{background:var(--coral);color:var(--paper)}
+.car-size-b:active{transform:translate(2px,2px);box-shadow:none}
 .cslide.sq{height:1080px;padding:150px 100px}
 .cslide.sq .cs-title{font-size:84px}
 .cslide.sq .cs-title,.cslide.sq .cs-text{max-width:680px}
