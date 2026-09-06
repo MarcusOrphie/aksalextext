@@ -204,7 +204,8 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     lang = "en" if (req.lang or "").lower().startswith("en") else "ru"
     try:
         niche = (profile or {}).get("niche") or ""
-        live_trends = trends.get(user["id"], niche, req.platform, req.topic, lang)
+        # для обложек тренды не нужны - они уводят от заголовка автора
+        live_trends = "" if req.platform == "reels_cover" else trends.get(user["id"], niche, req.platform, req.topic, lang)
     except Exception:
         live_trends = ""
     try:
@@ -214,8 +215,11 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     data = result.get("data")
+    # обложка: заголовок на картинке - ровно тот, что ввёл автор (не выдумка ИИ)
+    if isinstance(data, dict) and req.platform == "reels_cover" and (req.topic or "").strip():
+        data["title"] = req.topic.strip()
     # запоминаем выбранный дизайн визуала, чтобы история открывала картинки в том же шаблоне
-    if isinstance(data, dict) and req.platform in ("carousel", "post", "stories") and req.design:
+    if isinstance(data, dict) and req.platform in ("carousel", "post", "stories", "reels_cover") and req.design:
         data["_design"] = req.design
     usage.record(user["id"], req.platform, req.topic, data)
     return result

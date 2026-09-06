@@ -262,7 +262,7 @@
         c.appendChild(el("div", null, t("p_" + id)));
         c.appendChild(el("small", null, t("p_" + id + "_s")));
         if (visual) c.appendChild(el("span", "pf-pro", "PRO"));
-        c.onclick = () => { platform = id; renderPlatforms(); };
+        c.onclick = () => { platform = id; const rb = $("result"); if (rb) rb.textContent = ""; const gs = $("gen-status"); if (gs) gs.hidden = true; renderPlatforms(); };
         grid.appendChild(c);
       });
       box.appendChild(grid);
@@ -620,9 +620,14 @@
       h.appendChild(el("b", null, plabel(g.platform) + " "));
       h.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
       const det = el("div", "h-detail"); det.hidden = true;
+      const isVis = (g.platform === "carousel" || g.platform === "post" || g.platform === "stories" || g.platform === "reels_cover");
       let built = false;
-      h.onclick = () => {
-        if (!built) { det.appendChild(buildHistoryDetail(g.platform, g.output || {})); built = true; }
+      h.onclick = async () => {
+        if (!built) {
+          built = true;
+          if (isVis) await renderHistoryVisuals(det, g.platform, g.output || {});
+          else det.appendChild(buildHistoryDetail(g.platform, g.output || {}));
+        }
         det.hidden = !det.hidden;
         item.classList.toggle("open", !det.hidden);
         h.querySelector(".h-arrow").textContent = det.hidden ? "▸" : "▾";
@@ -653,6 +658,38 @@
     }
     if (!wrap.children.length) add("", t("no_topic"));
     return wrap;
+  }
+  // раскрыть картинки визуала прямо в истории (перерисовка из сохранённых данных, #result не трогаем)
+  async function renderHistoryVisuals(container, mode, d) {
+    container.textContent = "";
+    if (!window.html2canvas) { container.appendChild(el("div", "h-drow", "html2canvas не загрузился, обнови страницу")); return; }
+    container.appendChild(el("div", "h-drow", t("car_rendering")));
+    try {
+      const FAM = ["Oswald","Nunito","Fraunces","Cormorant Garamond","Space Grotesk","Poppins","Archivo","Manrope"];
+      await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
+    } catch (e) {}
+    try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
+    let eff = d._design || "coral"; if (eff === "custom") eff = "coral";
+    const slides = [];
+    if (mode === "carousel") {
+      if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide });
+      arr(d.slides).forEach(s => slides.push({ title: s.title, text: s.text }));
+      if (d.cta_slide) slides.push({ cover: true, title: d.cta_slide });
+    } else if (mode === "stories") {
+      arr(d.frames).forEach(f => slides.push({ cover: true, title: f.text || f.visual }));
+    } else if (mode === "post") {
+      slides.push({ cover: true, title: d.hook });
+    } else if (mode === "reels_cover") {
+      slides.push({ cover: true, title: d.title, text: d.subtitle || "" });
+    }
+    container.textContent = "";
+    const outBox = el("div", "cs-out");
+    const urls = [], thumbs = [];
+    for (let i = 0; i < slides.length; i++) {
+      const cell = await buildVisualCell(slides, i, mode, eff, false, urls, thumbs);
+      if (cell) outBox.appendChild(cell);
+    }
+    container.appendChild(outBox);
   }
 
   function showPlans(free) { const cp = $("cab-plans"); if (cp) cp.hidden = !free; }
