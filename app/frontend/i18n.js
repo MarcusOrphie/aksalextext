@@ -64,7 +64,7 @@
       cd_blush: "Пудра", cd_rose: "Роза", cd_sage: "Шалфей", cd_peach: "Персик", cd_lavender: "Лаванда",
       cd_terra: "Терракота", cd_butter: "Ваниль", cd_cream: "Крем", cd_noir: "Нуар", cd_coral: "Коралл", cd_custom: "Мой дизайн",
       // dynamic (app.js)
-      gen_status: "Генерю: смотрю свежие тренды и собираю пакет. Первый раз по теме - до полминуты, дальше быстрее...",
+      gen_status: "Думаю: смотрю свежие тренды и собираю пакет. Первый раз по теме - до полминуты, дальше быстрее...",
       gen_fail: "Не вышло: ",
       note_need_creds: "Введи почту и пароль.",
       note_need_creds_reg: "Введи почту и пароль (минимум 6 символов).",
@@ -163,7 +163,7 @@
       car_bg_saved: "Background saved", car_bg_uploading: "Uploading background...", car_saved: "Saved",
       cd_blush: "Blush", cd_rose: "Rose", cd_sage: "Sage", cd_peach: "Peach", cd_lavender: "Lavender",
       cd_terra: "Terracotta", cd_butter: "Vanilla", cd_cream: "Cream", cd_noir: "Noir", cd_coral: "Coral", cd_custom: "My design",
-      gen_status: "Generating: checking fresh trends and building the package. First time on a topic - up to 30 sec, faster after that...",
+      gen_status: "Thinking: checking fresh trends and building the package. First time on a topic - up to 30 sec, faster after that...",
       gen_fail: "Didn't work: ",
       note_need_creds: "Enter your email and password.",
       note_need_creds_reg: "Enter your email and password (at least 6 characters).",

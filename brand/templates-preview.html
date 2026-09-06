@@ -1,0 +1,106 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Шаблоны · превью</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Manrope:wght@500;600;700;800&family=Oswald:wght@500;600;700&family=Nunito:wght@600;700;800&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+  body{margin:0;background:#e9e6df;font-family:"Manrope",sans-serif;color:#1a1a1a}
+  .wrap{max-width:1180px;margin:0 auto;padding:30px 22px 70px}
+  h1{font-family:"Space Grotesk";font-size:24px;margin:0 0 4px}
+  .sub{color:#6a655c;font-weight:600;font-size:14px;margin-bottom:26px;max-width:70ch}
+  .tpl{margin-bottom:34px}
+  .tpl-h{font-family:"Space Grotesk";font-weight:700;font-size:15px;margin:0 0 10px;display:flex;gap:10px;align-items:baseline}
+  .tpl-h .meta{font-family:"Manrope";font-weight:600;font-size:12px;color:#8a857c}
+  .cards{display:flex;gap:18px;flex-wrap:wrap}
+  .frame{border-radius:16px;overflow:hidden;box-shadow:0 8px 26px rgba(0,0,0,.16)}
+  .slide{position:relative;overflow:hidden;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+  .car{width:300px;height:375px}      /* 4:5 */
+  .post{width:300px;height:300px}     /* 1:1 */
+  .slide .brandbar{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:20px 22px;font-weight:700;z-index:3}
+  .slide .brandbar .b{display:flex;align-items:center;gap:7px;font-size:15px}
+  .slide .brandbar .u{font-size:11px;opacity:.75;font-weight:600}
+  .slide .mark{width:17px;height:17px;border-radius:5px;display:inline-block}
+  .slide .body{position:relative;z-index:3;padding:0 22px}
+  .slide .idx{position:absolute;top:18px;left:22px;z-index:3;font-weight:700;font-size:13px;opacity:.8}
+  .slide .ksub{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;opacity:.7;margin-bottom:10px}
+  .slide .ttl{line-height:1.02;margin:0 0 12px}
+  .slide .txt{line-height:1.42;font-weight:600}
+  .slide .foot{position:absolute;bottom:18px;left:22px;right:22px;z-index:3;font-size:11px;font-weight:700;opacity:.7;display:flex;justify-content:space-between}
+  .slide .big{font-weight:800;line-height:.9}
+  .deco{position:absolute;inset:0;z-index:1;pointer-events:none}
+</style>
+<div class="wrap">
+  <h1>Шаблоны каруселей и постов — первая партия (6 из 20)</h1>
+  <div class="sub">Единый дизайн применяется и к карусели (4:5), и к посту (1:1). Каждый шаблон = своя палитра + своя шрифтовая пара + свой декор. Слева — обложка карусели, в центре — слайд-факт, справа — пост. Скажи, какие направления заходят - и докручу до 20.</div>
+  <div id="root"></div>
+</div>
+<script>
+const TPL = [
+  { id:"editorial", name:"Editorial (журнальный серив)",
+    bg:"#f4efe7", fg:"#514a3e", acc:"#b3855a", ttl:"#2c261e",
+    tf:'"Fraunces",serif', bf:'"Manrope",sans-serif', up:false, tsize:34, deco:"arcs" },
+  { id:"neon", name:"Neon Dark (техно, жирный)",
+    bg:"#14161b", fg:"#aeb6c0", acc:"#37f5a0", ttl:"#ffffff",
+    tf:'"Space Grotesk",sans-serif', bf:'"Space Grotesk",sans-serif', up:false, tsize:31, deco:"blob" },
+  { id:"pastel", name:"Pastel Play (мягкий, дружелюбный)",
+    bg:"#ffe1ea", fg:"#7a4457", acc:"#ff5f92", ttl:"#d5386a",
+    tf:'"Poppins",sans-serif', bf:'"Poppins",sans-serif', up:false, tsize:29, deco:"dots" },
+  { id:"wellness", name:"Wellness (глубокий зелёный, элегантный)",
+    bg:"#123f37", fg:"#cfe0d8", acc:"#9ccdb8", ttl:"#ffffff",
+    tf:'"Cormorant Garamond",serif', bf:'"Manrope",sans-serif', up:false, tsize:36, ital:true, deco:"line" },
+  { id:"coral", name:"Coral Brand (наш фирменный)",
+    bg:"#ff8f66", fg:"#3a1f14", acc:"#fff3ea", ttl:"#fffaf5",
+    tf:'"Oswald",sans-serif', bf:'"Nunito",sans-serif', up:true, tsize:33, deco:"heart" },
+  { id:"mono", name:"Mono Minimal (чистый, геометрия)",
+    bg:"#f1f1 ee", fg:"#3c3c3c", acc:"#ff5a2c", ttl:"#141414",
+    tf:'"Archivo",sans-serif', bf:'"Archivo",sans-serif', up:false, tsize:31, wght:800, deco:"ring" },
+];
+function decoSVG(kind, acc, fg){
+  const s=(inner)=>`<svg class="deco" viewBox="0 0 300 375" preserveAspectRatio="xMidYMid slice">${inner}</svg>`;
+  const soft = acc;
+  if(kind==="arcs") return s(`<path d="M300 40 a70 70 0 0 1 0 140 z" fill="${soft}" opacity=".5"/><circle cx="255" cy="300" r="9" fill="${soft}"/><circle cx="278" cy="330" r="5" fill="${soft}" opacity=".7"/>`);
+  if(kind==="blob") return s(`<circle cx="300" cy="70" r="60" fill="${soft}"/><circle cx="30" cy="330" r="46" fill="none" stroke="${soft}" stroke-width="8"/><circle cx="255" cy="300" r="7" fill="${soft}"/>`);
+  if(kind==="dots"){let d="";for(let y=0;y<7;y++)for(let x=0;x<7;x++)d+=`<circle cx="${240+x*10}" cy="${255+y*10}" r="2.6" fill="${soft}" opacity=".8"/>`;return s(d+`<path d="M300 30 a48 48 0 0 1 0 96 z" fill="${soft}" opacity=".4"/>`);}
+  if(kind==="line") return s(`<rect x="22" y="188" width="150" height="26" fill="${soft}" opacity=".9"/><circle cx="262" cy="70" r="30" fill="none" stroke="${soft}" stroke-width="6" opacity=".8"/>`);
+  if(kind==="heart") return s(`<g transform="translate(258,54) scale(.9)"><path d="M0 14 C -8 5 -16 1 -16 -6 C -16 -13 -8 -15 -3 -9 C -1 -7 0 -5 0 -3 C 0 -5 1 -7 3 -9 C 8 -15 16 -13 16 -6 C 16 1 8 5 0 14 Z" fill="${soft}"/></g><circle cx="258" cy="320" r="8" fill="${soft}" opacity=".6"/>`);
+  if(kind==="ring") return s(`<circle cx="272" cy="66" r="40" fill="none" stroke="${soft}" stroke-width="9"/><path d="M20 320 q40 -40 80 0" fill="none" stroke="${soft}" stroke-width="7"/><rect x="240" y="300" width="26" height="26" fill="${soft}"/>`);
+  return s("");
+}
+function slide(t, kind, w, h, opts){
+  const up = t.up? "text-transform:uppercase;letter-spacing:.01em;":"";
+  const it = t.ital? "font-style:italic;":"";
+  const wght = t.wght||700;
+  const el=document.createElement("div");
+  el.className="slide "+(h>w?"car":"post");
+  el.style.cssText=`background:${t.bg};color:${t.fg};`;
+  let inner = decoSVG(kind==="cover"?t.deco:t.deco, t.acc, t.fg);
+  inner += `<div class="brandbar"><span class="b" style="color:${t.ttl}"><span class="mark" style="background:${t.acc}"></span>Залихват</span><span class="u" style="color:${t.fg}">aksalex.com</span></div>`;
+  if(opts.stat){
+    inner += `<div class="body"><div class="ksub" style="color:${t.acc}">Результат</div>`+
+      `<div class="big" style="font-family:${t.tf};${it}font-size:78px;color:${t.acc}">${opts.stat}</div>`+
+      `<div class="txt" style="font-family:${t.bf};font-size:14px;margin-top:8px">${opts.txt}</div></div>`;
+  } else {
+    inner += `<div class="body"><div class="ttl" style="font-family:${t.tf};font-weight:${wght};${up}${it}font-size:${(opts.big?t.tsize+4:t.tsize)}px;color:${t.ttl}">${opts.title}</div>`;
+    if(opts.txt) inner += `<div class="txt" style="font-family:${t.bf};font-size:14px">${opts.txt}</div>`;
+    inner += `</div>`;
+  }
+  inner += `<div class="foot" style="color:${t.fg}"><span>${opts.idx||""}</span><span>@zalihvat_ai</span></div>`;
+  el.innerHTML=inner;
+  return el;
+}
+const root=document.getElementById("root");
+TPL.forEach(t=>{
+  const wrap=document.createElement("div"); wrap.className="tpl";
+  wrap.innerHTML=`<div class="tpl-h">${t.name}<span class="meta">${t.tf.replace(/"/g,"").split(",")[0]} + ${t.bf.replace(/"/g,"").split(",")[0]}</span></div>`;
+  const cards=document.createElement("div"); cards.className="cards";
+  const c1=document.createElement("div"); c1.className="frame";
+  c1.appendChild(slide(t,"cover",300,375,{title:"Как вести блог, когда нет времени",big:true,txt:"Свайпай →",idx:"1/7"}));
+  const c2=document.createElement("div"); c2.className="frame";
+  c2.appendChild(slide(t,"content",300,375,{stat:"5 мин",txt:"на пост вместо двух часов",idx:"4/7"}));
+  const c3=document.createElement("div"); c3.className="frame";
+  c3.appendChild(slide(t,"content",300,300,{title:"Контент, за который не стыдно",txt:"Твоим голосом, а не безликий AI."}));
+  cards.appendChild(c1); cards.appendChild(c2); cards.appendChild(c3);
+  wrap.appendChild(cards); root.appendChild(wrap);
+});
+</script>
