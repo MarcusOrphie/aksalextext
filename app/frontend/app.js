@@ -182,7 +182,30 @@
   function renderPlatforms() {
     const box = $("platforms"); box.textContent = "";
     [["grp_text", TEXT_IDS, false], ["grp_visual", VISUAL_IDS, true]].forEach(([hk, ids, visual]) => {
-      box.appendChild(el("div", "pgroup" + (visual ? " visual" : ""), t(hk)));
+      const head = el("div", "pgroup" + (visual ? " visual" : ""));
+      head.appendChild(el("span", "pg-title", t(hk)));
+      if (meState) {
+        if (!visual) {
+          const txt = meState.unlimited
+            ? (t("u_made") + meState.used + " · " + t("u_unlim"))
+            : (t("u_made") + meState.used + " · " + t("u_left") + meState.remaining);
+          head.appendChild(el("span", "pg-usage", txt));
+        }
+      }
+      box.appendChild(head);
+      if (visual && meState) {
+        const row = el("div", "pg-usage-vis");
+        const item = (label, made, limit) => {
+          const s = el("span", "pg-uv");
+          s.innerHTML = "<b>" + label + "</b> " + t("u_made") + made + " · " + t("u_left") + Math.max(0, limit - made);
+          return s;
+        };
+        const cLim = meState.carousel_limit || 0, vLim = meState.visual_monthly || 0;
+        row.appendChild(item(t("p_carousel"), cLim - (meState.carousel_left || 0), cLim));
+        row.appendChild(item(t("p_post"), vLim - (meState.post_left || 0), vLim));
+        row.appendChild(item(t("p_stories"), vLim - (meState.stories_left || 0), vLim));
+        box.appendChild(row);
+      }
       const grid = el("div", "platforms");
       ids.forEach((id) => {
         const c = el("div", "pf" + (id === platform ? " on" : ""));
@@ -203,6 +226,7 @@
     const token = data.session && data.session.access_token;
     if (!token) return refresh();
     const topic = $("topic").value.trim();
+    const utEl = $("usertext"); const userText = utEl ? utEl.value.trim().slice(0, 6000) : "";
     const st = $("gen-status"); st.hidden = false;
     if (VISUAL[platform] && !carState.pro) { st.textContent = t("visual_pro_msg"); showPaywall(); return; }
     st.textContent = t("gen_status");
@@ -211,7 +235,7 @@
       const res = await fetch(API + "/generate", {
         method: "POST",
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
-        body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang() }),
+        body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText }),
       });
       if (res.status === 402) {
         const e = await res.json().catch(() => ({}));
@@ -546,7 +570,8 @@
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
       carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left;
-      carState.pro = !!m.visual_pro; carState.email = m.email || ""; updateCarouselPanel();
+      carState.pro = !!m.visual_pro; carState.email = m.email || ""; meState = m;
+      updateCarouselPanel(); renderPlatforms();
     } catch (e) { box.hidden = true; showPlans(false); }
   }
 
@@ -604,6 +629,7 @@
     return '<svg class="cd-deco" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">' + inner + "</svg>";
   }
   const carState = { design: "my", myDesign: "coral", customBg: null, left: null, postLeft: null, storiesLeft: null, pro: false, email: "" };
+  let meState = null;
   try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
 
   function blobToDataURL(blob) { return new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); }); }
@@ -690,6 +716,25 @@
   }
 
   const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" } };
+  // Ужимаем шрифт заголовка/текста, пока весь контент не влезет в слайд (не режется по краям)
+  function fitSlide(node) {
+    const title = node.querySelector(".cs-title");
+    const text = node.querySelector(".cs-text");
+    if (!title && !text) return;
+    const cs = getComputedStyle(node);
+    const pad = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
+    const limit = (node.clientHeight - pad) * 0.98;   // рабочая зона между номером и брендом
+    const baseT = title ? parseFloat(getComputedStyle(title).fontSize) : 0;
+    const baseX = text ? parseFloat(getComputedStyle(text).fontSize) : 0;
+    const mb = title ? parseFloat(getComputedStyle(title).marginBottom || 0) : 0;
+    const contentH = () => (title ? title.offsetHeight : 0) + (text ? text.offsetHeight : 0) + (title && text ? mb : 0);
+    let scale = 1;
+    for (let i = 0; i < 26 && contentH() > limit && scale > 0.4; i++) {
+      scale -= 0.05;
+      if (title) title.style.fontSize = (baseT * scale) + "px";
+      if (text) text.style.fontSize = (baseX * scale) + "px";
+    }
+  }
   async function captureSlide(s, mode, idx, total, eff, useCustom) {
     const dim = DIMS[mode];
     const node = el("div", "cslide ct-" + eff + (dim.cls ? " " + dim.cls : "") + (s.cover ? " cover" : ""));
@@ -700,6 +745,7 @@
     if (s.text) node.appendChild(el("div", "cs-text", s.text));
     node.appendChild(el("div", "cs-brand", "@zalihvat_ai · aksalex.com"));
     const stage = $("cs-stage"); stage.appendChild(node);
+    fitSlide(node);
     let url = "";
     try {
       const canvas = await window.html2canvas(node, { width: dim.w, height: dim.h, scale: 1, backgroundColor: null, useCORS: true, logging: false });

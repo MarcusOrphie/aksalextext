@@ -74,6 +74,7 @@ class GenReq(BaseModel):
     topic: str = Field(default="", max_length=500)
     profile: Profile | None = None
     lang: str = Field(default="ru", max_length=5)
+    user_text: str = Field(default="", max_length=6000)
 
 @app.get("/api/health")
 def health():
@@ -174,7 +175,8 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
         live_trends = ""
     try:
         result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
-                              liked=liked, disliked=disliked, trends=live_trends, lang=lang)
+                              liked=liked, disliked=disliked, trends=live_trends, lang=lang,
+                              user_text=(req.user_text or "").strip())
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     usage.record(user["id"], req.platform, req.topic, result.get("data"))
