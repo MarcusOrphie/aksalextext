@@ -190,13 +190,25 @@ em{font-style:normal;color:var(--coral)}
 /* превью готовых слайдов */
 .cs-out{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:6px 0 4px}
 .cs-thumb{border:2.5px solid var(--ink);border-radius:10px;box-shadow:3px 3px 0 var(--ink);overflow:hidden;background:var(--paper2)}
-.cs-thumb img{display:block;width:100%;height:auto}
+.cs-thumb img{display:block;width:100%;height:auto;cursor:zoom-in}
+/* лайтбокс */
+.lbx{position:fixed;inset:0;z-index:200;background:rgba(10,8,6,.93);display:flex;align-items:center;justify-content:center;padding:24px}
+.lbx img{max-width:92vw;max-height:88vh;border-radius:10px;box-shadow:0 12px 44px rgba(0,0,0,.55);touch-action:pan-y}
+.lbx button{font-family:"Oswald",sans-serif;cursor:pointer;color:#faf5ec;background:rgba(0,0,0,.35);border:2px solid #faf5ec;display:grid;place-items:center;line-height:1;padding:0}
+.lbx .lbx-close{position:absolute;top:16px;right:18px;width:46px;height:46px;border-radius:50%;font-size:26px}
+.lbx .lbx-nav{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border-radius:50%;font-size:30px;padding-bottom:4px}
+.lbx .lbx-prev{left:16px}.lbx .lbx-next{right:16px}
+.lbx .lbx-close:hover,.lbx .lbx-nav:hover{background:var(--coral);border-color:var(--coral)}
+.lbx .lbx-count{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:#faf5ec;font-family:"Oswald";font-weight:600;font-size:14px;letter-spacing:.05em;opacity:.85}
+@media(max-width:560px){.lbx .lbx-nav{width:44px;height:44px;font-size:26px}}
 .cs-thumb a{display:block;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em;padding:6px;color:var(--ink);text-decoration:none;border-top:2px solid var(--ink);background:var(--paper)}
 .cs-thumb a:hover{background:var(--coral-soft);color:var(--coral-deep)}
 
 /* сцена рендера - за экраном */
 #cs-stage{position:fixed;left:-20000px;top:0;width:1080px;pointer-events:none;opacity:1}
-.cslide{width:1080px;height:1350px;position:relative;display:flex;flex-direction:column;justify-content:center;padding:120px 100px;box-sizing:border-box;font-family:"Nunito",system-ui,sans-serif;overflow:hidden;background:var(--t-bg);color:var(--t-fg)}
+.cslide{width:1080px;height:1350px;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;padding:190px 110px;box-sizing:border-box;font-family:"Nunito",system-ui,sans-serif;overflow:hidden;background:var(--t-bg);color:var(--t-fg)}
+/* безопасная зона: текст слева и по центру, справа/сверху/снизу - место под UI Instagram */
+.cslide .cs-title,.cslide .cs-text{max-width:660px}
 .cslide .cs-idx{position:absolute;top:84px;left:100px;font-family:"Oswald";font-weight:700;font-size:44px;color:var(--t-acc)}
 .cslide .cs-title{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:94px;line-height:1.01;color:var(--t-title);margin:0 0 34px;letter-spacing:.005em}
 .cslide.cover .cs-title{font-size:104px}
@@ -239,11 +251,13 @@ em{font-style:normal;color:var(--coral)}
 .cslide.st .cs-top{top:120px}.cslide.st .cs-foot{bottom:120px}
 .cslide.sq .cs-brandname{font-size:34px}.cslide.sq .cs-url,.cslide.sq .cs-foot{font-size:23px}
 /* форматы: квадрат (пост) и вертикаль (сториз) */
-.cslide.sq{height:1080px;padding:100px 96px}
+.cslide.sq{height:1080px;padding:150px 100px}
 .cslide.sq .cs-title{font-size:84px}
-.cslide.st{height:1920px;padding:170px 100px}
+.cslide.sq .cs-title,.cslide.sq .cs-text{max-width:680px}
+.cslide.st{height:1920px;padding:330px 100px}
 .cslide.st .cs-title{font-size:104px}
 .cslide.st .cs-text{font-size:54px}
+.cslide.st .cs-title,.cslide.st .cs-text{max-width:640px}
 /* заголовки групп платформ */
 .pgroup{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.08em;color:var(--muted);margin:4px 2px 8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .pgroup.visual{color:var(--coral-deep)}

@@ -32,6 +32,9 @@ UNLIMITED_EMAILS = {e.strip().lower() for e in
 WELCOME_HOOK_SECRET = os.environ.get("WELCOME_HOOK_SECRET", "").strip()
 CAROUSEL_WEEKLY = int(os.environ.get("CAROUSEL_WEEKLY", "3"))
 VISUAL_MONTHLY = int(os.environ.get("VISUAL_MONTHLY", "30"))  # пост/сториз - 30 картинок в месяц
+START_DAILY = int(os.environ.get("START_DAILY", "5"))   # тариф Старт - тем/сценариев в день
+PRO_DAILY = int(os.environ.get("PRO_DAILY", "30"))      # тариф Pro - тем/сценариев в день
+PLAN_DAILY = {"start": START_DAILY, "pro": PRO_DAILY}
 
 def paid_plan(email: str):
     """Активный платный доступ пользователя: 'unlimited' (белый список) | plan | None."""
@@ -113,9 +116,22 @@ def me(user: dict = Depends(get_user)):
     stories_used = _cr("stories", 30)
     visual_pro = plan in ("pro", "unlimited")
     visual_unlimited = plan == "unlimited"   # белый список - визуалы без лимитов
+    # текстовый блок: дневной лимит по тарифу (Старт 5/день, Pro 30/день), whitelist - безлимит, free - пробный
+    if plan == "unlimited":
+        text_unlimited = True; text_used = used; text_limit = None; text_left = None
+    elif plan in PLAN_DAILY:
+        try:
+            td = usage.count_text_daily(user["id"])
+        except Exception:
+            td = 0
+        text_unlimited = False; text_used = td; text_limit = PLAN_DAILY[plan]; text_left = max(0, PLAN_DAILY[plan] - td)
+    else:
+        text_unlimited = False; text_used = used; text_limit = FREE_LIMIT; text_left = max(0, FREE_LIMIT - used)
     return {"email": user["email"], "unlimited": unlimited, "plan": plan,
             "used": used, "free_limit": FREE_LIMIT,
             "remaining": None if unlimited else max(0, FREE_LIMIT - used),
+            "text_unlimited": text_unlimited, "text_used": text_used,
+            "text_limit": text_limit, "text_left": text_left,
             "visual_pro": visual_pro, "carousel_pro": visual_pro,
             "visual_unlimited": visual_unlimited,
             "carousel_limit": CAROUSEL_WEEKLY, "carousel_left": max(0, CAROUSEL_WEEKLY - car_used),
@@ -152,8 +168,18 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
                     return JSONResponse(status_code=402, content={
                         "error": "limit", "reason": "visual_monthly", "used": vm, "limit": VISUAL_MONTHLY})
     else:
-        unlimited = paid_plan(user["email"]) is not None
-        if not unlimited:
+        tplan = paid_plan(user["email"])
+        if tplan == "unlimited":
+            pass  # белый список - без лимита
+        elif tplan in PLAN_DAILY:
+            try:
+                td = usage.count_text_daily(user["id"])
+            except Exception:
+                td = 0
+            if td >= PLAN_DAILY[tplan]:
+                return JSONResponse(status_code=402, content={
+                    "error": "limit", "reason": "text_daily", "used": td, "limit": PLAN_DAILY[tplan]})
+        else:
             used = usage.count(user["id"])
             if used >= FREE_LIMIT:
                 return JSONResponse(status_code=402, content={

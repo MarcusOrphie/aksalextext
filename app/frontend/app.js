@@ -15,6 +15,16 @@
     [["pay-start", PAY.start], ["pw-pay-start", PAY.start], ["pay-pro", PAY.pro], ["pw-pay-pro", PAY.pro]]
       .forEach(([id, url]) => { const a = $(id); if (a) a.href = url + em; });
   }
+  // на любой кнопке оплаты (payform.ru) подставляем известный email пользователя - чтобы на платёжной странице он был уже заполнен
+  let knownEmail = "";
+  document.addEventListener("click", function (ev) {
+    const a = ev.target && ev.target.closest && ev.target.closest('a[href*="payform.ru"]');
+    if (!a || !knownEmail) return;
+    try {
+      const u = new URL(a.href);
+      if (!u.searchParams.get("customer_email")) { u.searchParams.set("customer_email", knownEmail); a.href = u.toString(); }
+    } catch (e) {}
+  }, true);
   const TEXT_IDS = ["reels", "shorts", "tiktok", "youtube_long", "content_plan"];
   const VISUAL_IDS = ["carousel", "post", "stories"];
   const VISUAL = { carousel: 1, post: 1, stories: 1 };
@@ -195,9 +205,9 @@
       head.appendChild(el("span", "pg-title", t(hk)));
       if (meState) {
         if (!visual) {
-          const txt = meState.unlimited
-            ? (t("u_made") + meState.used + " · " + t("u_unlim"))
-            : (t("u_made") + meState.used + " · " + t("u_left") + meState.remaining);
+          const txt = meState.text_unlimited
+            ? (t("u_made") + (meState.text_used || 0) + " · " + t("u_unlim"))
+            : (t("u_made") + (meState.text_used || 0) + " · " + t("u_left") + (meState.text_left != null ? meState.text_left : 0));
           head.appendChild(el("span", "pg-usage", txt));
         }
       }
@@ -253,6 +263,7 @@
         if (e.reason === "carousel_weekly") { st.textContent = t("car_weekly_msg"); return; }
         if (e.reason === "visual_monthly") { st.textContent = t("visual_monthly_msg"); return; }
         if (e.reason === "visual_pro" || e.reason === "carousel_pro") { st.textContent = t("visual_pro_msg"); showPaywall(); return; }
+        if (e.reason === "text_daily") { st.textContent = t("text_daily_msg").replace("{n}", e.limit != null ? e.limit : ""); return; }
         st.hidden = true; showPaywall(); return;
       }
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || e.error || res.status); }
@@ -579,7 +590,7 @@
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
       carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left;
-      carState.pro = !!m.visual_pro; carState.visualUnlim = !!m.visual_unlimited; carState.email = m.email || ""; meState = m;
+      carState.pro = !!m.visual_pro; carState.visualUnlim = !!m.visual_unlimited; carState.email = m.email || ""; knownEmail = m.email || ""; meState = m;
       updateCarouselPanel(); renderPlatforms();
     } catch (e) { box.hidden = true; showPlans(false); }
   }
@@ -733,7 +744,7 @@
       const lock = el("div", "car-lock");
       lock.appendChild(el("div", "car-lock-t", "🔒 " + t("visual_pro_only")));
       lock.appendChild(el("div", "car-lock-m", t("visual_pro_msg")));
-      const btn = el("a", "btn btn-primary", t("pw_pro_cta"));
+      const btn = el("a", "btn btn-primary", t("car_pro_cta"));
       btn.href = PAY.pro + (carState.email ? "&customer_email=" + encodeURIComponent(carState.email) : "");
       btn.target = "_blank"; btn.rel = "noopener";
       lock.appendChild(btn);
@@ -789,8 +800,6 @@
     title.style.fontWeight = fp.wght || 700;
     node.appendChild(title);
     if (s.text) { const tx = el("div", "cs-text", s.text); tx.style.fontFamily = fp.bf; node.appendChild(tx); }
-    // только номер слайда для карусели (не брендинг)
-    if (total > 1) { const foot = el("div", "cs-foot"); foot.appendChild(el("span", null, (idx + 1) + "/" + total)); node.appendChild(foot); }
     const stage = $("cs-stage"); stage.appendChild(node);
     fitSlide(node);
     let url = "";
@@ -806,6 +815,33 @@
     const img = new Image(); img.src = url; thumb.appendChild(img);
     const a = el("a", null, "⬇ " + t("car_download")); a.href = url; a.download = name; thumb.appendChild(a);
     return thumb;
+  }
+  // ---------- ЛАЙТБОКС (полноразмер по клику, закрытие, пролистывание) ----------
+  const LBX = { urls: [], i: 0, el: null, imgEl: null, cEl: null };
+  function lbxRender() { if (!LBX.imgEl) return; LBX.imgEl.src = LBX.urls[LBX.i]; if (LBX.cEl) LBX.cEl.textContent = (LBX.i + 1) + " / " + LBX.urls.length; }
+  function lbxClose() { if (LBX.el) { LBX.el.remove(); LBX.el = null; document.removeEventListener("keydown", lbxKey); } }
+  function lbxGo(delta) { if (!LBX.urls.length) return; LBX.i = (LBX.i + delta + LBX.urls.length) % LBX.urls.length; lbxRender(); }
+  function lbxKey(e) { if (e.key === "Escape") lbxClose(); else if (e.key === "ArrowRight") lbxGo(1); else if (e.key === "ArrowLeft") lbxGo(-1); }
+  function openLightbox(urls, i) {
+    if (!urls || !urls.length) return;
+    lbxClose();
+    LBX.urls = urls; LBX.i = i || 0;
+    const ov = el("div", "lbx");
+    const img = el("img"); img.alt = ""; LBX.imgEl = img;
+    const close = el("button", "lbx-close", "×"); close.setAttribute("aria-label", "Закрыть"); close.onclick = lbxClose;
+    ov.appendChild(img); ov.appendChild(close);
+    if (urls.length > 1) {
+      const prev = el("button", "lbx-nav lbx-prev", "‹"); prev.onclick = (e) => { e.stopPropagation(); lbxGo(-1); };
+      const next = el("button", "lbx-nav lbx-next", "›"); next.onclick = (e) => { e.stopPropagation(); lbxGo(1); };
+      const cnt = el("div", "lbx-count"); LBX.cEl = cnt;
+      ov.appendChild(prev); ov.appendChild(next); ov.appendChild(cnt);
+    } else LBX.cEl = null;
+    ov.onclick = (e) => { if (e.target === ov) lbxClose(); };
+    let sx = 0;
+    img.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    img.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) lbxGo(dx < 0 ? 1 : -1); }, { passive: true });
+    document.body.appendChild(ov); LBX.el = ov; document.addEventListener("keydown", lbxKey);
+    lbxRender();
   }
   async function renderVisual(out, mode) {
     const d = out.data || {};
@@ -827,11 +863,13 @@
       arr(d.frames).forEach(f => slides.push({ cover: true, title: f.text || f.visual }));
     }
     const outBox = el("div", "cs-out");
+    const urls = [];
     for (let i = 0; i < slides.length; i++) {
       const url = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
-      if (url) outBox.appendChild(thumbFor(url, mode + "-" + (i + 1) + ".png"));
+      if (url) { urls.push(url); outBox.appendChild(thumbFor(url, mode + "-" + (i + 1) + ".png")); }
     }
     box.appendChild(outBox);
+    outBox.querySelectorAll(".cs-thumb img").forEach((im, idx) => { im.onclick = () => openLightbox(urls, idx); });
     const actions = el("div", "result-actions");
     const all = el("button", "pdfdl", t("car_download_all"));
     all.onclick = () => outBox.querySelectorAll("a").forEach((a, idx) => setTimeout(() => a.click(), idx * 400));
@@ -856,6 +894,7 @@
     const outBox = el("div", "cs-out");
     if (url) outBox.appendChild(thumbFor(url, "post.png"));
     box.appendChild(outBox);
+    if (url) { const im = outBox.querySelector(".cs-thumb img"); if (im) im.onclick = () => openLightbox([url], 0); }
     const tags = arr(d.hashtags).map(x => "#" + String(x).replace(/^#/, "")).join(" ");
     const capText = [d.body, d.cta, tags].filter(Boolean).join("\n\n");
     if (capText) {
