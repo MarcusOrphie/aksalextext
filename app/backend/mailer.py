@@ -130,8 +130,8 @@ def send_sub_activated(email: str, plan_label: str):
   <img src="https://aksalex.com/apple-touch-icon.png" width="34" height="34" alt="" style="vertical-align:middle;border-radius:50%;border:2px solid #151210;margin-right:9px;"> ЗАЛИХВАТ</td></tr>
 <tr><td style="background:#fffdf8;border:3px solid #151210;border-radius:18px;padding:34px 30px;box-shadow:8px 8px 0 #ff7f50;">
   <div style="font-family:'Oswald',Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:12px;color:#e85f2c;">Тариф {plan_label} активирован</div>
-  <h1 style="margin:8px 0 12px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:26px;color:#151210;">Доступ открыт!</h1>
-  <p style="margin:0 0 20px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">Заходи в кабинет той же почтой - и генерируй контент без ограничений.</p>
+  <h1 style="margin:8px 0 12px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:26px;color:#151210;">Спасибо, что подключились к Залихвату!</h1>
+  <p style="margin:0 0 20px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">Заходите в кабинет с той же почтой и желаю удачи в ведении блога!</p>
   <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:14px;background:#ff7f50;border:3px solid #151210;">
     <a href="{CABINET}" style="display:inline-block;padding:14px 30px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;color:#faf5ec;text-decoration:none;">Открыть кабинет →</a></td></tr></table>
 </td></tr></table></td></tr></table></body></html>"""
