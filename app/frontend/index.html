@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&family=Archivo:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Manrope:wght@500;600;700;800&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="/styles.css?v=20260906b">
+<link rel="stylesheet" href="/styles.css?v=20260906c">
 </head>
 <body>
 <div class="wrap">
@@ -100,9 +100,9 @@
       <label class="cover-up"><input id="cover-file" type="file" accept="image/*" hidden><span id="cover-up-label" data-i18n="cover_upload">📷 Загрузить фото</span></label>
       <div id="cover-prev" class="cover-prev" hidden></div>
     </div>
-    <label class="fld"><span data-i18n="lbl_topic">Тема или запрос (можно пусто - возьму твою нишу)</span>
+    <label class="fld"><span id="topic-lbl" data-i18n="lbl_topic">Тема или запрос (можно пусто - возьму твою нишу)</span>
       <input id="topic" type="text" data-i18n-ph="ph_topic" placeholder="напр. киноляпы, которые видно в кадре"></label>
-    <label class="fld"><span data-i18n="lbl_usertext">Твой текст (необязательно - если есть, соберу контент на его основе)</span>
+    <label class="fld" id="usertext-fld"><span data-i18n="lbl_usertext">Твой текст (необязательно - если есть, соберу контент на его основе)</span>
       <textarea id="usertext" rows="4" maxlength="6000" data-i18n-ph="ph_usertext" placeholder="вставь свой черновик, заметки или готовый текст - переработаю под формат"></textarea></label>
     <button id="btn-gen" class="btn btn-primary big" data-i18n="btn_gen">Сгенерировать</button>
     <div id="gen-status" class="note" hidden></div>
@@ -170,7 +170,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="/config.js"></script>
-<script src="/i18n.js?v=20260906b"></script>
-<script src="/app.js?v=20260906b"></script>
+<script src="/i18n.js?v=20260906c"></script>
+<script src="/app.js?v=20260906c"></script>
 </body>
 </html>

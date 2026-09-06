@@ -39,6 +39,23 @@
   const VISUAL_IDS = ["carousel", "post", "stories", "reels_cover"];
   const VISUAL = { carousel: 1, post: 1, stories: 1, reels_cover: 1 };
   let coverBg = null;   // загруженное пользователем фото для обложки Reels
+  // фейк-ризонинг: забавные фразы, пока идёт генерация
+  const THINK = {
+    ru: ["Думаю над идеей...", "Копаю свежие тренды...", "Ищу в бинокль виральные приёмы...",
+         "Лью смыслы в текст...", "Кручу-верчу формулировки...", "Точу хук поострее...",
+         "Роюсь в актуалочке...", "Сверяюсь с фактами...", "Отжимаю воду...", "Собираю пакет..."],
+    en: ["Thinking up the idea...", "Digging through fresh trends...", "Scanning for viral moves...",
+         "Pouring meaning into words...", "Tuning the phrasing...", "Sharpening the hook...",
+         "Rummaging for what's hot...", "Fact-checking...", "Wringing out the fluff...", "Packing it up..."],
+  };
+  function startThinking(st) {
+    const lang = (window.ZI18N.getLang && window.ZI18N.getLang() || "ru").startsWith("en") ? "en" : "ru";
+    const arr = THINK[lang] || THINK.ru;
+    let i = Math.floor(Math.random() * arr.length);
+    st.textContent = arr[i];
+    const timer = setInterval(() => { i = (i + 1) % arr.length; st.textContent = arr[i]; }, 2200);
+    return () => clearInterval(timer);
+  }
   let platform = "reels";
   let profile = {};
   let recovering = false;
@@ -251,6 +268,20 @@
       box.appendChild(grid);
     });
     updateCarouselPanel();
+    applyPlatformFields();
+  }
+  // для «Обложек Reels» - одно поле «Заголовок» (без «тема» и «твой текст»)
+  function applyPlatformFields() {
+    const lbl = $("topic-lbl"), uf = $("usertext-fld"), ti = $("topic");
+    if (platform === "reels_cover") {
+      if (uf) uf.hidden = true;
+      if (lbl) lbl.textContent = t("cover_title_lbl");
+      if (ti) ti.placeholder = t("cover_title_ph");
+    } else {
+      if (uf) uf.hidden = false;
+      if (lbl) lbl.textContent = t("lbl_topic");
+      if (ti) ti.placeholder = t("ph_topic");
+    }
   }
 
   // ---------- GENERATE ----------
@@ -263,14 +294,15 @@
     const st = $("gen-status"); st.hidden = false;
     if (VISUAL[platform] && !carState.pro) { st.textContent = t("visual_pro_msg"); showPaywall(); return; }
     if (platform === "reels_cover" && !coverBg) { st.textContent = t("cover_need"); return; }
-    st.textContent = t("gen_status");
     $("btn-gen").disabled = true;
+    const stopThink = startThinking(st);
     try {
       const res = await fetch(API + "/generate", {
         method: "POST",
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
         body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText, design: effectiveDesign() }),
       });
+      stopThink();
       if (res.status === 402) {
         const e = await res.json().catch(() => ({}));
         if (e.reason === "carousel_weekly") { st.textContent = t("car_weekly_msg"); return; }
@@ -291,6 +323,7 @@
     } catch (e) {
       st.textContent = t("gen_fail") + e.message;
     } finally {
+      stopThink();
       $("btn-gen").disabled = false;
     }
   };
@@ -581,21 +614,45 @@
     const { data } = await sb.from("generations").select("*").order("created_at", { ascending: false }).limit(15);
     const box = $("history"); box.textContent = "";
     (data || []).forEach(g => {
+      const item = el("div", "h-item");
       const h = el("div", "h");
-      const b = el("b", null, g.platform + " ");
-      h.appendChild(b);
-      const isVisual = (g.platform === "carousel" || g.platform === "post" || g.platform === "stories" || g.platform === "reels_cover");
+      h.appendChild(el("span", "h-arrow", "▸"));
+      h.appendChild(el("b", null, plabel(g.platform) + " "));
       h.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
-      if (isVisual) { const tag = el("span", "h-img", "🖼 " + t("h_open_images")); h.appendChild(tag); }
+      const det = el("div", "h-detail"); det.hidden = true;
+      let built = false;
       h.onclick = () => {
-        const out = { platform: g.platform, data: g.output };
-        if (g.platform === "post") renderPost(out);
-        else if (g.platform === "carousel" || g.platform === "stories") renderVisual(out, g.platform);
-        else if (g.platform === "reels_cover") renderCover(out);
-        else renderResult(out);
+        if (!built) { det.appendChild(buildHistoryDetail(g.platform, g.output || {})); built = true; }
+        det.hidden = !det.hidden;
+        item.classList.toggle("open", !det.hidden);
+        h.querySelector(".h-arrow").textContent = det.hidden ? "▸" : "▾";
       };
-      box.appendChild(h);
+      item.appendChild(h); item.appendChild(det);
+      box.appendChild(item);
     });
+  }
+  // раскрытие исторических данных инлайн (текст, без ре-рендера картинок)
+  function buildHistoryDetail(p, d) {
+    const wrap = el("div", "h-dbody");
+    const add = (k, v) => { if (v == null || v === "") return; const r = el("div", "h-drow"); if (k) r.appendChild(el("span", "h-dk", k)); r.appendChild(el("span", "h-dv", String(v))); wrap.appendChild(r); };
+    const head = (txt) => wrap.appendChild(el("div", "h-dhead", txt));
+    if (["reels", "shorts", "tiktok"].includes(p)) {
+      arr(d.ideas).forEach((it, i) => { head((i + 1) + ". " + (it.idea || "")); add(t("r_hook"), it.hook); add("Сценарий", it.scenario); add("Подпись", it.caption); });
+    } else if (p === "youtube_long") {
+      if (d.title) head(d.title); add(t("r_hook"), d.hook); arr(d.sections).forEach(s => { head(s.h || ""); add("", s.points); }); add("Финал", d.outro);
+    } else if (p === "carousel") {
+      add("1", d.hook_slide); arr(d.slides).forEach((s, i) => add(String(i + 2), (s.title ? s.title + " — " : "") + (s.text || ""))); add("CTA", d.cta_slide);
+    } else if (p === "post") {
+      add(t("r_hook"), d.hook); add("", d.body); add("CTA", d.cta); const tg = arr(d.hashtags).map(x => "#" + String(x).replace(/^#/, "")).join(" "); add("", tg);
+    } else if (p === "stories") {
+      arr(d.frames).forEach((f, i) => add(String(i + 1), f.text || f.visual));
+    } else if (p === "reels_cover") {
+      add("", d.title); add("", d.subtitle);
+    } else if (p === "content_plan") {
+      arr(d.plan).forEach(x => add(x.day || "", (x.format ? "[" + x.format + "] " : "") + (x.idea || "")));
+    }
+    if (!wrap.children.length) add("", t("no_topic"));
+    return wrap;
   }
 
   function showPlans(free) { const cp = $("cab-plans"); if (cp) cp.hidden = !free; }

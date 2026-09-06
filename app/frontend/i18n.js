@@ -116,6 +116,7 @@
       p_reels_cover: "Обложки Reels", p_reels_cover_s: "твоё фото",
       cover_h: "Твоё фото для обложки", cover_upload: "📷 Загрузить фото", cover_change: "📷 Заменить фото",
       cover_need: "Сначала загрузи своё фото для обложки.",
+      cover_title_lbl: "Заголовок (о чём ролик)", cover_title_ph: "напр. как я начала вести блог в декрете",
       locale: "ru"
     },
     en: {
@@ -222,6 +223,7 @@
       p_reels_cover: "Reels covers", p_reels_cover_s: "your photo",
       cover_h: "Your photo for the cover", cover_upload: "📷 Upload photo", cover_change: "📷 Replace photo",
       cover_need: "Upload your photo for the cover first.",
+      cover_title_lbl: "Headline (what the reel is about)", cover_title_ph: "e.g. how I started blogging on maternity leave",
       locale: "en"
     }
   };
