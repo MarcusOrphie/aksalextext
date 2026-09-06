@@ -684,12 +684,7 @@
     if (custom && carState.customBg) mini.style.backgroundImage = "url(" + carState.customBg + ")";
     const id = cls.replace("ct-", "");
     const fp = fontOf(id);
-    // мини бренд-бар (как на реальном слайде) - для узнаваемости шаблона
-    const top = el("div", "cd-top");
-    top.insertAdjacentHTML("afterbegin", markSVG("var(--t-acc)", "var(--t-title)"));
-    top.appendChild(el("span", null, "Залихват"));
-    mini.appendChild(top);
-    // образец шрифта заголовка в цвете шаблона
+    // образец шрифта заголовка в цвете шаблона (без брендинга)
     const m1 = el("div", "m1", "Аа");
     m1.style.fontFamily = fp.tf; m1.style.textTransform = fp.up ? "uppercase" : "none";
     m1.style.fontStyle = fp.ital ? "italic" : "normal"; m1.style.fontWeight = fp.wght || 700;
@@ -775,17 +770,7 @@
     const node = el("div", "cslide ct-" + eff + (dim.cls ? " " + dim.cls : "") + (s.cover ? " cover" : ""));
     if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
-    // верхний бренд-бар: лого + имя слева, сайт справа
-    const cst = getComputedStyle(node);
-    const accCol = cst.getPropertyValue("--t-acc").trim() || "#ff7f50";
-    const titleCol = cst.getPropertyValue("--t-title").trim() || "#151210";
-    const top = el("div", "cs-top");
-    const bn = el("div", "cs-brandname");
-    bn.insertAdjacentHTML("afterbegin", markSVG(accCol, titleCol));
-    bn.appendChild(el("span", null, "Залихват"));
-    top.appendChild(bn);
-    top.appendChild(el("span", "cs-url", "aksalex.com"));
-    node.appendChild(top);
+    // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
     const fp = fontOf(eff);
     const title = el("div", "cs-title", s.title || "");
@@ -795,11 +780,8 @@
     title.style.fontWeight = fp.wght || 700;
     node.appendChild(title);
     if (s.text) { const tx = el("div", "cs-text", s.text); tx.style.fontFamily = fp.bf; node.appendChild(tx); }
-    // футер: хэндл + номер слайда
-    const foot = el("div", "cs-foot");
-    foot.appendChild(el("span", null, "@zalihvat_ai"));
-    foot.appendChild(el("span", null, total > 1 ? (idx + 1) + "/" + total : ""));
-    node.appendChild(foot);
+    // только номер слайда для карусели (не брендинг)
+    if (total > 1) { const foot = el("div", "cs-foot"); foot.appendChild(el("span", null, (idx + 1) + "/" + total)); node.appendChild(foot); }
     const stage = $("cs-stage"); stage.appendChild(node);
     fitSlide(node);
     let url = "";

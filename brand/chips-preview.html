@@ -28,15 +28,13 @@ Object.keys(CFONT).forEach(id=>{
   const cell=document.createElement("div");cell.className="cell";
   const chip=document.createElement("div");chip.className="cdchip";
   const mini=document.createElement("div");mini.className="cd-mini ct-"+id;
-  const top=document.createElement("div");top.className="cd-top";
-  top.insertAdjacentHTML("afterbegin",markSVG("var(--t-acc)","var(--t-title)"));
-  const nm=document.createElement("span");nm.textContent="Залихват";top.appendChild(nm);mini.appendChild(top);
   const m1=document.createElement("div");m1.className="m1";m1.textContent="Аа";
   m1.style.fontFamily=fp.tf;m1.style.textTransform=fp.up?"uppercase":"none";m1.style.fontStyle=fp.ital?"italic":"normal";m1.style.fontWeight=fp.wght;mini.appendChild(m1);
   mini.appendChild(Object.assign(document.createElement("div"),{className:"m2"}));
   mini.insertAdjacentHTML("beforeend",miniDecoSVG(d.s,d.a,d.b));
-  chip.appendChild(mini);cell.appendChild(chip);
-  const lab=document.createElement("div");lab.className="lab";lab.textContent=NAMES[id];cell.appendChild(lab);
+  chip.appendChild(mini);
+  const cn=document.createElement("div");cn.className="cd-name";cn.textContent=NAMES[id];chip.appendChild(cn);
+  cell.appendChild(chip);
   g.appendChild(cell);
 });
 </script>
