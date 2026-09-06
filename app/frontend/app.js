@@ -540,7 +540,49 @@
   }
 
   // ---------- CAROUSEL (визуальный генератор) ----------
-  const CTEMPLATES = ["coral", "cream", "ink", "sunset", "mint", "noir", "paper", "blush", "sky", "forest"];
+  const CTEMPLATES = ["blush", "rose", "sage", "peach", "lavender", "terra", "butter", "cream", "noir", "coral"];
+  // декор для каждого шаблона: стиль орнамента + 2 цвета
+  const CDEF = {
+    blush:    { style: "floral",    a: "#e6a996", b: "#c98b7a" },
+    rose:     { style: "scallop",   a: "#c98a92", b: "#b56b74" },
+    sage:     { style: "botanical", a: "#8fae87", b: "#6e8a66" },
+    peach:    { style: "arch",      a: "#eaa877", b: "#e08a54" },
+    lavender: { style: "sparkle",   a: "#b3a1d8", b: "#9884c0" },
+    terra:    { style: "boho",      a: "#c07a52", b: "#a85f38" },
+    butter:   { style: "floral",    a: "#e6c766", b: "#d9b74e" },
+    cream:    { style: "botanical", a: "#cdb27a", b: "#c9a86a" },
+    noir:     { style: "sparkle",   a: "#d8b25a", b: "#e6c877" },
+    coral:    { style: "floral",    a: "#ffd9c6", b: "#ffb99a" },
+  };
+  function _flower(cx, cy, s, petal, center) {
+    let p = ""; for (let i = 0; i < 5; i++) p += '<ellipse cx="' + cx + '" cy="' + (cy - s * 0.6) + '" rx="' + (s * 0.34) + '" ry="' + (s * 0.6) + '" fill="' + petal + '" transform="rotate(' + (i * 72) + ' ' + cx + ' ' + cy + ')"/>';
+    return "<g>" + p + '<circle cx="' + cx + '" cy="' + cy + '" r="' + (s * 0.34) + '" fill="' + center + '"/></g>';
+  }
+  function _leaf(cx, cy, s, rot, c) { return '<path d="M' + cx + ' ' + (cy - s) + ' Q ' + (cx + s * 0.7) + ' ' + cy + ' ' + cx + ' ' + (cy + s) + ' Q ' + (cx - s * 0.7) + ' ' + cy + ' ' + cx + ' ' + (cy - s) + ' Z" fill="' + c + '" transform="rotate(' + rot + ' ' + cx + ' ' + cy + ')"/>'; }
+  function _spk(cx, cy, s, c) { const k = s * 0.18; return '<path d="M' + cx + ' ' + (cy - s) + ' C ' + (cx + k) + ' ' + (cy - k) + ' ' + (cx + k) + ' ' + (cy - k) + ' ' + (cx + s) + ' ' + cy + ' C ' + (cx + k) + ' ' + (cy + k) + ' ' + (cx + k) + ' ' + (cy + k) + ' ' + cx + ' ' + (cy + s) + ' C ' + (cx - k) + ' ' + (cy + k) + ' ' + (cx - k) + ' ' + (cy + k) + ' ' + (cx - s) + ' ' + cy + ' C ' + (cx - k) + ' ' + (cy - k) + ' ' + (cx - k) + ' ' + (cy - k) + ' ' + cx + ' ' + (cy - s) + ' Z" fill="' + c + '"/>'; }
+  function _dot(cx, cy, r, c) { return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + c + '"/>'; }
+  function _sprig(cx, cy, s, c) { let g = '<path d="M' + cx + ' ' + cy + ' q 0 -' + s + ' 0 -' + (s * 2) + '" stroke="' + c + '" stroke-width="4" fill="none"/>'; for (let i = 0; i < 4; i++) { const yy = cy - s * 0.4 - i * s * 0.42; g += _leaf(cx + (i % 2 ? 1 : -1) * s * 0.32, yy, s * 0.26, (i % 2 ? 40 : -40), c); } return "<g>" + g + "</g>"; }
+  function decoInner(style, a, b) {
+    if (style === "floral") return _flower(980, 155, 118, a, b) + _flower(875, 300, 76, a, b) + _leaf(1045, 255, 66, 30, b) + _flower(140, 1235, 92, a, b) + _leaf(235, 1250, 52, -30, b) + _dot(120, 250, 10, a) + _dot(205, 185, 7, b) + _dot(980, 1120, 9, a);
+    if (style === "botanical") return _sprig(160, 250, 92, a) + _sprig(955, 1180, 92, a) + _leaf(1005, 230, 78, 20, b) + _leaf(95, 1170, 66, -20, b) + _dot(945, 320, 8, b) + _dot(135, 1110, 8, b);
+    if (style === "arch") return '<path d="M120 660 A 420 420 0 0 1 960 660 L960 1250 L120 1250 Z" fill="' + b + '" opacity="0.16"/>' + _dot(150, 210, 12, a) + _dot(930, 175, 9, a) + _dot(1000, 255, 7, b) + _flower(958, 220, 68, a, b);
+    if (style === "sparkle") return _spk(960, 160, 70, a) + _spk(1012, 300, 34, b) + _spk(120, 1180, 64, a) + _spk(205, 1245, 28, b) + _spk(150, 235, 38, b) + _dot(940, 1115, 8, a) + _dot(1000, 1180, 6, b);
+    if (style === "scallop") { let sc = ""; for (let x = 40; x < 1080; x += 112) sc += '<path d="M' + x + ' 44 a56 56 0 0 0 112 0" fill="none" stroke="' + a + '" stroke-width="7"/>'; return sc + _flower(958, 1180, 90, a, b) + _leaf(1050, 1158, 58, 30, b) + _dot(120, 1200, 9, a); }
+    if (style === "boho") { let r = ""; for (let i = 0; i < 12; i++) { const g = i * 30 * Math.PI / 180; r += '<line x1="' + (958 + Math.cos(g) * 62) + '" y1="' + (172 + Math.sin(g) * 62) + '" x2="' + (958 + Math.cos(g) * 112) + '" y2="' + (172 + Math.sin(g) * 112) + '" stroke="' + a + '" stroke-width="6"/>'; } return '<circle cx="958" cy="172" r="46" fill="none" stroke="' + a + '" stroke-width="6"/>' + r + _dot(150, 1180, 12, a) + _dot(215, 1120, 8, b) + _dot(120, 250, 9, b); }
+    return "";
+  }
+  function decoSVG(id) {
+    const d = CDEF[id]; if (!d) return "";
+    return '<svg class="cs-deco" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">' + decoInner(d.style, d.a, d.b) + "</svg>";
+  }
+  function miniDecoSVG(id) {
+    const d = CDEF[id]; if (!d) return "";
+    let inner;
+    if (d.style === "sparkle" || d.style === "boho") inner = _spk(40, 20, 18, d.a);
+    else if (d.style === "botanical") inner = _leaf(42, 22, 18, 25, d.a);
+    else inner = _flower(40, 22, 20, d.a, d.b);
+    return '<svg class="cd-deco" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">' + inner + "</svg>";
+  }
   const carState = { design: "my", myDesign: "coral", customBg: null, left: null, pro: false, email: "" };
   try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
 
@@ -571,6 +613,8 @@
     const mini = el("div", "cd-mini " + cls);
     if (custom && carState.customBg) mini.style.backgroundImage = "url(" + carState.customBg + ")";
     mini.appendChild(el("div", "m1", "Aa")); mini.appendChild(el("div", "m2"));
+    const id = cls.replace("ct-", "");
+    if (!custom && CDEF[id]) mini.insertAdjacentHTML("beforeend", miniDecoSVG(id));
     return mini;
   }
   function renderChips(box, list, current, onPick) {
@@ -643,6 +687,7 @@
       const s = slides[i];
       const node = el("div", "cslide " + cls + (s.cover ? " cover" : ""));
       if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
+      else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
       node.appendChild(el("div", "cs-idx", (i + 1) + "/" + slides.length));
       node.appendChild(el("div", "cs-title", s.title || ""));
       if (s.text) node.appendChild(el("div", "cs-text", s.text));
