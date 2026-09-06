@@ -25,7 +25,7 @@
       ph_topic: "напр. киноляпы, которые видно в кадре",
       lbl_usertext: "Твой текст (необязательно - если есть, соберу контент на его основе)",
       ph_usertext: "вставь свой черновик, заметки или готовый текст - переработаю под формат",
-      btn_gen: "Сгенерировать", hist_eyebrow: "История", hist_h_html: "Что <em>уже сделали</em>",
+      btn_gen: "Создать", hist_eyebrow: "История", hist_h_html: "Что <em>уже сделали</em>",
       // profile
       prof_eyebrow: "Личные данные", prof_h_html: "Расскажи <em>о себе</em>",
       lbl_niche: "Ниша", ph_niche: "факты про кино и слова",
@@ -138,7 +138,7 @@
       ph_topic: "e.g. movie mistakes you can spot on screen",
       lbl_usertext: "Your text (optional - if you have one, I'll build the content from it)",
       ph_usertext: "paste your draft, notes or ready text - I'll rework it for the format",
-      btn_gen: "Generate", hist_eyebrow: "History", hist_h_html: "What we've <em>already made</em>",
+      btn_gen: "Create", hist_eyebrow: "History", hist_h_html: "What we've <em>already made</em>",
       prof_eyebrow: "Your details", prof_h_html: "Tell us <em>about yourself</em>",
       lbl_niche: "Niche", ph_niche: "facts about movies and words",
       lbl_audience: "Audience", ph_audience: "young people, movie fans",
