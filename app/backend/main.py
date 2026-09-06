@@ -78,6 +78,7 @@ class GenReq(BaseModel):
     profile: Profile | None = None
     lang: str = Field(default="ru", max_length=5)
     user_text: str = Field(default="", max_length=6000)
+    design: str = Field(default="", max_length=32)
 
 @app.get("/api/health")
 def health():
@@ -210,8 +211,39 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
                               user_text=(req.user_text or "").strip())
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
-    usage.record(user["id"], req.platform, req.topic, result.get("data"))
+    data = result.get("data")
+    # запоминаем выбранный дизайн визуала, чтобы история открывала картинки в том же шаблоне
+    if isinstance(data, dict) and req.platform in ("carousel", "post", "stories") and req.design:
+        data["_design"] = req.design
+    usage.record(user["id"], req.platform, req.topic, data)
     return result
+
+class RedoReq(BaseModel):
+    platform: str = Field(max_length=32)
+    title: str = Field(default="", max_length=1200)
+    text: str = Field(default="", max_length=2500)
+    has_text: bool = False
+    instruction: str = Field(max_length=500)
+    profile: Profile | None = None
+    lang: str = Field(default="ru", max_length=5)
+
+@app.post("/api/redo")
+@limiter.limit("60/hour")
+def redo_endpoint(request: Request, req: RedoReq, user: dict = Depends(get_user)):
+    if req.platform not in ("carousel", "post", "stories"):
+        raise HTTPException(status_code=400, detail="только для визуалов")
+    if paid_plan(user["email"]) not in ("pro", "unlimited"):
+        return JSONResponse(status_code=402, content={"error": "limit", "reason": "visual_pro"})
+    if not (req.instruction or "").strip():
+        raise HTTPException(status_code=400, detail="пустое указание")
+    profile = req.profile.model_dump(exclude_none=True) if req.profile else None
+    lang = "en" if (req.lang or "").lower().startswith("en") else "ru"
+    try:
+        out = gen.redo(req.platform, req.title, req.text, bool(req.has_text),
+                       req.instruction.strip(), profile, lang)
+    except Exception:
+        raise HTTPException(status_code=502, detail="не удалось переделать, попробуй ещё раз")
+    return {"data": out}
 
 class FeedbackReq(BaseModel):
     platform: str = Field(max_length=32)

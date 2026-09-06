@@ -192,6 +192,32 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
     return s
 
 
+def build_redo(platform: str, title: str, text: str, has_text: bool, instruction: str,
+               profile: dict | None = None, lang: str = "ru"):
+    """Система+запрос для переделки ОДНОГО слайда/картинки по указанию пользователя."""
+    en = (lang == "en")
+    inj = _INJ["en" if en else "ru"]
+    s = (BASE_EN if en else BASE)
+    if profile:
+        parts = []
+        for key in ("niche", "tone", "personality"):
+            if profile.get(key):
+                parts.append(inj[key].format(v=profile[key]))
+        if parts:
+            s += inj["profile_h"] + "\n".join(parts)
+    if en:
+        u = ("Current slide:\nTITLE: " + (title or "") + "\n" + (("TEXT: " + (text or "") + "\n") if has_text else "")
+             + "\nThe author asks to redo it like this: " + instruction
+             + "\n\nReturn a NEW version of THIS slide only via the redo_slide tool - same format (a title"
+             + (" and text" if has_text else "") + "), living human voice, all the rules. Keep about the same length so it still fits the slide.")
+    else:
+        u = ("Текущий слайд:\nЗАГОЛОВОК: " + (title or "") + "\n" + (("ТЕКСТ: " + (text or "") + "\n") if has_text else "")
+             + "\nАвтор просит переделать так: " + instruction
+             + "\n\nВерни НОВЫЙ вариант ТОЛЬКО этого слайда через инструмент redo_slide - тот же формат (заголовок"
+             + (" и текст" if has_text else "") + "), живой человеческий язык, все правила. Примерно та же длина, чтобы влезло в слайд.")
+    return s, u
+
+
 def build_user(topic: str, platform: str, lang: str = "ru", user_text: str | None = None) -> str:
     topic = (topic or "").strip()
     has_text = bool(user_text and user_text.strip())

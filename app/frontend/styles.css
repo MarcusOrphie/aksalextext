@@ -203,6 +203,15 @@ em{font-style:normal;color:var(--coral)}
 @media(max-width:560px){.lbx .lbx-nav{width:44px;height:44px;font-size:26px}}
 .cs-thumb a{display:block;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em;padding:6px;color:var(--ink);text-decoration:none;border-top:2px solid var(--ink);background:var(--paper)}
 .cs-thumb a:hover{background:var(--coral-soft);color:var(--coral-deep)}
+.cs-thumb .cs-redo{border-top:2px solid var(--ink);background:var(--paper2)}
+.cs-thumb .cs-redo-btn{display:block;width:100%;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em;padding:6px;color:var(--muted);background:none;border:none;cursor:pointer}
+.cs-thumb .cs-redo-btn:hover{color:var(--coral-deep)}
+.cs-thumb .cs-redo-form{display:flex;gap:5px;padding:0 7px 8px}
+.cs-thumb .cs-redo-inp{flex:1;min-width:0;font-family:"Nunito";font-weight:600;font-size:12px;border:2px solid var(--ink);border-radius:8px;padding:5px 7px;color:var(--ink);background:var(--paper);outline:none}
+.cs-thumb .cs-redo-inp:focus{border-color:var(--coral)}
+.cs-thumb .cs-redo-go{flex:none;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;border:2px solid var(--ink);border-radius:8px;background:var(--coral);color:var(--paper);padding:5px 9px;cursor:pointer}
+.cs-thumb .cs-redo-go:disabled{opacity:.6;cursor:default}
+.h-img{display:inline-block;margin-left:8px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.03em;color:var(--coral-deep)}
 
 /* сцена рендера - за экраном */
 #cs-stage{position:fixed;left:-20000px;top:0;width:1080px;pointer-events:none;opacity:1}

@@ -256,7 +256,7 @@
       const res = await fetch(API + "/generate", {
         method: "POST",
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
-        body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText }),
+        body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText, design: effectiveDesign() }),
       });
       if (res.status === 402) {
         const e = await res.json().catch(() => ({}));
@@ -570,8 +570,15 @@
       const h = el("div", "h");
       const b = el("b", null, g.platform + " ");
       h.appendChild(b);
+      const isVisual = (g.platform === "carousel" || g.platform === "post" || g.platform === "stories");
       h.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
-      h.onclick = () => renderResult({ platform: g.platform, data: g.output });
+      if (isVisual) { const tag = el("span", "h-img", "🖼 " + t("h_open_images")); h.appendChild(tag); }
+      h.onclick = () => {
+        const out = { platform: g.platform, data: g.output };
+        if (g.platform === "post") renderPost(out);
+        else if (g.platform === "carousel" || g.platform === "stories") renderVisual(out, g.platform);
+        else renderResult(out);
+      };
       box.appendChild(h);
     });
   }
@@ -843,6 +850,55 @@
     document.body.appendChild(ov); LBX.el = ov; document.addEventListener("keydown", lbxKey);
     lbxRender();
   }
+  // ---------- ПЕРЕДЕЛАТЬ отдельную картинку ----------
+  async function redoSlide(mode, slide, instruction) {
+    const { data } = await sb.auth.getSession();
+    const token = data.session && data.session.access_token; if (!token) return null;
+    const hasText = ("text" in slide) && slide.text != null;
+    const res = await fetch(API + "/redo", {
+      method: "POST",
+      headers: { "content-type": "application/json", "authorization": "Bearer " + token },
+      body: JSON.stringify({ platform: mode, title: slide.title || "", text: slide.text || "",
+        has_text: hasText, instruction, profile, lang: window.ZI18N.getLang() }),
+    });
+    if (!res.ok) return null;
+    const j = await res.json().catch(() => null);
+    return j && j.data;
+  }
+  async function buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs) {
+    const url = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+    if (!url) return null;
+    urls[i] = url;
+    const thumb = el("div", "cs-thumb");
+    const img = new Image(); img.src = url; img.onclick = () => openLightbox(urls, i);
+    thumb.appendChild(img); thumbs[i] = img;
+    const a = el("a", "cs-dl", "⬇ " + t("car_download")); a.href = url; a.download = mode + "-" + (i + 1) + ".png"; thumb.appendChild(a);
+    const rw = el("div", "cs-redo");
+    const rb = el("button", "cs-redo-btn", "↻ " + t("redo_btn"));
+    const form = el("div", "cs-redo-form"); form.hidden = true;
+    const inp = document.createElement("input"); inp.className = "cs-redo-inp"; inp.placeholder = t("redo_ph"); inp.maxLength = 500;
+    const go = el("button", "cs-redo-go", t("redo_go"));
+    rb.onclick = () => { form.hidden = !form.hidden; if (!form.hidden) inp.focus(); };
+    const submit = async () => {
+      const instr = inp.value.trim(); if (!instr) return;
+      go.disabled = true; inp.disabled = true; const old = go.textContent; go.textContent = t("redo_wait");
+      try {
+        const nd = await redoSlide(mode, slides[i], instr);
+        if (nd && nd.title) {
+          slides[i].title = nd.title;
+          if (("text" in slides[i]) && nd.text != null) slides[i].text = nd.text;
+          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+          if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
+          form.hidden = true; inp.value = "";
+        }
+      } catch (e) {}
+      go.disabled = false; inp.disabled = false; go.textContent = old;
+    };
+    go.onclick = submit;
+    inp.addEventListener("keydown", (e) => { if (e.key === "Enter") submit(); });
+    form.appendChild(inp); form.appendChild(go); rw.appendChild(rb); rw.appendChild(form); thumb.appendChild(rw);
+    return thumb;
+  }
   async function renderVisual(out, mode) {
     const d = out.data || {};
     const box = $("result"); box.textContent = "";
@@ -853,7 +909,7 @@
       await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
-    const eff = effectiveDesign(), useCustom = (eff === "custom");
+    const eff = d._design || effectiveDesign(), useCustom = (eff === "custom");
     const slides = [];
     if (mode === "carousel") {
       if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide });
@@ -863,13 +919,12 @@
       arr(d.frames).forEach(f => slides.push({ cover: true, title: f.text || f.visual }));
     }
     const outBox = el("div", "cs-out");
-    const urls = [];
+    const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
-      const url = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
-      if (url) { urls.push(url); outBox.appendChild(thumbFor(url, mode + "-" + (i + 1) + ".png")); }
+      const cell = await buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs);
+      if (cell) outBox.appendChild(cell);
     }
     box.appendChild(outBox);
-    outBox.querySelectorAll(".cs-thumb img").forEach((im, idx) => { im.onclick = () => openLightbox(urls, idx); });
     const actions = el("div", "result-actions");
     const all = el("button", "pdfdl", t("car_download_all"));
     all.onclick = () => outBox.querySelectorAll("a").forEach((a, idx) => setTimeout(() => a.click(), idx * 400));
@@ -889,12 +944,13 @@
       await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
-    const eff = effectiveDesign(), useCustom = (eff === "custom");
-    const url = await captureSlide({ cover: true, title: d.hook }, "post", 0, 1, eff, useCustom);
+    const eff = d._design || effectiveDesign(), useCustom = (eff === "custom");
+    const slides = [{ cover: true, title: d.hook }];
     const outBox = el("div", "cs-out");
-    if (url) outBox.appendChild(thumbFor(url, "post.png"));
+    const urls = [], thumbs = [];
+    const cell = await buildVisualCell(slides, 0, "post", eff, useCustom, urls, thumbs);
+    if (cell) outBox.appendChild(cell);
     box.appendChild(outBox);
-    if (url) { const im = outBox.querySelector(".cs-thumb img"); if (im) im.onclick = () => openLightbox([url], 0); }
     const tags = arr(d.hashtags).map(x => "#" + String(x).replace(/^#/, "")).join(" ");
     const capText = [d.body, d.cta, tags].filter(Boolean).join("\n\n");
     if (capText) {

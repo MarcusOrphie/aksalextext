@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Генерация контента через Anthropic API (tool-use под каждую платформу)."""
 import os, json, urllib.request
-from prompts import build_system, build_user
+from prompts import build_system, build_user, build_redo
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 MODEL = os.environ.get("MODEL", "claude-sonnet-5").strip()
@@ -113,3 +113,29 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         if b.get("type") == "tool_use":
             return {"platform": platform, "data": _coerce_arrays(_dash(b.get("input", {})))}
     raise RuntimeError("no tool_use in response")
+
+
+def redo(platform: str, title: str, text: str, has_text: bool, instruction: str,
+         profile: dict | None = None, lang: str = "ru") -> dict:
+    """Переделать один слайд/картинку по указанию пользователя, вернуть новые title/text."""
+    if not API_KEY:
+        raise RuntimeError("no ANTHROPIC_API_KEY")
+    props = {"title": {"type": "string"}}
+    required = ["title"]
+    if has_text:
+        props["text"] = {"type": "string"}; required.append("text")
+    tool = {"name": "redo_slide", "description": "Новый вариант этого слайда строго по формату.",
+            "input_schema": {"type": "object", "properties": props, "required": required}}
+    system, userc = build_redo(platform, title, text, has_text, instruction, profile, lang)
+    payload = {"model": MODEL, "max_tokens": 1500, "system": system,
+               "messages": [{"role": "user", "content": userc}],
+               "tools": [tool], "tool_choice": {"type": "tool", "name": "redo_slide"}}
+    body = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
+        headers={"x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=90) as r:
+        d = json.loads(r.read().decode("utf-8"))
+    for b in d.get("content", []):
+        if b.get("type") == "tool_use":
+            return _dash(b.get("input", {}))
+    raise RuntimeError("no tool_use in redo response")
