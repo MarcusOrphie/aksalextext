@@ -5,8 +5,16 @@
   const API = cfg.API_BASE || "/api";
 
   const t = window.t || ((k) => k);
-  // Ссылки оплаты Продамус (появятся в config.js; пока запасной вариант - бот)
-  const PAY = { start: cfg.PAY_START || "https://t.me/zalihvat_bot", pro: cfg.PAY_PRO || "https://t.me/zalihvat_bot" };
+  // Ссылки оплаты Продамус
+  const PAY = {
+    start: cfg.PAY_START || "https://link.payform.ru/?paymentLinkId=8481493b-b36e-40cd-98df-890d7a19f6c6",
+    pro: cfg.PAY_PRO || "https://link.payform.ru/?paymentLinkId=70cf4fc6-f875-4959-a847-fa400d1ad640",
+  };
+  function setPayLinks(email) {
+    const em = email ? "&customer_email=" + encodeURIComponent(email) : "";
+    [["pay-start", PAY.start], ["pw-pay-start", PAY.start], ["pay-pro", PAY.pro], ["pw-pay-pro", PAY.pro]]
+      .forEach(([id, url]) => { const a = $(id); if (a) a.href = url + em; });
+  }
   const PLATFORM_IDS = ["reels", "shorts", "tiktok", "youtube_long", "carousel", "post", "stories", "content_plan"];
   let platform = "reels";
   let profile = {};
@@ -514,12 +522,12 @@
       box.hidden = false;
       if (m.unlimited) box.innerHTML = t("usage_unlim") + "<b>" + m.used + "</b>" + t("usage_unlim2");
       else box.innerHTML = t("usage_left") + "<b>" + m.used + "</b>" + t("usage_left2") + "<b>" + m.remaining + "</b>";
+      setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
     } catch (e) { box.hidden = true; showPlans(false); }
   }
 
-  if ($("pay-start")) $("pay-start").href = PAY.start;
-  if ($("pay-pro")) $("pay-pro").href = PAY.pro;
+  setPayLinks("");
   renderPlatforms();
   refresh();
 })();
