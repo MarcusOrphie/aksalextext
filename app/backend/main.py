@@ -5,7 +5,7 @@ FastAPI-бэкенд контент-машины «Залихват».
 - /api/generate: генерация под платформу с учётом профиля
 - ANTHROPIC_API_KEY только на сервере; CORS ограничен app-доменом; rate limit
 """
-import os
+import os, logging
 from fastapi import FastAPI, Depends, HTTPException, Header, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -22,12 +22,21 @@ import mailer
 import voice
 import feedback
 import trends
+import access
+import prodamus
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
 UNLIMITED_EMAILS = {e.strip().lower() for e in
                     os.environ.get("UNLIMITED_EMAILS", "aksenovwork@yandex.ru").split(",") if e.strip()}
 WELCOME_HOOK_SECRET = os.environ.get("WELCOME_HOOK_SECRET", "").strip()
+
+def paid_plan(email: str):
+    """Активный платный доступ пользователя: 'unlimited' (белый список) | plan | None."""
+    if (email or "").lower() in UNLIMITED_EMAILS:
+        return "unlimited"
+    a = access.active(email)
+    return a.get("plan") if a else None
 
 limiter = Limiter(key_func=get_remote_address)
 app = FastAPI(title="Zalihvat Content Machine API", docs_url=None, redoc_url=None)
@@ -88,9 +97,10 @@ def platforms():
 
 @app.get("/api/me")
 def me(user: dict = Depends(get_user)):
-    unlimited = user["email"] in UNLIMITED_EMAILS
+    plan = paid_plan(user["email"])
+    unlimited = plan is not None      # активная подписка / белый список = без пейвола
     used = usage.count(user["id"])
-    return {"email": user["email"], "unlimited": unlimited,
+    return {"email": user["email"], "unlimited": unlimited, "plan": plan,
             "used": used, "free_limit": FREE_LIMIT,
             "remaining": None if unlimited else max(0, FREE_LIMIT - used)}
 
@@ -99,7 +109,7 @@ def me(user: dict = Depends(get_user)):
 def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_user)):
     if req.platform not in gen.PLATFORMS:
         raise HTTPException(status_code=400, detail="неизвестная платформа")
-    unlimited = user["email"] in UNLIMITED_EMAILS
+    unlimited = paid_plan(user["email"]) is not None
     if not unlimited:
         used = usage.count(user["id"])
         if used >= FREE_LIMIT:
@@ -145,3 +155,37 @@ def feedback_endpoint(request: Request, req: FeedbackReq, user: dict = Depends(g
         raise HTTPException(status_code=400, detail="плохая оценка")
     ok = feedback.record(user["id"], req.platform, req.item, req.vote)
     return {"ok": bool(ok)}
+
+@app.post("/api/hooks/prodamus")
+async def prodamus_hook(request: Request):
+    raw = await request.body()
+    try:
+        form = await request.form()
+        items = [(k, str(v)) for k, v in form.multi_items()]
+    except Exception:
+        items = []
+    data = prodamus.parse_form(items)
+    sign = request.headers.get("sign") or request.headers.get("Sign") or ""
+    ok_sign = prodamus.verify(data, sign)
+    logging.warning("PRODAMUS hook: sign_ok=%s status=%s sum=%s email=%s raw=%s",
+                    ok_sign, data.get("payment_status"), data.get("sum"),
+                    data.get("customer_email"), raw.decode(errors="replace")[:600])
+    if not ok_sign:
+        # подпись не сошлась - логируем и не выдаём доступ (тест поможет донастроить)
+        return JSONResponse(status_code=200, content={"ok": False, "reason": "bad_sign"})
+    if not prodamus.is_success(data):
+        return {"ok": True, "skipped": "not_success"}
+    email = (data.get("customer_email") or "").strip()
+    item = prodamus.route(data)
+    if not email or not item:
+        logging.error("PRODAMUS: no email/route email=%s item=%s", email, item)
+        return {"ok": True, "unrouted": True}
+    try:
+        if item["kind"] == "guide":
+            mailer.send_guide(email, item["guide"])
+        elif item["kind"] == "sub":
+            access.grant(email, item["plan"])
+            mailer.send_sub_activated(email, item["label"])
+    except Exception as e:
+        logging.error("PRODAMUS deliver failed: %r", e)
+    return {"ok": True}

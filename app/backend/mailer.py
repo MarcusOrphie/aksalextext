@@ -1,18 +1,31 @@
 # -*- coding: utf-8 -*-
 """Отправка транзакционных писем через Resend (напрямую с бэкенда).
 User-Agent обязателен: Cloudflare перед api.resend.com режет дефолтный python-urllib."""
-import os, json, logging, urllib.request, urllib.error
+import os, json, base64, logging, urllib.request, urllib.error
 
 RESEND_KEY = os.environ.get("RESEND_API_KEY", "").strip()
 MAIL_FROM = os.environ.get("MAIL_FROM", "Залихват <no-reply@aksalex.com>")
 CABINET = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
+GUIDES_DIR = os.environ.get("GUIDES_DIR", "/opt/zalihvat-app/guides")
 
 
-def send(to: str, subject: str, html: str):
+def send(to: str, subject: str, html: str, attachments=None):
     if not RESEND_KEY:
         logging.error("mailer: RESEND_API_KEY не задан")
         return
-    body = json.dumps({"from": MAIL_FROM, "to": [to], "subject": subject, "html": html}).encode("utf-8")
+    payload = {"from": MAIL_FROM, "to": [to], "subject": subject, "html": html}
+    atts = []
+    for a in (attachments or []):
+        path = a.get("path")
+        if path and os.path.exists(path):
+            with open(path, "rb") as f:
+                atts.append({"filename": a.get("filename") or os.path.basename(path),
+                             "content": base64.b64encode(f.read()).decode()})
+        else:
+            logging.error("mailer: attachment not found %s", path)
+    if atts:
+        payload["attachments"] = atts
+    body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(
         "https://api.resend.com/emails", data=body, method="POST",
         headers={"Authorization": "Bearer " + RESEND_KEY, "Content-Type": "application/json",
@@ -57,3 +70,58 @@ def _welcome_html():
 
 def send_welcome(email: str):
     send(email, "Добро пожаловать в Залихват", _welcome_html())
+
+
+GUIDES = {
+    "formats": {"file": "formats.pdf", "title": "30 форматов рилзов",
+                "desc": "6 категорий и 30 готовых форматов - выбирай, подставляй тему и снимай."},
+    "prompts": {"file": "prompts.pdf", "title": "Гайд: промпты для контента",
+                "desc": "6 профи-промптов для блога: идеи, хуки, сценарии и слайды на нейросети."},
+}
+
+
+def _guide_html(title: str, desc: str) -> str:
+    return f"""<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#faf5ec;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#faf5ec;"><tr><td align="center" style="padding:28px 16px;">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+    <tr><td style="padding:6px 4px 18px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:1px;font-size:20px;color:#151210;">
+      <img src="https://aksalex.com/apple-touch-icon.png" width="34" height="34" alt="" style="vertical-align:middle;border-radius:50%;border:2px solid #151210;margin-right:9px;"> ЗАЛИХВАТ</td></tr>
+    <tr><td style="background:#fffdf8;border:3px solid #151210;border-radius:18px;padding:34px 30px;box-shadow:8px 8px 0 #ff7f50;">
+      <div style="font-family:'Oswald',Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:12px;color:#e85f2c;">Спасибо за покупку</div>
+      <h1 style="margin:8px 0 12px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.08;color:#151210;">{title}</h1>
+      <p style="margin:0 0 18px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">{desc}</p>
+      <p style="margin:0;font-family:'Nunito',Arial,sans-serif;font-size:15px;line-height:1.6;color:#2c2621;font-weight:700;">Гайд во вложении к этому письму (PDF). Приятного пользования!</p>
+      <p style="margin:18px 0 0;font-family:'Nunito',Arial,sans-serif;font-size:14px;line-height:1.55;color:#4a443d;font-weight:600;">Хочешь весь поток контента на автопилоте - загляни в <a href="{CABINET}" style="color:#e85f2c;">кабинет Залихвата</a>.</p>
+    </td></tr>
+    <tr><td style="padding:18px 6px;font-family:'Nunito',Arial,sans-serif;font-size:12px;color:#7b7168;font-weight:600;">
+      Залихват · <strong style="color:#e85f2c;">Саша Аксенов</strong> · <a href="https://aksalex.com" style="color:#7b7168;text-decoration:underline;">aksalex.com</a></td></tr>
+  </table></td></tr></table></body></html>"""
+
+
+def send_guide(email: str, guide: str) -> bool:
+    g = GUIDES.get(guide)
+    if not g:
+        logging.error("mailer.send_guide unknown guide %s", guide)
+        return False
+    path = os.path.join(GUIDES_DIR, g["file"])
+    send(email, "Твой гайд: " + g["title"], _guide_html(g["title"], g["desc"]),
+         attachments=[{"path": path, "filename": g["file"]}])
+    return True
+
+
+def send_sub_activated(email: str, plan_label: str):
+    html = f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#faf5ec;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px 16px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<tr><td style="padding:6px 4px 18px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:20px;color:#151210;">
+  <img src="https://aksalex.com/apple-touch-icon.png" width="34" height="34" alt="" style="vertical-align:middle;border-radius:50%;border:2px solid #151210;margin-right:9px;"> ЗАЛИХВАТ</td></tr>
+<tr><td style="background:#fffdf8;border:3px solid #151210;border-radius:18px;padding:34px 30px;box-shadow:8px 8px 0 #ff7f50;">
+  <div style="font-family:'Oswald',Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:12px;color:#e85f2c;">Тариф {plan_label} активирован</div>
+  <h1 style="margin:8px 0 12px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:26px;color:#151210;">Доступ открыт!</h1>
+  <p style="margin:0 0 20px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">Заходи в кабинет той же почтой - и генерируй контент без ограничений.</p>
+  <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:14px;background:#ff7f50;border:3px solid #151210;">
+    <a href="{CABINET}" style="display:inline-block;padding:14px 30px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;color:#faf5ec;text-decoration:none;">Открыть кабинет →</a></td></tr></table>
+</td></tr></table></td></tr></table></body></html>"""
+    send(email, "Тариф " + plan_label + " активирован - Залихват", html)
