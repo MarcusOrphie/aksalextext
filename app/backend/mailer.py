@@ -53,11 +53,11 @@ def _welcome_html():
     <tr><td style="background:#fffdf8;border:3px solid #151210;border-radius:18px;padding:34px 30px;box-shadow:8px 8px 0 #ff7f50;">
       <div style="font-family:'Oswald',Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:12px;color:#e85f2c;">Контент-машина</div>
       <h1 style="margin:8px 0 12px;font-family:'Oswald','Arial Black',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:30px;line-height:1.05;color:#151210;">Добро пожаловать!</h1>
-      <p style="margin:0 0 22px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">Ты в Залихвате. Расскажи в двух словах о своём блоге - и собери первый готовый пост, пока малыш спит. Без камеры и монтажа.</p>
+      <p style="margin:0 0 22px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">Ты в Залихвате. Расскажи в двух словах о своём блоге - и собери первый готовый пост за пару минут.</p>
       <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:14px;background:#ff7f50;border:3px solid #151210;">
         <a href="{CABINET}" style="display:inline-block;padding:14px 30px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:1px;color:#faf5ec;text-decoration:none;">Открыть кабинет →</a>
       </td></tr></table>
-      <p style="margin:22px 0 0;font-family:'Nunito',Arial,sans-serif;font-size:14px;line-height:1.55;color:#4a443d;font-weight:600;">Внутри - посты, сторис, сценарии и карусели-картинки под твою тему и твоим голосом. Остаётся снять и выложить.</p>
+      <p style="margin:22px 0 0;font-family:'Nunito',Arial,sans-serif;font-size:14px;line-height:1.55;color:#4a443d;font-weight:600;">Внутри - посты, сторис, сценарии и карусели-картинки под твою тему и с твоим стилем. Остаётся выложить.</p>
     </td></tr>
     <tr><td style="padding:18px 6px;font-family:'Nunito',Arial,sans-serif;font-size:12px;color:#7b7168;font-weight:600;">
       Залихват · <strong style="color:#e85f2c;">Саша Аксенов</strong> · <a href="https://aksalex.com" style="color:#7b7168;text-decoration:underline;">aksalex.com</a><br>

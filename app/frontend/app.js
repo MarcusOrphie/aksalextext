@@ -99,11 +99,19 @@
     const { error } = await sb.auth.signInWithPassword({ email, password });
     if (error) authNote(ruErr(error.message));
   };
+  // требования к паролю: минимум 6, только латиница/цифры/символы, заглавная буква и цифра
+  function passIssue(pw) {
+    if (!pw || pw.length < 6) return "note_pass_short";
+    if (/[^\x21-\x7E]/.test(pw)) return "note_pass_rules";     // кириллица/пробелы/не-ASCII запрещены
+    if (!/[A-Z]/.test(pw) || !/[0-9]/.test(pw)) return "note_pass_rules";
+    return null;
+  }
   $("btn-register").onclick = async () => {
     if (!consentOk()) return;
     const email = $("email").value.trim(), password = $("password").value;
     if (!email || !password) return authNote(t("note_need_creds_reg"));
-    if (password.length < 6) return authNote(t("note_pass_short"));
+    const pi = passIssue(password);
+    if (pi) return authNote(t(pi));
     const { data, error } = await sb.auth.signUp({ email, password });
     if (error) return authNote(ruErr(error.message));
     if (!data.session) authNote(t("note_account_created"));
@@ -117,7 +125,8 @@
   $("btn-setpass").onclick = async () => {
     const password = $("newpass").value;
     const note = $("recover-note");
-    if (!password || password.length < 6) { note.hidden = false; note.textContent = t("note_recover_short"); return; }
+    const rpi = passIssue(password);
+    if (rpi) { note.hidden = false; note.textContent = t(rpi === "note_pass_short" ? "note_recover_short" : "note_pass_rules"); return; }
     const { error } = await sb.auth.updateUser({ password });
     note.hidden = false;
     if (error) { note.textContent = ruErr(error.message); return; }
