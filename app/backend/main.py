@@ -115,6 +115,7 @@ def me(user: dict = Depends(get_user)):
     car_used = _cr("carousel", 7)
     post_used = _cr("post", 30)
     stories_used = _cr("stories", 30)
+    cover_used = _cr("reels_cover", 30)
     visual_pro = plan in ("pro", "unlimited")
     visual_unlimited = plan == "unlimited"   # белый список - визуалы без лимитов
     # текстовый блок: дневной лимит по тарифу (Старт 5/день, Pro 30/день), whitelist - безлимит, free - пробный
@@ -138,14 +139,15 @@ def me(user: dict = Depends(get_user)):
             "carousel_limit": CAROUSEL_WEEKLY, "carousel_left": max(0, CAROUSEL_WEEKLY - car_used),
             "visual_monthly": VISUAL_MONTHLY,
             "post_left": max(0, VISUAL_MONTHLY - post_used),
-            "stories_left": max(0, VISUAL_MONTHLY - stories_used)}
+            "stories_left": max(0, VISUAL_MONTHLY - stories_used),
+            "cover_left": max(0, VISUAL_MONTHLY - cover_used)}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")
 def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_user)):
     if req.platform not in gen.PLATFORMS:
         raise HTTPException(status_code=400, detail="неизвестная платформа")
-    if req.platform in ("carousel", "post", "stories"):
+    if req.platform in ("carousel", "post", "stories", "reels_cover"):
         # визуальные генераторы картинок - только Pro (или безлимит-белый список)
         vplan = paid_plan(user["email"])
         if vplan not in ("pro", "unlimited"):
@@ -230,7 +232,7 @@ class RedoReq(BaseModel):
 @app.post("/api/redo")
 @limiter.limit("60/hour")
 def redo_endpoint(request: Request, req: RedoReq, user: dict = Depends(get_user)):
-    if req.platform not in ("carousel", "post", "stories"):
+    if req.platform not in ("carousel", "post", "stories", "reels_cover"):
         raise HTTPException(status_code=400, detail="только для визуалов")
     if paid_plan(user["email"]) not in ("pro", "unlimited"):
         return JSONResponse(status_code=402, content={"error": "limit", "reason": "visual_pro"})

@@ -267,6 +267,15 @@ em{font-style:normal;color:var(--coral)}
 .cslide.st .cs-title{font-size:104px}
 .cslide.st .cs-text{font-size:54px}
 .cslide.st .cs-title,.cslide.st .cs-text{max-width:640px}
+/* обложка Reels: фото пользователя + текст внизу */
+.cover-up{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.03em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);padding:10px 16px}
+.cover-up:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.cover-prev{margin-top:12px;width:114px;height:203px;border:2.5px solid var(--ink);border-radius:12px;background-size:cover;background-position:center;box-shadow:3px 3px 0 var(--ink)}
+.cslide.cover-slide{padding:200px 90px 190px;justify-content:flex-end}
+.cslide.cover-slide .cs-title,.cslide.cover-slide .cs-text{max-width:840px}
+.cslide.cover-slide .cs-ov{background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.35) 62%,rgba(0,0,0,.84))}
+.cslide.cover-slide .cs-title{text-shadow:0 3px 24px rgba(0,0,0,.5)}
+.cslide.cover-slide .cs-text{text-shadow:0 2px 16px rgba(0,0,0,.55)}
 /* заголовки групп платформ */
 .pgroup{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.08em;color:var(--muted);margin:4px 2px 8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .pgroup.visual{color:var(--coral-deep)}

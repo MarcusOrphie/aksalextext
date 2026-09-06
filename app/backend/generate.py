@@ -98,6 +98,11 @@ SCHEMAS = {
             "visual": {"type": "string"}, "text": {"type": "string"}}, "required": ["visual", "text"]}},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
         "required": ["frames"]},
+    "reels_cover": {"type": "object", "properties": {
+        "title": {"type": "string", "description": "крупный текст обложки, до ~6 слов, останавливает скролл"},
+        "subtitle": {"type": "string", "description": "короткий подзаголовок до ~8 слов (необязателен)"},
+        "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
+        "required": ["title"]},
 }
 PLATFORMS = set(SCHEMAS.keys())
 

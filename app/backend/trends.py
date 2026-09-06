@@ -18,12 +18,12 @@ MAX_LEN = 1800       # длина дайджеста, символов
 _PLAT = {
     "reels": "Instagram Reels", "shorts": "YouTube Shorts", "tiktok": "TikTok",
     "youtube_long": "YouTube", "carousel": "Instagram", "post": "Instagram",
-    "stories": "Instagram Stories", "content_plan": "соцсети",
+    "stories": "Instagram Stories", "content_plan": "соцсети", "reels_cover": "Instagram Reels",
 }
 _PLAT_EN = {
     "reels": "Instagram Reels", "shorts": "YouTube Shorts", "tiktok": "TikTok",
     "youtube_long": "YouTube", "carousel": "Instagram", "post": "Instagram",
-    "stories": "Instagram Stories", "content_plan": "social media",
+    "stories": "Instagram Stories", "content_plan": "social media", "reels_cover": "Instagram Reels",
 }
 
 

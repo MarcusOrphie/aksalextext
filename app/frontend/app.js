@@ -25,9 +25,20 @@
       if (!u.searchParams.get("customer_email")) { u.searchParams.set("customer_email", knownEmail); a.href = u.toString(); }
     } catch (e) {}
   }, true);
+  // загрузка своего фото для обложки Reels
+  (function () {
+    const cf = $("cover-file"); if (!cf) return;
+    cf.onchange = async () => {
+      const file = cf.files && cf.files[0]; if (!file) return;
+      try { coverBg = await blobToDataURL(file); } catch (e) { return; }
+      const prev = $("cover-prev"); if (prev) { prev.hidden = false; prev.style.backgroundImage = "url(" + coverBg + ")"; }
+      const lbl = $("cover-up-label"); if (lbl) lbl.textContent = t("cover_change");
+    };
+  })();
   const TEXT_IDS = ["reels", "shorts", "tiktok", "youtube_long", "content_plan"];
-  const VISUAL_IDS = ["carousel", "post", "stories"];
-  const VISUAL = { carousel: 1, post: 1, stories: 1 };
+  const VISUAL_IDS = ["carousel", "post", "stories", "reels_cover"];
+  const VISUAL = { carousel: 1, post: 1, stories: 1, reels_cover: 1 };
+  let coverBg = null;   // загруженное пользователем фото для обложки Reels
   let platform = "reels";
   let profile = {};
   let recovering = false;
@@ -225,6 +236,7 @@
         row.appendChild(item(t("p_carousel"), cLim - (meState.carousel_left || 0), cLim));
         row.appendChild(item(t("p_post"), vLim - (meState.post_left || 0), vLim));
         row.appendChild(item(t("p_stories"), vLim - (meState.stories_left || 0), vLim));
+        row.appendChild(item(t("p_reels_cover"), vLim - (meState.cover_left || 0), vLim));
         box.appendChild(row);
       }
       const grid = el("div", "platforms");
@@ -250,6 +262,7 @@
     const utEl = $("usertext"); const userText = utEl ? utEl.value.trim().slice(0, 6000) : "";
     const st = $("gen-status"); st.hidden = false;
     if (VISUAL[platform] && !carState.pro) { st.textContent = t("visual_pro_msg"); showPaywall(); return; }
+    if (platform === "reels_cover" && !coverBg) { st.textContent = t("cover_need"); return; }
     st.textContent = t("gen_status");
     $("btn-gen").disabled = true;
     try {
@@ -271,6 +284,7 @@
       if (platform === "carousel") { await renderVisual(out, "carousel"); return; }
       if (platform === "stories") { await renderVisual(out, "stories"); return; }
       if (platform === "post") { await renderPost(out); return; }
+      if (platform === "reels_cover") { await renderCover(out); return; }
       renderResult(out);
       st.hidden = true;
       await loadHistory(); await loadMe();
@@ -570,13 +584,14 @@
       const h = el("div", "h");
       const b = el("b", null, g.platform + " ");
       h.appendChild(b);
-      const isVisual = (g.platform === "carousel" || g.platform === "post" || g.platform === "stories");
+      const isVisual = (g.platform === "carousel" || g.platform === "post" || g.platform === "stories" || g.platform === "reels_cover");
       h.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
       if (isVisual) { const tag = el("span", "h-img", "🖼 " + t("h_open_images")); h.appendChild(tag); }
       h.onclick = () => {
         const out = { platform: g.platform, data: g.output };
         if (g.platform === "post") renderPost(out);
         else if (g.platform === "carousel" || g.platform === "stories") renderVisual(out, g.platform);
+        else if (g.platform === "reels_cover") renderCover(out);
         else renderResult(out);
       };
       box.appendChild(h);
@@ -596,7 +611,7 @@
       box.hidden = true;         // счётчики теперь в карточках блоков (Текст / Картинки)
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
-      carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left;
+      carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left; carState.coverLeft = m.cover_left;
       carState.pro = !!m.visual_pro; carState.visualUnlim = !!m.visual_unlimited; carState.email = m.email || ""; knownEmail = m.email || ""; meState = m;
       updateCarouselPanel(); renderPlatforms();
     } catch (e) { box.hidden = true; showPlans(false); }
@@ -740,7 +755,11 @@
   function profChipList() {
     return CTEMPLATES.map(id => ({ id, cls: "ct-" + id })).concat([{ id: "custom", cls: "ct-custom", custom: true }]);
   }
+  function toggleCoverPanel() {
+    const p = $("cover-panel"); if (p) p.hidden = !(platform === "reels_cover" && carState.pro);
+  }
   function updateCarouselPanel() {
+    toggleCoverPanel();
     const p = $("carousel-panel"); if (!p) return;
     const on = !!VISUAL[platform];
     p.hidden = !on;
@@ -764,6 +783,7 @@
     else if (platform === "carousel" && carState.left != null) left.textContent = t("car_left_lbl") + carState.left + "/3";
     else if (platform === "post" && carState.postLeft != null) left.textContent = t("car_month_lbl") + carState.postLeft + "/30";
     else if (platform === "stories" && carState.storiesLeft != null) left.textContent = t("car_month_lbl") + carState.storiesLeft + "/30";
+    else if (platform === "reels_cover" && carState.coverLeft != null) left.textContent = t("car_month_lbl") + carState.coverLeft + "/30";
     else left.textContent = "";
   }
 
@@ -773,7 +793,7 @@
     return eff;
   }
 
-  const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" } };
+  const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" }, reels_cover: { w: 1080, h: 1920, cls: "st cover-slide" } };
   // Ужимаем шрифт заголовка/текста, пока весь контент не влезет в слайд (не режется по краям)
   function fitSlide(node) {
     const title = node.querySelector(".cs-title");
@@ -796,7 +816,9 @@
   async function captureSlide(s, mode, idx, total, eff, useCustom) {
     const dim = DIMS[mode];
     const node = el("div", "cslide ct-" + eff + (dim.cls ? " " + dim.cls : "") + (s.cover ? " cover" : ""));
-    if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
+    const onPhoto = !!s.bg;   // обложка: фон - фото пользователя
+    if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
+    else if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
     // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
@@ -806,8 +828,9 @@
     title.style.textTransform = fp.up ? "uppercase" : "none";
     title.style.fontStyle = fp.ital ? "italic" : "normal";
     title.style.fontWeight = fp.wght || 700;
+    if (onPhoto) title.style.color = "#ffffff";
     node.appendChild(title);
-    if (s.text) { const tx = el("div", "cs-text", s.text); tx.style.fontFamily = fp.bf; node.appendChild(tx); }
+    if (s.text) { const tx = el("div", "cs-text", s.text); tx.style.fontFamily = fp.bf; if (onPhoto) tx.style.color = "#f3efe9"; node.appendChild(tx); }
     const stage = $("cs-stage"); stage.appendChild(node);
     fitSlide(node);
     let url = "";
@@ -982,6 +1005,32 @@
       wrap.appendChild(copyBtn(() => capText + (d.first_comment ? "\n\n" + t("r_first_comment") + ": " + d.first_comment : ""), t("copy_post")));
       box.appendChild(wrap);
     }
+    const actions = el("div", "result-actions");
+    const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
+    actions.appendChild(again); box.appendChild(actions);
+    st.hidden = true; await loadHistory(); await loadMe();
+    box.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  async function renderCover(out) {
+    const rseq = ++renderSeq;
+    const d = out.data || {};
+    const box = $("result"); box.textContent = "";
+    const st = $("gen-status"); st.hidden = false; st.textContent = t("car_rendering");
+    if (!window.html2canvas) { st.textContent = "html2canvas не загрузился, обнови страницу"; return; }
+    try {
+      const FAM = ["Oswald","Nunito","Fraunces","Cormorant Garamond","Space Grotesk","Poppins","Archivo","Manrope"];
+      await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
+    } catch (e) {}
+    try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
+    if (rseq !== renderSeq) return;
+    const eff = d._design || effectiveDesign();
+    const slides = [{ cover: true, title: d.title, text: d.subtitle || "", bg: coverBg }];
+    const outBox = el("div", "cs-out");
+    const urls = [], thumbs = [];
+    const cell = await buildVisualCell(slides, 0, "reels_cover", eff, false, urls, thumbs);
+    if (rseq !== renderSeq) return;
+    if (cell) outBox.appendChild(cell);
+    box.appendChild(outBox);
     const actions = el("div", "result-actions");
     const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
     actions.appendChild(again); box.appendChild(actions);

@@ -113,6 +113,9 @@
       p_tiktok: "TikTok", p_tiktok_s: "коротко", p_youtube_long: "YouTube", p_youtube_long_s: "длинное видео",
       p_carousel: "Карусель", p_carousel_s: "Instagram", p_post: "Пост", p_post_s: "Instagram",
       p_stories: "Stories", p_stories_s: "Instagram", p_content_plan: "Контент-план", p_content_plan_s: "неделя/две",
+      p_reels_cover: "Обложки Reels", p_reels_cover_s: "твоё фото",
+      cover_h: "Твоё фото для обложки", cover_upload: "📷 Загрузить фото", cover_change: "📷 Заменить фото",
+      cover_need: "Сначала загрузи своё фото для обложки.",
       locale: "ru"
     },
     en: {
@@ -216,6 +219,9 @@
       p_tiktok: "TikTok", p_tiktok_s: "short", p_youtube_long: "YouTube", p_youtube_long_s: "long video",
       p_carousel: "Carousel", p_carousel_s: "Instagram", p_post: "Post", p_post_s: "Instagram",
       p_stories: "Stories", p_stories_s: "Instagram", p_content_plan: "Content plan", p_content_plan_s: "week/two",
+      p_reels_cover: "Reels covers", p_reels_cover_s: "your photo",
+      cover_h: "Your photo for the cover", cover_upload: "📷 Upload photo", cover_change: "📷 Replace photo",
+      cover_need: "Upload your photo for the cover first.",
       locale: "en"
     }
   };
