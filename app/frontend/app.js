@@ -149,6 +149,7 @@
     applyI18n();
     setAuthMode(currentAuthMode());
     renderPlatforms();
+    renderProfileDesigns();
     if (signedIn) { loadMe(); loadHistory(); }
     if (lastOut) renderResult(lastOut);
   }
@@ -185,6 +186,7 @@
       c.onclick = () => { platform = id; renderPlatforms(); };
       box.appendChild(c);
     });
+    updateCarouselPanel();
   }
 
   // ---------- GENERATE ----------
@@ -202,9 +204,14 @@
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
         body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang() }),
       });
-      if (res.status === 402) { st.hidden = true; showPaywall(); return; }
+      if (res.status === 402) {
+        const e = await res.json().catch(() => ({}));
+        if (e.reason === "carousel_weekly") { st.textContent = t("car_weekly_msg"); return; }
+        st.hidden = true; showPaywall(); return;
+      }
       if (!res.ok) { const e = await res.json().catch(() => ({})); throw new Error(e.detail || e.error || res.status); }
       const out = await res.json();
+      if (platform === "carousel") { await renderCarousel(out); return; }
       renderResult(out);
       st.hidden = true;
       await loadHistory(); await loadMe();
@@ -469,6 +476,7 @@
     $("p-tone").value = profile.tone || ""; $("p-personality").value = profile.personality || "";
     $("p-languages").value = profile.languages || ""; $("p-brand").value = profile.brand_notes || "";
     await loadUploads();
+    await carPrefsRead(); renderProfileDesigns();
   }
   $("btn-save").onclick = async () => {
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
@@ -524,8 +532,157 @@
       else box.innerHTML = t("usage_left") + "<b>" + m.used + "</b>" + t("usage_left2") + "<b>" + m.remaining + "</b>";
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
+      carState.left = m.carousel_left; updateCarouselPanel();
     } catch (e) { box.hidden = true; showPlans(false); }
   }
+
+  // ---------- CAROUSEL (визуальный генератор) ----------
+  const CTEMPLATES = ["coral", "cream", "ink", "sunset", "mint", "noir", "paper", "blush", "sky", "forest"];
+  const carState = { design: "my", myDesign: "coral", customBg: null, left: null };
+  try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
+
+  function blobToDataURL(blob) { return new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); }); }
+
+  async function carPrefsRead() {
+    try {
+      const { data: u } = await sb.auth.getUser(); if (!u.user) return;
+      const { data } = await sb.storage.from("uploads").download(u.user.id + "/_carousel.json");
+      if (!data) return;
+      const j = JSON.parse(await data.text());
+      if (j.myDesign) { carState.myDesign = j.myDesign; try { localStorage.setItem("zh_car_mydesign", j.myDesign); } catch (e) {} }
+      if (j.bg) { try { const { data: b } = await sb.storage.from("uploads").download(j.bg); if (b) carState.customBg = await blobToDataURL(b); } catch (e) {} }
+    } catch (e) {}
+  }
+  async function carPrefsWrite(patch) {
+    try {
+      const { data: u } = await sb.auth.getUser(); if (!u.user) return;
+      let cur = {};
+      try { const { data } = await sb.storage.from("uploads").download(u.user.id + "/_carousel.json"); if (data) cur = JSON.parse(await data.text()); } catch (e) {}
+      const next = Object.assign(cur, patch);
+      await sb.storage.from("uploads").upload(u.user.id + "/_carousel.json",
+        new Blob([JSON.stringify(next)], { type: "application/json" }), { upsert: true });
+    } catch (e) {}
+  }
+
+  function chipMini(cls, custom) {
+    const mini = el("div", "cd-mini " + cls);
+    if (custom && carState.customBg) mini.style.backgroundImage = "url(" + carState.customBg + ")";
+    mini.appendChild(el("div", "m1", "Aa")); mini.appendChild(el("div", "m2"));
+    return mini;
+  }
+  function renderChips(box, list, current, onPick) {
+    box.textContent = "";
+    list.forEach(tpl => {
+      const chip = el("div", "cdchip" + (current === tpl.id ? " on" : ""));
+      chip.dataset.id = tpl.id;
+      chip.appendChild(chipMini(tpl.cls, tpl.custom || (tpl.id === "my" && carState.myDesign === "custom")));
+      chip.appendChild(el("div", "cd-name", t("cd_" + (tpl.id === "my" ? "custom" : tpl.id))));
+      chip.onclick = () => { box.querySelectorAll(".cdchip").forEach(c => c.classList.toggle("on", c.dataset.id === tpl.id)); onPick(tpl.id); };
+      box.appendChild(chip);
+    });
+  }
+  function genChipList() {
+    const md = carState.myDesign;
+    const myCls = "ct-" + (md === "custom" ? "custom" : md);
+    return CTEMPLATES.map(id => ({ id, cls: "ct-" + id }))
+      .concat([{ id: "my", cls: myCls }]);
+  }
+  function profChipList() {
+    return CTEMPLATES.map(id => ({ id, cls: "ct-" + id })).concat([{ id: "custom", cls: "ct-custom", custom: true }]);
+  }
+  function updateCarouselPanel() {
+    const p = $("carousel-panel"); if (!p) return;
+    const on = platform === "carousel";
+    p.hidden = !on;
+    if (on) {
+      renderChips($("car-designs"), genChipList(), carState.design, (id) => { carState.design = id; });
+      if (carState.left != null) $("car-left").textContent = t("car_left_lbl") + carState.left + "/3";
+    }
+  }
+
+  function effectiveDesign() {
+    let eff = carState.design;
+    if (eff === "my") eff = carState.myDesign || "coral";
+    return eff;
+  }
+
+  async function renderCarousel(out) {
+    const d = out.data || {};
+    const box = $("result"); box.textContent = "";
+    const st = $("gen-status"); st.hidden = false; st.textContent = t("car_rendering");
+    const H2C = window.html2canvas;
+    if (!H2C) { st.textContent = "html2canvas не загрузился, обнови страницу"; return; }
+    try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
+    const eff = effectiveDesign();
+    const useCustom = (eff === "custom");
+    const cls = "ct-" + eff;
+    const slides = [];
+    if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide, text: "" });
+    arr(d.slides).forEach(s => slides.push({ title: s.title, text: s.text }));
+    if (d.cta_slide) slides.push({ cover: true, title: d.cta_slide, text: "" });
+    const brand = "@zalihvat_ai · aksalex.com";
+    const stage = $("cs-stage");
+    const outBox = el("div", "cs-out");
+    for (let i = 0; i < slides.length; i++) {
+      const s = slides[i];
+      const node = el("div", "cslide " + cls + (s.cover ? " cover" : ""));
+      if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
+      node.appendChild(el("div", "cs-idx", (i + 1) + "/" + slides.length));
+      node.appendChild(el("div", "cs-title", s.title || ""));
+      if (s.text) node.appendChild(el("div", "cs-text", s.text));
+      node.appendChild(el("div", "cs-brand", brand));
+      stage.appendChild(node);
+      let url = "";
+      try {
+        const canvas = await H2C(node, { width: 1080, height: 1350, scale: 1, backgroundColor: null, useCORS: true, logging: false });
+        url = canvas.toDataURL("image/png");
+      } catch (e) { console.error("carousel render", e); }
+      stage.removeChild(node);
+      if (url) {
+        const thumb = el("div", "cs-thumb");
+        const img = new Image(); img.src = url; img.alt = t("car_slide") + " " + (i + 1); thumb.appendChild(img);
+        const a = el("a", null, "⬇ " + t("car_download")); a.href = url; a.download = "carousel-" + (i + 1) + ".png"; thumb.appendChild(a);
+        outBox.appendChild(thumb);
+      }
+    }
+    box.appendChild(outBox);
+    const actions = el("div", "result-actions");
+    const all = el("button", "pdfdl", t("car_download_all"));
+    all.onclick = () => outBox.querySelectorAll("a").forEach((a, idx) => setTimeout(() => a.click(), idx * 400));
+    const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
+    actions.appendChild(all); actions.appendChild(again);
+    box.appendChild(actions);
+    st.hidden = true;
+    await loadHistory(); await loadMe();
+    box.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // профиль: галерея дизайнов + загрузка фона
+  function renderProfileDesigns() {
+    const box = $("car-designs-prof"); if (!box) return;
+    renderChips(box, profChipList(), carState.myDesign, (id) => {
+      carState.myDesign = id;
+      try { localStorage.setItem("zh_car_mydesign", id); } catch (e) {}
+      carPrefsWrite({ myDesign: id });
+    });
+  }
+  if ($("car-bg-file")) $("car-bg-file").onchange = async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    const { data: u } = await sb.auth.getUser(); if (!u.user) return;
+    if (f.size > 8 * 1024 * 1024) { alert(t("file_too_big")); return; }
+    const status = $("car-bg-status"); status.textContent = t("car_bg_uploading");
+    const ext = (f.name.split(".").pop() || "jpg").replace(/[^\w]/g, "").slice(0, 5);
+    const path = u.user.id + "/carousel_bg." + ext;
+    const { error } = await sb.storage.from("uploads").upload(path, f, { upsert: true });
+    if (error) { status.textContent = t("upload_err") + error.message; return; }
+    carState.customBg = await blobToDataURL(f);
+    carState.myDesign = "custom";
+    try { localStorage.setItem("zh_car_mydesign", "custom"); } catch (e2) {}
+    await carPrefsWrite({ myDesign: "custom", bg: path });
+    status.textContent = t("car_bg_saved");
+    renderProfileDesigns();
+  };
+  window.__carHooks = { carPrefsRead, renderProfileDesigns, updateCarouselPanel };
 
   setPayLinks("");
   renderPlatforms();
