@@ -4,7 +4,7 @@
 <script>
 const HEART='M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z';
 function mark(tx){
-  return '<svg viewBox="'+(tx-46)+' 26 150 118"><path d="M95 46 L140 85 L95 124" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>'+
+  return '<svg viewBox="'+(tx-46)+' 26 150 118"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>'+
   '<g transform="translate('+tx+',85) rotate(-90) scale(0.75)"><path d="'+HEART+'" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g></svg>';
 }
 const r=document.getElementById('root');

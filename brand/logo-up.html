@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap">
+<style>body{margin:0;background:#faf5ec;padding:22px}.r{background:#fffdf8;border:2px solid #151210;border-radius:14px;padding:10px 18px;margin-bottom:14px}.r b{font:600 12px sans-serif;color:#7b7168}.r svg{height:92px;width:auto;display:block;margin-top:4px}</style>
+<div id="root"></div>
+<script>
+const HEART='M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z';
+function logo(dy){const ty=85-dy;return '<svg viewBox="0 0 600 150"><path d="M95 '+(46-dy)+' L140 '+(85-dy)+' L95 '+(124-dy)+'" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,'+ty+') rotate(-90) scale(0.75)"><path d="'+HEART+'" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,sans-serif" font-weight="700" font-size="72"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg>';}
+const r=document.getElementById('root');
+[['текущий (0)',0],['вверх на 6',6],['вверх на 10',10],['вверх на 14',14]].forEach(([lab,dy])=>{const d=document.createElement('div');d.className='r';d.innerHTML='<b>'+lab+'</b>'+logo(dy);r.appendChild(d);});
+</script>
