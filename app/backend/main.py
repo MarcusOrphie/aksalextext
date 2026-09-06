@@ -30,6 +30,7 @@ FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
 UNLIMITED_EMAILS = {e.strip().lower() for e in
                     os.environ.get("UNLIMITED_EMAILS", "aksenovwork@yandex.ru").split(",") if e.strip()}
 WELCOME_HOOK_SECRET = os.environ.get("WELCOME_HOOK_SECRET", "").strip()
+CAROUSEL_WEEKLY = int(os.environ.get("CAROUSEL_WEEKLY", "3"))
 
 def paid_plan(email: str):
     """Активный платный доступ пользователя: 'unlimited' (белый список) | plan | None."""
@@ -100,22 +101,39 @@ def me(user: dict = Depends(get_user)):
     plan = paid_plan(user["email"])
     unlimited = plan is not None      # активная подписка / белый список = без пейвола
     used = usage.count(user["id"])
+    try:
+        car_used = usage.count_recent(user["id"], "carousel", 7)
+    except Exception:
+        car_used = 0
     return {"email": user["email"], "unlimited": unlimited, "plan": plan,
             "used": used, "free_limit": FREE_LIMIT,
-            "remaining": None if unlimited else max(0, FREE_LIMIT - used)}
+            "remaining": None if unlimited else max(0, FREE_LIMIT - used),
+            "carousel_used": car_used, "carousel_limit": CAROUSEL_WEEKLY,
+            "carousel_left": max(0, CAROUSEL_WEEKLY - car_used)}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")
 def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_user)):
     if req.platform not in gen.PLATFORMS:
         raise HTTPException(status_code=400, detail="неизвестная платформа")
-    unlimited = paid_plan(user["email"]) is not None
-    if not unlimited:
-        used = usage.count(user["id"])
-        if used >= FREE_LIMIT:
+    if req.platform == "carousel":
+        # карусель - своя недельная квота (для всех), не считается в общий бесплатный лимит
+        try:
+            cw = usage.count_recent(user["id"], "carousel", 7)
+        except Exception:
+            cw = 0
+        if cw >= CAROUSEL_WEEKLY:
             return JSONResponse(status_code=402, content={
-                "error": "limit", "reason": "free_used",
-                "used": used, "free_limit": FREE_LIMIT})
+                "error": "limit", "reason": "carousel_weekly",
+                "used": cw, "limit": CAROUSEL_WEEKLY})
+    else:
+        unlimited = paid_plan(user["email"]) is not None
+        if not unlimited:
+            used = usage.count(user["id"])
+            if used >= FREE_LIMIT:
+                return JSONResponse(status_code=402, content={
+                    "error": "limit", "reason": "free_used",
+                    "used": used, "free_limit": FREE_LIMIT})
     profile = req.profile.model_dump(exclude_none=True) if req.profile else None
     try:
         avoid = usage.recent_titles(user["id"], req.platform)

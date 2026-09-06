@@ -20,6 +20,24 @@ def count(user_id: str) -> int:
     return int(total) if total.isdigit() else 0
 
 
+def count_recent(user_id: str, platform: str, days: int = 7) -> int:
+    """Сколько генераций платформы за последние N дней (для недельного лимита каруселей)."""
+    import datetime
+    since = (datetime.datetime.utcnow() - datetime.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%S")
+    url = (REST + "/generations?select=id&user_id=eq." + urllib.parse.quote(user_id, safe="")
+           + "&platform=eq." + urllib.parse.quote(platform, safe="")
+           + "&created_at=gte." + urllib.parse.quote(since, safe=""))
+    h = dict(_H); h["Prefer"] = "count=exact"; h["Range"] = "0-0"
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=h), timeout=15) as r:
+            cr = r.headers.get("Content-Range", "")
+    except Exception as e:
+        logging.error("usage.count_recent failed: %r", e)
+        return 0
+    total = cr.split("/")[-1] if "/" in cr else ""
+    return int(total) if total.isdigit() else 0
+
+
 def recent_titles(user_id: str, platform: str, rows: int = 12) -> list:
     """Названия идей/видео, уже выданных пользователю на этой платформе, - чтобы не повторяться."""
     url = (REST + "/generations?select=output&user_id=eq." + urllib.parse.quote(user_id, safe="")
