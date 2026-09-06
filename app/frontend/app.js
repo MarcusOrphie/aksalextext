@@ -577,7 +577,29 @@
 
   // ---------- CAROUSEL (визуальный генератор) ----------
   const CTEMPLATES = ["blush", "rose", "berry", "peach", "coral", "honey", "butter", "sand",
-    "cream", "mocha", "terra", "sage", "mint", "ocean", "sky", "lavender", "plum", "noir"];
+    "cream", "mocha", "terra", "sage", "mint", "ocean", "sky", "lavender", "plum", "noir", "ink", "linen"];
+  // Шрифтовые пары шаблонов: tf - заголовок, bf - текст, up - капс, ital - курсив, wght - жирность
+  const FPAIR = {
+    oswald:    { tf: "Oswald,'Arial Black',sans-serif", bf: "Nunito,sans-serif", up: 1, wght: 700 },
+    fraunces:  { tf: "Fraunces,Georgia,serif", bf: "Manrope,sans-serif", up: 0, wght: 600 },
+    cormorant: { tf: "'Cormorant Garamond',Georgia,serif", bf: "Manrope,sans-serif", up: 0, ital: 1, wght: 600 },
+    poppins:   { tf: "Poppins,sans-serif", bf: "Poppins,sans-serif", up: 0, wght: 800 },
+    space:     { tf: "'Space Grotesk',sans-serif", bf: "'Space Grotesk',sans-serif", up: 0, wght: 700 },
+    archivo:   { tf: "Archivo,sans-serif", bf: "Archivo,sans-serif", up: 0, wght: 800 },
+  };
+  const CFONT = {
+    blush: "fraunces", rose: "cormorant", berry: "poppins", peach: "oswald", coral: "oswald",
+    honey: "poppins", butter: "archivo", sand: "fraunces", cream: "cormorant", mocha: "fraunces",
+    terra: "oswald", sage: "cormorant", mint: "poppins", ocean: "archivo", sky: "space",
+    lavender: "poppins", plum: "cormorant", noir: "space", ink: "space", linen: "fraunces",
+    custom: "oswald",
+  };
+  function fontOf(id) { return FPAIR[CFONT[id] || "oswald"] || FPAIR.oswald; }
+  function markSVG(acc, title) {
+    return '<svg class="cs-logo" viewBox="14 16 116 68" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+      '<path d="M86 34 L112 50 L86 66" fill="none" stroke="' + title + '" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<g transform="translate(50,50) rotate(-90) scale(0.62)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="' + acc + '" stroke="' + title + '" stroke-width="4" stroke-linejoin="round"/></g></svg>';
+  }
   // декор для каждого шаблона: стиль орнамента + 2 цвета
   const CDEF = {
     blush:    { style: "floral",    a: "#e6a996", b: "#c98b7a" },
@@ -598,6 +620,8 @@
     lavender: { style: "sparkle",   a: "#b3a1d8", b: "#9884c0" },
     plum:     { style: "sparkle",   a: "#c98fb0", b: "#e0aecb" },
     noir:     { style: "sparkle",   a: "#d8b25a", b: "#e6c877" },
+    ink:      { style: "sparkle",   a: "#ff7f50", b: "#e85f2c" },
+    linen:    { style: "botanical", a: "#c8a56a", b: "#b98a54" },
   };
   function _flower(cx, cy, s, petal, center) {
     let p = ""; for (let i = 0; i < 5; i++) p += '<ellipse cx="' + cx + '" cy="' + (cy - s * 0.6) + '" rx="' + (s * 0.34) + '" ry="' + (s * 0.6) + '" fill="' + petal + '" transform="rotate(' + (i * 72) + ' ' + cx + ' ' + cy + ')"/>';
@@ -658,8 +682,12 @@
   function chipMini(cls, custom) {
     const mini = el("div", "cd-mini " + cls);
     if (custom && carState.customBg) mini.style.backgroundImage = "url(" + carState.customBg + ")";
-    mini.appendChild(el("div", "m1", "Aa")); mini.appendChild(el("div", "m2"));
     const id = cls.replace("ct-", "");
+    const m1 = el("div", "m1", "Aa");
+    const fp = fontOf(id);
+    m1.style.fontFamily = fp.tf; m1.style.textTransform = fp.up ? "uppercase" : "none";
+    m1.style.fontStyle = fp.ital ? "italic" : "normal"; m1.style.fontWeight = fp.wght || 700;
+    mini.appendChild(m1); mini.appendChild(el("div", "m2"));
     if (!custom && CDEF[id]) mini.insertAdjacentHTML("beforeend", miniDecoSVG(id));
     return mini;
   }
@@ -741,10 +769,31 @@
     const node = el("div", "cslide ct-" + eff + (dim.cls ? " " + dim.cls : "") + (s.cover ? " cover" : ""));
     if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
-    if (total > 1) node.appendChild(el("div", "cs-idx", (idx + 1) + "/" + total));
-    node.appendChild(el("div", "cs-title", s.title || ""));
-    if (s.text) node.appendChild(el("div", "cs-text", s.text));
-    node.appendChild(el("div", "cs-brand", "@zalihvat_ai · aksalex.com"));
+    // верхний бренд-бар: лого + имя слева, сайт справа
+    const cst = getComputedStyle(node);
+    const accCol = cst.getPropertyValue("--t-acc").trim() || "#ff7f50";
+    const titleCol = cst.getPropertyValue("--t-title").trim() || "#151210";
+    const top = el("div", "cs-top");
+    const bn = el("div", "cs-brandname");
+    bn.insertAdjacentHTML("afterbegin", markSVG(accCol, titleCol));
+    bn.appendChild(el("span", null, "Залихват"));
+    top.appendChild(bn);
+    top.appendChild(el("span", "cs-url", "aksalex.com"));
+    node.appendChild(top);
+    // заголовок и текст с фирменным шрифтом шаблона
+    const fp = fontOf(eff);
+    const title = el("div", "cs-title", s.title || "");
+    title.style.fontFamily = fp.tf;
+    title.style.textTransform = fp.up ? "uppercase" : "none";
+    title.style.fontStyle = fp.ital ? "italic" : "normal";
+    title.style.fontWeight = fp.wght || 700;
+    node.appendChild(title);
+    if (s.text) { const tx = el("div", "cs-text", s.text); tx.style.fontFamily = fp.bf; node.appendChild(tx); }
+    // футер: хэндл + номер слайда
+    const foot = el("div", "cs-foot");
+    foot.appendChild(el("span", null, "@zalihvat_ai"));
+    foot.appendChild(el("span", null, total > 1 ? (idx + 1) + "/" + total : ""));
+    node.appendChild(foot);
     const stage = $("cs-stage"); stage.appendChild(node);
     fitSlide(node);
     let url = "";
@@ -766,6 +815,10 @@
     const box = $("result"); box.textContent = "";
     const st = $("gen-status"); st.hidden = false; st.textContent = t("car_rendering");
     if (!window.html2canvas) { st.textContent = "html2canvas не загрузился, обнови страницу"; return; }
+    try {
+      const FAM = ["Oswald","Nunito","Fraunces","Cormorant Garamond","Space Grotesk","Poppins","Archivo","Manrope"];
+      await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
+    } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
     const eff = effectiveDesign(), useCustom = (eff === "custom");
     const slides = [];
@@ -796,6 +849,10 @@
     const box = $("result"); box.textContent = "";
     const st = $("gen-status"); st.hidden = false; st.textContent = t("car_rendering");
     if (!window.html2canvas) { st.textContent = "html2canvas не загрузился, обнови страницу"; return; }
+    try {
+      const FAM = ["Oswald","Nunito","Fraunces","Cormorant Garamond","Space Grotesk","Poppins","Archivo","Manrope"];
+      await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
+    } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
     const eff = effectiveDesign(), useCustom = (eff === "custom");
     const url = await captureSlide({ cover: true, title: d.hook }, "post", 0, 1, eff, useCustom);

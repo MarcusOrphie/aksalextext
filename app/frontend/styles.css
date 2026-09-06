@@ -227,7 +227,17 @@ em{font-style:normal;color:var(--coral)}
 .ct-sand{--t-bg:#ece1cf;--t-fg:#4f4433;--t-acc:#c2a878;--t-title:#8a7143}
 .ct-ocean{--t-bg:#cfe3e2;--t-fg:#234544;--t-acc:#4f9c96;--t-title:#2f7a72}
 .ct-plum{--t-bg:#2a2130;--t-fg:#ece0ee;--t-acc:#c98fb0;--t-title:#e0aecb}
+.ct-ink{--t-bg:#17151a;--t-fg:#c7c1cd;--t-acc:#ff7f50;--t-title:#ffffff}
+.ct-linen{--t-bg:#efe7d7;--t-fg:#5b5140;--t-acc:#b98a54;--t-title:#2c261e}
 .ct-custom{--t-bg:#151210;--t-fg:#ffffff;--t-acc:#ffffff;--t-title:#ffffff;background-size:cover;background-position:center}
+/* бренд-бар и футер слайда */
+.cslide .cs-top{position:absolute;top:70px;left:100px;right:100px;display:flex;align-items:center;justify-content:space-between;z-index:2}
+.cslide .cs-brandname{display:flex;align-items:center;gap:15px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.02em;font-size:38px;color:var(--t-title)}
+.cslide .cs-logo{width:46px;height:auto;flex:none;display:block}
+.cslide .cs-url{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:26px;letter-spacing:.04em;color:var(--t-acc)}
+.cslide .cs-foot{position:absolute;bottom:70px;left:100px;right:100px;display:flex;align-items:center;justify-content:space-between;z-index:2;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:26px;letter-spacing:.04em;color:var(--t-acc)}
+.cslide.st .cs-top{top:120px}.cslide.st .cs-foot{bottom:120px}
+.cslide.sq .cs-brandname{font-size:34px}.cslide.sq .cs-url,.cslide.sq .cs-foot{font-size:23px}
 /* форматы: квадрат (пост) и вертикаль (сториз) */
 .cslide.sq{height:1080px;padding:100px 96px}
 .cslide.sq .cs-title{font-size:84px}

@@ -1,0 +1,83 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Шаблоны (реальный CSS)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&family=Archivo:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Manrope:wght@500;600;700;800&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="../app/frontend/styles.css">
+<style>
+  body{margin:0;background:#e9e6df;font-family:"Manrope",sans-serif;padding:26px}
+  h1{font-family:"Space Grotesk";font-size:22px;margin:0 0 18px}
+  .grid{display:flex;flex-wrap:wrap;gap:22px}
+  .tpl{margin-bottom:8px}
+  .tn{font-family:"Space Grotesk";font-weight:700;font-size:13px;margin:0 0 8px}
+  .pair{display:flex;gap:12px}
+  .sw{overflow:hidden;border-radius:14px;box-shadow:0 8px 22px rgba(0,0,0,.15);background:#fff}
+  .sw.car{width:300px;height:375px}
+  .sw.post{width:300px;height:300px}
+  .sw .cslide{transform-origin:top left}
+  .sw.car .cslide{transform:scale(.27778)}          /* 300/1080 */
+  .sw.post .cslide{transform:scale(.27778)}
+</style>
+<h1>20 шаблонов — реальный рендер (бренд-бар + шрифты + палитра). Показаны 8 из 20.</h1>
+<div class="grid" id="root"></div>
+<script>
+// ---- deco (копия из app.js) ----
+function _flower(cx,cy,s,petal,center){let p="";for(let i=0;i<5;i++)p+='<ellipse cx="'+cx+'" cy="'+(cy-s*0.6)+'" rx="'+(s*0.34)+'" ry="'+(s*0.6)+'" fill="'+petal+'" transform="rotate('+(i*72)+' '+cx+' '+cy+')"/>';return "<g>"+p+'<circle cx="'+cx+'" cy="'+cy+'" r="'+(s*0.34)+'" fill="'+center+'"/></g>';}
+function _leaf(cx,cy,s,rot,c){return '<path d="M'+cx+' '+(cy-s)+' Q '+(cx+s*0.7)+' '+cy+' '+cx+' '+(cy+s)+' Q '+(cx-s*0.7)+' '+cy+' '+cx+' '+(cy-s)+' Z" fill="'+c+'" transform="rotate('+rot+' '+cx+' '+cy+')"/>';}
+function _spk(cx,cy,s,c){const k=s*0.18;return '<path d="M'+cx+' '+(cy-s)+' C '+(cx+k)+' '+(cy-k)+' '+(cx+k)+' '+(cy-k)+' '+(cx+s)+' '+cy+' C '+(cx+k)+' '+(cy+k)+' '+(cx+k)+' '+(cy+k)+' '+cx+' '+(cy+s)+' C '+(cx-k)+' '+(cy+k)+' '+(cx-k)+' '+(cy+k)+' '+(cx-s)+' '+cy+' C '+(cx-k)+' '+(cy-k)+' '+(cx-k)+' '+(cy-k)+' '+cx+' '+(cy-s)+' Z" fill="'+c+'"/>';}
+function _dot(cx,cy,r,c){return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+c+'"/>';}
+function _sprig(cx,cy,s,c){let g='<path d="M'+cx+' '+cy+' q 0 -'+s+' 0 -'+(s*2)+'" stroke="'+c+'" stroke-width="4" fill="none"/>';for(let i=0;i<4;i++){const yy=cy-s*0.4-i*s*0.42;g+=_leaf(cx+(i%2?1:-1)*s*0.32,yy,s*0.26,(i%2?40:-40),c);}return "<g>"+g+"</g>";}
+function decoInner(style,a,b){
+  if(style==="floral")return _flower(980,155,118,a,b)+_flower(875,300,76,a,b)+_leaf(1045,255,66,30,b)+_flower(140,1235,92,a,b)+_leaf(235,1250,52,-30,b)+_dot(120,250,10,a)+_dot(205,185,7,b)+_dot(980,1120,9,a);
+  if(style==="botanical")return _sprig(160,250,92,a)+_sprig(955,1180,92,a)+_leaf(1005,230,78,20,b)+_leaf(95,1170,66,-20,b)+_dot(945,320,8,b)+_dot(135,1110,8,b);
+  if(style==="arch")return '<path d="M120 660 A 420 420 0 0 1 960 660 L960 1250 L120 1250 Z" fill="'+b+'" opacity="0.16"/>'+_dot(150,210,12,a)+_dot(930,175,9,a)+_dot(1000,255,7,b)+_flower(958,220,68,a,b);
+  if(style==="sparkle")return _spk(960,160,70,a)+_spk(1012,300,34,b)+_spk(120,1180,64,a)+_spk(205,1245,28,b)+_spk(150,235,38,b)+_dot(940,1115,8,a)+_dot(1000,1180,6,b);
+  if(style==="scallop"){let sc="";for(let x=40;x<1080;x+=112)sc+='<path d="M'+x+' 44 a56 56 0 0 0 112 0" fill="none" stroke="'+a+'" stroke-width="7"/>';return sc+_flower(958,1180,90,a,b)+_leaf(1050,1158,58,30,b)+_dot(120,1200,9,a);}
+  return "";
+}
+function decoSVG(style,a,b){return '<svg class="cs-deco" viewBox="0 0 1080 1350" preserveAspectRatio="none">'+decoInner(style,a,b)+"</svg>";}
+function markSVG(acc,title){return '<svg class="cs-logo" viewBox="14 16 116 68"><path d="M86 34 L112 50 L86 66" fill="none" stroke="'+title+'" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(50,50) rotate(-90) scale(0.62)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="'+acc+'" stroke="'+title+'" stroke-width="4"/></g></svg>';}
+const FPAIR={oswald:{tf:"Oswald,'Arial Black',sans-serif",bf:"Nunito,sans-serif",up:1,wght:700},fraunces:{tf:"Fraunces,Georgia,serif",bf:"Manrope,sans-serif",up:0,wght:600},cormorant:{tf:"'Cormorant Garamond',Georgia,serif",bf:"Manrope,sans-serif",up:0,ital:1,wght:600},poppins:{tf:"Poppins,sans-serif",bf:"Poppins,sans-serif",up:0,wght:800},space:{tf:"'Space Grotesk',sans-serif",bf:"'Space Grotesk',sans-serif",up:0,wght:700},archivo:{tf:"Archivo,sans-serif",bf:"Archivo,sans-serif",up:0,wght:800}};
+const DEMO=[
+  {id:"coral",name:"Коралл · Oswald",font:"oswald",style:"floral",a:"#ffd9c6",b:"#ffb99a"},
+  {id:"blush",name:"Пудра · Fraunces",font:"fraunces",style:"floral",a:"#e6a996",b:"#c98b7a"},
+  {id:"rose",name:"Роза · Cormorant",font:"cormorant",style:"scallop",a:"#c98a92",b:"#b56b74"},
+  {id:"berry",name:"Ягода · Poppins",font:"poppins",style:"scallop",a:"#c67a92",b:"#b0526f"},
+  {id:"sky",name:"Небо · Space Grotesk",font:"space",style:"sparkle",a:"#8fb0d8",b:"#6f96c4"},
+  {id:"butter",name:"Ваниль · Archivo",font:"archivo",style:"floral",a:"#e6c766",b:"#d9b74e"},
+  {id:"ink",name:"Графит · Space Grotesk",font:"space",style:"sparkle",a:"#ff7f50",b:"#e85f2c"},
+  {id:"linen",name:"Лён · Fraunces",font:"fraunces",style:"botanical",a:"#c8a56a",b:"#b98a54"},
+];
+function slide(d,mode,title,text,idx,total){
+  const dimcls=mode==="post"?"sq":"";
+  const node=document.createElement("div");
+  node.className="cslide ct-"+d.id+(dimcls?" "+dimcls:"")+(text?"":" cover");
+  node.insertAdjacentHTML("afterbegin",decoSVG(d.style,d.a,d.b));
+  const cs=getComputedStyle(node);
+  // палитра ещё не применилась к detached node - берём из map вручную не нужно: класс задан, но computed требует в DOM. Ставим временно.
+  const top=document.createElement("div");top.className="cs-top";
+  const bn=document.createElement("div");bn.className="cs-brandname";
+  const fp=FPAIR[d.font];
+  bn.insertAdjacentHTML("afterbegin",markSVG("var(--t-acc)","var(--t-title)"));
+  const nm=document.createElement("span");nm.textContent="Залихват";bn.appendChild(nm);
+  top.appendChild(bn);
+  const url=document.createElement("span");url.className="cs-url";url.textContent="aksalex.com";top.appendChild(url);
+  node.appendChild(top);
+  const tt=document.createElement("div");tt.className="cs-title";tt.textContent=title;
+  tt.style.fontFamily=fp.tf;tt.style.textTransform=fp.up?"uppercase":"none";tt.style.fontStyle=fp.ital?"italic":"normal";tt.style.fontWeight=fp.wght;
+  node.appendChild(tt);
+  if(text){const tx=document.createElement("div");tx.className="cs-text";tx.textContent=text;tx.style.fontFamily=fp.bf;node.appendChild(tx);}
+  const foot=document.createElement("div");foot.className="cs-foot";
+  const h=document.createElement("span");h.textContent="@zalihvat_ai";const ix=document.createElement("span");ix.textContent=total>1?idx+"/"+total:"";
+  foot.appendChild(h);foot.appendChild(ix);node.appendChild(foot);
+  return node;
+}
+const root=document.getElementById("root");
+DEMO.forEach(d=>{
+  const w=document.createElement("div");w.className="tpl";
+  w.innerHTML='<div class="tn">'+d.name+'</div>';
+  const pair=document.createElement("div");pair.className="pair";
+  const s1=document.createElement("div");s1.className="sw car";s1.appendChild(slide(d,"car","Как вести блог, когда нет времени","",1,7));
+  const s2=document.createElement("div");s2.className="sw post";s2.appendChild(slide(d,"post","Контент, за который не стыдно","Твоим голосом, а не безликий AI.",0,1));
+  pair.appendChild(s1);pair.appendChild(s2);w.appendChild(pair);root.appendChild(w);
+});
+</script>
