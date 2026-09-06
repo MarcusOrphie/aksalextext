@@ -25,9 +25,9 @@
       if (!u.searchParams.get("customer_email")) { u.searchParams.set("customer_email", knownEmail); a.href = u.toString(); }
     } catch (e) {}
   }, true);
-  // загрузка своего фото для обложки Reels
+  // загрузка своего фото для обложки Reels ($ ещё не объявлен здесь - берём напрямую)
   (function () {
-    const cf = $("cover-file"); if (!cf) return;
+    const cf = document.getElementById("cover-file"); if (!cf) return;
     cf.onchange = async () => {
       const file = cf.files && cf.files[0]; if (!file) return;
       try { coverBg = await blobToDataURL(file); } catch (e) { return; }
