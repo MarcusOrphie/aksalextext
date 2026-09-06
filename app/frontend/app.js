@@ -564,9 +564,7 @@
       const res = await fetch(API + "/me", { headers: { authorization: "Bearer " + token } });
       if (!res.ok) { box.hidden = true; showPlans(false); return; }
       const m = await res.json();
-      box.hidden = false;
-      if (m.unlimited) box.innerHTML = t("usage_unlim") + "<b>" + m.used + "</b>" + t("usage_unlim2");
-      else box.innerHTML = t("usage_left") + "<b>" + m.used + "</b>" + t("usage_left2") + "<b>" + m.remaining + "</b>";
+      box.hidden = true;         // счётчики теперь в карточках блоков (Текст / Картинки)
       setPayLinks(m.email);      // подставить почту регистрации в ссылку оплаты
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
       carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left;
