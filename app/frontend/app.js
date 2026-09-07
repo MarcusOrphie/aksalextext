@@ -690,6 +690,13 @@
       if (cell) outBox.appendChild(cell);
     }
     container.appendChild(outBox);
+    if (slides.length > 1) {
+      const actions = el("div", "result-actions");
+      const all = el("button", "pdfdl", t("car_download_all"));
+      all.onclick = () => zipDownload(urls, mode, all);
+      actions.appendChild(all);
+      container.appendChild(actions);
+    }
   }
 
   function showPlans(free) { const cp = $("cab-plans"); if (cp) cp.hidden = !free; }
@@ -986,17 +993,20 @@
   // ---------- ПЕРЕДЕЛАТЬ отдельную картинку ----------
   async function redoSlide(mode, slide, instruction) {
     const { data } = await sb.auth.getSession();
-    const token = data.session && data.session.access_token; if (!token) return null;
+    const token = data.session && data.session.access_token; if (!token) return { err: "fail" };
     const hasText = ("text" in slide) && slide.text != null;
-    const res = await fetch(API + "/redo", {
-      method: "POST",
-      headers: { "content-type": "application/json", "authorization": "Bearer " + token },
-      body: JSON.stringify({ platform: mode, title: slide.title || "", text: slide.text || "",
-        has_text: hasText, instruction, profile, lang: window.ZI18N.getLang() }),
-    });
-    if (!res.ok) return null;
+    let res;
+    try {
+      res = await fetch(API + "/redo", {
+        method: "POST",
+        headers: { "content-type": "application/json", "authorization": "Bearer " + token },
+        body: JSON.stringify({ platform: mode, title: slide.title || "", text: slide.text || "",
+          has_text: hasText, instruction, profile, lang: window.ZI18N.getLang() }),
+      });
+    } catch (e) { return { err: "fail" }; }
+    if (!res.ok) return { err: res.status === 402 ? "pro" : "fail" };
     const j = await res.json().catch(() => null);
-    return j && j.data;
+    return (j && j.data) ? { data: j.data } : { err: "fail" };
   }
   async function buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs) {
     const url = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
@@ -1011,25 +1021,30 @@
     const form = el("div", "cs-redo-form"); form.hidden = true;
     const inp = document.createElement("input"); inp.className = "cs-redo-inp"; inp.placeholder = t("redo_ph"); inp.maxLength = 500;
     const go = el("button", "cs-redo-go", t("redo_go"));
+    const errline = el("div", "cs-redo-err"); errline.hidden = true;
     rb.onclick = () => { form.hidden = !form.hidden; if (!form.hidden) inp.focus(); };
     const submit = async () => {
       const instr = inp.value.trim(); if (!instr) return;
+      errline.hidden = true;
       go.disabled = true; inp.disabled = true; const old = go.textContent; go.textContent = t("redo_wait");
       try {
-        const nd = await redoSlide(mode, slides[i], instr);
+        const r = await redoSlide(mode, slides[i], instr);
+        const nd = r && r.data;
         if (nd && nd.title) {
           slides[i].title = nd.title;
           if (("text" in slides[i]) && nd.text != null) slides[i].text = nd.text;
           const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
           if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
           form.hidden = true; inp.value = "";
+        } else {
+          errline.textContent = (r && r.err === "pro") ? t("redo_pro") : t("redo_fail"); errline.hidden = false;
         }
-      } catch (e) {}
+      } catch (e) { errline.textContent = t("redo_fail"); errline.hidden = false; }
       go.disabled = false; inp.disabled = false; go.textContent = old;
     };
     go.onclick = submit;
     inp.addEventListener("keydown", (e) => { if (e.key === "Enter") submit(); });
-    form.appendChild(inp); form.appendChild(go); rw.appendChild(rb); rw.appendChild(form); thumb.appendChild(rw);
+    form.appendChild(inp); form.appendChild(go); rw.appendChild(rb); rw.appendChild(form); rw.appendChild(errline); thumb.appendChild(rw);
     return thumb;
   }
   async function zipDownload(urls, mode, btn) {

@@ -236,6 +236,7 @@ em{font-style:normal;color:var(--coral)}
 .cs-thumb .cs-redo-inp:focus{border-color:var(--coral)}
 .cs-thumb .cs-redo-go{flex:none;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;border:2px solid var(--ink);border-radius:8px;background:var(--coral);color:var(--paper);padding:5px 9px;cursor:pointer}
 .cs-thumb .cs-redo-go:disabled{opacity:.6;cursor:default}
+.cs-thumb .cs-redo-err{font-family:"Nunito";font-weight:700;font-size:11px;color:var(--coral-deep);text-align:center;padding:0 7px 8px}
 .h-img{display:inline-block;margin-left:8px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.03em;color:var(--coral-deep)}
 
 /* сцена рендера - за экраном */
