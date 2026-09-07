@@ -138,7 +138,7 @@
       auth_lead_login: "Log in - and put together your first ready post while the baby naps.",
       auth_lead_reg: "Sign up - and get your first ready post in 5 minutes.",
       lbl_email: "Email", lbl_password: "Password", ph_password: "min 6 chars, uppercase & digit, Latin only",
-      consent_html: 'I agree to the <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">processing of personal data</a> and accept the <a href="https://aksalex.com/offer.pdf" target="_blank" rel="noopener">offer</a>',
+      consent_html: 'I agree to the <a href="https://aksalex.com/consent.html" target="_blank" rel="noopener">processing of personal data</a> and accept the <a href="https://aksalex.com/en/offer.pdf" target="_blank" rel="noopener">offer</a>',
       btn_login: "Log in", btn_register: "Create account", btn_forgot: "Forgot password?",
       or: "or", btn_yandex: "Sign in with Yandex ID",
       recover_eyebrow: "Password reset", recover_h_html: "New <em>password</em>",
@@ -271,6 +271,7 @@
     root.querySelectorAll("[data-i18n-html]").forEach(function (el) { var k = el.getAttribute("data-i18n-html"); if (k in d) el.innerHTML = d[k]; });
     root.querySelectorAll("[data-i18n-ph]").forEach(function (el) { var k = el.getAttribute("data-i18n-ph"); if (k in d) el.setAttribute("placeholder", d[k]); });
     root.querySelectorAll("[data-i18n-title]").forEach(function (el) { var k = el.getAttribute("data-i18n-title"); if (k in d) { el.setAttribute("title", d[k]); el.setAttribute("aria-label", d[k]); } });
+    root.querySelectorAll("[data-offer]").forEach(function (el) { el.setAttribute("href", LANG === "en" ? "https://aksalex.com/en/offer.pdf" : "https://aksalex.com/offer.pdf"); });
     document.documentElement.setAttribute("lang", LANG);
     document.querySelectorAll(".langsw a").forEach(function (a) { a.classList.toggle("on", a.getAttribute("data-lang") === LANG); });
   }
