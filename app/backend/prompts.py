@@ -133,6 +133,10 @@ _INJ = {
                      "переработай под платформу и формат, усиль по правилам крафта и упакуй в нужную структуру. "
                      "Не выдумывай факты сверх этого текста, но подай ярче и живее:\n\"\"\"\n"),
         "usertext_end": "\n\"\"\"",
+        "usertext_strict": ("\n\nСТРОГО ПО ТЕКСТУ АВТОРА: раз автор дал свой текст - работай ЧЁТКО по нему, не фантазируй. "
+                            "Не добавляй факты, примеры, цифры, имена или мысли, которых в тексте нет. "
+                            "Разложи ИМЕННО его содержание по слайдам/кадрам: сохрани смысл, факты и ключевые формулировки автора; "
+                            "можно только подчистить, сократить и разбить на структуру под формат. Никакой отсебятины и додумывания."),
     },
     "en": {
         "trends": ("\n\nLIVE RESEARCH FOR THE TOPIC AND NICHE (verifiable facts and fresh trends from web search). "
@@ -157,6 +161,10 @@ _INJ = {
                      "rework it for the platform and format, strengthen it by the craft rules and package it in the needed structure. "
                      "Do not invent facts beyond this text, but present it more vividly:\n\"\"\"\n"),
         "usertext_end": "\n\"\"\"",
+        "usertext_strict": ("\n\nSTRICTLY FROM THE AUTHOR'S TEXT: since the author gave their own text - work strictly by it, do not make things up. "
+                            "Do not add facts, examples, numbers, names or ideas that are not in the text. "
+                            "Lay out EXACTLY its content across the slides/frames: keep the author's meaning, facts and key wording; "
+                            "you may only clean it up, trim it and split it into structure for the format. No made-up additions."),
     },
 }
 
@@ -171,6 +179,8 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
     s = base + "\n" + plat.get(platform, plat["reels"])
     if user_text and user_text.strip():
         s += inj["usertext"] + user_text.strip()[:6000] + inj["usertext_end"]
+        if platform in ("carousel", "post", "stories"):
+            s += inj["usertext_strict"]
     if trends:
         s += inj["trends"] + trends[:1800]
     if voice:
