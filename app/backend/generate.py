@@ -115,7 +115,7 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
-    max_tokens = 6000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan") else 4000
+    max_tokens = 16000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan") else 6000
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
         "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text), lang),
@@ -125,12 +125,15 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
     body = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
         headers={"x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"})
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with urllib.request.urlopen(req, timeout=180) as r:
         d = json.loads(r.read().decode("utf-8"))
     for b in d.get("content", []):
         if b.get("type") == "tool_use":
-            return {"platform": platform, "data": _coerce_arrays(_dash(b.get("input", {})))}
-    raise RuntimeError("no tool_use in response")
+            data = _coerce_arrays(_dash(b.get("input", {})))
+            if not data:
+                raise RuntimeError("empty tool input (stop_reason=%s)" % d.get("stop_reason"))
+            return {"platform": platform, "data": data}
+    raise RuntimeError("no tool_use in response (stop_reason=%s)" % d.get("stop_reason"))
 
 
 def redo(platform: str, title: str, text: str, has_text: bool, instruction: str,

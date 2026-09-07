@@ -183,7 +183,11 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
                 return JSONResponse(status_code=402, content={
                     "error": "limit", "reason": "text_daily", "used": td, "limit": PLAN_DAILY[tplan]})
         else:
-            used = usage.count(user["id"])
+            # бесплатно: 1 проба КАЖДОГО текстового формата (reels/shorts/tiktok/youtube_long/content_plan)
+            try:
+                used = usage.count_recent(user["id"], req.platform, 3650)
+            except Exception:
+                used = 0
             if used >= FREE_LIMIT:
                 return JSONResponse(status_code=402, content={
                     "error": "limit", "reason": "free_used",
