@@ -6,9 +6,9 @@ FastAPI-бэкенд контент-машины «Залихват».
 - ANTHROPIC_API_KEY только на сервере; CORS ограничен app-доменом; rate limit
 """
 import os, logging
-from fastapi import FastAPI, Depends, HTTPException, Header, Request
+from fastapi import FastAPI, Depends, HTTPException, Header, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, Field
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -22,6 +22,7 @@ import mailer
 import voice
 import feedback
 import trends
+import lab
 import access
 import prodamus
 
@@ -267,6 +268,63 @@ def feedback_endpoint(request: Request, req: FeedbackReq, user: dict = Depends(g
         raise HTTPException(status_code=400, detail="плохая оценка")
     ok = feedback.record(user["id"], req.platform, req.item, req.vote)
     return {"ok": bool(ok)}
+
+# ---------- Лаборатория /trash (эксперименты, только владелец) ----------
+class LabTTS(BaseModel):
+    text: str = Field(max_length=2000)
+
+class LabReel(BaseModel):
+    script: str = Field(max_length=5000)
+
+def _lab_gate(user: dict):
+    if not lab.is_owner(user.get("email", "")):
+        raise HTTPException(status_code=403, detail="доступ только для владельца")
+
+@app.get("/api/trash/voice")
+def lab_voice_get(user: dict = Depends(get_user)):
+    _lab_gate(user)
+    return lab.get_voice(user["id"])
+
+@app.post("/api/trash/voice/create")
+@limiter.limit("20/hour")
+async def lab_voice_create(request: Request, sample: UploadFile = File(...),
+                           name: str = Form("Мой голос"), user: dict = Depends(get_user)):
+    _lab_gate(user)
+    content = await sample.read()
+    if not content or len(content) < 2000:
+        raise HTTPException(status_code=400, detail="файл слишком маленький или пустой")
+    if len(content) > 25 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="файл больше 25 МБ - загрузи покороче")
+    try:
+        return lab.create_voice(user["id"], name, sample.filename or "sample.mp3",
+                                content, sample.content_type or "audio/mpeg")
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+@app.post("/api/trash/voice/tts")
+@limiter.limit("60/hour")
+def lab_voice_tts(request: Request, req: LabTTS, user: dict = Depends(get_user)):
+    _lab_gate(user)
+    if not (req.text or "").strip():
+        raise HTTPException(status_code=400, detail="пустой текст")
+    try:
+        audio = lab.tts(user["id"], req.text.strip())
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=str(e))
+    return Response(content=audio, media_type="audio/mpeg")
+
+@app.post("/api/trash/avatar/create")
+@limiter.limit("20/hour")
+async def lab_avatar_create(request: Request, photo: UploadFile = File(...), user: dict = Depends(get_user)):
+    _lab_gate(user)
+    await photo.read()  # принимаем файл; провайдер аватаров подключим отдельно
+    return {"detail": "Фото принято. Генерацию аватаров включим, когда подключим провайдера (HeyGen/D-ID) и его ключ."}
+
+@app.post("/api/trash/reel/create")
+@limiter.limit("20/hour")
+def lab_reel_create(request: Request, req: LabReel, user: dict = Depends(get_user)):
+    _lab_gate(user)
+    return {"detail": "Сценарий принят. Сборку рилз включим после подключения видео-провайдера и готовых голоса+аватара."}
 
 @app.post("/api/hooks/prodamus")
 async def prodamus_hook(request: Request):

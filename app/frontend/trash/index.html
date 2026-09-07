@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Залихват · Лаборатория</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<link rel="stylesheet" href="/styles.css?v=20260907c">
+<style>
+  .lab-wrap{max-width:720px;margin:0 auto;padding:0 18px 80px}
+  .lab-h{display:flex;align-items:center;gap:10px;margin:22px 0 6px}
+  .lab-h .beta{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.08em;color:var(--paper);background:var(--ink);border-radius:6px;padding:3px 8px}
+  .lab-sub{color:var(--muted);font-weight:700;font-size:13.5px;margin:0 0 20px}
+  .lab-card{background:var(--paper2);border:2.5px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:18px 18px 20px;margin-bottom:18px}
+  .lab-card h3{font-size:17px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+  .lab-card .desc{color:var(--muted);font-weight:600;font-size:13px;line-height:1.45;margin:0 0 14px}
+  .lab-file{display:block;border:2px dashed var(--ink);border-radius:12px;padding:14px;text-align:center;font-weight:700;font-size:13.5px;color:var(--ink);background:var(--paper);cursor:pointer;margin-bottom:10px}
+  .lab-file input{display:none}
+  .lab-status{font-size:13px;font-weight:700;margin-top:8px}
+  .lab-status.ok{color:var(--coral-deep)}
+  .lab-status.err{color:#c0392b}
+  .lab-status.wait{color:var(--muted)}
+  .lab-media{margin-top:12px}
+  .lab-media audio{width:100%}
+  .lab-gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-top:12px}
+  .lab-gal img{width:100%;border:2px solid var(--ink);border-radius:10px;display:block}
+  .gate{max-width:440px;margin:60px auto;text-align:center}
+  .tag{display:inline-block;font-size:11px;font-weight:700;color:var(--muted)}
+  .soon{opacity:.62}
+  .soon .badge{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.06em;background:var(--coral-soft);border:1.5px solid var(--ink);border-radius:6px;padding:2px 7px;margin-left:6px}
+</style>
+</head>
+<body>
+<div class="lab-wrap">
+  <header class="nav">
+    <a class="brand" href="/" aria-label="Залихват"><svg viewBox="0 0 600 150" style="height:32px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <a class="iconbtn" href="/" title="В кабинет" aria-label="В кабинет"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg></a>
+  </header>
+
+  <!-- GATE (по умолчанию видно, скрывается если доступ есть) -->
+  <section id="gate" class="gate">
+    <div class="card">
+      <div class="eyebrow">Лаборатория</div>
+      <h1 style="font-size:26px;margin:6px 0 10px">Доступ ограничен</h1>
+      <p class="lead" id="gate-msg">Проверяю доступ...</p>
+      <a class="btn btn-primary" href="/">Войти в кабинет</a>
+    </div>
+  </section>
+
+  <!-- LAB -->
+  <section id="lab" hidden>
+    <div class="lab-h">
+      <h1 style="font-size:28px;margin:0">Лаборатория</h1>
+      <span class="beta">beta</span>
+    </div>
+    <p class="lab-sub" id="whoami">Экспериментальные фичи. Только для владельца.</p>
+
+    <!-- ГОЛОС -->
+    <div class="lab-card" id="card-voice">
+      <h3>🎙️ Твой голос</h3>
+      <p class="desc">Загрузи 1–2 минуты чистой речи (аудио или видео) — соберём твой голос, чтобы озвучивать контент всегда одним и тем же голосом.</p>
+      <label class="lab-file"><input type="file" id="voice-file" accept="audio/*,video/*"><span id="voice-file-label">📁 Выбрать аудио/видео с твоей речью</span></label>
+      <button class="btn btn-primary" id="voice-create">Создать голос</button>
+      <div class="lab-status" id="voice-status" hidden></div>
+      <div id="voice-current" class="lab-status ok" hidden></div>
+      <div id="voice-tts" hidden style="margin-top:14px">
+        <label class="fld"><span>Проверить голос — впиши текст</span>
+          <textarea id="voice-text" rows="2" placeholder="Привет! Это мой собственный голос в Залихвате.">Привет! Это мой собственный голос в Залихвате.</textarea></label>
+        <button class="btn btn-ghost" id="voice-say">Озвучить</button>
+        <div class="lab-media" id="voice-audio"></div>
+      </div>
+    </div>
+
+    <!-- АВАТАР-ФОТО -->
+    <div class="lab-card" id="card-avatar">
+      <h3>🧑‍🎨 Аватар из фото</h3>
+      <p class="desc">Загрузи своё фото (лицо анфас, хороший свет) — сделаем цифровой аватар для роликов.</p>
+      <label class="lab-file"><input type="file" id="avatar-file" accept="image/*"><span id="avatar-file-label">📷 Выбрать фото</span></label>
+      <button class="btn btn-primary" id="avatar-create">Создать аватар</button>
+      <div class="lab-status" id="avatar-status" hidden></div>
+      <div class="lab-gal" id="avatar-gallery"></div>
+    </div>
+
+    <!-- АВАТАР-РИЛЗ -->
+    <div class="lab-card" id="card-reel">
+      <h3>🎬 Рилз из аватара</h3>
+      <p class="desc">Твой аватар + твой голос + сценарий → готовый вертикальный ролик. Сценарий можно вставить свой или сгенерировать в кабинете.</p>
+      <label class="fld"><span>Сценарий / текст ролика</span>
+        <textarea id="reel-script" rows="4" placeholder="Вставь сюда текст, который аватар произнесёт..."></textarea></label>
+      <button class="btn btn-primary" id="reel-create">Собрать рилз</button>
+      <div class="lab-status" id="reel-status" hidden></div>
+      <div class="lab-media" id="reel-video"></div>
+    </div>
+  </section>
+</div>
+
+<script src="/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
+<script>
+(function () {
+  var OWNER = "aksenovwork@yandex.ru";
+  var cfg = window.ZCFG || {};
+  var API = cfg.API_BASE || "/api";
+  var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  var $ = function (id) { return document.getElementById(id); };
+  var token = null;
+
+  function setStatus(el, msg, kind) { el.hidden = false; el.textContent = msg; el.className = "lab-status " + (kind || "wait"); }
+
+  async function authHeader() {
+    var s = await sb.auth.getSession();
+    token = s.data.session && s.data.session.access_token;
+    return token ? { authorization: "Bearer " + token } : null;
+  }
+
+  async function boot() {
+    var s = await sb.auth.getSession();
+    var user = s.data.session && s.data.session.user;
+    if (!user) { $("gate-msg").textContent = "Сначала войди в кабинет под аккаунтом владельца."; return; }
+    if ((user.email || "").toLowerCase() !== OWNER) {
+      $("gate-msg").textContent = "Эта страница доступна только владельцу (" + OWNER + "). Ты вошёл(ла) как " + user.email + ".";
+      return;
+    }
+    token = s.data.session.access_token;
+    $("gate").hidden = true; $("lab").hidden = false;
+    $("whoami").textContent = "Владелец: " + user.email + " · экспериментальные фичи";
+    loadVoice();
+  }
+
+  // ---------- ГОЛОС ----------
+  $("voice-file").addEventListener("change", function (e) {
+    var f = e.target.files[0];
+    $("voice-file-label").textContent = f ? ("📁 " + f.name) : "📁 Выбрать аудио/видео с твоей речью";
+  });
+  async function loadVoice() {
+    try {
+      var h = await authHeader(); if (!h) return;
+      var r = await fetch(API + "/trash/voice", { headers: h });
+      if (!r.ok) return;
+      var j = await r.json();
+      if (j && j.voice_id) {
+        $("voice-current").hidden = false;
+        $("voice-current").textContent = "✓ Голос собран: " + (j.name || j.voice_id);
+        $("voice-tts").hidden = false;
+      }
+    } catch (e) {}
+  }
+  $("voice-create").addEventListener("click", async function () {
+    var f = $("voice-file").files[0];
+    if (!f) { setStatus($("voice-status"), "Сначала выбери файл с речью.", "err"); return; }
+    var h = await authHeader(); if (!h) { setStatus($("voice-status"), "Нет сессии, войди заново.", "err"); return; }
+    var btn = this; btn.disabled = true;
+    setStatus($("voice-status"), "Собираю голос — это займёт до минуты...", "wait");
+    try {
+      var fd = new FormData(); fd.append("sample", f); fd.append("name", "Мой голос");
+      var r = await fetch(API + "/trash/voice/create", { method: "POST", headers: h, body: fd });
+      var j = await r.json().catch(function () { return {}; });
+      if (r.ok && j.voice_id) {
+        setStatus($("voice-status"), "Готово! Голос собран.", "ok");
+        $("voice-current").hidden = false; $("voice-current").textContent = "✓ Голос собран: " + (j.name || j.voice_id);
+        $("voice-tts").hidden = false;
+      } else {
+        setStatus($("voice-status"), j.detail || j.error || ("Не вышло (" + r.status + ")"), "err");
+      }
+    } catch (e) { setStatus($("voice-status"), "Ошибка сети.", "err"); }
+    btn.disabled = false;
+  });
+  $("voice-say").addEventListener("click", async function () {
+    var text = $("voice-text").value.trim(); if (!text) return;
+    var h = await authHeader(); if (!h) return;
+    var btn = this; btn.disabled = true; var old = btn.textContent; btn.textContent = "Озвучиваю...";
+    try {
+      var r = await fetch(API + "/trash/voice/tts", { method: "POST", headers: Object.assign({ "content-type": "application/json" }, h), body: JSON.stringify({ text: text }) });
+      if (r.ok) {
+        var blob = await r.blob();
+        $("voice-audio").innerHTML = "";
+        var a = document.createElement("audio"); a.controls = true; a.src = URL.createObjectURL(blob); a.autoplay = true;
+        $("voice-audio").appendChild(a);
+      } else {
+        var j = await r.json().catch(function () { return {}; });
+        $("voice-audio").innerHTML = '<div class="lab-status err">' + (j.detail || j.error || "не вышло") + '</div>';
+      }
+    } catch (e) { $("voice-audio").innerHTML = '<div class="lab-status err">ошибка сети</div>'; }
+    btn.disabled = false; btn.textContent = old;
+  });
+
+  // ---------- АВАТАР-ФОТО ----------
+  $("avatar-file").addEventListener("change", function (e) {
+    var f = e.target.files[0];
+    $("avatar-file-label").textContent = f ? ("📷 " + f.name) : "📷 Выбрать фото";
+  });
+  $("avatar-create").addEventListener("click", async function () {
+    var f = $("avatar-file").files[0];
+    if (!f) { setStatus($("avatar-status"), "Сначала выбери фото.", "err"); return; }
+    var h = await authHeader(); if (!h) return;
+    var btn = this; btn.disabled = true;
+    setStatus($("avatar-status"), "Отправляю на создание аватара...", "wait");
+    try {
+      var fd = new FormData(); fd.append("photo", f);
+      var r = await fetch(API + "/trash/avatar/create", { method: "POST", headers: h, body: fd });
+      var j = await r.json().catch(function () { return {}; });
+      setStatus($("avatar-status"), r.ok ? (j.detail || "принято") : (j.detail || j.error || ("ошибка " + r.status)), r.ok ? "ok" : "err");
+    } catch (e) { setStatus($("avatar-status"), "ошибка сети", "err"); }
+    btn.disabled = false;
+  });
+
+  // ---------- АВАТАР-РИЛЗ ----------
+  $("reel-create").addEventListener("click", async function () {
+    var script = $("reel-script").value.trim();
+    if (!script) { setStatus($("reel-status"), "Впиши текст сценария.", "err"); return; }
+    var h = await authHeader(); if (!h) return;
+    var btn = this; btn.disabled = true;
+    setStatus($("reel-status"), "Отправляю на сборку ролика...", "wait");
+    try {
+      var r = await fetch(API + "/trash/reel/create", { method: "POST", headers: Object.assign({ "content-type": "application/json" }, h), body: JSON.stringify({ script: script }) });
+      var j = await r.json().catch(function () { return {}; });
+      setStatus($("reel-status"), r.ok ? (j.detail || "принято") : (j.detail || j.error || ("ошибка " + r.status)), r.ok ? "ok" : "err");
+    } catch (e) { setStatus($("reel-status"), "ошибка сети", "err"); }
+    btn.disabled = false;
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>
