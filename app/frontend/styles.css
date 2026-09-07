@@ -13,7 +13,7 @@ em{font-style:normal;color:var(--coral)}
 .brand .dot{width:30px;height:30px;border-radius:50%;background:var(--coral);color:var(--paper);border:2px solid var(--ink);display:grid;place-items:center;font-size:16px}
 .brand{text-decoration:none}
 .brand .avatar{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 25%;box-shadow:2px 2px 0 var(--ink)}
-.navright{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.navright{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-left:auto}
 .iconbtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink);background:var(--paper2);border:2px solid var(--ink);border-radius:9px;box-shadow:2px 2px 0 var(--ink);padding:5px;cursor:pointer;transition:transform .1s,box-shadow .1s}
 .iconbtn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);color:var(--coral-deep)}
 .iconbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
@@ -91,7 +91,7 @@ em{font-style:normal;color:var(--coral)}
 .hint{position:absolute;top:calc(100% + 12px);right:0;width:224px;background:var(--ink);color:var(--paper);font-family:"Nunito";font-weight:700;font-size:12.5px;line-height:1.4;text-transform:none;letter-spacing:0;border-radius:12px;padding:11px 30px 11px 13px;box-shadow:4px 4px 0 var(--coral);z-index:70;text-align:left}
 .hint::before{content:"";position:absolute;top:-8px;right:22px;border-left:8px solid transparent;border-right:8px solid transparent;border-bottom:8px solid var(--ink)}
 .hint-x{position:absolute;top:5px;right:8px;background:none;border:none;cursor:pointer;font-size:17px;line-height:1;color:var(--coral);font-family:"Oswald"}
-@media(max-width:560px){.hint{position:fixed;top:60px;left:12px;right:12px;width:auto;max-width:none}.hint::before{right:26px}}
+@media(max-width:560px){.langsw{order:1;margin-left:auto}.navright{order:2;flex-basis:100%;margin-left:0}.navright .usermail{margin-right:auto}.hint{width:min(230px,76vw)}}
 
 /* consent checkbox on auth */
 .consent{display:flex;align-items:flex-start;gap:9px;text-align:left;margin:2px 0 12px;font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.4}
