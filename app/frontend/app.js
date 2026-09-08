@@ -937,18 +937,21 @@
   function _spk(cx, cy, s, c) { const k = s * 0.18; return '<path d="M' + cx + ' ' + (cy - s) + ' C ' + (cx + k) + ' ' + (cy - k) + ' ' + (cx + k) + ' ' + (cy - k) + ' ' + (cx + s) + ' ' + cy + ' C ' + (cx + k) + ' ' + (cy + k) + ' ' + (cx + k) + ' ' + (cy + k) + ' ' + cx + ' ' + (cy + s) + ' C ' + (cx - k) + ' ' + (cy + k) + ' ' + (cx - k) + ' ' + (cy + k) + ' ' + (cx - s) + ' ' + cy + ' C ' + (cx - k) + ' ' + (cy - k) + ' ' + (cx - k) + ' ' + (cy - k) + ' ' + cx + ' ' + (cy - s) + ' Z" fill="' + c + '"/>'; }
   function _dot(cx, cy, r, c) { return '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + c + '"/>'; }
   function _sprig(cx, cy, s, c) { let g = '<path d="M' + cx + ' ' + cy + ' q 0 -' + s + ' 0 -' + (s * 2) + '" stroke="' + c + '" stroke-width="4" fill="none"/>'; for (let i = 0; i < 4; i++) { const yy = cy - s * 0.4 - i * s * 0.42; g += _leaf(cx + (i % 2 ? 1 : -1) * s * 0.32, yy, s * 0.26, (i % 2 ? 40 : -40), c); } return "<g>" + g + "</g>"; }
-  function decoInner(style, a, b) {
-    if (style === "floral") return _flower(980, 155, 118, a, b) + _flower(875, 300, 76, a, b) + _leaf(1045, 255, 66, 30, b) + _flower(140, 1235, 92, a, b) + _leaf(235, 1250, 52, -30, b) + _dot(120, 250, 10, a) + _dot(205, 185, 7, b) + _dot(980, 1120, 9, a);
-    if (style === "botanical") return _sprig(160, 250, 92, a) + _sprig(955, 1180, 92, a) + _leaf(1005, 230, 78, 20, b) + _leaf(95, 1170, 66, -20, b) + _dot(945, 320, 8, b) + _dot(135, 1110, 8, b);
-    if (style === "arch") return '<path d="M120 660 A 420 420 0 0 1 960 660 L960 1250 L120 1250 Z" fill="' + b + '" opacity="0.16"/>' + _dot(150, 210, 12, a) + _dot(930, 175, 9, a) + _dot(1000, 255, 7, b) + _flower(958, 220, 68, a, b);
-    if (style === "sparkle") return _spk(960, 160, 70, a) + _spk(1012, 300, 34, b) + _spk(120, 1180, 64, a) + _spk(205, 1245, 28, b) + _spk(150, 235, 38, b) + _dot(940, 1115, 8, a) + _dot(1000, 1180, 6, b);
-    if (style === "scallop") { let sc = ""; for (let x = 40; x < 1080; x += 112) sc += '<path d="M' + x + ' 44 a56 56 0 0 0 112 0" fill="none" stroke="' + a + '" stroke-width="7"/>'; return sc + _flower(958, 1180, 90, a, b) + _leaf(1050, 1158, 58, 30, b) + _dot(120, 1200, 9, a); }
-    if (style === "boho") { let r = ""; for (let i = 0; i < 12; i++) { const g = i * 30 * Math.PI / 180; r += '<line x1="' + (958 + Math.cos(g) * 62) + '" y1="' + (172 + Math.sin(g) * 62) + '" x2="' + (958 + Math.cos(g) * 112) + '" y2="' + (172 + Math.sin(g) * 112) + '" stroke="' + a + '" stroke-width="6"/>'; } return '<circle cx="958" cy="172" r="46" fill="none" stroke="' + a + '" stroke-width="6"/>' + r + _dot(150, 1180, 12, a) + _dot(215, 1120, 8, b) + _dot(120, 250, 9, b); }
+  function decoInner(style, a, b, H) {
+    H = H || 1350;
+    const bY = (y) => H - (1350 - y);   // низовые элементы держим на том же отступе от нижнего края слайда
+    if (style === "floral") return _flower(980, 155, 118, a, b) + _flower(875, 300, 76, a, b) + _leaf(1045, 255, 66, 30, b) + _flower(140, bY(1235), 92, a, b) + _leaf(235, bY(1250), 52, -30, b) + _dot(120, 250, 10, a) + _dot(205, 185, 7, b) + _dot(980, bY(1120), 9, a);
+    if (style === "botanical") return _sprig(160, 250, 92, a) + _sprig(955, bY(1180), 92, a) + _leaf(1005, 230, 78, 20, b) + _leaf(95, bY(1170), 66, -20, b) + _dot(945, 320, 8, b) + _dot(135, bY(1110), 8, b);
+    if (style === "arch") return '<path d="M120 660 A 420 420 0 0 1 960 660 L960 ' + bY(1250) + ' L120 ' + bY(1250) + ' Z" fill="' + b + '" opacity="0.16"/>' + _dot(150, 210, 12, a) + _dot(930, 175, 9, a) + _dot(1000, 255, 7, b) + _flower(958, 220, 68, a, b);
+    if (style === "sparkle") return _spk(960, 160, 70, a) + _spk(1012, 300, 34, b) + _spk(120, bY(1180), 64, a) + _spk(205, bY(1245), 28, b) + _spk(150, 235, 38, b) + _dot(940, bY(1115), 8, a) + _dot(1000, bY(1180), 6, b);
+    if (style === "scallop") { let sc = ""; for (let x = 40; x < 1080; x += 112) sc += '<path d="M' + x + ' 44 a56 56 0 0 0 112 0" fill="none" stroke="' + a + '" stroke-width="7"/>'; return sc + _flower(958, bY(1180), 90, a, b) + _leaf(1050, bY(1158), 58, 30, b) + _dot(120, bY(1200), 9, a); }
+    if (style === "boho") { let r = ""; for (let i = 0; i < 12; i++) { const g = i * 30 * Math.PI / 180; r += '<line x1="' + (958 + Math.cos(g) * 62) + '" y1="' + (172 + Math.sin(g) * 62) + '" x2="' + (958 + Math.cos(g) * 112) + '" y2="' + (172 + Math.sin(g) * 112) + '" stroke="' + a + '" stroke-width="6"/>'; } return '<circle cx="958" cy="172" r="46" fill="none" stroke="' + a + '" stroke-width="6"/>' + r + _dot(150, bY(1180), 12, a) + _dot(215, bY(1120), 8, b) + _dot(120, 250, 9, b); }
     return "";
   }
-  function decoSVG(id) {
+  function decoSVG(id, h) {
     const d = CDEF[id]; if (!d) return "";
-    return '<svg class="cs-deco" viewBox="0 0 1080 1350" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">' + decoInner(d.style, d.a, d.b) + "</svg>";
+    h = h || 1350;
+    return '<svg class="cs-deco" viewBox="0 0 1080 ' + h + '" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">' + decoInner(d.style, d.a, d.b, h) + "</svg>";
   }
   function miniDecoSVG(id) {
     const d = CDEF[id]; if (!d) return "";
@@ -1084,6 +1087,8 @@
     const baseX = text ? parseFloat(getComputedStyle(text).fontSize) : 0;
     const mb = title ? parseFloat(getComputedStyle(title).marginBottom || 0) : 0;
     const contentH = () => (title ? title.offsetHeight : 0) + (text ? text.offsetHeight : 0) + (title && text ? mb : 0);
+    // горизонтальное переполнение (длинное слово шире колонки) - чтобы текст не обрезался по краю
+    const overW = () => (title && title.scrollWidth > title.clientWidth + 1) || (text && text.scrollWidth > text.clientWidth + 1);
     const apply = (k) => {
       if (title) title.style.fontSize = (baseT * k) + "px";
       if (text) text.style.fontSize = (baseX * k) + "px";
@@ -1091,14 +1096,14 @@
     // 1) АВТО-ЗАПОЛНЕНИЕ: растим шрифт, пока контент не заполнит рабочую зону слайда (чтобы не был мелким/растянутым)
     apply(1);
     let k = 1;
-    for (let i = 0; i < 40 && k < 2.2 && contentH() <= limit; i++) { k += 0.06; apply(k); }
-    // 2) если перелетели край (в т.ч. изначально длинный текст) - ужимаем, пока не влезет
-    for (let i = 0; i < 40 && k > 0.4 && contentH() > limit; i++) { k -= 0.05; apply(k); }
+    for (let i = 0; i < 40 && k < 2.2 && contentH() <= limit && !overW(); i++) { k += 0.06; apply(k); }
+    // 2) если перелетели край по высоте или ширине (длинное слово) - ужимаем, пока не влезет
+    for (let i = 0; i < 40 && k > 0.4 && (contentH() > limit || overW()); i++) { k -= 0.05; apply(k); }
     // 3) ручной масштаб автора поверх авто-заполнения, со страховкой от переполнения
     if (manual !== 1) {
       let km = Math.max(0.4, Math.min(2.4, k * manual));
       apply(km);
-      for (let i = 0; i < 30 && km > 0.4 && contentH() > limit; i++) { km -= 0.05; apply(km); }
+      for (let i = 0; i < 30 && km > 0.4 && (contentH() > limit || overW()); i++) { km -= 0.05; apply(km); }
     }
   }
   // типографика слайда: числа с пробелом-разделителем не рвём (11 000), новое предложение - с новой строки
@@ -1150,7 +1155,7 @@
     const onPhoto = !!s.bg;   // обложка: фон - фото пользователя
     if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
     else if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
-    else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
+    else node.insertAdjacentHTML("afterbegin", decoSVG(eff, dimH));
     // фото-стикеры пользователя (до 2 шт; форма/поворот; позицию ставим ПОСЛЕ вёрстки - в свободную от текста зону)
     [[s.sticker, s.stickerShape, s.stickerRot], [s.sticker2, s.stickerShape2, s.stickerRot2]].forEach(function (p) {
       if (!p[0]) return;
