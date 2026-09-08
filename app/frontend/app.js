@@ -674,7 +674,7 @@
       h.onclick = async () => {
         if (!built) {
           built = true;
-          if (isVis) await renderHistoryVisuals(det, g.platform, g.output || {});
+          if (isVis) await renderHistoryVisuals(det, g.platform, g.output || {}, g.id);
           else det.appendChild(buildHistoryDetail(g.platform, g.output || {}));
         }
         det.hidden = !det.hidden;
@@ -705,14 +705,33 @@
     } else if (p === "content_plan") {
       arr(d.plan).forEach(x => add(x.day || "", (x.format ? "[" + x.format + "] " : "") + (x.idea || "")));
     } else if (p === "audience") {
-      arr(d.segments).forEach((s, i) => { head((i + 1) + ". " + (s.name || "")); add(t("au_pains"), arr(s.pains).join("; ")); add(t("au_desires"), arr(s.desires).join("; ")); add(t("au_objections"), arr(s.objections).join("; ")); });
-      if (arr(d.content_map).length) { head(t("au_contentmap")); arr(d.content_map).forEach(m => add("🎯", (m.pain || "") + (m.format ? " [" + m.format + "]" : ""))); }
+      arr(d.segments).forEach((s, i) => {
+        head((i + 1) + ". " + (s.name || ""));
+        add(t("au_portrait"), s.portrait);
+        add(t("au_jtbd"), s.jtbd);
+        add(t("au_pains"), arr(s.pains).join("; "));
+        add(t("au_desires"), arr(s.desires).join("; "));
+        add(t("au_objections"), arr(s.objections).join("; "));
+        add(t("au_words"), arr(s.their_words).join("; "));
+      });
+      if (d.awareness) {
+        head(t("au_awareness"));
+        add(t("au_aw_unaware"), d.awareness.unaware);
+        add(t("au_aw_problem"), d.awareness.problem);
+        add(t("au_aw_solution"), d.awareness.solution);
+        add(t("au_aw_product"), d.awareness.product);
+        add(t("au_aw_most"), d.awareness.most);
+      }
+      if (arr(d.content_map).length) {
+        head(t("au_contentmap"));
+        arr(d.content_map).forEach(m => add("🎯 " + (m.pain || ""), (m.angle ? m.angle + " " : "") + (arr(m.hooks).length ? "· " + arr(m.hooks).join(" / ") : "") + (m.format ? " [" + m.format + "]" : "")));
+      }
     }
     if (!wrap.children.length) add("", t("no_topic"));
     return wrap;
   }
   // раскрыть картинки визуала прямо в истории (перерисовка из сохранённых данных, #result не трогаем)
-  async function renderHistoryVisuals(container, mode, d) {
+  async function renderHistoryVisuals(container, mode, d, genId) {
     container.textContent = "";
     if (!window.html2canvas) { container.appendChild(el("div", "h-drow", "html2canvas не загрузился, обнови страницу")); return; }
     container.appendChild(el("div", "h-drow", t("car_rendering")));
@@ -734,11 +753,24 @@
     } else if (mode === "reels_cover") {
       slides.push({ cover: true, title: d.title, text: d.subtitle || "" });
     }
+    // восстановить сохранённые правки пользователя (фото-стикеры + параметры)
+    const eds = (d && d._edits && typeof d._edits === "object") ? d._edits : null;
+    if (eds) {
+      for (const k in eds) {
+        const idx = +k, e = eds[k]; if (!slides[idx] || !e) continue;
+        if (e.fontScale != null) slides[idx].fontScale = e.fontScale;
+        if (e.alignV) slides[idx].alignV = e.alignV;
+        if (e.alignH) slides[idx].alignH = e.alignH;
+        if (e.shape != null) slides[idx].stickerShape = e.shape;
+        if (e.rot != null) slides[idx].stickerRot = e.rot;
+        if (e.sticker) { try { const { data: b } = await sb.storage.from("uploads").download(e.sticker); if (b) slides[idx].sticker = await blobToDataURL(b); } catch (x) {} }
+      }
+    }
     container.textContent = "";
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
-      const cell = await buildVisualCell(slides, i, mode, eff, false, urls, thumbs);
+      const cell = await buildVisualCell(slides, i, mode, eff, false, urls, thumbs, genId || null);
       if (cell) outBox.appendChild(cell);
     }
     container.appendChild(outBox);
@@ -1116,7 +1148,19 @@
     const j = await res.json().catch(() => null);
     return (j && j.data) ? { data: j.data } : { err: "fail" };
   }
-  async function buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs) {
+  async function saveEdit(genId, i, s) {
+    if (!genId) return;
+    try {
+      const { data } = await sb.auth.getSession();
+      const token = data.session && data.session.access_token; if (!token) return;
+      await fetch(API + "/carousel-edits", {
+        method: "POST", headers: { "content-type": "application/json", authorization: "Bearer " + token },
+        body: JSON.stringify({ generation_id: genId, index: i, shape: s.stickerShape, rot: s.stickerRot,
+          fontScale: s.fontScale, alignV: s.alignV, alignH: s.alignH, photo: s.sticker || null }),
+      });
+    } catch (e) {}
+  }
+  async function buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs, genId) {
     const url = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
     if (!url) return null;
     urls[i] = url;
@@ -1139,6 +1183,7 @@
         go.disabled = true; const old0 = go.textContent; go.textContent = t("redo_wait");
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
+        saveEdit(genId, i, slides[i]);
         go.disabled = false; go.textContent = old0; form.hidden = true; inp.value = "";
         return;
       }
@@ -1181,12 +1226,14 @@
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
         txt.textContent = "📷 " + t("sticker_change"); btn.disabled = false; rm.hidden = false;
+        saveEdit(genId, i, slides[i]);
       };
       rm.onclick = async () => {
         slides[i].sticker = null; try { pin.value = ""; } catch (e) {}
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
         rm.hidden = true; txt.textContent = "📷 " + t("sticker_btn");
+        saveEdit(genId, i, slides[i]);
       };
       pw.appendChild(btn); pw.appendChild(rm); pw.appendChild(pin); thumb.appendChild(pw);
     }
@@ -1229,7 +1276,7 @@
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
-      const cell = await buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs);
+      const cell = await buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs, out.generation_id || null);
       if (rseq !== renderSeq) return;   // кликнули другую запись - бросаем устаревший рендер
       if (cell) outBox.appendChild(cell);
     }
@@ -1260,7 +1307,7 @@
     const slides = [{ cover: true, title: d.hook }];
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
-    const cell = await buildVisualCell(slides, 0, "post", eff, useCustom, urls, thumbs);
+    const cell = await buildVisualCell(slides, 0, "post", eff, useCustom, urls, thumbs, out.generation_id || null);
     if (rseq !== renderSeq) return;
     if (cell) outBox.appendChild(cell);
     box.appendChild(outBox);
@@ -1296,7 +1343,7 @@
     const slides = [{ cover: true, title: d.title, text: d.subtitle || "", bg: coverBg }];
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
-    const cell = await buildVisualCell(slides, 0, "reels_cover", eff, false, urls, thumbs);
+    const cell = await buildVisualCell(slides, 0, "reels_cover", eff, false, urls, thumbs, out.generation_id || null);
     if (rseq !== renderSeq) return;
     if (cell) outBox.appendChild(cell);
     box.appendChild(outBox);

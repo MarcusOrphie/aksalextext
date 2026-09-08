@@ -84,15 +84,18 @@ def recent_titles(user_id: str, platform: str, rows: int = 12) -> list:
     return res[:40]
 
 
-def record(user_id: str, platform: str, topic: str, output) -> None:
-    """Записать факт генерации (авторитетно, с user_id)."""
+def record(user_id: str, platform: str, topic: str, output) -> str | None:
+    """Записать факт генерации (авторитетно, с user_id). Вернуть id строки (для сохранения правок)."""
     body = json.dumps({"user_id": user_id, "platform": platform,
                        "topic": topic or None, "output": output}).encode()
-    h = dict(_H); h["Prefer"] = "return=minimal"
-    req = urllib.request.Request(REST + "/generations", data=body, headers=h, method="POST")
+    h = dict(_H); h["Prefer"] = "return=representation"
+    req = urllib.request.Request(REST + "/generations?select=id", data=body, headers=h, method="POST")
     try:
-        urllib.request.urlopen(req, timeout=15).read()
+        resp = json.loads(urllib.request.urlopen(req, timeout=15).read().decode())
+        if isinstance(resp, list) and resp and isinstance(resp[0], dict):
+            return str(resp[0].get("id")) if resp[0].get("id") is not None else None
     except urllib.error.HTTPError as e:
         logging.error("usage.record HTTP %s: %s", e.code, e.read().decode(errors="replace")[:300])
     except Exception as e:
         logging.error("usage.record failed: %r", e)
+    return None

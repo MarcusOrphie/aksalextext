@@ -24,6 +24,7 @@ import feedback
 import trends
 import lab
 import audience
+import edits
 import access
 import prodamus
 
@@ -239,7 +240,9 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     # запоминаем выбранный дизайн визуала, чтобы история открывала картинки в том же шаблоне
     if isinstance(data, dict) and req.platform in ("carousel", "post", "stories", "reels_cover") and req.design:
         data["_design"] = req.design
-    usage.record(user["id"], req.platform, req.topic, data)
+    gid = usage.record(user["id"], req.platform, req.topic, data)
+    if gid:
+        result["generation_id"] = gid
     return result
 
 class RedoReq(BaseModel):
@@ -281,6 +284,26 @@ def feedback_endpoint(request: Request, req: FeedbackReq, user: dict = Depends(g
         raise HTTPException(status_code=400, detail="плохая оценка")
     ok = feedback.record(user["id"], req.platform, req.item, req.vote)
     return {"ok": bool(ok)}
+
+class CarEditReq(BaseModel):
+    generation_id: str = Field(max_length=64)
+    index: int = Field(ge=0, le=60)
+    shape: int | None = None
+    rot: int | None = None
+    fontScale: float | None = None
+    alignV: str | None = Field(default=None, max_length=8)
+    alignH: str | None = Field(default=None, max_length=8)
+    photo: str | None = Field(default=None, max_length=12_000_000)
+
+@app.post("/api/carousel-edits")
+@limiter.limit("240/hour")
+def carousel_edits(request: Request, req: CarEditReq, user: dict = Depends(get_user)):
+    ok, msg = edits.save_edit(user["id"], req.generation_id, req.index, {
+        "shape": req.shape, "rot": req.rot, "fontScale": req.fontScale,
+        "alignV": req.alignV, "alignH": req.alignH, "photo": req.photo})
+    if not ok:
+        raise HTTPException(status_code=(403 if msg == "forbidden" else 400), detail=msg)
+    return {"ok": True}
 
 # ---------- Лаборатория /trash (эксперименты, только владелец) ----------
 class LabTTS(BaseModel):
