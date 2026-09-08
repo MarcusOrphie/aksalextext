@@ -137,10 +137,11 @@ _INJ = {
                      "переработай под платформу и формат, усиль по правилам крафта и упакуй в нужную структуру. "
                      "Не выдумывай факты сверх этого текста, но подай ярче и живее:\n\"\"\"\n"),
         "usertext_end": "\n\"\"\"",
-        "usertext_strict": ("\n\nСТРОГО ПО ТЕКСТУ АВТОРА: раз автор дал свой текст - работай ЧЁТКО по нему, не фантазируй. "
-                            "Не добавляй факты, примеры, цифры, имена или мысли, которых в тексте нет. "
-                            "Разложи ИМЕННО его содержание по слайдам/кадрам: сохрани смысл, факты и ключевые формулировки автора; "
-                            "можно только подчистить, сократить и разбить на структуру под формат. Никакой отсебятины и додумывания."),
+        "usertext_strict": ("\n\nСТРОГО ПО ТЕКСТУ АВТОРА: автор дал свой текст - используй ТОЛЬКО его. "
+                            "Ничего не добавляй, не выдумывай и не меняй от себя: ни фактов, ни примеров, ни цифр, ни имён, ни мыслей, ни формулировок. "
+                            "Возьми текст автора как есть и лишь РАЗЛОЖИ его по формату (слайдам/кадрам/частям поста), сохранив его слова и смысл дословно. "
+                            "Разрешено только: разбить на структуру под формат, расставить по слайдам/кадрам и - если совсем не помещается - аккуратно сократить. "
+                            "НЕ переписывай, НЕ приукрашивай, НЕ добавляй свои хуки, выводы или призывы, которых нет у автора. Никакой отсебятины."),
     },
     "en": {
         "trends": ("\n\nLIVE RESEARCH FOR THE TOPIC AND NICHE (verifiable facts and fresh trends from web search). "
@@ -167,10 +168,11 @@ _INJ = {
                      "rework it for the platform and format, strengthen it by the craft rules and package it in the needed structure. "
                      "Do not invent facts beyond this text, but present it more vividly:\n\"\"\"\n"),
         "usertext_end": "\n\"\"\"",
-        "usertext_strict": ("\n\nSTRICTLY FROM THE AUTHOR'S TEXT: since the author gave their own text - work strictly by it, do not make things up. "
-                            "Do not add facts, examples, numbers, names or ideas that are not in the text. "
-                            "Lay out EXACTLY its content across the slides/frames: keep the author's meaning, facts and key wording; "
-                            "you may only clean it up, trim it and split it into structure for the format. No made-up additions."),
+        "usertext_strict": ("\n\nSTRICTLY FROM THE AUTHOR'S TEXT: the author gave their own text - use ONLY it. "
+                            "Add nothing, invent nothing, change nothing of your own: no facts, examples, numbers, names, ideas or wording. "
+                            "Take the author's text as is and only ARRANGE it into the format (slides/frames/post parts), keeping their words and meaning verbatim. "
+                            "Allowed only: split it into the format's structure, place it across slides/frames, and - if it truly doesn't fit - trim carefully. "
+                            "Do NOT rewrite, do NOT embellish, do NOT add your own hooks, conclusions or CTAs the author didn't write. No additions of your own."),
     },
 }
 
