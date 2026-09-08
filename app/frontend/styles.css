@@ -240,9 +240,9 @@ em{font-style:normal;color:var(--coral)}
 .cs-thumb .cs-redo-go:disabled{opacity:.6;cursor:default}
 .cs-thumb .cs-redo-err{font-family:"Nunito";font-weight:700;font-size:11px;color:var(--coral-deep);text-align:center;padding:0 7px 8px}
 .cs-thumb .cs-photo{display:flex;gap:6px;align-items:stretch;border-top:2px solid var(--ink);background:var(--paper2)}
-.cs-thumb .cs-photo-btn{flex:1;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em;color:var(--muted);cursor:pointer;padding:6px}
+.cs-thumb .cs-photo-btn{flex:1;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em;color:var(--muted);cursor:pointer;padding:6px;border:none;background:none}
 .cs-thumb .cs-photo-btn:hover{color:var(--coral-deep)}
-.cs-thumb .cs-photo-in{display:none}
+.cs-thumb .cs-photo-in{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
 .cs-thumb .cs-photo-rm{flex:none;border:none;border-left:2px solid var(--ink);background:var(--paper);color:var(--coral-deep);font-weight:800;font-size:12px;cursor:pointer;padding:0 11px}
 .cs-thumb .cs-photo-rm:hover{background:var(--coral-soft)}
 .h-img{display:inline-block;margin-left:8px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.03em;color:var(--coral-deep)}

@@ -989,6 +989,21 @@
     s = s.replace(/([.!?…]+)[ \t]+(?=[«"'(\[A-ZА-ЯЁ])/g, "$1\n");
     return s.trim();
   }
+  // ставим фото-стикер в свободную от текста зону (сверху или снизу от текста), чтобы не заезжал
+  function placeSticker(node, st, s) {
+    const H = node.clientHeight, W = node.clientWidth;
+    const SW = st.offsetWidth || 340, SH = st.offsetHeight || 340;
+    const title = node.querySelector(".cs-title"), text = node.querySelector(".cs-text");
+    let top = H, bottom = 0;
+    [title, text].forEach(elm => { if (elm) { top = Math.min(top, elm.offsetTop); bottom = Math.max(bottom, elm.offsetTop + elm.offsetHeight); } });
+    if (top > bottom) { top = 0; bottom = H; }
+    const margin = 48;
+    const topBand = top, botBand = H - bottom;
+    let y = (botBand >= topBand) ? bottom + (botBand - SH) / 2 : (top - SH) / 2;
+    y = Math.max(margin, Math.min(H - SH - margin, y));
+    const x = ((s.stickerRot || 0) % 2 === 0) ? (W - SW - margin) : margin;   // сторона стабильна
+    st.style.top = Math.round(y) + "px"; st.style.left = Math.round(Math.max(margin, Math.min(W - SW - margin, x))) + "px";
+  }
   // визуальные правки слайда по кнопке «Переделать» (без модели): шрифт больше/меньше, текст выше/ниже/влево/вправо
   function tweakLayout(instr, s) {
     const q = (instr || "").toLowerCase();
@@ -1012,15 +1027,14 @@
     if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
     else if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
-    // фото-стикер пользователя (случайная позиция и форма; текст рисуется поверх)
+    // фото-стикер пользователя (форма/поворот; позицию ставим ПОСЛЕ вёрстки - в свободную от текста зону)
+    let stEl = null;
     if (s.sticker) {
-      const st = el("div", "cs-sticker");
-      st.style.backgroundImage = "url(" + s.sticker + ")";
-      const p = s.stickerPos || { t: 63, l: 60 };
-      st.style.top = p.t + "%"; st.style.left = p.l + "%";
-      st.style.borderRadius = (s.stickerShape == null ? 24 : s.stickerShape) + "%";
-      st.style.transform = "rotate(" + (s.stickerRot || 0) + "deg)";
-      node.appendChild(st);
+      stEl = el("div", "cs-sticker");
+      stEl.style.backgroundImage = "url(" + s.sticker + ")";
+      stEl.style.borderRadius = (s.stickerShape == null ? 24 : s.stickerShape) + "%";
+      stEl.style.transform = "rotate(" + (s.stickerRot || 0) + "deg)";
+      node.appendChild(stEl);
     }
     // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
@@ -1042,6 +1056,7 @@
     }
     const stage = $("cs-stage"); stage.appendChild(node);
     fitSlide(node, s.fontScale);
+    if (stEl) placeSticker(node, stEl, s);
     let url = "";
     try {
       const canvas = await window.html2canvas(node, { width: dim.w, height: dimH, scale: 1, backgroundColor: null, useCORS: true, logging: false });
@@ -1149,32 +1164,31 @@
     // своё фото-стикер на слайд (карусель/пост/сториз): случайная позиция и форма, текст остаётся поверх
     if (mode === "carousel" || mode === "post" || mode === "stories") {
       const pw = el("div", "cs-photo");
-      const lab = el("label", "cs-photo-btn");
+      const btn = el("button", "cs-photo-btn"); btn.type = "button";
       const txt = el("span", "cs-photo-txt", "📷 " + (slides[i].sticker ? t("sticker_change") : t("sticker_btn")));
+      btn.appendChild(txt);
       const pin = document.createElement("input"); pin.type = "file"; pin.accept = "image/*"; pin.className = "cs-photo-in";
-      lab.appendChild(txt); lab.appendChild(pin);   // текст в span, input НЕ перетираем
-      const rm = el("button", "cs-photo-rm", "✕"); rm.title = t("sticker_remove"); rm.hidden = !slides[i].sticker;
-      const POS = [{ t: 5, l: 58 }, { t: 60, l: 60 }, { t: 62, l: 5 }, { t: 33, l: 63 }];
+      const rm = el("button", "cs-photo-rm", "✕"); rm.type = "button"; rm.title = t("sticker_remove"); rm.hidden = !slides[i].sticker;
       const SH = [50, 20, 40, 12];
-      pin.addEventListener("change", async () => {
-        const f = pin.files[0]; if (!f) return;
+      btn.onclick = () => { try { pin.value = ""; } catch (e) {} pin.click(); };   // всегда открываем пикер, даже после удаления
+      pin.onchange = async () => {
+        const f = pin.files && pin.files[0]; if (!f) return;
         let durl; try { durl = await blobToDataURL(f); } catch (e) { return; }
         slides[i].sticker = durl;
-        slides[i].stickerPos = POS[Math.floor(Math.random() * POS.length)];
         slides[i].stickerShape = SH[Math.floor(Math.random() * SH.length)];
         slides[i].stickerRot = Math.floor(Math.random() * 16 - 8);
-        txt.textContent = "…"; lab.style.pointerEvents = "none";
+        txt.textContent = "…"; btn.disabled = true;
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
-        txt.textContent = "📷 " + t("sticker_change"); lab.style.pointerEvents = ""; rm.hidden = false; pin.value = "";
-      });
+        txt.textContent = "📷 " + t("sticker_change"); btn.disabled = false; rm.hidden = false;
+      };
       rm.onclick = async () => {
-        slides[i].sticker = null; pin.value = "";
+        slides[i].sticker = null; try { pin.value = ""; } catch (e) {}
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
         rm.hidden = true; txt.textContent = "📷 " + t("sticker_btn");
       };
-      pw.appendChild(lab); pw.appendChild(rm); thumb.appendChild(pw);
+      pw.appendChild(btn); pw.appendChild(rm); pw.appendChild(pin); thumb.appendChild(pw);
     }
     return thumb;
   }
