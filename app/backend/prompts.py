@@ -117,7 +117,7 @@ _INJ = {
                    "Это твой источник фактов - стройся на нём и бери отсюда конкретику. "
                    "Чего здесь нет - НЕ выдумывай: либо бери общеизвестное и честное, либо помечай как гипотезу. "
                    "Адаптируй под голос автора:\n"),
-        "audience": ("\n\nАУДИТОРИЯ И БОЛИ АВТОРА (его карта аудитории). Строй контент ВОКРУГ этих болей, желаний и "
+        "audience_map": ("\n\nАУДИТОРИЯ И БОЛИ АВТОРА (его карта аудитории). Строй контент ВОКРУГ этих болей, желаний и "
                      "возражений и говори языком самой аудитории. Каждая идея должна попадать в конкретную боль:\n"),
         "voice": ("\n\nОБРАЗЦЫ РЕЧИ АВТОРА (его собственные тексты/расшифровки). "
                   "Изучи манеру, лексику, ритм и интонацию и пиши ТАКИМ ЖЕ голосом - "
@@ -147,7 +147,7 @@ _INJ = {
                    "This is your source of facts - build on it and take your specifics from here. "
                    "What is not here - do NOT invent: either use widely known and honest material, or mark it as a hypothesis. "
                    "Adapt to the author's voice:\n"),
-        "audience": ("\n\nTHE AUTHOR'S AUDIENCE & PAINS (their audience map). Build the content AROUND these pains, "
+        "audience_map": ("\n\nTHE AUTHOR'S AUDIENCE & PAINS (their audience map). Build the content AROUND these pains, "
                      "desires and objections, and speak in the audience's own language. Every idea must hit a concrete pain:\n"),
         "voice": ("\n\nSAMPLES OF THE AUTHOR'S SPEECH (their own texts/transcripts). "
                   "Study the manner, vocabulary, rhythm and intonation and write in the SAME voice - "
@@ -189,7 +189,7 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
             s += inj["usertext_strict"]
     # карта аудитории/болей - подмешиваем в ЛЮБУЮ генерацию кроме самого инструмента аудитории
     if audience and audience.strip() and platform != "audience":
-        s += inj["audience"] + audience.strip()[:1800]
+        s += inj["audience_map"] + audience.strip()[:1800]
     if trends:
         s += inj["trends"] + trends[:1800]
     if voice:
