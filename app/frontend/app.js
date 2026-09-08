@@ -403,7 +403,7 @@
   }
 
   function savePdf(node, platform) {
-    if (!window.html2pdf) { alert(t("pdf_loading")); return; }
+    if (!window.html2pdf) { alert(t("pdf_loading")); return Promise.resolve(); }
     const date = new Date().toISOString().slice(0, 10);
     const opt = {
       margin: 10, filename: "zalihvat-" + platform + "-" + date + ".pdf",
@@ -413,7 +413,7 @@
       pagebreak: { mode: ["css", "legacy"], avoid: ".rcard" },
     };
     const run = () => window.html2pdf().set(opt).from(node).save();
-    (document.fonts && document.fonts.ready) ? document.fonts.ready.then(run) : run();
+    return (document.fonts && document.fonts.ready) ? document.fonts.ready.then(run) : Promise.resolve().then(run);
   }
 
   function renderResult(out) {
@@ -669,7 +669,11 @@
     box.appendChild(content);
     const actions = el("div", "result-actions");
     const pdfbtn = el("button", "pdfdl", t("pdf_dl"));
-    pdfbtn.onclick = () => savePdf(content, p);
+    pdfbtn.onclick = async () => {
+      const old = pdfbtn.textContent; pdfbtn.disabled = true; pdfbtn.classList.add("zbtn-loading"); pdfbtn.textContent = t("pdf_making");
+      try { await savePdf(content, p); } catch (e) {}
+      pdfbtn.disabled = false; pdfbtn.classList.remove("zbtn-loading"); pdfbtn.textContent = old;
+    };
     const again = el("button", "againdl", t("again"));
     again.onclick = () => $("btn-gen").click();       // та же тема (из поля topic)
     const newtopic = el("button", "againdl", t("new_topic"));
@@ -747,8 +751,12 @@
       const toggle = async () => {
         if (!built) {
           built = true;
-          if (isVis) await renderHistoryVisuals(det, g.platform, g.output || {}, g.id);
-          else det.appendChild(buildHistoryDetail(g.platform, g.output || {}));
+          if (isVis) { openBtn.disabled = true; openBtn.classList.add("zbtn-loading"); openBtn.textContent = t("h_opening"); }   // визуалы рендерятся 3-5с
+          try {
+            if (isVis) await renderHistoryVisuals(det, g.platform, g.output || {}, g.id);
+            else det.appendChild(buildHistoryDetail(g.platform, g.output || {}));
+          } catch (e) { built = false; }
+          if (isVis) { openBtn.classList.remove("zbtn-loading"); openBtn.disabled = false; }
         }
         det.hidden = !det.hidden;
         item.classList.toggle("open", !det.hidden);

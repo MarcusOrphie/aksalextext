@@ -164,6 +164,9 @@ em{font-style:normal;color:var(--coral)}
 .history .h-open{flex:none;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--paper);background:var(--coral);border:2px solid var(--ink);border-radius:9px;box-shadow:2px 2px 0 var(--ink);padding:5px 12px;cursor:pointer;transition:transform .1s,box-shadow .1s}
 .history .h-open:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
 .history .h-open:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+.zbtn-loading{position:relative;padding-right:30px!important;opacity:.9;pointer-events:none}
+.zbtn-loading::after{content:"";position:absolute;right:10px;top:50%;width:12px;height:12px;margin-top:-7px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:zspin .6s linear infinite}
+@keyframes zspin{to{transform:rotate(360deg)}}
 .history .h-item.open .h{border-radius:12px 12px 0 0;box-shadow:none;margin-bottom:0}
 .history .h b{color:var(--coral-deep);font-family:"Oswald";text-transform:uppercase}
 .history .h-arrow{color:var(--coral-deep);font-weight:700;margin-right:6px}
