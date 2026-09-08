@@ -159,7 +159,11 @@ em{font-style:normal;color:var(--coral)}
 .vote.on{background:var(--coral-soft);border-color:var(--coral);opacity:1;filter:none}
 
 .history .h-item{margin-bottom:8px}
-.history .h{background:var(--paper2);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.history .h{background:var(--paper2);border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px}
+.history .h-left{flex:1;min-width:0}
+.history .h-open{flex:none;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--paper);background:var(--coral);border:2px solid var(--ink);border-radius:9px;box-shadow:2px 2px 0 var(--ink);padding:5px 12px;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.history .h-open:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.history .h-open:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
 .history .h-item.open .h{border-radius:12px 12px 0 0;box-shadow:none;margin-bottom:0}
 .history .h b{color:var(--coral-deep);font-family:"Oswald";text-transform:uppercase}
 .history .h-arrow{color:var(--coral-deep);font-weight:700;margin-right:6px}

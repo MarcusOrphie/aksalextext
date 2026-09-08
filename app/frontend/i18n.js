@@ -113,7 +113,7 @@
       pdf_title: "Контент-машина Залихват",
       usage_unlim: "Генераций сделано: ", usage_unlim2: " · безлимит",
       usage_left: "Генераций сделано: ", usage_left2: " · осталось бесплатных: ",
-      no_topic: "без темы",
+      no_topic: "без темы", h_open: "Открыть", h_close: "Свернуть",
       // errors
       err_bad_creds: "Неверная почта или пароль", err_not_confirmed: "Почта ещё не подтверждена",
       err_registered: "Эта почта уже зарегистрирована", err_pass_min: "Пароль минимум 6 символов",
@@ -247,7 +247,7 @@
       pdf_title: "Zalihvat content machine",
       usage_unlim: "Generations made: ", usage_unlim2: " · unlimited",
       usage_left: "Generations made: ", usage_left2: " · free left: ",
-      no_topic: "no topic",
+      no_topic: "no topic", h_open: "Open", h_close: "Collapse",
       err_bad_creds: "Wrong email or password", err_not_confirmed: "Email not confirmed yet",
       err_registered: "This email is already registered", err_pass_min: "Password must be at least 6 characters",
       err_pass_diff: "New password must differ from the old one", err_email_fmt: "Invalid email format",

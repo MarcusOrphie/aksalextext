@@ -734,13 +734,17 @@
     (data || []).forEach(g => {
       const item = el("div", "h-item");
       const h = el("div", "h");
-      h.appendChild(el("span", "h-arrow", "▸"));
-      h.appendChild(el("b", null, plabel(g.platform) + " "));
-      h.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
+      const left = el("span", "h-left");
+      const arrow = el("span", "h-arrow", "▸");
+      left.appendChild(arrow);
+      left.appendChild(el("b", null, plabel(g.platform) + " "));
+      left.appendChild(document.createTextNode((g.topic || t("no_topic")) + " · " + new Date(g.created_at).toLocaleString(t("locale"))));
+      const openBtn = el("button", "h-open", t("h_open"));
+      h.appendChild(left); h.appendChild(openBtn);
       const det = el("div", "h-detail"); det.hidden = true;
       const isVis = (g.platform === "carousel" || g.platform === "post" || g.platform === "stories" || g.platform === "reels_cover");
       let built = false;
-      h.onclick = async () => {
+      const toggle = async () => {
         if (!built) {
           built = true;
           if (isVis) await renderHistoryVisuals(det, g.platform, g.output || {}, g.id);
@@ -748,8 +752,11 @@
         }
         det.hidden = !det.hidden;
         item.classList.toggle("open", !det.hidden);
-        h.querySelector(".h-arrow").textContent = det.hidden ? "▸" : "▾";
+        arrow.textContent = det.hidden ? "▸" : "▾";
+        openBtn.textContent = det.hidden ? t("h_open") : t("h_close");
       };
+      h.onclick = toggle;
+      openBtn.onclick = (e) => { e.stopPropagation(); toggle(); };   // клик по кнопке не должен дублировать клик по строке
       item.appendChild(h); item.appendChild(det);
       box.appendChild(item);
     });
