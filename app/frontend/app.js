@@ -936,6 +936,16 @@
     if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
     else if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff));
+    // фото-стикер пользователя (случайная позиция и форма; текст рисуется поверх)
+    if (s.sticker) {
+      const st = el("div", "cs-sticker");
+      st.style.backgroundImage = "url(" + s.sticker + ")";
+      const p = s.stickerPos || { t: 63, l: 60 };
+      st.style.top = p.t + "%"; st.style.left = p.l + "%";
+      st.style.borderRadius = (s.stickerShape == null ? 24 : s.stickerShape) + "%";
+      st.style.transform = "rotate(" + (s.stickerRot || 0) + "deg)";
+      node.appendChild(st);
+    }
     // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
     const fp = fontOf(eff);
@@ -1045,6 +1055,35 @@
     go.onclick = submit;
     inp.addEventListener("keydown", (e) => { if (e.key === "Enter") submit(); });
     form.appendChild(inp); form.appendChild(go); rw.appendChild(rb); rw.appendChild(form); rw.appendChild(errline); thumb.appendChild(rw);
+    // своё фото-стикер на слайд (карусель/пост/сториз): случайная позиция и форма, текст остаётся поверх
+    if (mode === "carousel" || mode === "post" || mode === "stories") {
+      const pw = el("div", "cs-photo");
+      const lab = el("label", "cs-photo-btn"); lab.textContent = "📷 " + (slides[i].sticker ? t("sticker_change") : t("sticker_btn"));
+      const pin = document.createElement("input"); pin.type = "file"; pin.accept = "image/*"; pin.className = "cs-photo-in";
+      const rm = el("button", "cs-photo-rm", "✕"); rm.title = t("sticker_remove"); rm.hidden = !slides[i].sticker;
+      lab.appendChild(pin);
+      const POS = [{ t: 5, l: 58 }, { t: 60, l: 60 }, { t: 62, l: 5 }, { t: 33, l: 63 }];
+      const SH = [50, 20, 40, 12];
+      pin.addEventListener("change", async () => {
+        const f = pin.files[0]; if (!f) return;
+        let durl; try { durl = await blobToDataURL(f); } catch (e) { return; }
+        slides[i].sticker = durl;
+        slides[i].stickerPos = POS[Math.floor(Math.random() * POS.length)];
+        slides[i].stickerShape = SH[Math.floor(Math.random() * SH.length)];
+        slides[i].stickerRot = Math.floor(Math.random() * 16 - 8);
+        const oldt = lab.textContent; lab.textContent = "…"; lab.style.pointerEvents = "none";
+        const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+        if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
+        lab.textContent = "📷 " + t("sticker_change"); lab.style.pointerEvents = ""; rm.hidden = false; pin.value = "";
+      });
+      rm.onclick = async () => {
+        slides[i].sticker = null;
+        const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+        if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
+        rm.hidden = true; lab.textContent = "📷 " + t("sticker_btn");
+      };
+      pw.appendChild(lab); pw.appendChild(rm); thumb.appendChild(pw);
+    }
     return thumb;
   }
   async function zipDownload(urls, mode, btn) {
