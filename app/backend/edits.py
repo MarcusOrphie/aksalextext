@@ -60,29 +60,32 @@ def save_edit(user_id: str, gen_id: str, index: int, edit: dict):
         edits = {}
     key = str(int(index))
     e = {"shape": edit.get("shape"), "rot": edit.get("rot"), "fontScale": edit.get("fontScale"),
-         "alignV": edit.get("alignV"), "alignH": edit.get("alignH")}
-    photo = edit.get("photo")
+         "alignV": edit.get("alignV"), "alignH": edit.get("alignH"),
+         "shape2": edit.get("shape2"), "rot2": edit.get("rot2")}
     prev = edits.get(key) or {}
-    if isinstance(photo, str) and photo.startswith("data:"):
-        try:
-            hdr, b64 = photo.split(",", 1)
-            raw = base64.b64decode(b64)
-            if len(raw) > 8 * 1024 * 1024:
-                return False, "photo too big"
-            ctype = "image/png"
-            if "image/" in hdr:
-                ctype = hdr.split("image/")[1].split(";")[0]
-                ctype = "image/" + (ctype or "png")
-            path = user_id + "/edits/" + gen_id + "/" + key + ".png"
-            if _upload(path, raw, ctype):
-                e["sticker"] = path
-        except Exception as ex:
-            logging.error("edits.save_edit photo failed: %r", ex)
-            e["sticker"] = prev.get("sticker")
-    elif photo is None:
-        e["sticker"] = None
-    else:
-        e["sticker"] = prev.get("sticker")
+
+    def _photo(photo, stk, suffix):
+        # dataURL -> залить в Storage и вернуть путь; None -> очистить; иначе оставить прежнее
+        if isinstance(photo, str) and photo.startswith("data:"):
+            try:
+                hdr, b64 = photo.split(",", 1)
+                raw = base64.b64decode(b64)
+                if len(raw) > 8 * 1024 * 1024:
+                    return prev.get(stk)
+                ctype = "image/png"
+                if "image/" in hdr:
+                    ctype = "image/" + (hdr.split("image/")[1].split(";")[0] or "png")
+                path = user_id + "/edits/" + gen_id + "/" + key + suffix + ".png"
+                return path if _upload(path, raw, ctype) else prev.get(stk)
+            except Exception as ex:
+                logging.error("edits.save_edit photo failed: %r", ex)
+                return prev.get(stk)
+        if photo is None:
+            return None
+        return prev.get(stk)
+
+    e["sticker"] = _photo(edit.get("photo"), "sticker", "")
+    e["sticker2"] = _photo(edit.get("photo2"), "sticker2", "_2")
     edits[key] = e
     output["_edits"] = edits
     ok = _patch_output(gen_id, output)

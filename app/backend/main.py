@@ -83,6 +83,7 @@ class GenReq(BaseModel):
     lang: str = Field(default="ru", max_length=5)
     user_text: str = Field(default="", max_length=6000)
     design: str = Field(default="", max_length=32)
+    count: int = Field(default=0, ge=0, le=20)
 
 @app.get("/api/health")
 def health():
@@ -224,7 +225,7 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     try:
         result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
                               liked=liked, disliked=disliked, trends=live_trends, lang=lang,
-                              user_text=(req.user_text or "").strip(), audience=aud)
+                              user_text=(req.user_text or "").strip(), audience=aud, count=req.count)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     data = result.get("data")
@@ -294,13 +295,17 @@ class CarEditReq(BaseModel):
     alignV: str | None = Field(default=None, max_length=8)
     alignH: str | None = Field(default=None, max_length=8)
     photo: str | None = Field(default=None, max_length=12_000_000)
+    shape2: int | None = None
+    rot2: int | None = None
+    photo2: str | None = Field(default=None, max_length=12_000_000)
 
 @app.post("/api/carousel-edits")
 @limiter.limit("240/hour")
 def carousel_edits(request: Request, req: CarEditReq, user: dict = Depends(get_user)):
     ok, msg = edits.save_edit(user["id"], req.generation_id, req.index, {
         "shape": req.shape, "rot": req.rot, "fontScale": req.fontScale,
-        "alignV": req.alignV, "alignH": req.alignH, "photo": req.photo})
+        "alignV": req.alignV, "alignH": req.alignH, "photo": req.photo,
+        "shape2": req.shape2, "rot2": req.rot2, "photo2": req.photo2})
     if not ok:
         raise HTTPException(status_code=(403 if msg == "forbidden" else 400), detail=msg)
     return {"ok": True}

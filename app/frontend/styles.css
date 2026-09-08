@@ -304,7 +304,7 @@ em{font-style:normal;color:var(--coral)}
 .cslide.sq{height:1080px;padding:150px 100px}
 .cslide.sq .cs-title{font-size:84px}
 .cslide.sq .cs-title,.cslide.sq .cs-text{max-width:680px}
-.cslide.st{height:1920px;padding:330px 100px}
+.cslide.st{height:1920px;padding:150px 100px;justify-content:center}
 .cslide.st .cs-title{font-size:104px}
 .cslide.st .cs-text{font-size:54px}
 .cslide.st .cs-title,.cslide.st .cs-text{max-width:640px}

@@ -21,7 +21,34 @@ def _blocks(text: str):
     return parts
 
 
-def verbatim_layout(platform: str, text: str) -> dict:
+def _distribute(parts, n):
+    """Разложить куски текста РОВНО на n групп максимально ровно (ничего не переписывая)."""
+    parts = [p for p in parts if p]
+    if n <= 0 or not parts:
+        return parts
+    items = parts[:]
+    # если кусков меньше нужного - дробим самые длинные по предложениям, пока не наберём n
+    while len(items) < n:
+        k = max(range(len(items)), key=lambda x: len(items[x]))
+        sents = [s.strip() for s in re.split(r"(?<=[.!?…])\s+", items[k]) if s.strip()]
+        if len(sents) < 2:
+            break
+        mid = len(sents) // 2
+        items[k:k + 1] = [" ".join(sents[:mid]).strip(), " ".join(sents[mid:]).strip()]
+    if len(items) <= n:
+        return items
+    # кусков больше - собираем в n групп подряд
+    groups, per = [], len(items) / n
+    for g in range(n):
+        a = round(g * per)
+        b = round((g + 1) * per) if g < n - 1 else len(items)
+        chunk = " ".join(items[a:b]).strip()
+        if chunk:
+            groups.append(chunk)
+    return groups
+
+
+def verbatim_layout(platform: str, text: str, count: int = 0) -> dict:
     """Разложить текст автора по формату ДОСЛОВНО, ничего не меняя и не добавляя."""
     b = _blocks(text)
     if platform == "carousel":
@@ -42,7 +69,8 @@ def verbatim_layout(platform: str, text: str) -> dict:
         return {"hook": hook, "hooks_alt": [], "body": body, "cta": "", "hashtags": [],
                 "first_comment": "", "fact_check": ""}
     if platform == "stories":
-        frames = [{"visual": "", "text": x} for x in b] or [{"visual": "", "text": (text or "").strip()}]
+        parts = _distribute(b, count) if count and count > 0 else b
+        frames = [{"visual": "", "text": x} for x in parts] or [{"visual": "", "text": (text or "").strip()}]
         return {"frames": frames}
     return {}
 
@@ -169,22 +197,25 @@ PLATFORMS = set(SCHEMAS.keys())
 def generate(platform: str, topic: str, profile: dict | None = None, avoid: list | None = None,
              voice: str | None = None, liked: list | None = None, disliked: list | None = None,
              trends: str | None = None, lang: str = "ru", user_text: str | None = None,
-             audience: str | None = None) -> dict:
+             audience: str | None = None, count: int = 0) -> dict:
     if platform not in PLATFORMS:
         raise ValueError("unknown platform")
     # свой текст на визуальных текстовых форматах - раскладываем ДОСЛОВНО, без модели (строго по тексту автора)
     ut = (user_text or "").strip()
     if ut and platform in VERBATIM:
-        return {"platform": platform, "data": _coerce_arrays(verbatim_layout(platform, ut))}
+        return {"platform": platform, "data": _coerce_arrays(verbatim_layout(platform, ut, count))}
     if not API_KEY:
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
     max_tokens = 16000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan", "audience") else 6000
+    um = build_user(topic, platform, lang, user_text)
+    if platform == "stories" and count and count > 0:
+        um += ((" Сделай РОВНО %d кадров сторис." % count) if lang != "en" else (" Make EXACTLY %d story frames." % count))
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
         "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text, audience), lang),
-        "messages": [{"role": "user", "content": build_user(topic, platform, lang, user_text)}],
+        "messages": [{"role": "user", "content": um}],
         "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"},
     }
     body = json.dumps(payload).encode("utf-8")
