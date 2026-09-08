@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Генерация контента через Anthropic API (tool-use под каждую платформу)."""
-import os, json, re, urllib.request
+import os, json, re, ast, urllib.request
 from prompts import build_system, build_user, build_redo, BASE, BASE_EN
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
@@ -94,19 +94,41 @@ def _dash(o):
     if isinstance(o, dict): return {k: _dash(v) for k, v in o.items()}
     return o
 
+# поля, которые ДОЛЖНЫ быть массивами (на любом уровне вложенности)
+_ARRAY_KEYS = {"ideas", "sections", "slides", "frames", "rubrics", "plan", "segments", "content_map",
+               "facts", "delivery", "hashtags", "hooks_alt", "shot_list", "on_screen_text", "references",
+               "pains", "desires", "objections", "their_words", "hooks", "options"}
+
+
+def _to_list(s: str):
+    """Строку-массив (JSON или питоновский repr с одинарными кавычками) -> список; иначе None."""
+    s = s.strip()
+    if not s.startswith("["):
+        return None
+    try:
+        r = json.loads(s)
+        return r if isinstance(r, list) else None
+    except Exception:
+        pass
+    try:
+        r = ast.literal_eval(s)   # питон-стиль ['a','b'] от модели
+        return r if isinstance(r, list) else None
+    except Exception:
+        return None
+
+
 def _coerce_arrays(data):
-    """Иногда модель отдаёт поле-массив строкой-JSON - распарсим обратно."""
-    if not isinstance(data, dict):
-        return data
-    for key in ("ideas", "sections", "slides", "frames", "rubrics", "plan", "segments", "content_map", "facts", "delivery"):
-        v = data.get(key)
-        if isinstance(v, str):
-            s = v.strip()
-            if s.startswith("[") or s.startswith("{"):
-                try:
-                    data[key] = json.loads(s)
-                except Exception:
-                    pass
+    """Рекурсивно: если поле по имени должно быть массивом, но пришло строкой - распарсим обратно."""
+    if isinstance(data, dict):
+        for k, v in list(data.items()):
+            if k in _ARRAY_KEYS and isinstance(v, str):
+                lst = _to_list(v)
+                if lst is not None:
+                    data[k] = v = lst
+            _coerce_arrays(v)
+    elif isinstance(data, list):
+        for item in data:
+            _coerce_arrays(item)
     return data
 
 _idea = {"type": "object", "properties": {
