@@ -70,7 +70,8 @@ def verbatim_layout(platform: str, text: str, count: int = 0) -> dict:
                 "first_comment": "", "fact_check": ""}
     if platform == "stories":
         parts = _distribute(b, count) if count and count > 0 else b
-        frames = [{"visual": "", "text": x} for x in parts] or [{"visual": "", "text": (text or "").strip()}]
+        # свой текст автора - дословно в text, заголовок не выдумываем (строгий режим)
+        frames = [{"title": "", "text": x} for x in parts] or [{"title": "", "text": (text or "").strip()}]
         return {"frames": frames}
     return {}
 
@@ -163,7 +164,9 @@ SCHEMAS = {
         "required": ["rubrics", "plan"]},
     "stories": {"type": "object", "properties": {
         "frames": {"type": "array", "items": {"type": "object", "properties": {
-            "visual": {"type": "string"}, "text": {"type": "string"}}, "required": ["visual", "text"]}},
+            "title": {"type": "string", "description": "короткий заголовок кадра, 2-5 слов"},
+            "text": {"type": "string", "description": "реплика от первого лица, 1-2 предложения"},
+            "visual": {"type": "string", "description": "необязательно: что на экране"}}, "required": ["title", "text"]}},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
         "required": ["frames"]},
     "reels_cover": {"type": "object", "properties": {

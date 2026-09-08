@@ -540,7 +540,7 @@
       content.appendChild(c);
     } else if (p === "stories") {
       const c = el("div", "rcard");
-      arr(d.frames).forEach((f, i) => { const r = row(t("r_frame") + " " + (i + 1) + " · " + f.visual, f.text); c.appendChild(r); });
+      arr(d.frames).forEach((f, i) => { const r = row(t("r_frame") + " " + (i + 1) + (f.title ? " · " + f.title : (f.visual ? " · " + f.visual : "")), f.text); c.appendChild(r); });
       const fr = arr(d.frames)[0];
       c.appendChild(voteBtns(p, fr && fr.text || "stories"));
       content.appendChild(c);
@@ -768,7 +768,7 @@
     } else if (p === "post") {
       add(t("r_hook"), d.hook); add("", d.body); add("CTA", d.cta); const tg = arr(d.hashtags).map(x => "#" + String(x).replace(/^#/, "")).join(" "); add("", tg);
     } else if (p === "stories") {
-      arr(d.frames).forEach((f, i) => add(String(i + 1), f.text || f.visual));
+      arr(d.frames).forEach((f, i) => add(String(i + 1) + (f.title ? " · " + f.title : ""), f.text || f.visual));
     } else if (p === "reels_cover") {
       add("", d.title); add("", d.subtitle);
     } else if (p === "content_plan") {
@@ -823,7 +823,7 @@
       arr(d.slides).forEach(s => slides.push({ title: s.title, text: s.text }));
       if (d.cta_slide) slides.push({ cover: true, title: d.cta_slide });
     } else if (mode === "stories") {
-      arr(d.frames).forEach(f => slides.push({ cover: true, title: f.text || f.visual }));
+      arr(d.frames).forEach(f => slides.push({ title: f.title || "", text: f.text || f.visual || "" }));
     } else if (mode === "post") {
       slides.push({ cover: true, title: d.hook });
     } else if (mode === "reels_cover") {
@@ -1075,14 +1075,14 @@
 
   const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" }, reels_cover: { w: 1080, h: 1920, cls: "st cover-slide" } };
   // Ужимаем шрифт заголовка/текста, пока весь контент не влезет в слайд (не режется по краям)
-  function fitSlide(node, fontScale) {
+  function fitSlide(node, fontScale, fillFrac) {
     const title = node.querySelector(".cs-title");
     const text = node.querySelector(".cs-text");
     if (!title && !text) return;
     const manual = Math.max(0.5, Math.min(1.7, fontScale || 1));   // ручной масштаб (кнопка «шрифт больше/меньше»)
     const cs = getComputedStyle(node);
     const pad = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
-    const limit = (node.clientHeight - pad) * 0.96;   // рабочая зона слайда
+    const limit = (node.clientHeight - pad) * (fillFrac || 0.96);   // рабочая зона слайда (для сторис - меньше, чтобы шрифт был спокойнее)
     const baseT = title ? parseFloat(getComputedStyle(title).fontSize) : 0;
     const baseX = text ? parseFloat(getComputedStyle(text).fontSize) : 0;
     const mb = title ? parseFloat(getComputedStyle(title).marginBottom || 0) : 0;
@@ -1168,23 +1168,27 @@
     // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
     const fp = fontOf(eff);
-    const title = el("div", "cs-title", slideText(s.title || ""));
-    title.style.fontFamily = fp.tf;
-    title.style.textTransform = fp.up ? "uppercase" : "none";
-    title.style.fontStyle = fp.ital ? "italic" : "normal";
-    title.style.fontWeight = fp.wght || 700;
-    if (onPhoto) title.style.color = "#ffffff";
-    node.appendChild(title);
+    const titleTxt = slideText(s.title || "");
+    let title = null;
+    if (titleTxt) {   // заголовок только если он есть (у дословных сторис его нет - тогда рендерим один текст)
+      title = el("div", "cs-title", titleTxt);
+      title.style.fontFamily = fp.tf;
+      title.style.textTransform = fp.up ? "uppercase" : "none";
+      title.style.fontStyle = fp.ital ? "italic" : "normal";
+      title.style.fontWeight = fp.wght || 700;
+      if (onPhoto) title.style.color = "#ffffff";
+      node.appendChild(title);
+    }
     if (s.text) { const tx = el("div", "cs-text", slideText(s.text)); tx.style.fontFamily = fp.bf; if (onPhoto) tx.style.color = "#f3efe9"; node.appendChild(tx); }
     // ручные правки положения текста (кнопка «Переделать»: выше/ниже/влево/вправо)
     if (s.alignV) node.style.justifyContent = s.alignV === "top" ? "flex-start" : s.alignV === "bottom" ? "flex-end" : "center";
     if (s.alignH) {
       node.style.alignItems = s.alignH === "right" ? "flex-end" : s.alignH === "center" ? "center" : "flex-start";
       const ta = s.alignH === "right" ? "right" : s.alignH === "center" ? "center" : "left";
-      title.style.textAlign = ta; const txEl = node.querySelector(".cs-text"); if (txEl) txEl.style.textAlign = ta;
+      if (title) title.style.textAlign = ta; const txEl = node.querySelector(".cs-text"); if (txEl) txEl.style.textAlign = ta;
     }
     const stage = $("cs-stage"); stage.appendChild(node);
-    fitSlide(node, s.fontScale);
+    fitSlide(node, s.fontScale, mode === "stories" ? 0.62 : 0.96);   // сторис 9:16 - не заполняем весь высокий кадр, шрифт спокойнее (как в карусели)
     if (s.sticker || s.sticker2) placeSticker(node);
     let url = "";
     try {
@@ -1378,7 +1382,7 @@
       arr(d.slides).forEach(s => slides.push({ title: s.title, text: s.text }));
       if (d.cta_slide) slides.push({ cover: true, title: d.cta_slide });
     } else if (mode === "stories") {
-      arr(d.frames).forEach(f => slides.push({ cover: true, title: f.text || f.visual }));
+      arr(d.frames).forEach(f => slides.push({ title: f.title || "", text: f.text || f.visual || "" }));
     }
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
