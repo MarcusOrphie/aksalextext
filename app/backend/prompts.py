@@ -126,6 +126,7 @@ _INJ = {
         "niche": "Ниша автора: {v}.", "audience": "Аудитория: {v}.", "tone": "Тон: {v}.",
         "personality": "Личность автора (для Stories и голоса): {v}.", "languages": "Языки: {v}.",
         "brand": "Бренд/заметки: {v}.",
+        "gender": "Пол автора: {v}. ВЕСЬ текст от первого лица пиши строго в этом роде: глаголы прошедшего времени, окончания прилагательных, местоимения. Никогда не пиши от лица другого пола.",
         "profile_h": "\n\nДанные автора (учитывай в каждой идее):\n",
         "avoid": ("\n\nЭТО УЖЕ БЫЛО ВЫДАНО этому пользователю ранее. НЕ повторяй и НЕ перефразируй, "
                   "предложи полностью новое и другое:\n"),
@@ -157,6 +158,7 @@ _INJ = {
         "niche": "Author's niche: {v}.", "audience": "Audience: {v}.", "tone": "Tone: {v}.",
         "personality": "Author's personality (for Stories and voice): {v}.", "languages": "Languages: {v}.",
         "brand": "Brand/notes: {v}.",
+        "gender": "Author's gender: {v}. Write ALL first-person text from this gender's perspective; never speak as the other gender.",
         "profile_h": "\n\nAuthor's data (take into account in every idea):\n",
         "avoid": ("\n\nTHIS WAS ALREADY GIVEN to this user before. Do NOT repeat or paraphrase, "
                   "propose something entirely new and different:\n"),
@@ -204,6 +206,9 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
         if profile.get("personality"): parts.append(inj["personality"].format(v=profile["personality"]))
         if profile.get("languages"): parts.append(inj["languages"].format(v=profile["languages"]))
         if profile.get("brand_notes"): parts.append(inj["brand"].format(v=profile["brand_notes"]))
+        g = (profile.get("gender") or "").strip().lower()
+        gmap = ({"male": "a man", "female": "a woman"} if en else {"male": "мужчина", "female": "женщина"})
+        if g in gmap: parts.append(inj["gender"].format(v=gmap[g]))
         if parts:
             s += inj["profile_h"] + "\n".join(parts)
     if avoid:

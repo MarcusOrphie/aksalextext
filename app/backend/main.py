@@ -73,6 +73,7 @@ class Profile(BaseModel):
     personality: str | None = Field(default=None, max_length=800)
     languages: str | None = Field(default=None, max_length=200)
     brand_notes: str | None = Field(default=None, max_length=800)
+    gender: str | None = Field(default=None, max_length=12)
 
 class GenReq(BaseModel):
     platform: str = Field(max_length=32)

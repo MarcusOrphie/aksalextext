@@ -1,10 +1,50 @@
 # -*- coding: utf-8 -*-
 """Генерация контента через Anthropic API (tool-use под каждую платформу)."""
-import os, json, urllib.request
+import os, json, re, urllib.request
 from prompts import build_system, build_user, build_redo, BASE, BASE_EN
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 MODEL = os.environ.get("MODEL", "claude-sonnet-5").strip()
+
+# платформы, где при своём тексте раскладываем ДОСЛОВНО, без модели (гарантия строгости)
+VERBATIM = ("carousel", "post", "stories")
+
+
+def _blocks(text: str):
+    """Разбить текст автора на блоки: сперва по его переносам строк, иначе по предложениям."""
+    text = (text or "").strip()
+    if not text:
+        return []
+    parts = [p.strip() for p in re.split(r"\n+", text) if p.strip()]
+    if len(parts) < 2:
+        parts = [p.strip() for p in re.split(r"(?<=[.!?…])\s+", text) if p.strip()]
+    return parts
+
+
+def verbatim_layout(platform: str, text: str) -> dict:
+    """Разложить текст автора по формату ДОСЛОВНО, ничего не меняя и не добавляя."""
+    b = _blocks(text)
+    if platform == "carousel":
+        if len(b) >= 3:
+            hook, cta, mids = b[0], b[-1], b[1:-1]
+        elif len(b) == 2:
+            hook, cta, mids = b[0], "", [b[1]]
+        else:
+            hook, cta, mids = (b[0] if b else (text or "").strip()), "", []
+        slides = [{"title": m, "text": ""} for m in mids]
+        if not slides:
+            slides = [{"title": hook, "text": ""}]
+            hook = ""
+        return {"hook_slide": hook, "slides": slides, "cta_slide": cta}
+    if platform == "post":
+        hook = b[0] if b else (text or "").strip()
+        body = "\n\n".join(b[1:]) if len(b) > 1 else ""
+        return {"hook": hook, "hooks_alt": [], "body": body, "cta": "", "hashtags": [],
+                "first_comment": "", "fact_check": ""}
+    if platform == "stories":
+        frames = [{"visual": "", "text": x} for x in b] or [{"visual": "", "text": (text or "").strip()}]
+        return {"frames": frames}
+    return {}
 
 
 def _cached_system(full: str, lang: str):
@@ -132,6 +172,10 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
              audience: str | None = None) -> dict:
     if platform not in PLATFORMS:
         raise ValueError("unknown platform")
+    # свой текст на визуальных текстовых форматах - раскладываем ДОСЛОВНО, без модели (строго по тексту автора)
+    ut = (user_text or "").strip()
+    if ut and platform in VERBATIM:
+        return {"platform": platform, "data": _coerce_arrays(verbatim_layout(platform, ut))}
     if not API_KEY:
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",

@@ -627,6 +627,8 @@
     $("p-niche").value = profile.niche || ""; $("p-audience").value = profile.audience || "";
     $("p-tone").value = profile.tone || ""; $("p-personality").value = profile.personality || "";
     $("p-languages").value = profile.languages || ""; $("p-brand").value = profile.brand_notes || "";
+    try { profile.gender = profile.gender || localStorage.getItem("zh_gender") || ""; } catch (e) {}
+    { const pg = document.getElementById("p-gender"); if (pg) pg.value = profile.gender || ""; }
     await loadUploads();
     await carPrefsRead(); renderProfileDesigns();
   }
@@ -638,6 +640,7 @@
       languages: $("p-languages").value.trim(), brand_notes: $("p-brand").value.trim(), updated_at: new Date().toISOString(),
     };
     const { error } = await sb.from("profiles").upsert(profile);
+    try { const _g = (document.getElementById("p-gender") || {}).value || ""; profile.gender = _g; localStorage.setItem("zh_gender", _g); } catch (e) {}
     $("save-note").hidden = false; $("save-note").textContent = error ? (t("save_err") + error.message) : t("save_note");
   };
   $("p-file").onchange = async (e) => {
@@ -958,15 +961,18 @@
 
   const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" }, reels_cover: { w: 1080, h: 1920, cls: "st cover-slide" } };
   // Ужимаем шрифт заголовка/текста, пока весь контент не влезет в слайд (не режется по краям)
-  function fitSlide(node) {
+  function fitSlide(node, fontScale) {
     const title = node.querySelector(".cs-title");
     const text = node.querySelector(".cs-text");
     if (!title && !text) return;
+    const fs = Math.max(0.5, Math.min(1.7, fontScale || 1));   // ручной масштаб шрифта (кнопка «шрифт больше/меньше»)
     const cs = getComputedStyle(node);
     const pad = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
     const limit = (node.clientHeight - pad) * 0.98;   // рабочая зона между номером и брендом
-    const baseT = title ? parseFloat(getComputedStyle(title).fontSize) : 0;
-    const baseX = text ? parseFloat(getComputedStyle(text).fontSize) : 0;
+    const baseT = (title ? parseFloat(getComputedStyle(title).fontSize) : 0) * fs;
+    const baseX = (text ? parseFloat(getComputedStyle(text).fontSize) : 0) * fs;
+    if (title) title.style.fontSize = baseT + "px";
+    if (text) text.style.fontSize = baseX + "px";
     const mb = title ? parseFloat(getComputedStyle(title).marginBottom || 0) : 0;
     const contentH = () => (title ? title.offsetHeight : 0) + (text ? text.offsetHeight : 0) + (title && text ? mb : 0);
     let scale = 1;
@@ -975,6 +981,27 @@
       if (title) title.style.fontSize = (baseT * scale) + "px";
       if (text) text.style.fontSize = (baseX * scale) + "px";
     }
+  }
+  // типографика слайда: числа с пробелом-разделителем не рвём (11 000), новое предложение - с новой строки
+  function slideText(v) {
+    let s = String(v == null ? "" : v);
+    s = s.replace(/(\d)[ \u202f\u00a0](?=\d)/g, "$1\u00a0");
+    s = s.replace(/([.!?…]+)[ \t]+(?=[«"'(\[A-ZА-ЯЁ])/g, "$1\n");
+    return s.trim();
+  }
+  // визуальные правки слайда по кнопке «Переделать» (без модели): шрифт больше/меньше, текст выше/ниже/влево/вправо
+  function tweakLayout(instr, s) {
+    const q = (instr || "").toLowerCase();
+    let hit = false;
+    if (s.fontScale == null) s.fontScale = 1;
+    if (/(больше|крупн|увелич|bigger|larger)/.test(q)) { s.fontScale = Math.min(1.7, s.fontScale + 0.15); hit = true; }
+    if (/(меньше|мельче|уменьш|smaller)/.test(q)) { s.fontScale = Math.max(0.5, s.fontScale - 0.15); hit = true; }
+    if (/(выше|вверх|повыше|higher|\bup\b|наверх)/.test(q)) { s.alignV = "top"; hit = true; }
+    if (/(ниже|вниз|пониже|lower|\bdown\b)/.test(q)) { s.alignV = "bottom"; hit = true; }
+    if (/(влево|левее|слева|\bleft\b)/.test(q)) { s.alignH = "left"; hit = true; }
+    if (/(вправо|правее|справа|\bright\b)/.test(q)) { s.alignH = "right"; hit = true; }
+    if (/(по\s?центру|посередине|середин|center|middle|центрируй)/.test(q)) { s.alignH = "center"; hit = true; }
+    return hit;
   }
   async function captureSlide(s, mode, idx, total, eff, useCustom) {
     const dim = DIMS[mode];
@@ -998,16 +1025,23 @@
     // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
     const fp = fontOf(eff);
-    const title = el("div", "cs-title", s.title || "");
+    const title = el("div", "cs-title", slideText(s.title || ""));
     title.style.fontFamily = fp.tf;
     title.style.textTransform = fp.up ? "uppercase" : "none";
     title.style.fontStyle = fp.ital ? "italic" : "normal";
     title.style.fontWeight = fp.wght || 700;
     if (onPhoto) title.style.color = "#ffffff";
     node.appendChild(title);
-    if (s.text) { const tx = el("div", "cs-text", s.text); tx.style.fontFamily = fp.bf; if (onPhoto) tx.style.color = "#f3efe9"; node.appendChild(tx); }
+    if (s.text) { const tx = el("div", "cs-text", slideText(s.text)); tx.style.fontFamily = fp.bf; if (onPhoto) tx.style.color = "#f3efe9"; node.appendChild(tx); }
+    // ручные правки положения текста (кнопка «Переделать»: выше/ниже/влево/вправо)
+    if (s.alignV) node.style.justifyContent = s.alignV === "top" ? "flex-start" : s.alignV === "bottom" ? "flex-end" : "center";
+    if (s.alignH) {
+      node.style.alignItems = s.alignH === "right" ? "flex-end" : s.alignH === "center" ? "center" : "flex-start";
+      const ta = s.alignH === "right" ? "right" : s.alignH === "center" ? "center" : "left";
+      title.style.textAlign = ta; const txEl = node.querySelector(".cs-text"); if (txEl) txEl.style.textAlign = ta;
+    }
     const stage = $("cs-stage"); stage.appendChild(node);
-    fitSlide(node);
+    fitSlide(node, s.fontScale);
     let url = "";
     try {
       const canvas = await window.html2canvas(node, { width: dim.w, height: dimH, scale: 1, backgroundColor: null, useCORS: true, logging: false });
@@ -1085,6 +1119,14 @@
     const submit = async () => {
       const instr = inp.value.trim(); if (!instr) return;
       errline.hidden = true;
+      // сперва пробуем визуальную правку (шрифт/положение) - локально, без модели
+      if (tweakLayout(instr, slides[i])) {
+        go.disabled = true; const old0 = go.textContent; go.textContent = t("redo_wait");
+        const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+        if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
+        go.disabled = false; go.textContent = old0; form.hidden = true; inp.value = "";
+        return;
+      }
       go.disabled = true; inp.disabled = true; const old = go.textContent; go.textContent = t("redo_wait");
       try {
         const r = await redoSlide(mode, slides[i], instr);
@@ -1107,10 +1149,11 @@
     // своё фото-стикер на слайд (карусель/пост/сториз): случайная позиция и форма, текст остаётся поверх
     if (mode === "carousel" || mode === "post" || mode === "stories") {
       const pw = el("div", "cs-photo");
-      const lab = el("label", "cs-photo-btn"); lab.textContent = "📷 " + (slides[i].sticker ? t("sticker_change") : t("sticker_btn"));
+      const lab = el("label", "cs-photo-btn");
+      const txt = el("span", "cs-photo-txt", "📷 " + (slides[i].sticker ? t("sticker_change") : t("sticker_btn")));
       const pin = document.createElement("input"); pin.type = "file"; pin.accept = "image/*"; pin.className = "cs-photo-in";
+      lab.appendChild(txt); lab.appendChild(pin);   // текст в span, input НЕ перетираем
       const rm = el("button", "cs-photo-rm", "✕"); rm.title = t("sticker_remove"); rm.hidden = !slides[i].sticker;
-      lab.appendChild(pin);
       const POS = [{ t: 5, l: 58 }, { t: 60, l: 60 }, { t: 62, l: 5 }, { t: 33, l: 63 }];
       const SH = [50, 20, 40, 12];
       pin.addEventListener("change", async () => {
@@ -1120,16 +1163,16 @@
         slides[i].stickerPos = POS[Math.floor(Math.random() * POS.length)];
         slides[i].stickerShape = SH[Math.floor(Math.random() * SH.length)];
         slides[i].stickerRot = Math.floor(Math.random() * 16 - 8);
-        const oldt = lab.textContent; lab.textContent = "…"; lab.style.pointerEvents = "none";
+        txt.textContent = "…"; lab.style.pointerEvents = "none";
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
-        lab.textContent = "📷 " + t("sticker_change"); lab.style.pointerEvents = ""; rm.hidden = false; pin.value = "";
+        txt.textContent = "📷 " + t("sticker_change"); lab.style.pointerEvents = ""; rm.hidden = false; pin.value = "";
       });
       rm.onclick = async () => {
-        slides[i].sticker = null;
+        slides[i].sticker = null; pin.value = "";
         const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
-        rm.hidden = true; lab.textContent = "📷 " + t("sticker_btn");
+        rm.hidden = true; txt.textContent = "📷 " + t("sticker_btn");
       };
       pw.appendChild(lab); pw.appendChild(rm); thumb.appendChild(pw);
     }

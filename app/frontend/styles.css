@@ -36,6 +36,8 @@ em{font-style:normal;color:var(--coral)}
 .fld span{display:block;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.06em;color:var(--muted);margin-bottom:5px}
 .fld input,.fld textarea{width:100%;font-family:"Nunito";font-weight:600;font-size:15px;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:12px;padding:11px 13px;outline:none}
 .fld input:focus,.fld textarea:focus{border-color:var(--coral)}
+.fld select{width:100%;font-family:"Nunito";font-weight:600;font-size:15px;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:12px;padding:11px 13px;outline:none;cursor:pointer}
+.fld select:focus{border-color:var(--coral)}
 
 .btn{display:block;width:100%;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.03em;border:3px solid var(--ink);border-radius:14px;padding:12px 18px;cursor:pointer;margin:10px 0;transition:transform .1s,box-shadow .1s}
 .btn.big{font-size:17px;padding:15px}
@@ -249,7 +251,7 @@ em{font-style:normal;color:var(--coral)}
 #cs-stage{position:fixed;left:-20000px;top:0;width:1080px;pointer-events:none;opacity:1}
 .cslide{width:1080px;height:1350px;position:relative;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;text-align:left;padding:190px 110px;box-sizing:border-box;font-family:"Nunito",system-ui,sans-serif;overflow:hidden;background:var(--t-bg);color:var(--t-fg)}
 /* безопасная зона: текст слева и по центру, справа/сверху/снизу - место под UI Instagram */
-.cslide .cs-title,.cslide .cs-text{max-width:660px;position:relative;z-index:3}
+.cslide .cs-title,.cslide .cs-text{max-width:660px;position:relative;z-index:3;white-space:pre-line}
 .cslide .cs-sticker{position:absolute;width:340px;height:340px;background-size:cover;background-position:center;border:9px solid #fffdf8;z-index:1}
 .cslide .cs-idx{position:absolute;top:84px;left:100px;font-family:"Oswald";font-weight:700;font-size:44px;color:var(--t-acc)}
 .cslide .cs-title{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:94px;line-height:1.01;color:var(--t-title);margin:0 0 34px;letter-spacing:.005em}
