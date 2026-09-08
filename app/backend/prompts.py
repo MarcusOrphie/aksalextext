@@ -95,6 +95,12 @@ PLATFORM = {
     "stories":     "Платформа: Instagram Stories. Собери последовательность сторис по теме ОТ ЛИЦА АВТОРА, в его личной закулисной интонации (используй личность и тон автора из профиля). frames - 4-7 кадров, у каждого visual (что на экране) и text (живая реплика от первого лица, 1-2 естественных предложения, примерно 15-35 слов - как будто автор делится в моменте, без рубленных фраз и ИИ-штампов).",
     "reels_cover": "Формат: ОБЛОЖКА для Instagram Reels. Автор УЖЕ дал текст заголовка (в запросе) - это крупный текст обложки. title: верни заголовок автора как есть (можно лишь чуть причесать регистр/опечатку, но СМЫСЛ и слова сохрани, ничего своего не выдумывай). subtitle: короткий подзаголовок до ~8 слов, который усиливает ИМЕННО этот заголовок (живой язык, без ИИ-штампов). НЕ придумывай другую тему и другой заголовок.",
     "audience":    "Инструмент: АУДИТОРИЯ И БОЛИ. По нише/теме автора собери карту аудитории, из которой сразу делается контент. Работай по JTBD, по 5 уровням осознанности Юджина Шварца и empathy map, живым языком САМОЙ аудитории, без маркетинговой воды. segments (2-3 сегмента): name, portrait (кто это, ситуация, «день из жизни» в 1-2 фразы), jtbd (какую задачу человек нанимает решить - функциональную, эмоциональную, социальную), pains (5-7 болей, конкретные, словами аудитории, не абстрактные), desires (3-5 желаний/мечт), objections (3-5 страхов и возражений - почему не делает/не покупает), their_words (8-12 реальных формулировок, как аудитория сама это говорит). awareness - что говорить на каждом уровне осознанности: unaware, problem, solution, product, most (по 1-2 предложения). content_map (10-15 строк): для ключевых болей - pain (боль), angle (угол подачи), hooks (2 хука, которые цепляют за 3 секунды), format (reels/карусель/пост/stories). Конкретика вместо прилагательных; хуки - живые, останавливающие скролл.",
+    "scriptcheck": "Инструмент: ПРОВЕРКА СЦЕНАРИЯ. Автор дал свой готовый текст (сценарий ролика / пост / черновик) - он приведён в системном промпте. Твоя задача НЕ сочинять новый контент, а проверить и разобрать текст автора и вернуть строго по схеме: "
+                   "verdict - честная общая оценка в 1-2 предложениях: рабочий ли текст, где главный провал, что решает. "
+                   "facts - фактчекинг: пройди по КАЖДОМУ проверяемому утверждению, цифре, имени, дате, факту в тексте. Для каждого: claim (точная формулировка из текста), status (одно из: verified - общеизвестный проверяемый факт; doubtful - похоже на правду, но надо перепроверить; false - фактическая ошибка/неточность; unverifiable - проверить нельзя или это личный опыт/мнение), comment (коротко, почему такой статус), fix (как переформулировать или что перепроверить перед публикацией, если статус не verified). НЕ выдумывай факты, источники и цифры - если сам не уверен, ставь doubtful/unverifiable и честно скажи об этом. Если проверяемых фактов в тексте нет - верни один пункт со status unverifiable и пояснением. "
+                   "hook - assessment (разбор ПЕРВОЙ фразы/крючка текста: цепляет или нет и почему, по правилам крафта хуков) и options (2-3 более сильных варианта первой фразы под ту же тему и голос автора). "
+                   "delivery - массив из 3-6 конкретных корректировок по подаче: структура (проблема-история-развязка-петля), ритм, живость языка, где провисает, что убрать и что усилить. Каждая корректировка - конкретная и применимая, а не общий совет. "
+                   "enriched - обогащённая версия ВСЕГО текста на ту же тему: тот же смысл, факты и голос автора, но усиленная конкретикой, лучшим хуком, чистой человеческой подачей и открытой петлёй в конце. Ничего не выдумывай сверх правды - усиливай подачу, а не факты. Живой человеческий язык, без ИИ-штампов.",
 }
 
 PLATFORM_EN = {
@@ -108,6 +114,12 @@ PLATFORM_EN = {
     "stories":     "Platform: Instagram Stories. Build a sequence of stories on the topic IN THE AUTHOR'S FIRST PERSON, in their personal behind-the-scenes tone (use the author's personality and tone from the profile). frames - 4-7 frames, each with visual (what's on screen) and text (a lively first-person line, 1-2 natural sentences, about 15-35 words - as if the author is sharing in the moment, no chopped fragments or AI cliches).",
     "reels_cover": "Format: a COVER for an Instagram Reel. The author ALREADY gave the headline text (in the request) - that's the big cover text. title: return the author's headline as is (you may lightly fix case/typos, but keep the meaning and words, invent nothing). subtitle: a short subheadline up to ~8 words that reinforces THAT exact headline (living voice, no AI cliches). Do NOT invent a different topic or a different headline.",
     "audience":    "Tool: AUDIENCE & PAINS. For the author's niche/topic, build an audience map you can immediately make content from. Use JTBD, Eugene Schwartz's 5 levels of awareness and an empathy map, in the audience's OWN living language, no marketing fluff. segments (2-3): name, portrait (who they are, their situation, a 'day in the life' in 1-2 lines), jtbd (the job they hire content to do - functional, emotional, social), pains (5-7 concrete pains, in the audience's words, not abstract), desires (3-5), objections (3-5 fears and objections - why they don't act/buy), their_words (8-12 real phrasings the audience actually uses). awareness - what to say at each awareness level: unaware, problem, solution, product, most (1-2 sentences each). content_map (10-15 rows): for key pains - pain, angle, hooks (2 scroll-stopping hooks), format (reels/carousel/post/stories). Specifics over adjectives; hooks that grab in 3 seconds.",
+    "scriptcheck": "Tool: SCRIPT CHECK. The author gave their own finished text (a video script / a post / a draft) - it is in the system prompt. Your job is NOT to write new content but to check and break down the author's text, returning strictly by schema: "
+                   "verdict - an honest overall assessment in 1-2 sentences: does the text work, where is the main failure, what it needs. "
+                   "facts - fact-check: go through EVERY verifiable claim, number, name, date, fact in the text. For each: claim (the exact phrasing from the text), status (one of: verified - a widely known verifiable fact; doubtful - probably true but needs double-checking; false - a factual error/inaccuracy; unverifiable - cannot be checked, or it's personal experience/opinion), comment (briefly why that status), fix (how to rephrase or what to re-check before publishing, if status is not verified). Do NOT invent facts, sources or numbers - if unsure yourself, mark doubtful/unverifiable and say so honestly. If there are no verifiable facts in the text, return one item with status unverifiable and an explanation. "
+                   "hook - assessment (a breakdown of the text's FIRST line/hook: does it grab and why, by the hook-craft rules) and options (2-3 stronger first-line variants for the same topic and the author's voice). "
+                   "delivery - an array of 3-6 concrete delivery fixes: structure (problem-story-payoff-loop), rhythm, liveliness of the language, where it sags, what to cut and what to strengthen. Each fix concrete and actionable, not a generic tip. "
+                   "enriched - an enriched version of the WHOLE text on the same topic: same meaning, facts and author's voice, but strengthened with specifics, a better hook, clean human delivery and an open loop at the end. Invent nothing beyond the truth - strengthen the delivery, not the facts. Living human English, no AI cliches.",
 }
 
 # Тексты-инъекции (RU/EN) для разных секций системного промпта
@@ -138,6 +150,8 @@ _INJ = {
                      "переработай под платформу и формат, усиль по правилам крафта и упакуй в нужную структуру. "
                      "Не выдумывай факты сверх этого текста, но подай ярче и живее:\n\"\"\"\n"),
         "usertext_end": "\n\"\"\"",
+        "checktext": ("\n\nТЕКСТ АВТОРА ДЛЯ ПРОВЕРКИ (его сценарий/пост/черновик). Его НЕ нужно превращать в новый контент - "
+                      "его нужно проверить на факты и разобрать по правилам инструмента ниже:\n\"\"\"\n"),
         "usertext_strict": ("\n\nСТРОГО ПО ТЕКСТУ АВТОРА: автор дал свой текст - используй ТОЛЬКО его. "
                             "Ничего не добавляй, не выдумывай и не меняй от себя: ни фактов, ни примеров, ни цифр, ни имён, ни мыслей, ни формулировок. "
                             "Возьми текст автора как есть и лишь РАЗЛОЖИ его по формату (слайдам/кадрам/частям поста), сохранив его слова и смысл дословно. "
@@ -170,6 +184,8 @@ _INJ = {
                      "rework it for the platform and format, strengthen it by the craft rules and package it in the needed structure. "
                      "Do not invent facts beyond this text, but present it more vividly:\n\"\"\"\n"),
         "usertext_end": "\n\"\"\"",
+        "checktext": ("\n\nTHE AUTHOR'S TEXT TO CHECK (their script/post/draft). Do NOT turn it into new content - "
+                      "check it for facts and break it down by the tool's rules below:\n\"\"\"\n"),
         "usertext_strict": ("\n\nSTRICTLY FROM THE AUTHOR'S TEXT: the author gave their own text - use ONLY it. "
                             "Add nothing, invent nothing, change nothing of your own: no facts, examples, numbers, names, ideas or wording. "
                             "Take the author's text as is and only ARRANGE it into the format (slides/frames/post parts), keeping their words and meaning verbatim. "
@@ -188,9 +204,12 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
     inj = _INJ["en" if en else "ru"]
     s = base + "\n" + plat.get(platform, plat["reels"])
     if user_text and user_text.strip():
-        s += inj["usertext"] + user_text.strip()[:6000] + inj["usertext_end"]
-        if platform in ("carousel", "post", "stories"):
-            s += inj["usertext_strict"]
+        if platform == "scriptcheck":
+            s += inj["checktext"] + user_text.strip()[:6000] + inj["usertext_end"]
+        else:
+            s += inj["usertext"] + user_text.strip()[:6000] + inj["usertext_end"]
+            if platform in ("carousel", "post", "stories"):
+                s += inj["usertext_strict"]
     # карта аудитории/болей - подмешиваем в ЛЮБУЮ генерацию кроме самого инструмента аудитории
     if audience and audience.strip() and platform != "audience":
         s += inj["audience_map"] + audience.strip()[:1800]

@@ -35,7 +35,7 @@
       const lbl = $("cover-up-label"); if (lbl) lbl.textContent = t("cover_change");
     };
   })();
-  const TEXT_IDS = ["audience", "reels", "shorts", "tiktok", "youtube_long", "content_plan"];
+  const TEXT_IDS = ["audience", "reels", "shorts", "tiktok", "youtube_long", "content_plan", "scriptcheck"];
   const VISUAL_IDS = ["carousel", "post", "stories", "reels_cover"];
   const VISUAL = { carousel: 1, post: 1, stories: 1, reels_cover: 1 };
   let coverBg = null;   // загруженное пользователем фото для обложки Reels
@@ -273,6 +273,8 @@
   // для «Обложек Reels» - одно поле «Заголовок» (без «тема» и «твой текст»)
   function applyPlatformFields() {
     const lbl = $("topic-lbl"), uf = $("usertext-fld"), ti = $("topic");
+    const us = uf && uf.querySelector("span");
+    if (us) us.textContent = t("lbl_usertext");   // дефолтная подпись поля «твой текст» (сбрасываем перед override)
     const scf = $("stories-count-fld"); if (scf) scf.hidden = (platform !== "stories");
     if (platform === "reels_cover") {
       if (uf) uf.hidden = true;
@@ -282,6 +284,11 @@
       if (uf) uf.hidden = true;
       if (lbl) lbl.textContent = t("au_topic_lbl");
       if (ti) ti.placeholder = t("au_topic_ph");
+    } else if (platform === "scriptcheck") {
+      if (uf) uf.hidden = false;
+      if (us) us.textContent = t("sc_text_lbl");   // тут поле «твой текст» - главный ввод (сценарий/пост)
+      if (ti) { ti.placeholder = t("sc_topic_ph"); }
+      if (lbl) lbl.textContent = t("sc_topic_lbl");
     } else {
       if (uf) uf.hidden = false;
       if (lbl) lbl.textContent = t("lbl_topic");
@@ -390,6 +397,7 @@
       case "stories": return "Stories · " + t("ig");
       case "content_plan": return t("p_content_plan");
       case "audience": return t("p_audience");
+      case "scriptcheck": return t("p_scriptcheck");
       default: return p;
     }
   }
@@ -601,6 +609,62 @@
         mc.appendChild(voteBtns(p, seg0 && seg0.name || "audience"));
         content.appendChild(mc);
       }
+    } else if (p === "scriptcheck") {
+      const known = ["verified", "doubtful", "false", "unverifiable"];
+      const vc = el("div", "rcard");
+      vc.appendChild(el("h3", null, t("sc_verdict")));
+      if (d.verdict) vc.appendChild(el("div", "sc-verdict", d.verdict));
+      content.appendChild(vc);
+      const facts = arr(d.facts);
+      if (facts.length) {
+        const fcard = el("div", "rcard");
+        fcard.appendChild(el("h3", null, t("sc_facts")));
+        facts.forEach(f => {
+          const item = el("div", "sc-fact");
+          const st = known.includes(String(f.status || "").toLowerCase()) ? String(f.status).toLowerCase() : "unverifiable";
+          const head = el("div", "sc-fact-h");
+          head.appendChild(el("span", "sc-badge sc-" + st, t("sc_st_" + st)));
+          head.appendChild(el("span", "sc-claim", f.claim || ""));
+          item.appendChild(head);
+          if (f.comment) item.appendChild(el("div", "sc-comment", f.comment));
+          if (f.fix) item.appendChild(row(t("sc_fix"), f.fix));
+          fcard.appendChild(item);
+        });
+        content.appendChild(fcard);
+      }
+      if (d.hook) {
+        const hc = el("div", "rcard");
+        hc.appendChild(el("h3", null, t("sc_hook")));
+        if (d.hook.assessment) hc.appendChild(row(t("sc_hook_assess"), d.hook.assessment));
+        const opts = arr(d.hook.options);
+        if (opts.length) {
+          const wrap = el("div", "rrow");
+          wrap.appendChild(el("div", "rk", t("sc_hook_opts")));
+          const box2 = el("div", null);
+          opts.forEach(h => box2.appendChild(el("div", "abhook", "• " + h)));
+          wrap.appendChild(box2); hc.appendChild(wrap);
+        }
+        content.appendChild(hc);
+      }
+      const dv = arr(d.delivery);
+      if (dv.length) {
+        const dc = el("div", "rcard");
+        dc.appendChild(el("h3", null, t("sc_delivery")));
+        const ul = el("ul", "refs");
+        dv.forEach(x => ul.appendChild(el("li", null, x)));
+        dc.appendChild(ul);
+        content.appendChild(dc);
+      }
+      if (d.enriched) {
+        const ec = el("div", "rcard");
+        ec.appendChild(el("h3", null, t("sc_enriched")));
+        ec.appendChild(el("div", "sc-enriched", d.enriched));
+        const bar = el("div", "cardbar");
+        bar.appendChild(copyBtn(() => d.enriched, t("sc_copy_enriched")));
+        bar.appendChild(voteBtns(p, (d.verdict || "scriptcheck").slice(0, 60)));
+        ec.appendChild(bar);
+        content.appendChild(ec);
+      }
     }
     box.appendChild(content);
     const actions = el("div", "result-actions");
@@ -731,6 +795,13 @@
         head(t("au_contentmap"));
         arr(d.content_map).forEach(m => add("🎯 " + (m.pain || ""), (m.angle ? m.angle + " " : "") + (arr(m.hooks).length ? "· " + arr(m.hooks).join(" / ") : "") + (m.format ? " [" + m.format + "]" : "")));
       }
+    } else if (p === "scriptcheck") {
+      add(t("sc_verdict"), d.verdict);
+      const facts = arr(d.facts);
+      if (facts.length) { head(t("sc_facts")); facts.forEach(f => add((f.status || "") + " · " + (f.claim || ""), [f.comment, f.fix].filter(Boolean).join(" — "))); }
+      if (d.hook) { head(t("sc_hook")); add(t("sc_hook_assess"), d.hook.assessment); arr(d.hook.options).forEach(o => add("", "• " + o)); }
+      if (arr(d.delivery).length) { head(t("sc_delivery")); arr(d.delivery).forEach(x => add("", "• " + x)); }
+      if (d.enriched) { head(t("sc_enriched")); add("", d.enriched); }
     }
     if (!wrap.children.length) add("", t("no_topic"));
     return wrap;
@@ -1005,21 +1076,29 @@
     const title = node.querySelector(".cs-title");
     const text = node.querySelector(".cs-text");
     if (!title && !text) return;
-    const fs = Math.max(0.5, Math.min(1.7, fontScale || 1));   // ручной масштаб шрифта (кнопка «шрифт больше/меньше»)
+    const manual = Math.max(0.5, Math.min(1.7, fontScale || 1));   // ручной масштаб (кнопка «шрифт больше/меньше»)
     const cs = getComputedStyle(node);
     const pad = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
-    const limit = (node.clientHeight - pad) * 0.98;   // рабочая зона между номером и брендом
-    const baseT = (title ? parseFloat(getComputedStyle(title).fontSize) : 0) * fs;
-    const baseX = (text ? parseFloat(getComputedStyle(text).fontSize) : 0) * fs;
-    if (title) title.style.fontSize = baseT + "px";
-    if (text) text.style.fontSize = baseX + "px";
+    const limit = (node.clientHeight - pad) * 0.96;   // рабочая зона слайда
+    const baseT = title ? parseFloat(getComputedStyle(title).fontSize) : 0;
+    const baseX = text ? parseFloat(getComputedStyle(text).fontSize) : 0;
     const mb = title ? parseFloat(getComputedStyle(title).marginBottom || 0) : 0;
     const contentH = () => (title ? title.offsetHeight : 0) + (text ? text.offsetHeight : 0) + (title && text ? mb : 0);
-    let scale = 1;
-    for (let i = 0; i < 26 && contentH() > limit && scale > 0.4; i++) {
-      scale -= 0.05;
-      if (title) title.style.fontSize = (baseT * scale) + "px";
-      if (text) text.style.fontSize = (baseX * scale) + "px";
+    const apply = (k) => {
+      if (title) title.style.fontSize = (baseT * k) + "px";
+      if (text) text.style.fontSize = (baseX * k) + "px";
+    };
+    // 1) АВТО-ЗАПОЛНЕНИЕ: растим шрифт, пока контент не заполнит рабочую зону слайда (чтобы не был мелким/растянутым)
+    apply(1);
+    let k = 1;
+    for (let i = 0; i < 40 && k < 2.2 && contentH() <= limit; i++) { k += 0.06; apply(k); }
+    // 2) если перелетели край (в т.ч. изначально длинный текст) - ужимаем, пока не влезет
+    for (let i = 0; i < 40 && k > 0.4 && contentH() > limit; i++) { k -= 0.05; apply(k); }
+    // 3) ручной масштаб автора поверх авто-заполнения, со страховкой от переполнения
+    if (manual !== 1) {
+      let km = Math.max(0.4, Math.min(2.4, k * manual));
+      apply(km);
+      for (let i = 0; i < 30 && km > 0.4 && contentH() > limit; i++) { km -= 0.05; apply(km); }
     }
   }
   // типографика слайда: числа с пробелом-разделителем не рвём (11 000), новое предложение - с новой строки

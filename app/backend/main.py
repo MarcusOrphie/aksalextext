@@ -214,7 +214,7 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     try:
         niche = (profile or {}).get("niche") or ""
         # для обложек и карты аудитории тренды не нужны
-        live_trends = "" if req.platform in ("reels_cover", "audience") else trends.get(user["id"], niche, req.platform, req.topic, lang)
+        live_trends = "" if req.platform in ("reels_cover", "audience", "scriptcheck") else trends.get(user["id"], niche, req.platform, req.topic, lang)
     except Exception:
         live_trends = ""
     # карту аудитории/болей подмешиваем во ВСЕ генерации, кроме самого инструмента аудитории

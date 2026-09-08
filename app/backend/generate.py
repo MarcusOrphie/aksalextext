@@ -97,7 +97,7 @@ def _coerce_arrays(data):
     """Иногда модель отдаёт поле-массив строкой-JSON - распарсим обратно."""
     if not isinstance(data, dict):
         return data
-    for key in ("ideas", "sections", "slides", "frames", "rubrics", "plan", "segments", "content_map"):
+    for key in ("ideas", "sections", "slides", "frames", "rubrics", "plan", "segments", "content_map", "facts", "delivery"):
         v = data.get(key)
         if isinstance(v, str):
             s = v.strip()
@@ -191,6 +191,22 @@ SCHEMAS = {
             "format": {"type": "string", "description": "reels/карусель/пост/stories"}},
             "required": ["pain", "angle", "hooks", "format"]}}},
         "required": ["segments", "awareness", "content_map"]},
+    "scriptcheck": {"type": "object", "properties": {
+        "verdict": {"type": "string", "description": "честная общая оценка текста в 1-2 предложениях"},
+        "facts": {"type": "array", "items": {"type": "object", "properties": {
+            "claim": {"type": "string", "description": "утверждение из текста автора"},
+            "status": {"type": "string", "description": "verified|doubtful|false|unverifiable"},
+            "comment": {"type": "string", "description": "коротко, почему такой статус"},
+            "fix": {"type": "string", "description": "как переформулировать / что перепроверить, если не verified"}},
+            "required": ["claim", "status", "comment"]}},
+        "hook": {"type": "object", "properties": {
+            "assessment": {"type": "string", "description": "разбор текущего первого крючка"},
+            "options": {"type": "array", "items": {"type": "string"}, "description": "2-3 более сильных варианта хука"}},
+            "required": ["assessment", "options"]},
+        "delivery": {"type": "array", "items": {"type": "string"}, "description": "3-6 корректировок по подаче"},
+        "enriched": {"type": "string", "description": "обогащённая версия всего текста на ту же тему"},
+        "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
+        "required": ["verdict", "facts", "hook", "delivery", "enriched"]},
 }
 PLATFORMS = set(SCHEMAS.keys())
 
@@ -208,7 +224,7 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
-    max_tokens = 16000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan", "audience") else 6000
+    max_tokens = 16000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan", "audience", "scriptcheck") else 6000
     um = build_user(topic, platform, lang, user_text)
     if platform == "stories" and count and count > 0:
         um += ((" Сделай РОВНО %d кадров сторис." % count) if lang != "en" else (" Make EXACTLY %d story frames." % count))
