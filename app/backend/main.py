@@ -23,6 +23,7 @@ import voice
 import feedback
 import trends
 import lab
+import audience
 import access
 import prodamus
 
@@ -209,17 +210,28 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     lang = "en" if (req.lang or "").lower().startswith("en") else "ru"
     try:
         niche = (profile or {}).get("niche") or ""
-        # для обложек тренды не нужны - они уводят от заголовка автора
-        live_trends = "" if req.platform == "reels_cover" else trends.get(user["id"], niche, req.platform, req.topic, lang)
+        # для обложек и карты аудитории тренды не нужны
+        live_trends = "" if req.platform in ("reels_cover", "audience") else trends.get(user["id"], niche, req.platform, req.topic, lang)
     except Exception:
         live_trends = ""
+    # карту аудитории/болей подмешиваем во ВСЕ генерации, кроме самого инструмента аудитории
+    try:
+        aud = "" if req.platform == "audience" else audience.for_prompt(user["id"])
+    except Exception:
+        aud = ""
     try:
         result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
                               liked=liked, disliked=disliked, trends=live_trends, lang=lang,
-                              user_text=(req.user_text or "").strip())
+                              user_text=(req.user_text or "").strip(), audience=aud)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     data = result.get("data")
+    # сохраняем карту аудитории, чтобы она кормила будущие генерации
+    if isinstance(data, dict) and req.platform == "audience":
+        try:
+            audience.save_map(user["id"], data)
+        except Exception:
+            pass
     # обложка: заголовок на картинке - ровно тот, что ввёл автор (не выдумка ИИ)
     if isinstance(data, dict) and req.platform == "reels_cover" and (req.topic or "").strip():
         data["title"] = req.topic.strip()

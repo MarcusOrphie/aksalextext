@@ -35,7 +35,7 @@
       const lbl = $("cover-up-label"); if (lbl) lbl.textContent = t("cover_change");
     };
   })();
-  const TEXT_IDS = ["reels", "shorts", "tiktok", "youtube_long", "content_plan"];
+  const TEXT_IDS = ["audience", "reels", "shorts", "tiktok", "youtube_long", "content_plan"];
   const VISUAL_IDS = ["carousel", "post", "stories", "reels_cover"];
   const VISUAL = { carousel: 1, post: 1, stories: 1, reels_cover: 1 };
   let coverBg = null;   // загруженное пользователем фото для обложки Reels
@@ -277,6 +277,10 @@
       if (uf) uf.hidden = true;
       if (lbl) lbl.textContent = t("cover_title_lbl");
       if (ti) ti.placeholder = t("cover_title_ph");
+    } else if (platform === "audience") {
+      if (uf) uf.hidden = true;
+      if (lbl) lbl.textContent = t("au_topic_lbl");
+      if (ti) ti.placeholder = t("au_topic_ph");
     } else {
       if (uf) uf.hidden = false;
       if (lbl) lbl.textContent = t("lbl_topic");
@@ -384,6 +388,7 @@
       case "post": return t("p_post") + " · " + t("ig");
       case "stories": return "Stories · " + t("ig");
       case "content_plan": return t("p_content_plan");
+      case "audience": return t("p_audience");
       default: return p;
     }
   }
@@ -554,6 +559,47 @@
       const rub0 = arr(d.rubrics)[0];
       pc.appendChild(voteBtns(p, rub0 && rub0.name || "content_plan"));
       content.appendChild(pc);
+    } else if (p === "audience") {
+      const listRow = (card, label, items) => {
+        const a = arr(items); if (!a.length) return;
+        const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", label));
+        const ul = el("ul", "refs"); a.forEach(x => ul.appendChild(el("li", null, x)));
+        wrap.appendChild(ul); card.appendChild(wrap);
+      };
+      arr(d.segments).forEach((seg, i) => {
+        const c = el("div", "rcard");
+        c.appendChild(el("h3", null, (i + 1) + ". " + (seg.name || t("au_segment"))));
+        if (seg.portrait) c.appendChild(row(t("au_portrait"), seg.portrait));
+        if (seg.jtbd) c.appendChild(row(t("au_jtbd"), seg.jtbd));
+        listRow(c, t("au_pains"), seg.pains);
+        listRow(c, t("au_desires"), seg.desires);
+        listRow(c, t("au_objections"), seg.objections);
+        listRow(c, t("au_words"), seg.their_words);
+        content.appendChild(c);
+      });
+      if (d.awareness) {
+        const ac = el("div", "rcard"); ac.appendChild(el("h3", null, t("au_awareness")));
+        [["unaware", "au_aw_unaware"], ["problem", "au_aw_problem"], ["solution", "au_aw_solution"], ["product", "au_aw_product"], ["most", "au_aw_most"]]
+          .forEach(pair => { if (d.awareness[pair[0]]) ac.appendChild(row(t(pair[1]), d.awareness[pair[0]])); });
+        content.appendChild(ac);
+      }
+      const cm = arr(d.content_map);
+      if (cm.length) {
+        const mc = el("div", "rcard"); mc.appendChild(el("h3", null, t("au_contentmap")));
+        cm.forEach(it => {
+          const item = el("div", "planitem");
+          const head = el("div", "planhead");
+          if (it.format) head.appendChild(el("span", "planfmt", it.format));
+          item.appendChild(head);
+          item.appendChild(el("div", "planidea", "🎯 " + (it.pain || "")));
+          if (it.angle) item.appendChild(el("div", "planhook", t("au_angle") + it.angle));
+          arr(it.hooks).forEach(h => item.appendChild(el("div", "abhook", "• " + h)));
+          mc.appendChild(item);
+        });
+        const seg0 = arr(d.segments)[0];
+        mc.appendChild(voteBtns(p, seg0 && seg0.name || "audience"));
+        content.appendChild(mc);
+      }
     }
     box.appendChild(content);
     const actions = el("div", "result-actions");
@@ -655,6 +701,9 @@
       add("", d.title); add("", d.subtitle);
     } else if (p === "content_plan") {
       arr(d.plan).forEach(x => add(x.day || "", (x.format ? "[" + x.format + "] " : "") + (x.idea || "")));
+    } else if (p === "audience") {
+      arr(d.segments).forEach((s, i) => { head((i + 1) + ". " + (s.name || "")); add(t("au_pains"), arr(s.pains).join("; ")); add(t("au_desires"), arr(s.desires).join("; ")); add(t("au_objections"), arr(s.objections).join("; ")); });
+      if (arr(d.content_map).length) { head(t("au_contentmap")); arr(d.content_map).forEach(m => add("🎯", (m.pain || "") + (m.format ? " [" + m.format + "]" : ""))); }
     }
     if (!wrap.children.length) add("", t("no_topic"));
     return wrap;

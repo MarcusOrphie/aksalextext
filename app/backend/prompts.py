@@ -94,6 +94,7 @@ PLATFORM = {
     "content_plan":"Формат: КОНТЕНТ-ПЛАН на период. Собери связный план публикаций (не разрозненные идеи, а систему). Придумай 2-4 постоянные рубрики (rubrics: name + идея рубрики). Затем plan - список публикаций на 7-14 выходов: у каждой day (напр. 'Пн' или 'Неделя 1, вт'), rubric (к какой рубрике относится), format (reels/пост/карусель/stories), idea (суть), hook (крючок первой секунды), goal (охват/вовлечение/продажа/прогрев). Следи за серийностью и чередованием форматов и целей, чтобы это была живая продуманная лента, а не набор случайного. Всё строго под нишу и голос автора.",
     "stories":     "Платформа: Instagram Stories. Собери последовательность сторис по теме ОТ ЛИЦА АВТОРА, в его личной закулисной интонации (используй личность и тон автора из профиля). frames - 4-7 кадров, у каждого visual (что на экране) и text (живая реплика от первого лица, 1-2 естественных предложения, примерно 15-35 слов - как будто автор делится в моменте, без рубленных фраз и ИИ-штампов).",
     "reels_cover": "Формат: ОБЛОЖКА для Instagram Reels. Автор УЖЕ дал текст заголовка (в запросе) - это крупный текст обложки. title: верни заголовок автора как есть (можно лишь чуть причесать регистр/опечатку, но СМЫСЛ и слова сохрани, ничего своего не выдумывай). subtitle: короткий подзаголовок до ~8 слов, который усиливает ИМЕННО этот заголовок (живой язык, без ИИ-штампов). НЕ придумывай другую тему и другой заголовок.",
+    "audience":    "Инструмент: АУДИТОРИЯ И БОЛИ. По нише/теме автора собери карту аудитории, из которой сразу делается контент. Работай по JTBD, по 5 уровням осознанности Юджина Шварца и empathy map, живым языком САМОЙ аудитории, без маркетинговой воды. segments (2-3 сегмента): name, portrait (кто это, ситуация, «день из жизни» в 1-2 фразы), jtbd (какую задачу человек нанимает решить - функциональную, эмоциональную, социальную), pains (5-7 болей, конкретные, словами аудитории, не абстрактные), desires (3-5 желаний/мечт), objections (3-5 страхов и возражений - почему не делает/не покупает), their_words (8-12 реальных формулировок, как аудитория сама это говорит). awareness - что говорить на каждом уровне осознанности: unaware, problem, solution, product, most (по 1-2 предложения). content_map (10-15 строк): для ключевых болей - pain (боль), angle (угол подачи), hooks (2 хука, которые цепляют за 3 секунды), format (reels/карусель/пост/stories). Конкретика вместо прилагательных; хуки - живые, останавливающие скролл.",
 }
 
 PLATFORM_EN = {
@@ -106,6 +107,7 @@ PLATFORM_EN = {
     "content_plan":"Format: a CONTENT PLAN for a period. Build a coherent publishing plan (a system, not scattered ideas). Come up with 2-4 recurring rubrics (rubrics: name + the rubric's idea). Then plan - a list of 7-14 posts: each with day (e.g. 'Mon' or 'Week 1, Tue'), rubric (which rubric it belongs to), format (reels/post/carousel/stories), idea (the essence), hook (the first-second grab), goal (reach/engagement/sales/warm-up). Keep seriality and alternate formats and goals so it's a living, thought-through feed, not a random pile. All strictly for the niche and the author's voice.",
     "stories":     "Platform: Instagram Stories. Build a sequence of stories on the topic IN THE AUTHOR'S FIRST PERSON, in their personal behind-the-scenes tone (use the author's personality and tone from the profile). frames - 4-7 frames, each with visual (what's on screen) and text (a lively first-person line, 1-2 natural sentences, about 15-35 words - as if the author is sharing in the moment, no chopped fragments or AI cliches).",
     "reels_cover": "Format: a COVER for an Instagram Reel. The author ALREADY gave the headline text (in the request) - that's the big cover text. title: return the author's headline as is (you may lightly fix case/typos, but keep the meaning and words, invent nothing). subtitle: a short subheadline up to ~8 words that reinforces THAT exact headline (living voice, no AI cliches). Do NOT invent a different topic or a different headline.",
+    "audience":    "Tool: AUDIENCE & PAINS. For the author's niche/topic, build an audience map you can immediately make content from. Use JTBD, Eugene Schwartz's 5 levels of awareness and an empathy map, in the audience's OWN living language, no marketing fluff. segments (2-3): name, portrait (who they are, their situation, a 'day in the life' in 1-2 lines), jtbd (the job they hire content to do - functional, emotional, social), pains (5-7 concrete pains, in the audience's words, not abstract), desires (3-5), objections (3-5 fears and objections - why they don't act/buy), their_words (8-12 real phrasings the audience actually uses). awareness - what to say at each awareness level: unaware, problem, solution, product, most (1-2 sentences each). content_map (10-15 rows): for key pains - pain, angle, hooks (2 scroll-stopping hooks), format (reels/carousel/post/stories). Specifics over adjectives; hooks that grab in 3 seconds.",
 }
 
 # Тексты-инъекции (RU/EN) для разных секций системного промпта
@@ -115,6 +117,8 @@ _INJ = {
                    "Это твой источник фактов - стройся на нём и бери отсюда конкретику. "
                    "Чего здесь нет - НЕ выдумывай: либо бери общеизвестное и честное, либо помечай как гипотезу. "
                    "Адаптируй под голос автора:\n"),
+        "audience": ("\n\nАУДИТОРИЯ И БОЛИ АВТОРА (его карта аудитории). Строй контент ВОКРУГ этих болей, желаний и "
+                     "возражений и говори языком самой аудитории. Каждая идея должна попадать в конкретную боль:\n"),
         "voice": ("\n\nОБРАЗЦЫ РЕЧИ АВТОРА (его собственные тексты/расшифровки). "
                   "Изучи манеру, лексику, ритм и интонацию и пиши ТАКИМ ЖЕ голосом - "
                   "не копируй дословно, а попадай в стиль:\n\"\"\"\n"),
@@ -143,6 +147,8 @@ _INJ = {
                    "This is your source of facts - build on it and take your specifics from here. "
                    "What is not here - do NOT invent: either use widely known and honest material, or mark it as a hypothesis. "
                    "Adapt to the author's voice:\n"),
+        "audience": ("\n\nTHE AUTHOR'S AUDIENCE & PAINS (their audience map). Build the content AROUND these pains, "
+                     "desires and objections, and speak in the audience's own language. Every idea must hit a concrete pain:\n"),
         "voice": ("\n\nSAMPLES OF THE AUTHOR'S SPEECH (their own texts/transcripts). "
                   "Study the manner, vocabulary, rhythm and intonation and write in the SAME voice - "
                   "do not copy verbatim, match the style:\n\"\"\"\n"),
@@ -171,7 +177,7 @@ _INJ = {
 
 def build_system(platform: str, profile: dict | None, avoid: list | None = None, voice: str | None = None,
                  liked: list | None = None, disliked: list | None = None, trends: str | None = None,
-                 lang: str = "ru", user_text: str | None = None) -> str:
+                 lang: str = "ru", user_text: str | None = None, audience: str | None = None) -> str:
     en = (lang == "en")
     base = BASE_EN if en else BASE
     plat = (PLATFORM_EN if en else PLATFORM)
@@ -181,6 +187,9 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
         s += inj["usertext"] + user_text.strip()[:6000] + inj["usertext_end"]
         if platform in ("carousel", "post", "stories"):
             s += inj["usertext_strict"]
+    # карта аудитории/болей - подмешиваем в ЛЮБУЮ генерацию кроме самого инструмента аудитории
+    if audience and audience.strip() and platform != "audience":
+        s += inj["audience"] + audience.strip()[:1800]
     if trends:
         s += inj["trends"] + trends[:1800]
     if voice:

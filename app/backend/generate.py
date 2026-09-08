@@ -29,7 +29,7 @@ def _coerce_arrays(data):
     """Иногда модель отдаёт поле-массив строкой-JSON - распарсим обратно."""
     if not isinstance(data, dict):
         return data
-    for key in ("ideas", "sections", "slides", "frames", "rubrics", "plan"):
+    for key in ("ideas", "sections", "slides", "frames", "rubrics", "plan", "segments", "content_map"):
         v = data.get(key)
         if isinstance(v, str):
             s = v.strip()
@@ -103,22 +103,43 @@ SCHEMAS = {
         "subtitle": {"type": "string", "description": "короткий подзаголовок до ~8 слов (необязателен)"},
         "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
         "required": ["title"]},
+    "audience": {"type": "object", "properties": {
+        "segments": {"type": "array", "items": {"type": "object", "properties": {
+            "name": {"type": "string"},
+            "portrait": {"type": "string", "description": "кто это, ситуация, день из жизни в 1-2 фразы"},
+            "jtbd": {"type": "string", "description": "какую задачу нанимает решить (функц/эмоц/социальную)"},
+            "pains": {"type": "array", "items": {"type": "string"}, "description": "5-7 болей словами аудитории"},
+            "desires": {"type": "array", "items": {"type": "string"}, "description": "3-5 желаний/мечт"},
+            "objections": {"type": "array", "items": {"type": "string"}, "description": "3-5 страхов/возражений"},
+            "their_words": {"type": "array", "items": {"type": "string"}, "description": "8-12 реальных фраз аудитории"}},
+            "required": ["name", "portrait", "jtbd", "pains", "desires", "objections", "their_words"]}},
+        "awareness": {"type": "object", "properties": {
+            "unaware": {"type": "string"}, "problem": {"type": "string"}, "solution": {"type": "string"},
+            "product": {"type": "string"}, "most": {"type": "string"}},
+            "required": ["unaware", "problem", "solution", "product", "most"]},
+        "content_map": {"type": "array", "items": {"type": "object", "properties": {
+            "pain": {"type": "string"}, "angle": {"type": "string"},
+            "hooks": {"type": "array", "items": {"type": "string"}, "description": "2 хука-останавливателя"},
+            "format": {"type": "string", "description": "reels/карусель/пост/stories"}},
+            "required": ["pain", "angle", "hooks", "format"]}}},
+        "required": ["segments", "awareness", "content_map"]},
 }
 PLATFORMS = set(SCHEMAS.keys())
 
 def generate(platform: str, topic: str, profile: dict | None = None, avoid: list | None = None,
              voice: str | None = None, liked: list | None = None, disliked: list | None = None,
-             trends: str | None = None, lang: str = "ru", user_text: str | None = None) -> dict:
+             trends: str | None = None, lang: str = "ru", user_text: str | None = None,
+             audience: str | None = None) -> dict:
     if platform not in PLATFORMS:
         raise ValueError("unknown platform")
     if not API_KEY:
         raise RuntimeError("no ANTHROPIC_API_KEY")
     tool = {"name": "publish_content", "description": "Вернуть готовый контент строго по схеме платформы.",
             "input_schema": SCHEMAS[platform]}
-    max_tokens = 16000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan") else 6000
+    max_tokens = 16000 if platform in ("reels", "shorts", "tiktok", "youtube_long", "content_plan", "audience") else 6000
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
-        "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text), lang),
+        "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text, audience), lang),
         "messages": [{"role": "user", "content": build_user(topic, platform, lang, user_text)}],
         "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"},
     }
