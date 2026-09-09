@@ -307,8 +307,8 @@
   .sp-stars{color:#f5a623;font-size:26px;letter-spacing:3px;line-height:1}
   .sp-count{font-family:"Nunito";font-weight:700;font-size:17px;color:#4a443d;display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center}
   .sp-count b{font-family:"Oswald";font-weight:700;color:var(--ink);font-size:21px}
-  .sp-dot{width:11px;height:11px;border-radius:50%;background:#3bd671;flex:none;animation:sp-pulse 1.8s infinite}
-  @keyframes sp-pulse{0%{box-shadow:0 0 0 0 rgba(59,214,113,.55)}70%{box-shadow:0 0 0 9px rgba(59,214,113,0)}100%{box-shadow:0 0 0 0 rgba(59,214,113,0)}}
+  .sp-heart{display:inline-flex;color:var(--coral);font-size:17px;line-height:1;flex:none;animation:sp-beat 1.15s ease-in-out infinite}
+  @keyframes sp-beat{0%,100%{transform:scale(1)}15%{transform:scale(1.28)}30%{transform:scale(1)}45%{transform:scale(1.16)}}
 </style>
 </head>
 <body>
@@ -368,11 +368,9 @@
   <!-- GUIDES -->
   <section id="guides">
     <div class="social-proof">
-      <div class="sp-row">
-        <div class="sp-avatars"><span class="sp-av a1"></span><span class="sp-av a2"></span><span class="sp-av a3"></span><span class="sp-av a4"></span><span class="sp-av a5"></span></div>
-        <div class="sp-stars" aria-label="5 из 5">★★★★★</div>
-      </div>
-      <div class="sp-count"><b>15 857</b> человек уже применяют эти гайды<span class="sp-dot" aria-hidden="true"></span></div>
+      <div class="sp-stars" aria-label="5 из 5">★★★★★</div>
+      <div class="sp-avatars"><span class="sp-av a1"></span><span class="sp-av a2"></span><span class="sp-av a3"></span><span class="sp-av a4"></span><span class="sp-av a5"></span></div>
+      <div class="sp-count"><b>15 857</b> человек уже применяют эти гайды<span class="sp-heart" aria-hidden="true">♥</span></div>
     </div>
     <div class="cards">
 
