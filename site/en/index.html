@@ -164,18 +164,18 @@
   .cards{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
   .card{background:var(--paper2);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);padding:24px 22px;position:relative;display:flex;flex-direction:column;height:100%}
   .card.feat{background:var(--coral-soft);box-shadow:8px 8px 0 var(--coral-deep)}
-.machine{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:26px;box-shadow:10px 10px 0 var(--coral);padding:36px 30px;text-align:center;position:relative;overflow:hidden}
+.machine{background:var(--paper2);color:var(--ink);border:3px solid var(--ink);border-radius:26px;box-shadow:10px 10px 0 var(--coral);padding:36px 30px;text-align:center;position:relative;overflow:hidden}
 .machine .eyebrow{color:var(--coral)}
-.machine h2{font-size:clamp(26px,5.2vw,42px);line-height:1.03;margin:8px 0 12px;color:var(--paper)}
+.machine h2{font-size:clamp(26px,5.2vw,42px);line-height:1.03;margin:8px 0 12px;color:var(--ink)}
 .machine h2 em{color:var(--coral);font-style:normal}
-.machine .mlead{color:#efe7d9;font-size:17px;max-width:660px;margin:0 auto 18px}
-.machine .mfresh{max-width:660px;margin:0 auto 18px;font-size:15px;line-height:1.5;color:#efe7d9;background:rgba(255,127,80,.12);border:2px solid var(--coral);border-radius:14px;padding:12px 18px}
+.machine .mlead{color:#4a443d;font-size:17px;max-width:660px;margin:0 auto 18px}
+.machine .mfresh{max-width:660px;margin:0 auto 18px;font-size:15px;line-height:1.5;color:#4a443d;background:var(--coral-soft);border:2px solid var(--coral);border-radius:14px;padding:12px 18px}
 .machine .mfresh b{color:var(--coral)}
 .machine .mfeat{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
-.machine .mfeat span{background:rgba(255,255,255,.07);border:2px solid var(--coral);border-radius:999px;padding:6px 14px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--paper)}
+.machine .mfeat span{background:var(--paper);border:2px solid var(--coral);border-radius:999px;padding:6px 14px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--ink)}
 .machine .mprice{color:var(--coral);font-family:"Oswald";font-weight:700;display:inline-flex;align-items:baseline;gap:7px;margin-bottom:18px}
 .machine .mprice .amt{font-size:34px;line-height:1}
-.machine .mprice .per{color:#c9bfb0;font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.machine .mprice .per{color:var(--muted);font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .machine .mcta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 .machine .mplans{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:660px;margin:4px auto 0;text-align:left}
 .mplan{background:var(--paper2);color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:22px 20px;box-shadow:6px 6px 0 rgba(0,0,0,.3);position:relative;display:flex;flex-direction:column}
@@ -191,7 +191,7 @@
 .mp-list li::before{content:"";position:absolute;left:0;top:5px;width:12px;height:12px;border-radius:50%;background:var(--coral);border:2px solid var(--ink)}
 .mplan .btn{margin-top:auto;width:100%;text-align:center}
 .machine .mhint{margin:16px 0 0}
-.machine .mhint a{color:#c9bfb0;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;text-decoration:none}
+.machine .mhint a{color:var(--muted);font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;text-decoration:none}
 .machine .mhint a:hover{color:var(--coral)}
 @media(max-width:560px){.machine .mplans{grid-template-columns:1fr}}
   .card .tags{display:flex;align-items:center;gap:8px;margin-bottom:12px}
