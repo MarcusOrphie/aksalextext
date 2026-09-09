@@ -95,6 +95,13 @@
   .sec-h h2{font-size:34px}
   .sec-h .eyebrow{margin-bottom:8px;display:block}
   .sec-sub{color:#4a443d;font-size:16px;max-width:52ch;margin:10px auto 0}
+  /* RESULTS - скрины статистики */
+  .results{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;max-width:900px;margin:0 auto}
+  .results img{display:block;border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--coral);background:#fff}
+  .res-strips{display:flex;flex-direction:column;gap:16px;flex:0 1 330px;min-width:250px}
+  .res-strips img{width:100%;height:auto}
+  .res-phone{width:206px;height:auto}
+  @media(max-width:760px){.results{gap:12px}.res-strips{flex:1 1 100%;order:-1}.res-phone{width:46%;min-width:150px}}
 
   /* HERO */
   .hero{text-align:center;padding:40px 0 8px;position:relative}
@@ -392,6 +399,23 @@
       <div class="pain"><div class="x"><svg class="icon"><use href="#i-help"/></svg></div><p>Нейросети - сложно, а разбираться нет времени. Вообще!</p></div>
     </div>
     <p class="pain-note">Залихват берёт рутину на себя - <em>тебе остаётся снять и выложить</em>.</p>
+  </section>
+
+  <!-- RESULTS (доказательство) -->
+  <section id="results">
+    <div class="sec-h">
+      <span class="eyebrow">Доказательство</span>
+      <h2>3 месяца <em>веду блог</em></h2>
+      <p class="sec-sub">По моей системе, на которой работает Залихват. И вот результаты:</p>
+    </div>
+    <div class="results">
+      <div class="res-strips">
+        <img src="/stat/1.jpg" width="720" height="231" alt="Профиль: 10,9 тыс. подписчиков" loading="lazy">
+        <img src="/stat/2.jpg" width="720" height="168" alt="Просмотры 2 млн, +901 подписчик" loading="lazy">
+      </div>
+      <img class="res-phone" src="/stat/3.jpg" width="640" height="1387" alt="Статистика: контент" loading="lazy">
+      <img class="res-phone" src="/stat/4.jpg" width="640" height="1387" alt="Статистика блога" loading="lazy">
+    </div>
   </section>
 
   <!-- HOW -->
