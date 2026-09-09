@@ -97,7 +97,7 @@ def _dash(o):
 # поля, которые ДОЛЖНЫ быть массивами (на любом уровне вложенности)
 _ARRAY_KEYS = {"ideas", "sections", "slides", "frames", "rubrics", "plan", "segments", "content_map",
                "facts", "delivery", "hashtags", "hooks_alt", "shot_list", "on_screen_text", "references",
-               "pains", "desires", "objections", "their_words", "hooks", "options"}
+               "pains", "desires", "objections", "their_words", "hooks", "options", "captions", "alternatives"}
 
 
 def _to_list(s: str):
@@ -152,8 +152,23 @@ _idea = {"type": "object", "properties": {
 _short = {"type": "object", "properties": {"ideas": {"type": "array", "items": _idea}},
           "required": ["ideas"]}
 
+_reels_deep = {"type": "object", "properties": {
+    "analysis": {"type": "string", "description": "краткий разбор перед сценарием"},
+    "hook": {"type": "string", "description": "сильный цепляющий хук"},
+    "development": {"type": "string", "description": "развитие мысли, разговорно"},
+    "amplification": {"type": "string", "description": "усиление: пример, разворот"},
+    "finale": {"type": "string", "description": "финал + мягкий CTA"},
+    "how_to_shoot": {"type": "string", "description": "как снять, без таймингов"},
+    "captions": {"type": "array", "items": {"type": "string"}, "description": "2-3 подписи (простой/экспертный/цепляющий)"},
+    "why_works": {"type": "string", "description": "почему работает: алгоритмы + психология"},
+    "alternatives": {"type": "array", "items": {"type": "object", "properties": {
+        "angle": {"type": "string"}, "hook": {"type": "string"}, "format": {"type": "string"}},
+        "required": ["angle", "hook"]}, "description": "2-3 альтернативы"},
+    "virality": {"type": "integer"}, "virality_reason": {"type": "string"}},
+    "required": ["analysis", "hook", "development", "amplification", "finale", "how_to_shoot", "captions", "why_works", "alternatives"]}
+
 SCHEMAS = {
-    "reels": _short, "shorts": _short, "tiktok": _short,
+    "reels": _reels_deep, "shorts": _short, "tiktok": _short,
     "youtube_long": {"type": "object", "properties": {
         "title": {"type": "string"}, "hook": {"type": "string"},
         "sections": {"type": "array", "items": {"type": "object", "properties": {
@@ -238,7 +253,7 @@ PLATFORMS = set(SCHEMAS.keys())
 def generate(platform: str, topic: str, profile: dict | None = None, avoid: list | None = None,
              voice: str | None = None, liked: list | None = None, disliked: list | None = None,
              trends: str | None = None, lang: str = "ru", user_text: str | None = None,
-             audience: str | None = None, count: int = 0) -> dict:
+             audience: str | None = None, count: int = 0, brief: dict | None = None) -> dict:
     if platform not in PLATFORMS:
         raise ValueError("unknown platform")
     # свой текст на визуальных текстовых форматах - раскладываем ДОСЛОВНО, без модели (строго по тексту автора)
@@ -255,7 +270,7 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
         um += ((" Сделай РОВНО %d кадров сторис." % count) if lang != "en" else (" Make EXACTLY %d story frames." % count))
     payload = {
         "model": MODEL, "max_tokens": max_tokens,
-        "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text, audience), lang),
+        "system": _cached_system(build_system(platform, profile, avoid, voice, liked, disliked, trends, lang, user_text, audience, brief), lang),
         "messages": [{"role": "user", "content": um}],
         "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"},
     }
@@ -269,6 +284,9 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
             data = _coerce_arrays(_dash(b.get("input", {})))
             if not data:
                 raise RuntimeError("empty tool input (stop_reason=%s)" % d.get("stop_reason"))
+            # reels: модель иногда отдаёт captions строкой из нескольких строк - разложим в список
+            if platform == "reels" and isinstance(data.get("captions"), str):
+                data["captions"] = [c.strip() for c in re.split(r"\n+", data["captions"]) if c.strip()]
             return {"platform": platform, "data": data}
     raise RuntimeError("no tool_use in response (stop_reason=%s)" % d.get("stop_reason"))
 

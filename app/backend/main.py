@@ -84,6 +84,14 @@ class GenReq(BaseModel):
     user_text: str = Field(default="", max_length=6000)
     design: str = Field(default="", max_length=32)
     count: int = Field(default=0, ge=0, le=20)
+    # бриф ролика (только reels): подробные вводные из формы
+    b_audience: str = Field(default="", max_length=600)
+    b_goal: str = Field(default="", max_length=400)
+    b_promo: str = Field(default="", max_length=100)
+    b_idea: str = Field(default="", max_length=400)
+    b_style: str = Field(default="", max_length=60)
+    b_format: str = Field(default="", max_length=60)
+    b_length: str = Field(default="", max_length=60)
 
 @app.get("/api/health")
 def health():
@@ -223,9 +231,13 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     except Exception:
         aud = ""
     try:
+        brief = None
+        if req.platform == "reels":
+            brief = {"audience": req.b_audience, "goal": req.b_goal, "promo": req.b_promo,
+                     "idea": req.b_idea, "style": req.b_style, "format": req.b_format, "length": req.b_length}
         result = gen.generate(req.platform, req.topic, profile, avoid=avoid, voice=author_voice,
                               liked=liked, disliked=disliked, trends=live_trends, lang=lang,
-                              user_text=(req.user_text or "").strip(), audience=aud, count=req.count)
+                              user_text=(req.user_text or "").strip(), audience=aud, count=req.count, brief=brief)
     except Exception:
         raise HTTPException(status_code=502, detail="ошибка генерации, попробуй ещё раз")
     data = result.get("data")

@@ -276,6 +276,7 @@
     const us = uf && uf.querySelector("span");
     if (us) us.textContent = t("lbl_usertext");   // дефолтная подпись поля «твой текст» (сбрасываем перед override)
     const scf = $("stories-count-fld"); if (scf) scf.hidden = (platform !== "stories");
+    const rbf = $("reels-brief-fld"); if (rbf) rbf.hidden = (platform !== "reels");
     if (platform === "reels_cover") {
       if (uf) uf.hidden = true;
       if (lbl) lbl.textContent = t("cover_title_lbl");
@@ -296,6 +297,13 @@
     }
   }
 
+  // бриф ролика (только reels) - собираем значения полей формы
+  function reelsBrief() {
+    const v = (id) => (($(id) || {}).value || "").trim();
+    return { b_audience: v("rb-audience"), b_goal: v("rb-goal"), b_promo: v("rb-promo"),
+             b_idea: v("rb-idea"), b_style: v("rb-style"), b_format: v("rb-format"), b_length: v("rb-length") };
+  }
+
   // ---------- GENERATE ----------
   $("btn-gen").onclick = async () => {
     const { data } = await sb.auth.getSession();
@@ -312,7 +320,7 @@
       const res = await fetch(API + "/generate", {
         method: "POST",
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
-        body: JSON.stringify({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText, design: effectiveDesign(), count: (platform === "stories" ? parseInt(($("stories-count") || {}).value || "0", 10) : 0) }),
+        body: JSON.stringify(Object.assign({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText, design: effectiveDesign(), count: (platform === "stories" ? parseInt(($("stories-count") || {}).value || "0", 10) : 0) }, platform === "reels" ? reelsBrief() : {})),
       });
       stopThink();
       if (res.status === 402) {
@@ -385,6 +393,8 @@
   }
   function row(k, v, cls) { const r = el("div", "rrow"); r.appendChild(el("div", "rk", k)); r.appendChild(el("div", cls || null, v)); return r; }
   function arr(v) { if (Array.isArray(v)) return v; if (typeof v === "string") { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch (e) { return []; } } return []; }
+  // подписи reels: список или строка из нескольких строк -> массив
+  function capList(v) { return Array.isArray(v) ? v : (v ? String(v).split(/\n+/).map(s => s.trim()).filter(Boolean) : []); }
 
   function plabel(p) {
     switch (p) {
@@ -426,7 +436,7 @@
     title.appendChild(el("b", null, t("pdf_title")));
     title.appendChild(el("span", null, "  ·  " + plabel(p)));
     content.appendChild(title);
-    if (["reels", "shorts", "tiktok"].includes(p)) {
+    if (["shorts", "tiktok"].includes(p) || (p === "reels" && arr(d.ideas).length)) {
       arr(d.ideas).forEach((it, i) => {
         const c = el("div", "rcard");
         c.appendChild(el("h3", null, (i + 1) + ". " + it.idea));
@@ -487,6 +497,38 @@
         c.appendChild(bar);
         content.appendChild(c);
       });
+    } else if (p === "reels") {
+      const c = el("div", "rcard");
+      if (d.analysis) { const fc = el("div", "factcheck"); fc.appendChild(el("span", "fclabel", t("rb_r_analysis"))); fc.appendChild(el("div", null, d.analysis)); c.appendChild(fc); }
+      c.appendChild(row("🔥 " + t("rb_r_hook"), d.hook, "hook"));
+      c.appendChild(row("🧠 " + t("rb_r_dev"), d.development));
+      c.appendChild(row("⚡ " + t("rb_r_amp"), d.amplification));
+      c.appendChild(row("🎯 " + t("rb_r_finale"), d.finale));
+      if (d.how_to_shoot) c.appendChild(row("🎬 " + t("rb_r_shoot"), d.how_to_shoot));
+      const caps = capList(d.captions);
+      if (caps.length) {
+        const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", "📝 " + t("rb_r_captions")));
+        const box2 = el("div", null); caps.forEach(x => box2.appendChild(el("div", "caption", x))); wrap.appendChild(box2); c.appendChild(wrap);
+      }
+      if (d.why_works) c.appendChild(row("🚀 " + t("rb_r_why"), d.why_works));
+      const alts = arr(d.alternatives);
+      if (alts.length) {
+        const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", "🔁 " + t("rb_r_alts")));
+        const box2 = el("div", null);
+        alts.forEach(a => {
+          const it2 = el("div", "planitem");
+          if (a.format) { const hh = el("div", "planhead"); hh.appendChild(el("span", "planfmt", a.format)); it2.appendChild(hh); }
+          if (a.angle) it2.appendChild(el("div", "planidea", a.angle));
+          if (a.hook) it2.appendChild(el("div", "abhook", "• " + a.hook));
+          box2.appendChild(it2);
+        });
+        wrap.appendChild(box2); c.appendChild(wrap);
+      }
+      const bar = el("div", "cardbar");
+      bar.appendChild(copyBtn(() => [d.hook, d.development, d.amplification, d.finale].filter(Boolean).join("\n\n"), t("rb_r_copy")));
+      bar.appendChild(voteBtns(p, d.hook || "reels"));
+      c.appendChild(bar);
+      content.appendChild(c);
     } else if (p === "youtube_long") {
       const c = el("div", "rcard");
       c.appendChild(el("h3", null, d.title || t("r_scenario")));
@@ -774,8 +816,19 @@
     const wrap = el("div", "h-dbody");
     const add = (k, v) => { if (v == null || v === "") return; const r = el("div", "h-drow"); if (k) r.appendChild(el("span", "h-dk", k)); r.appendChild(el("span", "h-dv", String(v))); wrap.appendChild(r); };
     const head = (txt) => wrap.appendChild(el("div", "h-dhead", txt));
-    if (["reels", "shorts", "tiktok"].includes(p)) {
+    if (["shorts", "tiktok"].includes(p) || (p === "reels" && arr(d.ideas).length)) {
       arr(d.ideas).forEach((it, i) => { head((i + 1) + ". " + (it.idea || "")); add(t("r_hook"), it.hook); add("Сценарий", it.scenario); add("Подпись", it.caption); });
+    } else if (p === "reels") {
+      add(t("rb_r_analysis"), d.analysis);
+      head("🔥 " + t("rb_r_hook")); add("", d.hook);
+      head("🧠 " + t("rb_r_dev")); add("", d.development);
+      head("⚡ " + t("rb_r_amp")); add("", d.amplification);
+      head("🎯 " + t("rb_r_finale")); add("", d.finale);
+      if (d.how_to_shoot) { head("🎬 " + t("rb_r_shoot")); add("", d.how_to_shoot); }
+      const caps = capList(d.captions);
+      if (caps.length) { head("📝 " + t("rb_r_captions")); caps.forEach(x => add("", x)); }
+      if (d.why_works) { head("🚀 " + t("rb_r_why")); add("", d.why_works); }
+      if (arr(d.alternatives).length) { head("🔁 " + t("rb_r_alts")); arr(d.alternatives).forEach(a => add((a.format ? "[" + a.format + "] " : "") + (a.angle || ""), a.hook)); }
     } else if (p === "youtube_long") {
       if (d.title) head(d.title); add(t("r_hook"), d.hook); arr(d.sections).forEach(s => { head(s.h || ""); add("", s.points); }); add("Финал", d.outro);
     } else if (p === "carousel") {
