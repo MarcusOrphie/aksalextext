@@ -113,6 +113,14 @@
   .byline img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 18%;box-shadow:2px 2px 0 var(--ink)}
   h1.title{font-size:clamp(33px,9.2vw,48px);letter-spacing:.005em;margin:0 auto 16px;max-width:15ch;text-wrap:balance;overflow-wrap:break-word}
   .hero .lead{font-size:18px;color:#332e29;max-width:46ch;margin:0 auto 26px;font-weight:700}
+  .hero-q{max-width:600px;margin:0 auto 18px;font-family:"Nunito";font-weight:800;font-size:21px;line-height:1.42;color:var(--ink)}
+  .hero-q em{color:var(--coral);font-style:normal}
+  .hero-a{max-width:640px;margin:0 auto 26px;background:var(--paper2);border:3px solid var(--ink);border-radius:18px;box-shadow:7px 7px 0 var(--coral);padding:20px 22px;text-align:left}
+  .hero-a p{font-size:16px;line-height:1.55;color:#332e29;font-weight:600;margin-bottom:11px}
+  .hero-a p:last-child{margin-bottom:0}
+  .hero-a .ha-lead{font-weight:800;font-size:17.5px;color:var(--ink)}
+  .hero-a .ha-lead b{color:var(--coral-deep)}
+  .hero-a .ha-cap em{color:var(--coral-deep);font-style:normal;font-weight:800}
   .hero-cta{display:flex;flex-direction:column;gap:12px;max-width:460px;margin:0 auto 22px}
   .hero-cta .btn{width:100%}
   .trust{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px;margin:0 auto}
@@ -353,7 +361,12 @@
     <div class="byline"><img src="face1.jpg" alt="Саша Аксенов"><span>by Саша Аксенов</span></div>
     <div class="eyebrow">Блог на автомате · без рутины</div>
     <h1 class="title">Контент за <em>5 минут</em></h1>
-    <p class="lead">Хочешь развивать блог, но времени катастрофически не хватает? Залихват берёт рутину на себя: за 5 минут у тебя готовые идеи, сценарии для рилз, хуки, посты, карусели, сториз - и всё в твоём неповторимом стиле.</p>
+    <p class="hero-q">Хочешь развивать блог, но <em>времени нет</em>? А всюду только и рассказывают, как использовать нейронки и что вбить в Claude?</p>
+    <div class="hero-a">
+      <p class="ha-lead">Я сделал <b>Залихват</b>, чтобы вам не платить за нейронки, чтобы не разбираться с промптами и чтобы не тратить время на рутину.</p>
+      <p>В Залихвате собраны все самые свежие тренды и промпты от лучших российских и зарубежных блогеров.</p>
+      <p class="ha-cap">За <em>5 минут</em> у тебя идеи, виральные сценарии для рилз, хуки, посты, карусели, сториз - и всё в твоём неповторимом стиле.</p>
+    </div>
     <div class="hero-cta">
       <a class="btn btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть Залихват →</a>
       <a class="btn btn-ghost" href="#how">Как это работает</a>
