@@ -296,6 +296,22 @@
   .floater svg{display:block}
   @keyframes flbob{0%,100%{transform:translate(0,0) rotate(var(--r,0deg))}25%{transform:translate(7px,-18px) rotate(calc(var(--r,0deg) + 7deg))}50%{transform:translate(-6px,-34px) rotate(calc(var(--r,0deg) + 14deg))}75%{transform:translate(-9px,-16px) rotate(calc(var(--r,0deg) - 5deg))}}
   @media (prefers-reduced-motion:reduce){.floater .fl-in{animation:none}}
+  /* social proof above guides */
+  .social-proof{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0 auto 32px;text-align:center}
+  .sp-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
+  .sp-avatars{display:inline-flex}
+  .sp-av{width:46px;height:46px;border-radius:50%;border:3px solid var(--paper);box-shadow:0 0 0 1.5px var(--ink);margin-left:-13px}
+  .sp-av:first-child{margin-left:0}
+  .sp-av.a1{background:linear-gradient(135deg,#ffcaa8,#ff7f50)}
+  .sp-av.a2{background:linear-gradient(135deg,#f7b7c6,#e0607f)}
+  .sp-av.a3{background:linear-gradient(135deg,#ffd98a,#e8a13c)}
+  .sp-av.a4{background:linear-gradient(135deg,#a9d8c8,#5cae8e)}
+  .sp-av.a5{background:linear-gradient(135deg,#bcd0f0,#7f9fd8)}
+  .sp-stars{color:#f5a623;font-size:26px;letter-spacing:3px;line-height:1}
+  .sp-count{font-family:"Nunito";font-weight:700;font-size:17px;color:#4a443d;display:inline-flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center}
+  .sp-count b{font-family:"Oswald";font-weight:700;color:var(--ink);font-size:21px}
+  .sp-dot{width:11px;height:11px;border-radius:50%;background:#3bd671;flex:none;animation:sp-pulse 1.8s infinite}
+  @keyframes sp-pulse{0%{box-shadow:0 0 0 0 rgba(59,214,113,.55)}70%{box-shadow:0 0 0 9px rgba(59,214,113,0)}100%{box-shadow:0 0 0 0 rgba(59,214,113,0)}}
 </style>
 </head>
 <body>
@@ -355,6 +371,13 @@
 
   <!-- GUIDES -->
   <section id="guides">
+    <div class="social-proof">
+      <div class="sp-row">
+        <div class="sp-avatars"><span class="sp-av a1"></span><span class="sp-av a2"></span><span class="sp-av a3"></span><span class="sp-av a4"></span><span class="sp-av a5"></span></div>
+        <div class="sp-stars" aria-label="5 out of 5">★★★★★</div>
+      </div>
+      <div class="sp-count"><b>15,857</b> people already grabbed it and use it<span class="sp-dot" aria-hidden="true"></span></div>
+    </div>
     <div class="cards">
 
       <div class="card">
