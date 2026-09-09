@@ -819,6 +819,12 @@
     if (["shorts", "tiktok"].includes(p) || (p === "reels" && arr(d.ideas).length)) {
       arr(d.ideas).forEach((it, i) => { head((i + 1) + ". " + (it.idea || "")); add(t("r_hook"), it.hook); add("Сценарий", it.scenario); add("Подпись", it.caption); });
     } else if (p === "reels") {
+      const b = d._brief;
+      if (b && typeof b === "object") {
+        head("📋 " + t("rb_brief_h"));
+        add(t("rb_audience_lbl"), b.audience); add(t("rb_goal_lbl"), b.goal); add(t("rb_promo_lbl"), b.promo);
+        add(t("rb_idea_lbl"), b.idea); add(t("rb_style_lbl"), b.style); add(t("rb_format_lbl"), b.format); add(t("rb_length_lbl"), b.length);
+      }
       add(t("rb_r_analysis"), d.analysis);
       head("🔥 " + t("rb_r_hook")); add("", d.hook);
       head("🧠 " + t("rb_r_dev")); add("", d.development);

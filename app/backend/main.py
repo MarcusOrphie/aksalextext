@@ -253,6 +253,11 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     # запоминаем выбранный дизайн визуала, чтобы история открывала картинки в том же шаблоне
     if isinstance(data, dict) and req.platform in ("carousel", "post", "stories", "reels_cover") and req.design:
         data["_design"] = req.design
+    # сохраняем бриф ролика (заполненные пункты) в историю
+    if isinstance(data, dict) and req.platform == "reels" and brief:
+        filled = {k: str(v).strip() for k, v in brief.items() if v and str(v).strip()}
+        if filled:
+            data["_brief"] = filled
     gid = usage.record(user["id"], req.platform, req.topic, data)
     if gid:
         result["generation_id"] = gid
