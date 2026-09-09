@@ -111,6 +111,10 @@
   .herologo svg{width:100%;height:auto;display:block}
   .byline{display:inline-flex;align-items:center;gap:8px;margin:0 auto 20px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.08em;color:var(--muted)}
   .byline img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 18%;box-shadow:2px 2px 0 var(--ink)}
+  .author-float{position:absolute;top:30px;left:0;z-index:4;display:flex;flex-direction:column;align-items:center;gap:8px;transform:rotate(-5deg)}
+  .author-float img{width:104px;height:104px;border-radius:50%;border:4px solid var(--ink);box-shadow:6px 6px 0 var(--coral);object-fit:cover;object-position:50% 20%;display:block;background:var(--coral-soft)}
+  .author-float span{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.05em;color:var(--muted);background:var(--paper2);border:2px solid var(--ink);border-radius:999px;padding:3px 9px;box-shadow:2px 2px 0 var(--ink)}
+  @media(max-width:900px){.author-float{position:static;transform:none;flex-direction:row;gap:8px;justify-content:center;margin:0 auto 14px}.author-float img{width:56px;height:56px;box-shadow:3px 3px 0 var(--coral);border-width:3px}.author-float span{font-size:11px}}
   h1.title{font-size:clamp(33px,9.2vw,48px);letter-spacing:.005em;margin:0 auto 16px;max-width:15ch;text-wrap:balance;overflow-wrap:break-word}
   .hero .lead{font-size:18px;color:#332e29;max-width:46ch;margin:0 auto 26px;font-weight:700}
   .hero-cta{display:flex;flex-direction:column;gap:12px;max-width:460px;margin:0 auto 22px}
@@ -357,6 +361,7 @@
   <header class="hero">
     <span class="doodle d1" style="top:20px;left:6px;font-size:26px">✦</span>
     <span class="doodle d2" style="top:80px;right:4px;font-size:20px;color:var(--ink)">✱</span>
+    <div class="author-float"><img src="/face1.jpg" alt="Саша Аксенов"><span>by Саша Аксенов</span></div>
     <div class="herologo">
       <svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Залихват"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg>
     </div>
