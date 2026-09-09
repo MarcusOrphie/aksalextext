@@ -85,6 +85,8 @@
     .navlinks a:not(.btn){display:block;font-size:13.5px;padding:9px 11px;border-radius:9px;color:var(--ink)}
     .navlinks a:not(.btn):hover{background:var(--coral-soft);color:var(--coral-deep);text-shadow:none}
     .navlinks .langsw{align-self:flex-start;margin:5px 0 2px 9px}
+    .navlinks .langsw a{padding:5px 9px;font-size:12px;color:var(--muted);background:var(--paper2);border-radius:0}
+    .navlinks .langsw a.on{background:var(--ink);color:var(--paper)}
     .nav .navcta{width:100%;padding:11px;font-size:13px;min-height:46px;margin-top:5px}}
 
   /* buttons */
@@ -114,8 +116,8 @@
   .res-strips{display:flex;flex-direction:column;gap:16px;flex:0 1 348px;min-width:260px;padding-left:44px;position:relative}
   .res-strips img{width:100%;height:auto}
   .res-growth{position:relative;display:flex;flex-direction:column;gap:16px}
-  .growth-arrow{position:absolute;left:-48px;top:50%;transform:translateY(-50%);width:50px;height:184px;overflow:visible;pointer-events:none}
-  .growth-arrow path{fill:none;stroke:var(--coral);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+  .growth-arrow{position:absolute;left:-52px;top:50%;transform:translateY(-50%);width:56px;height:190px;overflow:visible;pointer-events:none}
+  .growth-arrow path{fill:none;stroke:var(--coral);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round}
   .res-phone{width:206px;height:auto}
   @media(max-width:760px){.results{gap:12px}.res-strips{flex:1 1 100%;order:-1}.res-phone{width:46%;min-width:150px}}
 
@@ -429,7 +431,7 @@
       <div class="res-strips">
         <div class="res-growth">
           <img src="/stat/5.jpg" width="720" height="243" alt="Было: 453 подписчика" loading="lazy">
-          <svg class="growth-arrow" viewBox="0 0 48 182" aria-hidden="true"><path d="M41 9 C 5 38, 4 140, 33 170"/><path d="M33 170 L18 165 M33 170 L28 155"/></svg>
+          <svg class="growth-arrow" viewBox="0 0 60 190" aria-hidden="true"><path d="M50 12 C 8 32, 2 130, 22 166 C 27 175, 34 175, 43 165"/><path d="M43 165 Q 37 173 35 178 M43 165 Q 34 164 28 165"/></svg>
           <img src="/stat/1.jpg" width="720" height="231" alt="Стало: 10,9 тыс. подписчиков" loading="lazy">
         </div>
         <img src="/stat/2.jpg" width="720" height="168" alt="Просмотры 2 млн, +901 подписчик" loading="lazy">
