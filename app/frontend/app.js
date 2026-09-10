@@ -1148,7 +1148,7 @@
 
   // «Мой дизайн» = просто список твоих фото на платформу (одна фотка на слайд, циклично), у каждого свой шаблон.
   // Индекс {uid}/_designs.json: {carousel:[{path,layout}], post:[...], stories:[...]}. Картинки в Storage. DDL не нужен.
-  const LAYOUTS = ["poster_bottom", "poster_top", "band", "minimal"];
+  const LAYOUTS = ["poster_bottom", "poster_top", "poster_center", "band", "minimal"];
   const MINE = "myphotos";   // единый id «использую мои фото» в carState.sel
   function newPhotoId() { return "p_" + Math.random().toString(16).slice(2, 10); }
   function isCustom(id) { return !!id && CTEMPLATES.indexOf(id) < 0; }   // не встроенный шаблон = мои фото
@@ -1490,10 +1490,14 @@
     node.style.backgroundColor = "#14110f";   // фолбэк, пока фото декодируется
     let anchor = "bottom", light = (cv.textColor !== "dark");
     if (layout === "poster_top") anchor = "top";
+    else if (layout === "poster_center") anchor = "center";
     else if (layout === "band" || layout === "minimal") anchor = cv.textZone === "top" ? "top" : "bottom";
     if (layout === "poster_bottom" || layout === "poster_top") {
       light = true;
       node.appendChild(el("div", "cs-ov cs-grad-" + anchor));
+    } else if (layout === "poster_center") {
+      light = true;
+      node.appendChild(el("div", "cs-ov cs-grad-center"));   // равномерное затемнение под центральный текст
     }
     return { anchor: anchor, light: light };
   }
@@ -1575,8 +1579,8 @@
     }
     if (s.text) { const tx = el("div", "cs-text", slideText(s.text)); tx.style.fontFamily = fp.bf; setColor(tx, "#f3efe9"); tw.appendChild(tx); }
     if (customImg && tw !== node) node.appendChild(tw);
-    // якорение блока под раскладку (низ/верх)
-    if (anchor) node.style.justifyContent = anchor === "top" ? "flex-start" : "flex-end";
+    // якорение блока под раскладку (низ/верх/центр)
+    if (anchor) node.style.justifyContent = anchor === "top" ? "flex-start" : anchor === "center" ? "center" : "flex-end";
     // ручные правки положения текста (кнопка «Переделать»: выше/ниже/влево/вправо)
     if (s.alignV) node.style.justifyContent = s.alignV === "top" ? "flex-start" : s.alignV === "bottom" ? "flex-end" : "center";
     if (s.alignH) {

@@ -413,6 +413,8 @@ em{font-style:normal;color:var(--coral)}
 .cslide.photolay .cs-hi{color:var(--coral)}
 .cslide .cs-grad-bottom{background:linear-gradient(180deg,transparent 28%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.9))}
 .cslide .cs-grad-top{background:linear-gradient(0deg,transparent 28%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.9))}
+.cslide .cs-grad-center{background:linear-gradient(180deg,rgba(0,0,0,.32),rgba(0,0,0,.6) 50%,rgba(0,0,0,.32))}
+.cslide.photolay.lay-poster_center{justify-content:center}
 .cslide.photolay .cs-tw.cs-band{background:rgba(17,14,12,.6);padding:44px 52px;border-radius:30px;width:auto}
 .cslide.photolay.lay-band .cs-hi,.cslide.photolay.lay-minimal .cs-hi{color:var(--coral)}
 .cslide.sq.photolay .cs-title{font-size:96px}
