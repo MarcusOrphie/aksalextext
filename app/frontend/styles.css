@@ -276,6 +276,22 @@ em{font-style:normal;color:var(--coral)}
 .lay-band .lay-prev::after{bottom:9px;background:rgba(20,17,15,.75);box-shadow:0 0 0 3px rgba(255,127,80,.5)}
 .lay-minimal .lay-prev::after{bottom:14px;height:6px;background:#fff}
 .lay-chip .lay-name{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:9px;letter-spacing:.03em;color:var(--ink);white-space:nowrap}
+/* редактор фото выбранного дизайна: фото в ряд, у каждого свой шаблон */
+.pe-row{display:flex;gap:12px;flex-wrap:wrap}
+.pe-card{display:flex;flex-direction:column;gap:6px;width:104px}
+.pe-thumb{position:relative;width:104px;height:130px;border:2.5px solid var(--ink);border-radius:10px;box-shadow:2px 2px 0 var(--ink);background:#14110f center/cover no-repeat;overflow:hidden}
+.pe-thumb .pe-num{position:absolute;top:4px;left:4px;background:var(--ink);color:var(--paper);font-family:"Oswald";font-weight:700;font-size:11px;border-radius:6px;padding:0 6px;line-height:1.6}
+.pe-thumb .cd-del{top:4px;right:4px}
+.pe-lays{display:flex;gap:4px;justify-content:space-between}
+.pe-lay{flex:1;padding:4px 0;background:var(--paper2);border:2px solid var(--ink);border-radius:7px;cursor:pointer;display:flex;justify-content:center;box-shadow:1px 1px 0 var(--ink)}
+.pe-lay.on{outline:2.5px solid var(--coral);outline-offset:1px}
+.pe-lay .lay-prev{width:16px;height:20px;border-radius:3px}
+.pe-add{align-items:center;justify-content:center}
+.pe-add{width:104px;height:130px;border:2.5px dashed var(--ink);border-radius:10px;background:var(--paper);cursor:pointer;color:var(--coral-deep)}
+.pe-add:hover{background:var(--coral-soft)}
+.pe-add .pe-add-plus{font-size:30px;font-weight:700;line-height:1}
+.pe-add .pe-add-t{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:9px;letter-spacing:.03em;text-align:center;padding:0 6px}
+.pe-add.busy{opacity:.6;pointer-events:none}
 .cdchip{cursor:pointer;border:2.5px solid var(--ink);border-radius:10px;overflow:hidden;aspect-ratio:4/5;position:relative;box-shadow:2px 2px 0 var(--ink);transition:transform .1s}
 .cdchip:hover{transform:translate(-1px,-1px)}
 .cdchip.on{outline:3px solid var(--coral);outline-offset:1px}

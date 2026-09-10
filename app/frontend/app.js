@@ -345,7 +345,7 @@
       const res = await fetch(API + "/generate", {
         method: "POST",
         headers: { "content-type": "application/json", "authorization": "Bearer " + token },
-        body: JSON.stringify(Object.assign({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText, design: effectiveDesign(), design_layout: _designLayoutSel(), design_photos: _designPhotosSel(), count: (platform === "stories" ? parseInt(($("stories-count") || {}).value || "0", 10) : 0) }, platform === "reels" ? reelsBrief() : {})),
+        body: JSON.stringify(Object.assign({ platform, topic, profile, lang: window.ZI18N.getLang(), user_text: userText, design: effectiveDesign(), design_layout: _designLayoutSel(), design_layouts: _designLayoutsSel(), design_photos: _designPhotosSel(), count: (platform === "stories" ? parseInt(($("stories-count") || {}).value || "0", 10) : 0) }, platform === "reels" ? reelsBrief() : {})),
       });
       stopThink();
       if (res.status === 402) {
@@ -949,10 +949,16 @@
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
     let eff = d._design || "coral";
     const isPhoto = isCustom(eff);
-    // фото-дизайн в истории: раскладка и фото - из сохранённых полей записи (переживают удаление из библиотеки), иначе из библиотеки
+    // фото-дизайн в истории: фото и раскладки - из сохранённых полей записи (переживают удаление из библиотеки), иначе из библиотеки
     const histPhotos = Array.isArray(d._design_photos) ? d._design_photos : null;
-    const histLayout = (d._design_layout && LAYOUTS.indexOf(d._design_layout) >= 0) ? d._design_layout
-      : (isPhoto ? layoutOf(findDesign(mode, eff)) : null);
+    const histLayouts = Array.isArray(d._design_layouts) ? d._design_layouts : null;
+    const dItemH = isPhoto ? findDesign(mode, eff) : null;
+    const phsH = dItemH ? photosOf(dItemH) : [];
+    const layoutFor = (i) => {
+      if (histLayouts && histLayouts.length) return normLayout(histLayouts[i % histLayouts.length]);
+      if (phsH.length) return layoutOfPhoto(phsH[i % phsH.length], dItemH);
+      return normLayout(d._design_layout);
+    };
     const slides = [];
     if (mode === "carousel") {
       if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide });
@@ -990,7 +996,7 @@
         if (histPhotos && histPhotos.length) customImg = await getPhotoByPath(histPhotos[i % histPhotos.length]);
         else customImg = await getDesignImg(mode, eff, i);
       }
-      const cell = await buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, genId || null, histLayout);
+      const cell = await buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, genId || null, layoutFor(i));
       if (cell) outBox.appendChild(cell);
     }
     container.appendChild(outBox);
@@ -1117,8 +1123,29 @@
   try { const c = JSON.parse(localStorage.getItem("zh_dcol") || "null"); if (c && typeof c === "object") Object.assign(carState.collapse, c); } catch (e) {}
   let meState = null;
   let renderSeq = 0;   // защита от гонки: актуален только последний запуск рендера визуалов
+  let addTargetId = null;   // при загрузке фото: null = новый дизайн, id = добавить в этот дизайн
 
   function blobToDataURL(blob) { return new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); }); }
+  // ужать фото до maxPx по длинной стороне и пережать в JPEG - снимает лимит размера и ускоряет рендер
+  function downscaleImage(file, maxPx, quality) {
+    return new Promise(resolve => {
+      let url; try { url = URL.createObjectURL(file); } catch (e) { return resolve(file); }
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const w = img.naturalWidth || img.width, h = img.naturalHeight || img.height;
+          const scale = Math.min(1, (maxPx || 1600) / Math.max(w, h));
+          const cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+          const c = document.createElement("canvas"); c.width = cw; c.height = ch;
+          c.getContext("2d").drawImage(img, 0, 0, cw, ch);
+          try { URL.revokeObjectURL(url); } catch (e) {}
+          c.toBlob(b => resolve(b && b.size ? b : file), "image/jpeg", quality || 0.85);
+        } catch (e) { try { URL.revokeObjectURL(url); } catch (x) {} resolve(file); }
+      };
+      img.onerror = () => { try { URL.revokeObjectURL(url); } catch (e) {} resolve(file); };
+      img.src = url;
+    });
+  }
 
   // Библиотека своих дизайнов (отдельная на каждую платформу). Индекс - {uid}/_designs.json.
   // Дизайн = фото-сет: { id, name, layout, photos:[{path},...] } (одна фотка на слайд, циклично).
@@ -1126,9 +1153,21 @@
   const LAYOUTS = ["poster_bottom", "poster_top", "band", "minimal"];
   function newDesignId() { return "c_" + Math.random().toString(16).slice(2, 10); }
   function isCustom(id) { return !!id && CTEMPLATES.indexOf(id) < 0; }   // не встроенный шаблон = свой дизайн
-  function photosOf(it) { return it && Array.isArray(it.photos) ? it.photos : (it && it.path ? [{ path: it.path }] : []); }  // норм. старых записей
-  function layoutOf(it) { return (it && LAYOUTS.indexOf(it.layout) >= 0) ? it.layout : "poster_bottom"; }
+  function normLayout(l) { return LAYOUTS.indexOf(l) >= 0 ? l : "poster_bottom"; }
+  function photosOf(it) { return it && Array.isArray(it.photos) ? it.photos : (it && it.path ? [{ path: it.path }] : []); }
+  function layoutOfPhoto(p, it) { return normLayout((p && p.layout) || (it && it.layout)); }   // раскладка у каждого фото своя
+  function layoutOf(it) { return normLayout(it && it.layout); }
   function findDesign(platform, id) { return (carState.designs[platform] || []).find(x => x.id === id) || null; }
+  // привести все дизайны к виду {id,name,photos:[{path,layout}]} - раскладка на каждом фото
+  function normalizeDesigns() {
+    ["carousel", "post", "stories"].forEach(k => {
+      (carState.designs[k] || []).forEach(it => {
+        const setLay = normLayout(it.layout);
+        it.photos = photosOf(it).map(p => ({ path: p.path, layout: normLayout(p.layout || setLay) }));
+        delete it.layout;
+      });
+    });
+  }
   async function designsLoad() {
     try {
       const { data: u } = await sb.auth.getUser(); if (!u.user) return;
@@ -1146,12 +1185,12 @@
           if (j.bg) {
             try { const { data: b } = await sb.storage.from("uploads").download(j.bg); if (b) carState.customBg = await blobToDataURL(b); } catch (e) {}
             if (!idx && !carState.designs.carousel.length) {
-              carState.designs.carousel = [{ id: newDesignId(), name: t("d_default_name"), layout: "poster_bottom", photos: [{ path: j.bg }] }];
-              await designsWrite();
+              carState.designs.carousel = [{ id: newDesignId(), name: t("d_default_name"), photos: [{ path: j.bg, layout: "poster_bottom" }] }];
             }
           }
         }
       } catch (e) {}
+      normalizeDesigns();
     } catch (e) {}
   }
   async function designsWrite() {
@@ -1239,7 +1278,7 @@
     carState.sel[platform] = id;
     try { localStorage.setItem("zh_sel", JSON.stringify(carState.sel)); } catch (e) {}
     syncSelHighlight();
-    renderLayoutPicker();   // показать/скрыть выбор шаблона раскладки под свой фото-дизайн
+    renderPhotoEditor();   // показать/скрыть редактор фото выбранного дизайна
   }
   function updateCarouselPanel() {
     toggleCoverPanel();
@@ -1278,20 +1317,18 @@
     else left.textContent = "";
   }
 
-  // блок «Мой дизайн»: фото-сеты текущей платформы (превью первого фото + бейдж ×N) + плитка загрузки + удаление
+  // блок «Мой дизайн»: карточки-дизайны текущей платформы (превью) + плитка загрузки. При выборе - редактор фото.
   function renderMyDesigns() {
     const box = $("my-designs"); if (!box) return;
     box.textContent = "";
     const lib = carState.designs[platform] || [];
     const cur = carState.sel[platform];
     lib.forEach(it => {
-      const photos = photosOf(it);
       const chip = el("div", "cdchip custom" + (cur === it.id ? " on" : ""));
       chip.dataset.id = it.id;
       const mini = el("div", "cd-mini");
       getDesignImg(platform, it.id, 0).then(u => { if (u) mini.style.backgroundImage = "url(" + u + ")"; });
       chip.appendChild(mini);
-      if (photos.length > 1) chip.appendChild(el("div", "cd-count", "×" + photos.length));
       chip.appendChild(el("div", "cd-name", it.name || t("d_default_name")));
       const del = el("button", "cd-del", "✕"); del.type = "button"; del.title = t("d_del");
       del.onclick = (e) => { e.stopPropagation(); deleteMyDesign(it.id); };
@@ -1299,64 +1336,96 @@
       chip.onclick = () => pickDesign(it.id);
       box.appendChild(chip);
     });
-    // плитка загрузки нового дизайна (можно выбрать несколько фото сразу)
+    // плитка загрузки нового дизайна (можно выбрать до 10 фото сразу)
     const add = el("div", "cdchip cd-add");
     add.appendChild(el("div", "cd-add-plus", "＋"));
     add.appendChild(el("div", "cd-add-t", t("d_my_add")));
-    add.onclick = () => { const f = $("my-design-file"); if (f) { try { f.value = ""; } catch (e) {} f.click(); } };
+    add.onclick = () => { addTargetId = null; const f = $("my-design-file"); if (f) { try { f.value = ""; } catch (e) {} f.click(); } };
     box.appendChild(add);
-    renderLayoutPicker();
+    renderPhotoEditor();
   }
-  // выбор шаблона раскладки - только когда выбран свой фото-дизайн
-  function renderLayoutPicker() {
+  // редактор выбранного дизайна: все фото в ряд, у каждого - свой шаблон раскладки + удаление; можно добавить фото
+  function renderPhotoEditor() {
     const wrap = $("lay-picker"); if (!wrap) return;
     const id = carState.sel[platform];
     const it = isCustom(id) ? findDesign(platform, id) : null;
     if (!it) { wrap.hidden = true; wrap.textContent = ""; return; }
+    const photos = photosOf(it);
     wrap.hidden = false; wrap.textContent = "";
-    wrap.appendChild(el("div", "lay-h", t("lay_h")));
-    const row = el("div", "lay-row");
-    const cur = layoutOf(it);
-    LAYOUTS.forEach(lay => {
-      const c = el("button", "lay-chip lay-" + lay + (cur === lay ? " on" : "")); c.type = "button";
-      c.appendChild(el("span", "lay-prev"));
-      c.appendChild(el("span", "lay-name", t("lay_" + lay)));
-      c.onclick = () => {
-        it.layout = lay; designsWrite();
-        row.querySelectorAll(".lay-chip").forEach(x => x.classList.toggle("on", x === c));
-      };
-      row.appendChild(c);
+    wrap.appendChild(el("div", "lay-h", t("pe_h")));
+    const row = el("div", "pe-row");
+    photos.forEach((p, i) => {
+      const card = el("div", "pe-card");
+      const thumb = el("div", "pe-thumb");
+      getDesignImg(platform, it.id, i).then(u => { if (u) thumb.style.backgroundImage = "url(" + u + ")"; });
+      thumb.appendChild(el("span", "pe-num", String(i + 1)));
+      const x = el("button", "cd-del", "✕"); x.type = "button"; x.title = t("d_del");
+      x.onclick = () => deletePhoto(it.id, i);
+      thumb.appendChild(x);
+      card.appendChild(thumb);
+      // выбор шаблона раскладки для ЭТОГО фото
+      const lays = el("div", "pe-lays");
+      LAYOUTS.forEach(lay => {
+        const b = el("button", "pe-lay lay-" + lay + (layoutOfPhoto(p, it) === lay ? " on" : "")); b.type = "button";
+        b.title = t("lay_" + lay); b.appendChild(el("span", "lay-prev"));
+        b.onclick = () => { p.layout = lay; designsWrite(); lays.querySelectorAll(".pe-lay").forEach(z => z.classList.toggle("on", z === b)); };
+        lays.appendChild(b);
+      });
+      card.appendChild(lays);
+      row.appendChild(card);
     });
+    // добавить ещё фото в этот дизайн
+    const addp = el("div", "pe-card pe-add");
+    addp.appendChild(el("div", "pe-add-plus", "＋"));
+    addp.appendChild(el("div", "pe-add-t", t("pe_add")));
+    addp.onclick = () => { addTargetId = it.id; const f = $("my-design-file"); if (f) { try { f.value = ""; } catch (e) {} f.click(); } };
+    row.appendChild(addp);
     wrap.appendChild(row);
   }
   async function uploadMyDesign(files) {
     const list = files && files.length ? Array.prototype.slice.call(files) : (files ? [files] : []);
     if (!list.length) return;
-    let good = list.filter(f => f && f.size <= 15 * 1024 * 1024);
-    if (good.length < list.length) alert(t("file_too_big"));
+    let good = list.filter(f => f && (/^image\//.test(f.type || "") || /\.(jpe?g|png|webp|gif|bmp|heic|heif)$/i.test(f.name || "")));
+    if (good.length < list.length) alert(t("file_not_image"));
     if (good.length > 10) { alert(t("d_max10")); good = good.slice(0, 10); }   // до 10 фото в дизайне (по одной на слайд)
     if (!good.length) return;
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
     const plat = platform;
-    const id = newDesignId();
-    const add = $("my-designs") && $("my-designs").querySelector(".cd-add");
-    if (add) { add.classList.add("busy"); const tt = add.querySelector(".cd-add-t"); if (tt) tt.textContent = t("d_uploading"); }
+    carState.designs[plat] = carState.designs[plat] || [];
+    // добавляем в выбранный дизайн (addTargetId) или создаём новый
+    let target = addTargetId ? carState.designs[plat].find(x => x.id === addTargetId) : null;
+    const id = target ? target.id : newDesignId();
+    const base = target ? photosOf(target).length : 0;
+    const busy = target ? $("lay-picker") && $("lay-picker").querySelector(".pe-add") : $("my-designs") && $("my-designs").querySelector(".cd-add");
+    if (busy) { busy.classList.add("busy"); const tt = busy.querySelector(".cd-add-t, .pe-add-t"); if (tt) tt.textContent = t("d_uploading"); }
     const photos = [];
     for (let i = 0; i < good.length; i++) {
-      const f = good[i];
-      const ext = (f.name.split(".").pop() || "jpg").replace(/[^\w]/g, "").slice(0, 5) || "jpg";
-      const path = u.user.id + "/designs/" + plat + "/" + id + "/" + i + "." + ext;
-      const { error } = await sb.storage.from("uploads").upload(path, f, { upsert: true });
+      const blob = await downscaleImage(good[i], 1600, 0.85);   // сжимаем большие фото -> без лимита 15 МБ и быстрый рендер
+      const path = u.user.id + "/designs/" + plat + "/" + id + "/" + (base + i) + "_" + Math.random().toString(16).slice(2, 6) + ".jpg";
+      const { error } = await sb.storage.from("uploads").upload(path, blob, { upsert: true, contentType: "image/jpeg" });
       if (error) { alert(t("upload_err") + error.message); continue; }
-      carState.designImg[id + ":" + path] = await blobToDataURL(f);   // прогреваем кэш под ключ getDesignImg
-      photos.push({ path });
+      carState.designImg[id + ":" + path] = await blobToDataURL(blob);   // прогреваем кэш под ключ getDesignImg
+      photos.push({ path, layout: "poster_bottom" });
     }
     if (!photos.length) { renderMyDesigns(); return; }
-    (carState.designs[plat] = carState.designs[plat] || []).push({ id, name: t("d_default_name") + " " + (carState.designs[plat].length + 1), layout: "poster_bottom", photos });
+    if (target) { target.photos = photosOf(target).concat(photos); }
+    else { carState.designs[plat].push({ id, name: t("d_default_name") + " " + (carState.designs[plat].length + 1), photos }); }
+    addTargetId = null;
     await designsWrite();
     carState.sel[plat] = id;
     try { localStorage.setItem("zh_sel", JSON.stringify(carState.sel)); } catch (e) {}
     if (platform === plat) { renderMyDesigns(); syncSelHighlight(); }
+  }
+  async function deletePhoto(id, idx) {
+    const plat = platform;
+    const it = findDesign(plat, id); if (!it) return;
+    const photos = photosOf(it);
+    if (photos.length <= 1) { deleteMyDesign(id); return; }   // последнее фото - удаляем весь дизайн
+    const p = photos[idx]; if (!p) return;
+    it.photos = photos.filter((_, i) => i !== idx);
+    if (p.path) { delete carState.designImg[id + ":" + p.path]; try { if (p.path.indexOf("/designs/") >= 0) await sb.storage.from("uploads").remove([p.path]); } catch (e) {} }
+    await designsWrite();
+    renderPhotoEditor();
   }
   async function deleteMyDesign(id) {
     const plat = platform;
@@ -1381,8 +1450,9 @@
     return id;
   }
   function _selDesignItem() { const id = effectiveDesign(); return isCustom(id) ? findDesign(platform, id) : null; }
-  function _designLayoutSel() { const it = _selDesignItem(); return it ? layoutOf(it) : ""; }               // для истории
+  function _designLayoutSel() { const it = _selDesignItem(); return it ? layoutOfPhoto(photosOf(it)[0], it) : ""; }   // раскладка первого фото (для совместимости)
   function _designPhotosSel() { const it = _selDesignItem(); return it ? photosOf(it).map(p => p.path).slice(0, 20) : []; }
+  function _designLayoutsSel() { const it = _selDesignItem(); return it ? photosOf(it).map(p => layoutOfPhoto(p, it)).slice(0, 20) : []; }   // раскладка на каждое фото - для истории
 
   const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" }, reels_cover: { w: 1080, h: 1920, cls: "st cover-slide" } };
   // Ужимаем шрифт заголовка/текста, пока весь контент не влезет в слайд (не режется по краям)
@@ -1770,7 +1840,8 @@
     if (rseq !== renderSeq) return;   // пока грузились шрифты, кликнули другую запись
     const eff = d._design || effectiveDesign();
     const isPhoto = isCustom(eff);
-    const layout = isPhoto ? layoutOf(findDesign(mode, eff)) : null;   // шаблон раскладки фото-дизайна
+    const dItem = isPhoto ? findDesign(mode, eff) : null;
+    const phs = dItem ? photosOf(dItem) : [];   // одна фотка на слайд, у каждой свой шаблон
     const slides = [];
     if (mode === "carousel") {
       if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide });
@@ -1782,8 +1853,9 @@
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
-      const customImg = isPhoto ? await getDesignImg(mode, eff, i) : null;   // одна фотка на слайд, циклично
-      const cell = await buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, out.generation_id || null, layout);
+      const ph = phs.length ? phs[i % phs.length] : null;
+      const customImg = ph ? await getDesignImg(mode, eff, i) : null;
+      const cell = await buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, out.generation_id || null, ph ? layoutOfPhoto(ph, dItem) : null);
       if (rseq !== renderSeq) return;   // кликнули другую запись - бросаем устаревший рендер
       if (cell) outBox.appendChild(cell);
     }
@@ -1812,7 +1884,9 @@
     if (rseq !== renderSeq) return;
     const eff = d._design || effectiveDesign();
     const isPhoto = isCustom(eff);
-    const layout = isPhoto ? layoutOf(findDesign("post", eff)) : null;
+    const dItem = isPhoto ? findDesign("post", eff) : null;
+    const ph0 = dItem ? photosOf(dItem)[0] : null;
+    const layout = ph0 ? layoutOfPhoto(ph0, dItem) : null;
     const customImg = isPhoto ? await getDesignImg("post", eff, 0) : null;
     const slides = [{ cover: true, title: d.hook }];
     const outBox = el("div", "cs-out");
