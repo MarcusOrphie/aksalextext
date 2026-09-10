@@ -198,7 +198,7 @@
     applyI18n();
     setAuthMode(currentAuthMode());
     renderPlatforms();
-    renderProfileDesigns();
+    updateCarouselPanel();
     if (signedIn) { loadMe(); loadHistory(); }
     if (lastOut) renderResult(lastOut);
   }
@@ -794,7 +794,6 @@
     try { profile.gender = profile.gender || localStorage.getItem("zh_gender") || ""; } catch (e) {}
     { const pg = document.getElementById("p-gender"); if (pg) pg.value = profile.gender || ""; }
     await loadUploads();
-    await carPrefsRead(); renderProfileDesigns();
   }
   $("btn-save").onclick = async () => {
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
@@ -946,7 +945,8 @@
       await Promise.all(FAM.map(f => document.fonts.load("700 60px '" + f + "'").catch(() => {})));
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
-    let eff = d._design || "coral"; if (eff === "custom") eff = "coral";
+    let eff = d._design || "coral";
+    const customImg = isCustom(eff) ? await getDesignImg(mode, eff) : null;
     const slides = [];
     if (mode === "carousel") {
       if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide });
@@ -979,7 +979,7 @@
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
-      const cell = await buildVisualCell(slides, i, mode, eff, false, urls, thumbs, genId || null);
+      const cell = await buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, genId || null);
       if (cell) outBox.appendChild(cell);
     }
     container.appendChild(outBox);
@@ -1007,6 +1007,7 @@
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
       carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left; carState.coverLeft = m.cover_left;
       carState.pro = !!m.visual_pro; carState.visualUnlim = !!m.visual_unlimited; carState.email = m.email || ""; knownEmail = m.email || ""; meState = m;
+      if (!carState._designsLoaded) { carState._designsLoaded = true; await designsLoad(); }
       updateCarouselPanel(); renderPlatforms();
     } catch (e) { box.hidden = true; showPlans(false); }
   }
@@ -1091,38 +1092,73 @@
     else inner = _flower(40, 22, 20, d.a, d.b);
     return '<svg class="cd-deco" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">' + inner + "</svg>";
   }
-  const carState = { design: "my", myDesign: "coral", customBg: null, left: null, postLeft: null, storiesLeft: null, pro: false, email: "", carSize: "45" };
+  const carState = {
+    customBg: null, left: null, postLeft: null, storiesLeft: null, pro: false, email: "", carSize: "45",
+    // библиотека своих дизайнов - отдельная для каждой платформы (не пересекаются)
+    designs: { carousel: [], post: [], stories: [] },
+    designImg: {},   // кэш id дизайна -> dataURL картинки
+    sel: { carousel: "coral", post: "coral", stories: "coral", reels_cover: "coral" },   // выбранный дизайн на каждой платформе
+    collapse: { design: false, mydesign: false },
+    _designsLoaded: false,
+  };
   try { const s = localStorage.getItem("zh_car_size"); if (s === "34" || s === "45") carState.carSize = s; } catch (e) {}
+  try { const s = JSON.parse(localStorage.getItem("zh_sel") || "null"); if (s && typeof s === "object") Object.assign(carState.sel, s); } catch (e) {}
+  try { const c = JSON.parse(localStorage.getItem("zh_dcol") || "null"); if (c && typeof c === "object") Object.assign(carState.collapse, c); } catch (e) {}
   let meState = null;
   let renderSeq = 0;   // защита от гонки: актуален только последний запуск рендера визуалов
-  try { const s = localStorage.getItem("zh_car_mydesign"); if (s) carState.myDesign = s; } catch (e) {}
 
   function blobToDataURL(blob) { return new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(blob); }); }
 
-  async function carPrefsRead() {
+  // Библиотека своих дизайнов (отдельная на каждую платформу). Индекс - {uid}/_designs.json,
+  // картинки - {uid}/designs/{platform}/{id}.{ext}. DDL не нужен, всё в Storage.
+  function newDesignId() { return "c_" + Math.random().toString(16).slice(2, 10); }
+  function isCustom(id) { return !!id && CTEMPLATES.indexOf(id) < 0; }   // не встроенный шаблон = свой дизайн
+  async function designsLoad() {
     try {
       const { data: u } = await sb.auth.getUser(); if (!u.user) return;
-      const { data } = await sb.storage.from("uploads").download(u.user.id + "/_carousel.json");
-      if (!data) return;
-      const j = JSON.parse(await data.text());
-      if (j.myDesign) { carState.myDesign = j.myDesign; try { localStorage.setItem("zh_car_mydesign", j.myDesign); } catch (e) {} }
-      if (j.bg) { try { const { data: b } = await sb.storage.from("uploads").download(j.bg); if (b) carState.customBg = await blobToDataURL(b); } catch (e) {} }
+      const uid = u.user.id;
+      let idx = null;
+      try { const { data } = await sb.storage.from("uploads").download(uid + "/_designs.json"); if (data) idx = JSON.parse(await data.text()); } catch (e) {}
+      if (idx && typeof idx === "object") {
+        ["carousel", "post", "stories"].forEach(k => { if (Array.isArray(idx[k])) carState.designs[k] = idx[k]; });
+      }
+      // миграция старого одиночного фона карусели в библиотеку + сохранение customBg для старой истории
+      try {
+        const { data } = await sb.storage.from("uploads").download(uid + "/_carousel.json");
+        if (data) {
+          const j = JSON.parse(await data.text());
+          if (j.bg) {
+            try { const { data: b } = await sb.storage.from("uploads").download(j.bg); if (b) carState.customBg = await blobToDataURL(b); } catch (e) {}
+            if (!idx && !carState.designs.carousel.length) {
+              carState.designs.carousel = [{ id: newDesignId(), name: t("d_default_name"), path: j.bg }];
+              await designsWrite();
+            }
+          }
+        }
+      } catch (e) {}
     } catch (e) {}
   }
-  async function carPrefsWrite(patch) {
+  async function designsWrite() {
     try {
       const { data: u } = await sb.auth.getUser(); if (!u.user) return;
-      let cur = {};
-      try { const { data } = await sb.storage.from("uploads").download(u.user.id + "/_carousel.json"); if (data) cur = JSON.parse(await data.text()); } catch (e) {}
-      const next = Object.assign(cur, patch);
-      await sb.storage.from("uploads").upload(u.user.id + "/_carousel.json",
-        new Blob([JSON.stringify(next)], { type: "application/json" }), { upsert: true });
+      const body = { carousel: carState.designs.carousel, post: carState.designs.post, stories: carState.designs.stories };
+      await sb.storage.from("uploads").upload(u.user.id + "/_designs.json",
+        new Blob([JSON.stringify(body)], { type: "application/json" }), { upsert: true });
     } catch (e) {}
+  }
+  async function getDesignImg(platform, id) {
+    if (!id) return null;
+    if (id === "custom") return carState.customBg || null;   // legacy: старые записи истории
+    if (carState.designImg[id]) return carState.designImg[id];
+    const lib = carState.designs[platform] || [];
+    const it = lib.find(x => x.id === id);
+    if (!it || !it.path) return null;
+    try { const { data } = await sb.storage.from("uploads").download(it.path); if (data) { const url = await blobToDataURL(data); carState.designImg[id] = url; return url; } } catch (e) {}
+    return null;
   }
 
-  function chipMini(cls, custom) {
+  function chipMini(cls) {
     const mini = el("div", "cd-mini " + cls);
-    if (custom && carState.customBg) mini.style.backgroundImage = "url(" + carState.customBg + ")";
     const id = cls.replace("ct-", "");
     const fp = fontOf(id);
     // образец шрифта заголовка в цвете шаблона (без брендинга)
@@ -1130,28 +1166,20 @@
     m1.style.fontFamily = fp.tf; m1.style.textTransform = fp.up ? "uppercase" : "none";
     m1.style.fontStyle = fp.ital ? "italic" : "normal"; m1.style.fontWeight = fp.wght || 700;
     mini.appendChild(m1); mini.appendChild(el("div", "m2"));
-    if (!custom && CDEF[id]) mini.insertAdjacentHTML("beforeend", miniDecoSVG(id));
+    if (CDEF[id]) mini.insertAdjacentHTML("beforeend", miniDecoSVG(id));
     return mini;
   }
+  // рендер плиток встроенных шаблонов («Готовые дизайны»)
   function renderChips(box, list, current, onPick) {
     box.textContent = "";
     list.forEach(tpl => {
       const chip = el("div", "cdchip" + (current === tpl.id ? " on" : ""));
       chip.dataset.id = tpl.id;
-      chip.appendChild(chipMini(tpl.cls, tpl.custom || (tpl.id === "my" && carState.myDesign === "custom")));
-      chip.appendChild(el("div", "cd-name", t("cd_" + (tpl.id === "my" ? "custom" : tpl.id))));
-      chip.onclick = () => { box.querySelectorAll(".cdchip").forEach(c => c.classList.toggle("on", c.dataset.id === tpl.id)); onPick(tpl.id); };
+      chip.appendChild(chipMini(tpl.cls));
+      chip.appendChild(el("div", "cd-name", t("cd_" + tpl.id)));
+      chip.onclick = () => onPick(tpl.id);
       box.appendChild(chip);
     });
-  }
-  function genChipList() {
-    const md = carState.myDesign;
-    const myCls = "ct-" + (md === "custom" ? "custom" : md);
-    return CTEMPLATES.map(id => ({ id, cls: "ct-" + id }))
-      .concat([{ id: "my", cls: myCls }]);
-  }
-  function profChipList() {
-    return CTEMPLATES.map(id => ({ id, cls: "ct-" + id })).concat([{ id: "custom", cls: "ct-custom", custom: true }]);
   }
   function toggleCoverPanel() {
     const p = $("cover-panel"); if (p) p.hidden = !(platform === "reels_cover" && carState.pro);
@@ -1167,6 +1195,23 @@
       box.appendChild(b);
     });
   }
+  function applyCollapse() {
+    const map = { design: $("dblock-design"), mydesign: $("dblock-my") };
+    for (const k in map) { const b = map[k]; if (b) b.classList.toggle("collapsed", !!carState.collapse[k]); }
+  }
+  // подсветить выбранный дизайн в обоих блоках (выбор может быть шаблоном ИЛИ своим дизайном)
+  function syncSelHighlight() {
+    const cur = carState.sel[platform];
+    ["car-designs", "my-designs"].forEach(bid => {
+      const box = $(bid); if (!box) return;
+      box.querySelectorAll(".cdchip").forEach(c => c.classList.toggle("on", c.dataset.id === cur));
+    });
+  }
+  function pickDesign(id) {
+    carState.sel[platform] = id;
+    try { localStorage.setItem("zh_sel", JSON.stringify(carState.sel)); } catch (e) {}
+    syncSelHighlight();
+  }
   function updateCarouselPanel() {
     toggleCoverPanel();
     renderCarSize();
@@ -1174,21 +1219,28 @@
     const on = !!VISUAL[platform];
     p.hidden = !on;
     if (!on) return;
-    const box = $("car-designs"), left = $("car-left");
+    const left = $("car-left"), lock = $("car-lock"), bd = $("dblock-design"), bm = $("dblock-my");
     if (!carState.pro) {
-      left.textContent = "";
-      box.textContent = "";
-      const lock = el("div", "car-lock");
-      lock.appendChild(el("div", "car-lock-t", "🔒 " + t("visual_pro_only")));
-      lock.appendChild(el("div", "car-lock-m", t("visual_pro_msg")));
+      left.textContent = ""; bd.hidden = true; bm.hidden = true;
+      lock.hidden = false; lock.textContent = "";
+      const box = el("div", "car-lock");
+      box.appendChild(el("div", "car-lock-t", "🔒 " + t("visual_pro_only")));
+      box.appendChild(el("div", "car-lock-m", t("visual_pro_msg")));
       const btn = el("a", "btn btn-primary", t("car_pro_cta"));
       btn.href = PAY.pro + (carState.email ? "&customer_email=" + encodeURIComponent(carState.email) : "");
       btn.target = "_blank"; btn.rel = "noopener";
-      lock.appendChild(btn);
-      box.appendChild(lock);
+      box.appendChild(btn);
+      lock.appendChild(box);
       return;
     }
-    renderChips(box, genChipList(), carState.design, (id) => { carState.design = id; });
+    lock.hidden = true; bd.hidden = false;
+    // блок 1 - готовые дизайны (шаблоны)
+    renderChips($("car-designs"), CTEMPLATES.map(id => ({ id, cls: "ct-" + id })), carState.sel[platform], pickDesign);
+    // блок 2 - свои дизайны (только карусель/пост/сториз, у обложки свой фон-фото)
+    const hasMy = (platform === "carousel" || platform === "post" || platform === "stories");
+    bm.hidden = !hasMy;
+    if (hasMy) renderMyDesigns();
+    applyCollapse();
     if (carState.visualUnlim) left.textContent = t("u_unlim");
     else if (platform === "carousel" && carState.left != null) left.textContent = t("car_left_lbl") + carState.left + "/3";
     else if (platform === "post" && carState.postLeft != null) left.textContent = t("car_month_lbl") + carState.postLeft + "/30";
@@ -1197,10 +1249,73 @@
     else left.textContent = "";
   }
 
+  // блок «Мой дизайн»: превью загруженных дизайнов текущей платформы + плитка загрузки + удаление
+  function renderMyDesigns() {
+    const box = $("my-designs"); if (!box) return;
+    box.textContent = "";
+    const lib = carState.designs[platform] || [];
+    const cur = carState.sel[platform];
+    lib.forEach(it => {
+      const chip = el("div", "cdchip custom" + (cur === it.id ? " on" : ""));
+      chip.dataset.id = it.id;
+      const mini = el("div", "cd-mini");
+      const img = carState.designImg[it.id];
+      if (img) mini.style.backgroundImage = "url(" + img + ")";
+      else getDesignImg(platform, it.id).then(u => { if (u) mini.style.backgroundImage = "url(" + u + ")"; });
+      chip.appendChild(mini);
+      chip.appendChild(el("div", "cd-name", it.name || t("d_default_name")));
+      const del = el("button", "cd-del", "✕"); del.type = "button"; del.title = t("d_del");
+      del.onclick = (e) => { e.stopPropagation(); deleteMyDesign(it.id); };
+      chip.appendChild(del);
+      chip.onclick = () => pickDesign(it.id);
+      box.appendChild(chip);
+    });
+    // плитка загрузки нового дизайна
+    const add = el("div", "cdchip cd-add");
+    add.appendChild(el("div", "cd-add-plus", "＋"));
+    add.appendChild(el("div", "cd-add-t", t("d_my_add")));
+    add.onclick = () => { const f = $("my-design-file"); if (f) { try { f.value = ""; } catch (e) {} f.click(); } };
+    box.appendChild(add);
+  }
+  async function uploadMyDesign(file) {
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) { alert(t("file_too_big")); return; }
+    const { data: u } = await sb.auth.getUser(); if (!u.user) return;
+    const plat = platform;
+    const id = newDesignId();
+    const ext = (file.name.split(".").pop() || "jpg").replace(/[^\w]/g, "").slice(0, 5) || "jpg";
+    const path = u.user.id + "/designs/" + plat + "/" + id + "." + ext;
+    const add = $("my-designs") && $("my-designs").querySelector(".cd-add");
+    if (add) { add.classList.add("busy"); const tt = add.querySelector(".cd-add-t"); if (tt) tt.textContent = t("d_uploading"); }
+    const { error } = await sb.storage.from("uploads").upload(path, file, { upsert: true });
+    if (error) { alert(t("upload_err") + error.message); renderMyDesigns(); return; }
+    carState.designImg[id] = await blobToDataURL(file);
+    (carState.designs[plat] = carState.designs[plat] || []).push({ id, name: t("d_default_name") + " " + carState.designs[plat].length, path });
+    await designsWrite();
+    carState.sel[plat] = id;
+    try { localStorage.setItem("zh_sel", JSON.stringify(carState.sel)); } catch (e) {}
+    if (platform === plat) { renderMyDesigns(); syncSelHighlight(); }
+  }
+  async function deleteMyDesign(id) {
+    const plat = platform;
+    const lib = carState.designs[plat] || [];
+    const it = lib.find(x => x.id === id); if (!it) return;
+    if (!confirm(t("d_del_confirm"))) return;
+    carState.designs[plat] = lib.filter(x => x.id !== id);
+    delete carState.designImg[id];
+    if (carState.sel[plat] === id) { carState.sel[plat] = "coral"; try { localStorage.setItem("zh_sel", JSON.stringify(carState.sel)); } catch (e) {} }
+    try { if (it.path && it.path.indexOf("/designs/") >= 0) await sb.storage.from("uploads").remove([it.path]); } catch (e) {}
+    await designsWrite();
+    renderMyDesigns(); syncSelHighlight();
+  }
+
   function effectiveDesign() {
-    let eff = carState.design;
-    if (eff === "my") eff = carState.myDesign || "coral";
-    return eff;
+    let id = (carState.sel && carState.sel[platform]) || "coral";
+    if (isCustom(id) && id !== "custom") {   // выбранный свой дизайн мог быть удалён - тогда откат на coral
+      const lib = carState.designs[platform] || [];
+      if (!lib.some(x => x.id === id)) id = "coral";
+    }
+    return id;
   }
 
   const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" }, reels_cover: { w: 1080, h: 1920, cls: "st cover-slide" } };
@@ -1277,14 +1392,14 @@
     if (/(по\s?центру|посередине|середин|center|middle|центрируй)/.test(q)) { s.alignH = "center"; hit = true; }
     return hit;
   }
-  async function captureSlide(s, mode, idx, total, eff, useCustom) {
+  async function captureSlide(s, mode, idx, total, eff, customImg) {
     const dim = DIMS[mode];
     let dimH = dim.h, extraCls = dim.cls;
     if (mode === "carousel" && carState.carSize === "34") { dimH = 1440; extraCls = "r34"; }
     const node = el("div", "cslide ct-" + eff + (extraCls ? " " + extraCls : "") + (s.cover ? " cover" : ""));
     const onPhoto = !!s.bg;   // обложка: фон - фото пользователя
     if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
-    else if (useCustom && carState.customBg) { node.style.backgroundImage = "url(" + carState.customBg + ")"; node.appendChild(el("div", "cs-ov")); }
+    else if (customImg) { node.style.backgroundImage = "url(" + customImg + ")"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff, dimH));
     // фото-стикеры пользователя (до 2 шт; форма/поворот; позицию ставим ПОСЛЕ вёрстки - в свободную от текста зону)
     [[s.sticker, s.stickerShape, s.stickerRot], [s.sticker2, s.stickerShape2, s.stickerRot2]].forEach(function (p) {
@@ -1392,8 +1507,8 @@
       });
     } catch (e) {}
   }
-  async function buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs, genId) {
-    const url = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+  async function buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, genId) {
+    const url = await captureSlide(slides[i], mode, i, slides.length, eff, customImg);
     if (!url) return null;
     urls[i] = url;
     const thumb = el("div", "cs-thumb");
@@ -1413,7 +1528,7 @@
       // сперва пробуем визуальную правку (шрифт/положение) - локально, без модели
       if (tweakLayout(instr, slides[i])) {
         go.disabled = true; const old0 = go.textContent; go.textContent = t("redo_wait");
-        const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+        const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, customImg);
         if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
         saveEdit(genId, i, slides[i]);
         go.disabled = false; go.textContent = old0; form.hidden = true; inp.value = "";
@@ -1426,7 +1541,7 @@
         if (nd && nd.title) {
           slides[i].title = nd.title;
           if (("text" in slides[i]) && nd.text != null) slides[i].text = nd.text;
-          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, customImg);
           if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
           form.hidden = true; inp.value = "";
         } else {
@@ -1461,14 +1576,14 @@
           slides[i][shapeK] = SH[Math.floor(Math.random() * SH.length)];
           slides[i][rotK] = Math.floor(Math.random() * 16 - 8);
           txt.textContent = "…"; btn.disabled = true;
-          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, customImg);
           if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
           txt.textContent = "📷 " + chgTxt; btn.disabled = false; rm.hidden = false;
           saveEdit(genId, i, slides[i]);
         };
         rm.onclick = async () => {
           slides[i][dataK] = null; try { pin.value = ""; } catch (e) {}
-          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, useCustom);
+          const nurl = await captureSlide(slides[i], mode, i, slides.length, eff, customImg);
           if (nurl) { urls[i] = nurl; img.src = nurl; a.href = nurl; }
           rm.hidden = true; txt.textContent = "📷 " + addTxt;
           saveEdit(genId, i, slides[i]);
@@ -1505,7 +1620,8 @@
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
     if (rseq !== renderSeq) return;   // пока грузились шрифты, кликнули другую запись
-    const eff = d._design || effectiveDesign(), useCustom = (eff === "custom");
+    const eff = d._design || effectiveDesign();
+    const customImg = isCustom(eff) ? await getDesignImg(mode, eff) : null;
     const slides = [];
     if (mode === "carousel") {
       if (d.hook_slide) slides.push({ cover: true, title: d.hook_slide });
@@ -1517,7 +1633,7 @@
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
     for (let i = 0; i < slides.length; i++) {
-      const cell = await buildVisualCell(slides, i, mode, eff, useCustom, urls, thumbs, out.generation_id || null);
+      const cell = await buildVisualCell(slides, i, mode, eff, customImg, urls, thumbs, out.generation_id || null);
       if (rseq !== renderSeq) return;   // кликнули другую запись - бросаем устаревший рендер
       if (cell) outBox.appendChild(cell);
     }
@@ -1544,11 +1660,12 @@
     } catch (e) {}
     try { if (document.fonts && document.fonts.ready) await document.fonts.ready; } catch (e) {}
     if (rseq !== renderSeq) return;
-    const eff = d._design || effectiveDesign(), useCustom = (eff === "custom");
+    const eff = d._design || effectiveDesign();
+    const customImg = isCustom(eff) ? await getDesignImg("post", eff) : null;
     const slides = [{ cover: true, title: d.hook }];
     const outBox = el("div", "cs-out");
     const urls = [], thumbs = [];
-    const cell = await buildVisualCell(slides, 0, "post", eff, useCustom, urls, thumbs, out.generation_id || null);
+    const cell = await buildVisualCell(slides, 0, "post", eff, customImg, urls, thumbs, out.generation_id || null);
     if (rseq !== renderSeq) return;
     if (cell) outBox.appendChild(cell);
     box.appendChild(outBox);
@@ -1595,32 +1712,16 @@
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  // профиль: галерея дизайнов + загрузка фона
-  function renderProfileDesigns() {
-    const box = $("car-designs-prof"); if (!box) return;
-    renderChips(box, profChipList(), carState.myDesign, (id) => {
-      carState.myDesign = id;
-      try { localStorage.setItem("zh_car_mydesign", id); } catch (e) {}
-      carPrefsWrite({ myDesign: id });
-    });
-  }
-  if ($("car-bg-file")) $("car-bg-file").onchange = async (e) => {
-    const f = e.target.files[0]; if (!f) return;
-    const { data: u } = await sb.auth.getUser(); if (!u.user) return;
-    if (f.size > 8 * 1024 * 1024) { alert(t("file_too_big")); return; }
-    const status = $("car-bg-status"); status.textContent = t("car_bg_uploading");
-    const ext = (f.name.split(".").pop() || "jpg").replace(/[^\w]/g, "").slice(0, 5);
-    const path = u.user.id + "/carousel_bg." + ext;
-    const { error } = await sb.storage.from("uploads").upload(path, f, { upsert: true });
-    if (error) { status.textContent = t("upload_err") + error.message; return; }
-    carState.customBg = await blobToDataURL(f);
-    carState.myDesign = "custom";
-    try { localStorage.setItem("zh_car_mydesign", "custom"); } catch (e2) {}
-    await carPrefsWrite({ myDesign: "custom", bg: path });
-    status.textContent = t("car_bg_saved");
-    renderProfileDesigns();
+  // сворачивание блоков «Готовые дизайны» / «Мой дизайн» (состояние в localStorage)
+  document.querySelectorAll(".dblock-h").forEach(h => h.onclick = () => {
+    const k = h.dataset.dk; carState.collapse[k] = !carState.collapse[k];
+    try { localStorage.setItem("zh_dcol", JSON.stringify(carState.collapse)); } catch (e) {}
+    applyCollapse();
+  });
+  if ($("my-design-file")) $("my-design-file").onchange = (e) => {
+    const f = e.target.files && e.target.files[0]; if (f) uploadMyDesign(f);
   };
-  window.__carHooks = { carPrefsRead, renderProfileDesigns, updateCarouselPanel };
+  window.__carHooks = { updateCarouselPanel, designsLoad, uploadMyDesign, deleteMyDesign, effectiveDesign, carState, setPlatform: (p) => { platform = p; renderPlatforms(); updateCarouselPanel(); } };
 
   setPayLinks("");
   renderPlatforms();

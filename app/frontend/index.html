@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&family=Archivo:wght@600;700;800;900&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=Manrope:wght@500;600;700;800&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap">
-<link rel="stylesheet" href="/styles.css?v=20260910u">
+<link rel="stylesheet" href="/styles.css?v=20260910w">
 </head>
 <body>
 <div class="wrap">
@@ -91,9 +91,20 @@
     </div>
     <div id="platforms"></div>
     <div id="carousel-panel" class="cpanel" hidden>
-      <div class="cpanel-h"><b data-i18n="car_design_h">Дизайн карусели</b><span id="car-left" class="car-left"></span></div>
+      <div class="cpanel-h"><b data-i18n="car_design_h">Дизайн</b><span id="car-left" class="car-left"></span></div>
       <div id="car-size" class="car-size" hidden></div>
-      <div id="car-designs" class="car-designs"></div>
+      <div id="car-lock" hidden></div>
+      <div id="dblock-design" class="dblock">
+        <button type="button" class="dblock-h" data-dk="design"><span data-i18n="d_templates_h">Готовые дизайны</span><span class="dchev" aria-hidden="true">▾</span></button>
+        <div class="dblock-b"><div id="car-designs" class="car-designs"></div></div>
+      </div>
+      <div id="dblock-my" class="dblock">
+        <button type="button" class="dblock-h" data-dk="mydesign"><span data-i18n="d_my_h">Мой дизайн</span><span class="dchev" aria-hidden="true">▾</span></button>
+        <div class="dblock-b">
+          <div id="my-designs" class="car-designs"></div>
+          <input id="my-design-file" type="file" accept="image/*" hidden>
+        </div>
+      </div>
     </div>
     <div id="cover-panel" class="cpanel" hidden>
       <div class="cpanel-h"><b data-i18n="cover_h">Твоё фото для обложки</b></div>
@@ -159,10 +170,6 @@
       <label class="fld"><span data-i18n="lbl_brand">Бренд/заметки</span><textarea id="p-brand" rows="2" data-i18n-ph="ph_brand" placeholder="цвета, ссылки, что важно"></textarea></label>
       <label class="fld"><span data-i18n="lbl_file">Загрузить материалы для голоса (расшифровки, посты, субтитры .txt/.srt) - генерация будет писать твоим голосом</span><input id="p-file" type="file"></label>
       <div id="uploads" class="uploads"></div>
-      <label class="fld"><span data-i18n="car_prof_h">Дизайн карусели по умолчанию (для «Мой дизайн»)</span></label>
-      <div id="car-designs-prof" class="car-designs"></div>
-      <label class="fld"><span data-i18n="car_upload">Загрузить свой фон для карусели (картинка)</span><input id="car-bg-file" type="file" accept="image/*"></label>
-      <div id="car-bg-status" class="uploads"></div>
       <label class="fld"><span data-i18n="lbl_tg">Телеграм-бот (получай тексты и картинки из кабинета себе в чат)</span></label>
       <div class="tgconn-row"><span id="tg-state" class="tgconn-state" data-i18n="tg_checking">Проверяю…</span><button id="btn-tg-connect" class="tgbtn" type="button" hidden><span data-i18n="tg_connect">Подключи телеграм</span></button></div>
       <button id="btn-save" class="btn btn-primary" data-i18n="btn_save">Сохранить</button>
@@ -208,7 +215,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="/config.js"></script>
-<script src="/i18n.js?v=20260910u"></script>
-<script src="/app.js?v=20260910u"></script>
+<script src="/i18n.js?v=20260910w"></script>
+<script src="/app.js?v=20260910w"></script>
 </body>
 </html>
