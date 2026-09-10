@@ -261,6 +261,21 @@ em{font-style:normal;color:var(--coral)}
 .cd-add .cd-add-plus{font-size:26px;font-weight:700;line-height:1}
 .cd-add .cd-add-t{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:8.5px;letter-spacing:.03em;text-align:center;padding:0 4px}
 .cdchip.cd-add.busy{opacity:.6;pointer-events:none}
+.cdchip .cd-count{position:absolute;top:4px;left:4px;z-index:3;background:var(--coral);color:var(--paper);font-family:"Oswald";font-weight:700;font-size:10px;border:2px solid var(--ink);border-radius:7px;padding:0 5px;line-height:1.5;box-shadow:1px 1px 0 var(--ink)}
+/* выбор шаблона раскладки для своего фото-дизайна */
+.lay-picker{margin-top:12px}
+.lay-h{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.05em;color:var(--muted);margin-bottom:7px}
+.lay-row{display:flex;gap:8px;flex-wrap:wrap}
+.lay-chip{display:flex;flex-direction:column;align-items:center;gap:5px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:10px;box-shadow:2px 2px 0 var(--ink);padding:7px 9px;cursor:pointer;transition:transform .1s}
+.lay-chip:hover{transform:translate(-1px,-1px)}
+.lay-chip.on{outline:3px solid var(--coral);outline-offset:1px}
+.lay-chip .lay-prev{width:30px;height:38px;border-radius:5px;background:linear-gradient(160deg,#8a8079,#4a443e);position:relative;overflow:hidden}
+.lay-chip .lay-prev::after{content:"";position:absolute;left:4px;right:4px;height:9px;border-radius:2px;background:var(--coral)}
+.lay-poster_bottom .lay-prev::after{bottom:5px}
+.lay-poster_top .lay-prev::after{top:5px}
+.lay-band .lay-prev::after{bottom:9px;background:rgba(20,17,15,.75);box-shadow:0 0 0 3px rgba(255,127,80,.5)}
+.lay-minimal .lay-prev::after{bottom:14px;height:6px;background:#fff}
+.lay-chip .lay-name{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:9px;letter-spacing:.03em;color:var(--ink);white-space:nowrap}
 .cdchip{cursor:pointer;border:2.5px solid var(--ink);border-radius:10px;overflow:hidden;aspect-ratio:4/5;position:relative;box-shadow:2px 2px 0 var(--ink);transition:transform .1s}
 .cdchip:hover{transform:translate(-1px,-1px)}
 .cdchip.on{outline:3px solid var(--coral);outline-offset:1px}
@@ -372,6 +387,20 @@ em{font-style:normal;color:var(--coral)}
 .cslide.cover-slide .cs-ov{background:linear-gradient(180deg,rgba(0,0,0,.05) 35%,rgba(0,0,0,.35) 62%,rgba(0,0,0,.84))}
 .cslide.cover-slide .cs-title{text-shadow:0 3px 24px rgba(0,0,0,.5)}
 .cslide.cover-slide .cs-text{text-shadow:0 2px 16px rgba(0,0,0,.55)}
+/* свой фото-дизайн: движок раскладок «Монтаж Reels» */
+.cslide.photolay{padding:150px 96px;justify-content:flex-end}
+.cslide.photolay.lay-poster_top{justify-content:flex-start}
+.cslide.photolay .cs-tw{display:flex;flex-direction:column;position:relative;z-index:3;width:100%}
+.cslide.photolay .cs-title,.cslide.photolay .cs-text{max-width:880px}
+.cslide.photolay .cs-title{font-size:112px;line-height:.98;margin:0 0 26px;letter-spacing:.004em}
+.cslide.photolay .cs-text{font-size:44px;line-height:1.34;font-weight:600}
+.cslide.photolay .cs-hi{color:var(--coral)}
+.cslide .cs-grad-bottom{background:linear-gradient(180deg,transparent 28%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.9))}
+.cslide .cs-grad-top{background:linear-gradient(0deg,transparent 28%,rgba(0,0,0,.5) 60%,rgba(0,0,0,.9))}
+.cslide.photolay .cs-tw.cs-band{background:rgba(17,14,12,.6);padding:44px 52px;border-radius:30px;width:auto}
+.cslide.photolay.lay-band .cs-hi,.cslide.photolay.lay-minimal .cs-hi{color:var(--coral)}
+.cslide.sq.photolay .cs-title{font-size:96px}
+.cslide.st.photolay{padding:150px 96px}.cslide.st.photolay .cs-title{font-size:112px}.cslide.st.photolay .cs-text{font-size:48px}
 /* заголовки групп платформ */
 .pgroup{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.08em;color:var(--muted);margin:4px 2px 8px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .pgroup.visual{color:var(--coral-deep)}

@@ -84,6 +84,8 @@ class GenReq(BaseModel):
     lang: str = Field(default="ru", max_length=5)
     user_text: str = Field(default="", max_length=6000)
     design: str = Field(default="", max_length=32)
+    design_layout: str = Field(default="", max_length=32)
+    design_photos: list[str] = Field(default_factory=list, max_length=20)
     count: int = Field(default=0, ge=0, le=20)
     # бриф ролика (только reels): подробные вводные из формы
     b_audience: str = Field(default="", max_length=600)
@@ -254,6 +256,11 @@ def generate_endpoint(request: Request, req: GenReq, user: dict = Depends(get_us
     # запоминаем выбранный дизайн визуала, чтобы история открывала картинки в том же шаблоне
     if isinstance(data, dict) and req.platform in ("carousel", "post", "stories", "reels_cover") and req.design:
         data["_design"] = req.design
+        # для своего фото-дизайна храним раскладку и пути фото (история переживёт удаление из библиотеки)
+        if req.design_layout:
+            data["_design_layout"] = req.design_layout
+        if req.design_photos:
+            data["_design_photos"] = [str(p)[:300] for p in req.design_photos[:20]]
     # сохраняем бриф ролика (заполненные пункты) в историю
     if isinstance(data, dict) and req.platform == "reels" and brief:
         filled = {k: str(v).strip() for k, v in brief.items() if v and str(v).strip()}
