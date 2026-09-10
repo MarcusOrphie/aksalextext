@@ -1332,8 +1332,9 @@
   async function uploadMyDesign(files) {
     const list = files && files.length ? Array.prototype.slice.call(files) : (files ? [files] : []);
     if (!list.length) return;
-    const good = list.filter(f => f && f.size <= 15 * 1024 * 1024);
+    let good = list.filter(f => f && f.size <= 15 * 1024 * 1024);
     if (good.length < list.length) alert(t("file_too_big"));
+    if (good.length > 10) { alert(t("d_max10")); good = good.slice(0, 10); }   // до 10 фото в дизайне (по одной на слайд)
     if (!good.length) return;
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
     const plat = platform;
