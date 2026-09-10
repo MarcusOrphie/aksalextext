@@ -10,6 +10,42 @@ MODEL = os.environ.get("MODEL", "claude-sonnet-5").strip()
 VERBATIM = ("carousel", "post", "stories")
 
 
+_SLIDE_RE = re.compile(r"^\s*\**\s*(?:слайд|slide)\s*\d+\b.*$", re.IGNORECASE)
+
+
+def _strip_md(s: str) -> str:
+    """Убрать markdown-разметку автора (**жирный**, маркеры списков, #) - на слайдах она не нужна."""
+    s = re.sub(r"\*\*(.+?)\*\*", r"\1", s or "")   # **жирный** -> жирный
+    s = re.sub(r"__(.+?)__", r"\1", s)
+    s = s.replace("**", "").replace("__", "")
+    s = re.sub(r"^\s*[\*\-•#]+\s*", "", s)          # маркеры списка/заголовка в начале строки
+    return s.strip()
+
+
+def _slide_sections(text: str):
+    """Если автор сам разметил текст заголовками «Слайд N» - разложить по ним: заголовок слайда = первая
+    строка секции, остальное = текст. Возвращает [] если явных заголовков «Слайд N» нет."""
+    lines = (text or "").split("\n")
+    if not any(_SLIDE_RE.match(ln) for ln in lines):
+        return []
+    sections, cur = [], None
+    for ln in lines:
+        if _SLIDE_RE.match(ln):
+            cur = []; sections.append(cur); continue
+        if cur is None:
+            if not ln.strip():
+                continue
+            cur = []; sections.append(cur)   # текст до первого «Слайд N» - тоже отдельная секция
+        cur.append(ln)
+    out = []
+    for sec in sections:
+        ls = [x for x in (_strip_md(y) for y in sec) if x]
+        if not ls:
+            continue
+        out.append({"title": ls[0], "text": " ".join(ls[1:]).strip()})
+    return out
+
+
 def _blocks(text: str):
     """Разбить текст автора на блоки: сперва по его переносам строк, иначе по предложениям."""
     text = (text or "").strip()
@@ -18,7 +54,7 @@ def _blocks(text: str):
     parts = [p.strip() for p in re.split(r"\n+", text) if p.strip()]
     if len(parts) < 2:
         parts = [p.strip() for p in re.split(r"(?<=[.!?…])\s+", text) if p.strip()]
-    return parts
+    return [_strip_md(p) for p in parts if _strip_md(p)]
 
 
 def _distribute(parts, n):
@@ -50,6 +86,15 @@ def _distribute(parts, n):
 
 def verbatim_layout(platform: str, text: str, count: int = 0) -> dict:
     """Разложить текст автора по формату ДОСЛОВНО, ничего не меняя и не добавляя."""
+    secs = _slide_sections(text)   # автор сам разметил «Слайд N»? - раскладываем ровно по его слайдам
+    if secs:
+        if platform == "carousel":
+            return {"hook_slide": "", "slides": [{"title": s["title"], "text": s["text"]} for s in secs], "cta_slide": ""}
+        if platform == "stories":
+            return {"frames": [{"title": s["title"], "text": s["text"]} for s in secs]}
+        if platform == "post":
+            body = "\n\n".join([x for x in [secs[0]["text"]] + [s["title"] + ((" " + s["text"]) if s["text"] else "") for s in secs[1:]] if x])
+            return {"hook": secs[0]["title"], "hooks_alt": [], "body": body, "cta": "", "hashtags": [], "first_comment": "", "fact_check": ""}
     b = _blocks(text)
     if platform == "carousel":
         if len(b) >= 3:
