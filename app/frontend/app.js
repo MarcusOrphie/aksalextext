@@ -1279,7 +1279,7 @@
   }
   async function uploadMyDesign(file) {
     if (!file) return;
-    if (file.size > 8 * 1024 * 1024) { alert(t("file_too_big")); return; }
+    if (file.size > 15 * 1024 * 1024) { alert(t("file_too_big")); return; }
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
     const plat = platform;
     const id = newDesignId();
