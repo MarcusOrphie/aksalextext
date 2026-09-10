@@ -26,6 +26,7 @@ import lab
 import audience
 import edits
 import access
+import tg
 import prodamus
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
@@ -417,4 +418,51 @@ async def prodamus_hook(request: Request):
                 logging.error("PRODAMUS bonus guide failed: %r", e)
     except Exception as e:
         logging.error("PRODAMUS deliver failed: %r", e)
+    return {"ok": True}
+
+
+# ---------- TELEGRAM: связка кабинета с ботом @zalihvat_bot ----------
+class TgSendReq(BaseModel):
+    text: str = Field(default="", max_length=8000)
+    images: list[str] = Field(default_factory=list, max_length=10)
+
+
+class TgLinkReq(BaseModel):
+    token: str = Field(max_length=64)
+    chat_id: int
+    secret: str = Field(max_length=200)
+
+
+@app.get("/api/tg/status")
+def tg_status(user: dict = Depends(get_user)):
+    try:
+        return {"linked": bool(tg.get_chat(user["id"]))}
+    except Exception:
+        return {"linked": False}
+
+
+@app.post("/api/tg/connect")
+def tg_connect(user: dict = Depends(get_user)):
+    _, link = tg.make_link(user["id"])
+    return {"deep_link": link}
+
+
+@app.post("/api/tg/send")
+def tg_send(req: TgSendReq, user: dict = Depends(get_user)):
+    r = tg.send(user["id"], text=req.text, images=req.images)
+    if r == "not_linked":
+        _, link = tg.make_link(user["id"])
+        return JSONResponse(status_code=409, content={"reason": "not_linked", "deep_link": link})
+    if r == "ok":
+        return {"ok": True}
+    raise HTTPException(status_code=502, detail="не удалось отправить в телеграм")
+
+
+@app.post("/api/tg/link")
+def tg_link(req: TgLinkReq):
+    if not os.environ.get("TG_LINK_SECRET") or req.secret != os.environ.get("TG_LINK_SECRET"):
+        raise HTTPException(status_code=403, detail="bad secret")
+    uid = tg.resolve_and_link(req.token, req.chat_id)
+    if not uid:
+        raise HTTPException(status_code=404, detail="token not found")
     return {"ok": True}
