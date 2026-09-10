@@ -1320,7 +1320,7 @@
 
   const DIMS = { carousel: { w: 1080, h: 1350, cls: "" }, post: { w: 1080, h: 1080, cls: "sq" }, stories: { w: 1080, h: 1920, cls: "st" }, reels_cover: { w: 1080, h: 1920, cls: "st cover-slide" } };
   // Ужимаем шрифт заголовка/текста, пока весь контент не влезет в слайд (не режется по краям)
-  function fitSlide(node, fontScale, fillFrac) {
+  function fitSlide(node, fontScale, fillFrac, maxK) {
     const title = node.querySelector(".cs-title");
     const text = node.querySelector(".cs-text");
     if (!title && !text) return;
@@ -1341,7 +1341,8 @@
     // 1) АВТО-ЗАПОЛНЕНИЕ: растим шрифт, пока контент не заполнит рабочую зону слайда (чтобы не был мелким/растянутым)
     apply(1);
     let k = 1;
-    for (let i = 0; i < 40 && k < 2.2 && contentH() <= limit && !overW(); i++) { k += 0.06; apply(k); }
+    const grcap = maxK || 2.2;   // на фоне-картинке растим слабее, чтобы текст не был громоздким
+    for (let i = 0; i < 40 && k < grcap && contentH() <= limit && !overW(); i++) { k += 0.06; apply(k); }
     // 2) если перелетели край по высоте или ширине (длинное слово) - ужимаем, пока не влезет
     for (let i = 0; i < 40 && k > 0.4 && (contentH() > limit || overW()); i++) { k -= 0.05; apply(k); }
     // 3) ручной масштаб автора поверх авто-заполнения, со страховкой от переполнения
@@ -1399,7 +1400,7 @@
     const node = el("div", "cslide ct-" + eff + (extraCls ? " " + extraCls : "") + (s.cover ? " cover" : ""));
     const onPhoto = !!s.bg;   // обложка: фон - фото пользователя
     if (onPhoto) { node.style.backgroundImage = "url(" + s.bg + ")"; node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center"; node.appendChild(el("div", "cs-ov")); }
-    else if (customImg) { node.style.backgroundImage = "url(" + customImg + ")"; node.appendChild(el("div", "cs-ov")); }
+    else if (customImg) { node.style.backgroundImage = "url(" + customImg + ")"; node.style.backgroundSize = "contain"; node.style.backgroundRepeat = "no-repeat"; node.style.backgroundPosition = "center"; node.style.backgroundColor = "#14110f"; node.appendChild(el("div", "cs-ov")); }
     else node.insertAdjacentHTML("afterbegin", decoSVG(eff, dimH));
     // фото-стикеры пользователя (до 2 шт; форма/поворот; позицию ставим ПОСЛЕ вёрстки - в свободную от текста зону)
     [[s.sticker, s.stickerShape, s.stickerRot], [s.sticker2, s.stickerShape2, s.stickerRot2]].forEach(function (p) {
@@ -1413,6 +1414,7 @@
     // без нашей брендировки - только дизайн и текст пользователя
     // заголовок и текст с фирменным шрифтом шаблона
     const fp = fontOf(eff);
+    const lightText = onPhoto || !!customImg;   // над фото/своим дизайном текст белый + тень (читаемость)
     const titleTxt = slideText(s.title || "");
     let title = null;
     if (titleTxt) {   // заголовок только если он есть (у дословных сторис его нет - тогда рендерим один текст)
@@ -1421,10 +1423,10 @@
       title.style.textTransform = fp.up ? "uppercase" : "none";
       title.style.fontStyle = fp.ital ? "italic" : "normal";
       title.style.fontWeight = fp.wght || 700;
-      if (onPhoto) title.style.color = "#ffffff";
+      if (lightText) { title.style.color = "#ffffff"; title.style.textShadow = "0 3px 22px rgba(0,0,0,.62)"; }
       node.appendChild(title);
     }
-    if (s.text) { const tx = el("div", "cs-text", slideText(s.text)); tx.style.fontFamily = fp.bf; if (onPhoto) tx.style.color = "#f3efe9"; node.appendChild(tx); }
+    if (s.text) { const tx = el("div", "cs-text", slideText(s.text)); tx.style.fontFamily = fp.bf; if (lightText) { tx.style.color = "#f3efe9"; tx.style.textShadow = "0 2px 16px rgba(0,0,0,.6)"; } node.appendChild(tx); }
     // ручные правки положения текста (кнопка «Переделать»: выше/ниже/влево/вправо)
     if (s.alignV) node.style.justifyContent = s.alignV === "top" ? "flex-start" : s.alignV === "bottom" ? "flex-end" : "center";
     if (s.alignH) {
@@ -1433,7 +1435,11 @@
       if (title) title.style.textAlign = ta; const txEl = node.querySelector(".cs-text"); if (txEl) txEl.style.textAlign = ta;
     }
     const stage = $("cs-stage"); stage.appendChild(node);
-    fitSlide(node, s.fontScale, mode === "stories" ? 0.62 : 0.96);   // сторис 9:16 - не заполняем весь высокий кадр, шрифт спокойнее (как в карусели)
+    // на фоне-картинке (своё фото/свой дизайн) шрифт скромнее и растим слабее - чтобы текст помещался и не был громоздким
+    const hasBg = onPhoto || !!customImg;
+    const ff = mode === "stories" ? (hasBg ? 0.56 : 0.62) : (hasBg ? 0.8 : 0.96);
+    const mk = hasBg ? 1.15 : 2.2;
+    fitSlide(node, s.fontScale, ff, mk);
     if (s.sticker || s.sticker2) placeSticker(node);
     let url = "";
     try {
@@ -1721,7 +1727,7 @@
   if ($("my-design-file")) $("my-design-file").onchange = (e) => {
     const f = e.target.files && e.target.files[0]; if (f) uploadMyDesign(f);
   };
-  window.__carHooks = { updateCarouselPanel, designsLoad, uploadMyDesign, deleteMyDesign, effectiveDesign, carState, setPlatform: (p) => { platform = p; renderPlatforms(); updateCarouselPanel(); } };
+  window.__carHooks = { updateCarouselPanel, designsLoad, uploadMyDesign, deleteMyDesign, effectiveDesign, getDesignImg, captureSlide, carState, setPlatform: (p) => { platform = p; renderPlatforms(); updateCarouselPanel(); } };
 
   setPayLinks("");
   renderPlatforms();
