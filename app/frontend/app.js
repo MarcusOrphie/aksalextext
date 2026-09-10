@@ -823,7 +823,10 @@
     const { data: u } = await sb.auth.getUser(); if (!u.user) return;
     const { data } = await sb.storage.from("uploads").list(u.user.id + "/");
     const box = $("uploads"); box.textContent = "";
-    (data || []).forEach(f => box.appendChild(el("div", null, "• " + f.name)));
+    // показываем только реальные загрузки автора: прячем служебные файлы (_*.json)
+    // и внутренние папки без расширения (edits и т.п.)
+    (data || []).filter(f => f.name && !f.name.startsWith("_") && /\.[a-z0-9]+$/i.test(f.name))
+      .forEach(f => box.appendChild(el("div", null, "• " + f.name)));
   }
 
   // ---------- HISTORY ----------
