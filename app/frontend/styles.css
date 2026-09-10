@@ -95,6 +95,18 @@ em{font-style:normal;color:var(--coral)}
 .againdl{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.03em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:9px 16px;cursor:pointer;transition:transform .1s,box-shadow .1s}
 .againdl:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
 .againdl:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+/* «В телеграм» - отправка себе через бота */
+.tgbtn{display:inline-flex;align-items:center;gap:2px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.03em;color:var(--paper);background:#29a1e0;border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:9px 15px;cursor:pointer;transition:transform .1s,box-shadow .1s,background .1s}
+.tgbtn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+.tgbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.tgbtn:disabled{opacity:.7;cursor:default;transform:none;box-shadow:3px 3px 0 var(--ink)}
+.tgbtn.ok{background:var(--coral)}
+/* компактная версия рядом с «Копировать» в карточках */
+.rcard .tgbtn{font-size:10px;padding:3px 9px;gap:3px;box-shadow:2px 2px 0 var(--ink)}
+.rcard .tgbtn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.tgconn-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:2px 0 14px}
+.tgconn-state{font-family:"Nunito";font-weight:800;font-size:13px;color:var(--muted)}
+.tgconn-state.on{color:#1f9d55}
 
 /* first-visit hint near «Мои данные» */
 .hint-wrap{position:relative;display:inline-flex}

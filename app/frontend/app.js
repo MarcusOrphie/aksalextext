@@ -218,8 +218,33 @@
     const h = $("profile-hint"); if (h) h.hidden = false;
   }
   $("hint-x").onclick = (e) => { e.stopPropagation(); dismissHint(); };
-  $("tab-profile").onclick = () => { dismissHint(); show("profile"); };
+  $("tab-profile").onclick = () => { dismissHint(); show("profile"); refreshTgStatus(); };
   $("btn-back").onclick = () => show("app");
+
+  // ---------- статус привязки телеграма в профиле ----------
+  async function refreshTgStatus() {
+    const st = $("tg-state"), btn = $("btn-tg-connect");
+    if (!st || !btn) return;
+    st.textContent = t("tg_checking"); st.classList.remove("on"); btn.hidden = true;
+    try {
+      const { data } = await sb.auth.getSession();
+      const token = data.session && data.session.access_token; if (!token) return;
+      const res = await fetch(API + "/tg/status", { headers: { authorization: "Bearer " + token } });
+      const j = await res.json();
+      if (j.linked) { st.textContent = t("tg_linked"); st.classList.add("on"); btn.hidden = true; }
+      else { st.textContent = t("tg_not_linked"); btn.hidden = false; }
+    } catch (e) { st.textContent = t("tg_not_linked"); btn.hidden = false; }
+  }
+  const _tgc = $("btn-tg-connect");
+  if (_tgc) _tgc.onclick = async () => {
+    try {
+      const { data } = await sb.auth.getSession();
+      const token = data.session && data.session.access_token; if (!token) return;
+      const res = await fetch(API + "/tg/connect", { method: "POST", headers: { authorization: "Bearer " + token } });
+      const j = await res.json();
+      if (j.deep_link) window.open(j.deep_link, "_blank");
+    } catch (e) {}
+  };
 
   function showPaywall() { $("paywall").hidden = false; }
   $("paywall-close").onclick = () => { $("paywall").hidden = true; };
@@ -355,6 +380,34 @@
       try { navigator.clipboard.writeText(getText()); } catch (e) {}
       b.textContent = t("copied"); b.classList.add("copied");
       setTimeout(() => { b.textContent = label; b.classList.remove("copied"); }, 1500);
+    };
+    return b;
+  }
+  // ---------- ОТПРАВИТЬ В ТЕЛЕГРАМ (через бота @zalihvat_bot) ----------
+  const TG_PLANE = '<svg viewBox="0 0 24 24" width="15" height="15" style="vertical-align:-3px" aria-hidden="true"><path fill="currentColor" d="M21.9 4.3 2.9 11.7c-1 .4-1 1.3-.1 1.6l4.8 1.5 1.8 5.7c.2.5.4.6.8.6.4 0 .6-.2.9-.5l2.2-2.1 4.7 3.5c.9.5 1.5.2 1.7-.9l3-14.2c.3-1.2-.4-1.7-1.4-1.3ZM18.6 7.4l-8.3 7.6-.3 3.7-1.7-5.2 10.3-6.1z"/></svg>';
+  async function tgSend(text, images) {
+    const { data } = await sb.auth.getSession();
+    const token = data.session && data.session.access_token; if (!token) return "err";
+    let res;
+    try {
+      res = await fetch(API + "/tg/send", { method: "POST",
+        headers: { "content-type": "application/json", authorization: "Bearer " + token },
+        body: JSON.stringify({ text: text || "", images: (images || []).filter(Boolean) }) });
+    } catch (e) { return "err"; }
+    if (res.status === 409) { const e = await res.json().catch(() => ({})); if (e.deep_link) window.open(e.deep_link, "_blank"); return "not_linked"; }
+    return res.ok ? "ok" : "err";
+  }
+  function tgBtn(getText, getImages) {
+    const b = el("button", "tgbtn"); b.type = "button";
+    b.innerHTML = TG_PLANE + "<span> " + t("tg_send") + "</span>";
+    const setLabel = (s) => { b.querySelector("span").textContent = " " + s; };
+    b.onclick = async () => {
+      b.disabled = true; setLabel(t("tg_sending"));
+      let r; try { r = await tgSend(getText ? getText() : "", getImages ? getImages() : []); } catch (e) { r = "err"; }
+      b.disabled = false;
+      setLabel(r === "ok" ? t("tg_sent") : r === "not_linked" ? t("tg_connect") : t("tg_fail"));
+      if (r === "ok") b.classList.add("ok");
+      setTimeout(() => { setLabel(t("tg_send")); b.classList.remove("ok"); }, 2600);
     };
     return b;
   }
@@ -724,7 +777,7 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
       setTimeout(() => $("topic").focus({ preventScroll: true }), 450);
     };
-    actions.appendChild(pdfbtn); actions.appendChild(again); actions.appendChild(newtopic);
+    actions.appendChild(pdfbtn); actions.appendChild(tgBtn(() => content.innerText.trim(), null)); actions.appendChild(again); actions.appendChild(newtopic);
     box.appendChild(actions);
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -931,7 +984,7 @@
       const actions = el("div", "result-actions");
       const all = el("button", "pdfdl", t("car_download_all"));
       all.onclick = () => zipDownload(urls, mode, all);
-      actions.appendChild(all);
+      actions.appendChild(all); actions.appendChild(tgBtn(null, () => urls.filter(Boolean)));
       container.appendChild(actions);
     }
   }
@@ -1471,7 +1524,7 @@
     const all = el("button", "pdfdl", t("car_download_all"));
     all.onclick = () => zipDownload(urls, mode, all);
     const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
-    actions.appendChild(all); actions.appendChild(again);
+    actions.appendChild(all); actions.appendChild(tgBtn(null, () => urls.filter(Boolean))); actions.appendChild(again);
     box.appendChild(actions);
     st.hidden = true; await loadHistory(); await loadMe();
     box.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1508,7 +1561,7 @@
     }
     const actions = el("div", "result-actions");
     const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
-    actions.appendChild(again); box.appendChild(actions);
+    actions.appendChild(tgBtn(() => capText, () => urls.filter(Boolean))); actions.appendChild(again); box.appendChild(actions);
     st.hidden = true; await loadHistory(); await loadMe();
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
@@ -1534,7 +1587,7 @@
     box.appendChild(outBox);
     const actions = el("div", "result-actions");
     const again = el("button", "againdl", t("again")); again.onclick = () => $("btn-gen").click();
-    actions.appendChild(again); box.appendChild(actions);
+    actions.appendChild(tgBtn(null, () => urls.filter(Boolean))); actions.appendChild(again); box.appendChild(actions);
     st.hidden = true; await loadHistory(); await loadMe();
     box.scrollIntoView({ behavior: "smooth", block: "start" });
   }
