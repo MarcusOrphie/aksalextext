@@ -68,6 +68,9 @@
   function setAuthUI(on) { document.querySelectorAll(".authonly").forEach(e => { e.hidden = !on; }); }
 
   // ---------- AUTH ----------
+  // общая метка входа для главной и гайдов (кука на .aksalex.com - только почта, не токен; для UX и подстановки в оплату)
+  function setSharedEmail(email) { try { if (!email) return; document.cookie = "zh_email=" + encodeURIComponent(email) + "; domain=.aksalex.com; path=/; max-age=2592000; SameSite=Lax; Secure"; } catch (e) {} }
+  function clearSharedEmail() { try { document.cookie = "zh_email=; domain=.aksalex.com; path=/; max-age=0; SameSite=Lax; Secure"; } catch (e) {} }
   async function refresh() {
     if (recovering) return;                 // не перерисовывать экран сброса пароля кабинетом
     const { data } = await sb.auth.getSession();
@@ -77,10 +80,12 @@
       signedIn = true;
       setAuthUI(true);
       $("usermail").textContent = s.user.email || s.user.phone || "профиль";
+      setSharedEmail(s.user.email || "");
       show("app");
       loadMe(); await loadProfile(); maybeShowHint(); await loadHistory();
     } else {
       signedIn = false;
+      clearSharedEmail();
       setAuthUI(false); show("auth");
       if (window.__authErr) { authNote(t("note_link_expired") + window.__authErr + ")"); window.__authErr = null; }
     }
@@ -208,6 +213,7 @@
   applyI18n();
   setAuthMode("login");
   $("logout").onclick = async () => {
+    clearSharedEmail();
     try { await sb.auth.signOut(); } catch (e) {}
     location.href = "/";
   };
@@ -1023,6 +1029,7 @@
       showPlans(!m.unlimited);   // тарифы в кабинете для тех, у кого нет платного доступа
       carState.left = m.carousel_left; carState.postLeft = m.post_left; carState.storiesLeft = m.stories_left; carState.coverLeft = m.cover_left;
       carState.pro = !!m.visual_pro; carState.visualUnlim = !!m.visual_unlimited; carState.email = m.email || ""; knownEmail = m.email || ""; meState = m;
+      setSharedEmail(m.email || "");
       if (!carState._designsLoaded) { carState._designsLoaded = true; await designsLoad(); }
       updateCarouselPanel(); renderPlatforms();
     } catch (e) { box.hidden = true; showPlans(false); }

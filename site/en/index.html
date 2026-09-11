@@ -654,6 +654,7 @@
 })();
 </script>
 <script>(function(){var n=document.querySelector('.nav'),b=n&&n.querySelector('.burger');if(!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);});document.addEventListener('click',function(e){if(!n.contains(e.target)){n.classList.remove('open');b.setAttribute('aria-expanded','false');}});n.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false');});});})();</script>
+<script>/*shared-login*/(function(){try{var m=(document.cookie.match(/(?:^|; )zh_email=([^;]*)/)||[])[1];if(!m)return;var email=decodeURIComponent(m);document.querySelectorAll(".navcta").forEach(function(a){a.textContent="Cabinet";});document.querySelectorAll('a[href*="payform.ru"]').forEach(function(a){try{var u=new URL(a.href,location.href);if(!u.searchParams.get("customer_email")){u.searchParams.set("customer_email",email);a.href=u.toString();}}catch(e){}});}catch(e){}})();</script>
 </body>
 
 </html>
