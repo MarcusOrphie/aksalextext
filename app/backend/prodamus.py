@@ -9,6 +9,7 @@ SECRET = os.environ.get("PRODAMUS_SECRET", "").strip()
 # Роутинг по сумме заказа (руб). Продамус для всех ссылок в рублях.
 BY_SUM = {
     "99":   {"kind": "guide", "guide": "formats", "label": "30 форматов рилзов"},
+    "149":  {"kind": "guide", "guide": "crosspost", "label": "Кросспостинг: 1 бот - 3 площадки"},
     "399":  {"kind": "guide", "guide": "prompts", "label": "Гайд: промпты для контента"},
     "999":  {"kind": "sub",   "plan": "start",    "label": "Старт"},
     "2499": {"kind": "sub",   "plan": "pro",      "label": "Pro"},
