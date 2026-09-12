@@ -6,14 +6,37 @@ import os, re, hmac, hashlib, json, logging
 
 SECRET = os.environ.get("PRODAMUS_SECRET", "").strip()
 
-# Роутинг по сумме заказа (руб). Продамус для всех ссылок в рублях.
-BY_SUM = {
-    "99":   {"kind": "guide", "guide": "formats", "label": "30 форматов рилзов"},
-    "149":  {"kind": "guide", "guide": "crosspost", "label": "Кросспостинг: 1 бот - 3 площадки"},
-    "399":  {"kind": "guide", "guide": "prompts", "label": "Гайд: промпты для контента"},
-    "999":  {"kind": "sub",   "plan": "start",    "label": "Старт"},
-    "2499": {"kind": "sub",   "plan": "pro",      "label": "Pro"},
+# ГЛАВНОЕ: роутим по НАЗВАНИЮ товара (products[0][name]) - суммы у товаров совпадают
+# (Анализ Instagram и 30 форматов оба 99₽), по сумме их не различить.
+GUIDE_ITEMS = {
+    "audit":     {"kind": "guide", "guide": "audit",     "label": "Анализ твоего Instagram"},
+    "formats":   {"kind": "guide", "guide": "formats",   "label": "30 форматов рилзов"},
+    "prompts":   {"kind": "guide", "guide": "prompts",   "label": "Гайд: промпты для контента"},
+    "crosspost": {"kind": "guide", "guide": "crosspost", "label": "Кросспостинг: 1 бот - 3 площадки"},
 }
+# правила по названию (в порядке; подстрока в lower-name). Первое совпадение выигрывает.
+NAME_RULES = [
+    (("кросспостинг", "кросс-пост", "кросс пост"), "crosspost"),
+    (("анализ", "instagram", "инстаграм", "инста"), "audit"),
+    (("формат",),                                    "formats"),
+    (("промпт",),                                    "prompts"),
+]
+# резерв по сумме - только для того, что по сумме однозначно (подписки); guide-и по сумме НЕ различаем.
+BY_SUM = {
+    "999":  {"kind": "sub", "plan": "start", "label": "Старт"},
+    "2499": {"kind": "sub", "plan": "pro",   "label": "Pro"},
+}
+
+
+def _product_name(data: dict) -> str:
+    p = data.get("products")
+    if isinstance(p, list) and p and isinstance(p[0], dict):
+        return str(p[0].get("name") or "")
+    if isinstance(p, dict):
+        v = p.get("0")
+        if isinstance(v, dict):
+            return str(v.get("name") or "")
+    return str(data.get("products[0][name]") or "")
 
 
 # ---------- подпись ----------
@@ -87,10 +110,24 @@ def _listify(d):
 
 # ---------- маршрутизация товара ----------
 def route(data: dict):
-    """Вернуть описание купленного из BY_SUM по сумме. None если не распознали."""
+    """Определить купленный товар. Сначала по НАЗВАНИЮ (надёжно, различает товары с одной ценой),
+    затем резерв по сумме (для подписок). None если не распознали."""
+    name = _product_name(data).lower()
+    if name:
+        for keys, guide in NAME_RULES:
+            if any(k in name for k in keys):
+                return GUIDE_ITEMS[guide]
+        if "тариф" in name and "pro" in name:
+            return BY_SUM["2499"]
+        if "тариф" in name and "старт" in name:
+            return BY_SUM["999"]
     s = str(data.get("sum") or data.get("order_sum") or "").strip()
     s = s.split(".")[0] if s else s   # '999.00' -> '999'
-    return BY_SUM.get(s)
+    hit = BY_SUM.get(s)
+    if hit:
+        return hit
+    logging.error("prodamus.route: не распознали товар name=%r sum=%r", name, s)
+    return None
 
 
 def is_success(data: dict) -> bool:
