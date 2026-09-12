@@ -293,13 +293,26 @@
         c.appendChild(el("div", null, t("p_" + id)));
         c.appendChild(el("small", null, t("p_" + id + "_s")));
         if (visual) c.appendChild(el("span", "pf-pro", "PRO"));
-        c.onclick = () => { platform = id; const rb = $("result"); if (rb) rb.textContent = ""; const gs = $("gen-status"); if (gs) gs.hidden = true; renderPlatforms(); };
+        c.onclick = () => { platform = id; const rb = $("result"); if (rb) rb.textContent = ""; const gs = $("gen-status"); if (gs) gs.hidden = true; renderPlatforms(); scrollToForm(); };
         grid.appendChild(c);
       });
       box.appendChild(grid);
     });
     updateCarouselPanel();
     applyPlatformFields();
+  }
+  // на мобилке после выбора платформы сетка карточек длинная - плавно проматываем к полю ввода (тема/текст)
+  function scrollToForm() {
+    if (window.innerWidth > 760) return;   // на десктопе форма и так видна
+    const target = $("carousel-panel") && !$("carousel-panel").hidden ? $("carousel-panel")
+      : ($("cover-panel") && !$("cover-panel").hidden ? $("cover-panel") : ($("topic-lbl") || $("topic")));
+    if (!target) return;
+    setTimeout(() => {
+      const nav = document.querySelector(".nav");
+      const navH = nav ? nav.offsetHeight : 60;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - navH - 12;
+      window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+    }, 60);
   }
   // для «Обложек Reels» - одно поле «Заголовок» (без «тема» и «твой текст»)
   function applyPlatformFields() {
