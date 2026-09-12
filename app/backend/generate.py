@@ -213,7 +213,7 @@ _reels_deep = {"type": "object", "properties": {
     "required": ["analysis", "hook", "development", "amplification", "finale", "how_to_shoot", "captions", "why_works", "alternatives"]}
 
 SCHEMAS = {
-    "reels": _reels_deep, "shorts": _short, "tiktok": _short,
+    "reels": _short, "shorts": _short, "tiktok": _short,
     "youtube_long": {"type": "object", "properties": {
         "title": {"type": "string"}, "hook": {"type": "string"},
         "sections": {"type": "array", "items": {"type": "object", "properties": {
@@ -334,6 +334,44 @@ def generate(platform: str, topic: str, profile: dict | None = None, avoid: list
                 data["captions"] = [c.strip() for c in re.split(r"\n+", data["captions"]) if c.strip()]
             return {"platform": platform, "data": data}
     raise RuntimeError("no tool_use in response (stop_reason=%s)" % d.get("stop_reason"))
+
+
+def reels_deep(idea: str, hook: str, scenario: str = "", profile: dict | None = None,
+               lang: str = "ru", brief: dict | None = None, audience: str | None = None,
+               voice: str | None = None) -> dict:
+    """Развернуть ОДНУ идею Reels в полный глубокий сценарий (формат _reels_deep)."""
+    if not API_KEY:
+        raise RuntimeError("no ANTHROPIC_API_KEY")
+    tool = {"name": "publish_content", "description": "Вернуть один глубокий сценарий Reels строго по схеме.",
+            "input_schema": _reels_deep}
+    system = build_system("reels_deep", profile, lang=lang, audience=audience, voice=voice, brief=brief)
+    if lang == "en":
+        um = ("Expand THIS Reels idea into ONE full, deep script strictly by the format.\n"
+              "Idea: " + (idea or "") + "\nHook: " + (hook or "") +
+              (("\nDraft scenario: " + scenario) if scenario else "") +
+              "\nKeep the author's voice and the brief. Build the whole script around exactly this idea.")
+    else:
+        um = ("Разверни ЭТУ идею Reels в ОДИН полный глубокий сценарий строго по формату.\n"
+              "Идея: " + (idea or "") + "\nХук: " + (hook or "") +
+              (("\nЧерновик сценария: " + scenario) if scenario else "") +
+              "\nСохрани голос автора и бриф. Весь сценарий строй строго вокруг этой идеи.")
+    payload = {"model": MODEL, "max_tokens": 16000, "system": _cached_system(system, lang),
+               "messages": [{"role": "user", "content": um}],
+               "tools": [tool], "tool_choice": {"type": "tool", "name": "publish_content"}}
+    body = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
+        headers={"x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=180) as r:
+        d = json.loads(r.read().decode("utf-8"))
+    for b in d.get("content", []):
+        if b.get("type") == "tool_use":
+            data = _coerce_arrays(_dash(b.get("input", {})))
+            if not data:
+                raise RuntimeError("empty tool input (stop_reason=%s)" % d.get("stop_reason"))
+            if isinstance(data.get("captions"), str):
+                data["captions"] = [c.strip() for c in re.split(r"\n+", data["captions"]) if c.strip()]
+            return {"data": data}
+    raise RuntimeError("no tool_use in reels_deep response (stop_reason=%s)" % d.get("stop_reason"))
 
 
 def redo(platform: str, title: str, text: str, has_text: bool, instruction: str,

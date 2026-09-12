@@ -498,6 +498,47 @@
     return (document.fonts && document.fonts.ready) ? document.fonts.ready.then(run) : Promise.resolve().then(run);
   }
 
+  // глубокий сценарий Reels (разбор → хук → развитие → усиление → финал + альтернативы) - карточка
+  function buildReelsDeep(d) {
+    const c = el("div", "rcard reels-deep");
+    if (d.analysis) { const fc = el("div", "factcheck"); fc.appendChild(el("span", "fclabel", t("rb_r_analysis"))); fc.appendChild(el("div", null, d.analysis)); c.appendChild(fc); }
+    c.appendChild(row("🔥 " + t("rb_r_hook"), d.hook, "hook"));
+    c.appendChild(row("🧠 " + t("rb_r_dev"), d.development));
+    c.appendChild(row("⚡ " + t("rb_r_amp"), d.amplification));
+    c.appendChild(row("🎯 " + t("rb_r_finale"), d.finale));
+    if (d.how_to_shoot) c.appendChild(row("🎬 " + t("rb_r_shoot"), d.how_to_shoot));
+    const caps = capList(d.captions);
+    if (caps.length) { const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", "📝 " + t("rb_r_captions"))); const box2 = el("div", null); caps.forEach(x => box2.appendChild(el("div", "caption", x))); wrap.appendChild(box2); c.appendChild(wrap); }
+    if (d.why_works) c.appendChild(row("🚀 " + t("rb_r_why"), d.why_works));
+    const alts = arr(d.alternatives);
+    if (alts.length) {
+      const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", "🔁 " + t("rb_r_alts")));
+      const box2 = el("div", null);
+      alts.forEach(a => { const it2 = el("div", "planitem"); if (a.format) { const hh = el("div", "planhead"); hh.appendChild(el("span", "planfmt", a.format)); it2.appendChild(hh); } if (a.angle) it2.appendChild(el("div", "planidea", a.angle)); if (a.hook) it2.appendChild(el("div", "abhook", "• " + a.hook)); box2.appendChild(it2); });
+      wrap.appendChild(box2); c.appendChild(wrap);
+    }
+    const bar = el("div", "cardbar");
+    bar.appendChild(copyBtn(() => [d.hook, d.development, d.amplification, d.finale].filter(Boolean).join("\n\n"), t("rb_r_copy")));
+    c.appendChild(bar);
+    return c;
+  }
+  // «Глубже»: развернуть одну идею Reels в полный сценарий и показать под карточкой
+  async function reelsDeepen(idea, hook, scenario, btn, card) {
+    const { data } = await sb.auth.getSession();
+    const token = data.session && data.session.access_token; if (!token) return;
+    const old = btn.textContent; btn.disabled = true; btn.textContent = t("reels_deepening");
+    try {
+      const res = await fetch(API + "/reels-deep", {
+        method: "POST", headers: { "content-type": "application/json", authorization: "Bearer " + token },
+        body: JSON.stringify(Object.assign({ idea: idea || "", hook: hook || "", scenario: scenario || "", profile, lang: window.ZI18N.getLang() }, reelsBrief())),
+      });
+      if (!res.ok) throw new Error(res.status);
+      const j = await res.json();
+      const node = buildReelsDeep(j.data || {});
+      card.appendChild(node);
+      btn.remove();
+    } catch (e) { btn.disabled = false; btn.textContent = old; const er = el("div", "cs-redo-err", t("reels_deep_fail")); card.appendChild(er); }
+  }
   function renderResult(out) {
     lastOut = out;
     const box = $("result"); box.textContent = "";
@@ -565,42 +606,17 @@
         }
         const bar = el("div", "cardbar");
         bar.appendChild(copyPack(it));
+        if (p === "reels") {
+          const dbtn = el("button", "deepbtn", "🔎 " + t("reels_deep_btn")); dbtn.type = "button";
+          dbtn.onclick = () => reelsDeepen(it.idea, it.hook, it.scenario, dbtn, c);
+          bar.appendChild(dbtn);
+        }
         bar.appendChild(voteBtns(p, it.idea || it.hook));
         c.appendChild(bar);
         content.appendChild(c);
       });
     } else if (p === "reels") {
-      const c = el("div", "rcard");
-      if (d.analysis) { const fc = el("div", "factcheck"); fc.appendChild(el("span", "fclabel", t("rb_r_analysis"))); fc.appendChild(el("div", null, d.analysis)); c.appendChild(fc); }
-      c.appendChild(row("🔥 " + t("rb_r_hook"), d.hook, "hook"));
-      c.appendChild(row("🧠 " + t("rb_r_dev"), d.development));
-      c.appendChild(row("⚡ " + t("rb_r_amp"), d.amplification));
-      c.appendChild(row("🎯 " + t("rb_r_finale"), d.finale));
-      if (d.how_to_shoot) c.appendChild(row("🎬 " + t("rb_r_shoot"), d.how_to_shoot));
-      const caps = capList(d.captions);
-      if (caps.length) {
-        const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", "📝 " + t("rb_r_captions")));
-        const box2 = el("div", null); caps.forEach(x => box2.appendChild(el("div", "caption", x))); wrap.appendChild(box2); c.appendChild(wrap);
-      }
-      if (d.why_works) c.appendChild(row("🚀 " + t("rb_r_why"), d.why_works));
-      const alts = arr(d.alternatives);
-      if (alts.length) {
-        const wrap = el("div", "rrow"); wrap.appendChild(el("div", "rk", "🔁 " + t("rb_r_alts")));
-        const box2 = el("div", null);
-        alts.forEach(a => {
-          const it2 = el("div", "planitem");
-          if (a.format) { const hh = el("div", "planhead"); hh.appendChild(el("span", "planfmt", a.format)); it2.appendChild(hh); }
-          if (a.angle) it2.appendChild(el("div", "planidea", a.angle));
-          if (a.hook) it2.appendChild(el("div", "abhook", "• " + a.hook));
-          box2.appendChild(it2);
-        });
-        wrap.appendChild(box2); c.appendChild(wrap);
-      }
-      const bar = el("div", "cardbar");
-      bar.appendChild(copyBtn(() => [d.hook, d.development, d.amplification, d.finale].filter(Boolean).join("\n\n"), t("rb_r_copy")));
-      bar.appendChild(voteBtns(p, d.hook || "reels"));
-      c.appendChild(bar);
-      content.appendChild(c);
+      content.appendChild(buildReelsDeep(d));   // старые/углублённые reels-записи (без ideas)
     } else if (p === "youtube_long") {
       const c = el("div", "rcard");
       c.appendChild(el("h3", null, d.title || t("r_scenario")));

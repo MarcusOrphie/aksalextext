@@ -115,7 +115,8 @@ REELS_EN = ("Format: a viral Instagram Reels script - ONE whole, deep script (no
     "Strictly forbidden: timings and shot-by-shot, dry lists without explanation, templated AI phrases, invented facts, weak abstract hooks.")
 
 PLATFORM = {
-    "reels":       REELS_RU,
+    "reels":       "Платформа: Instagram Reels (вертикаль 9:16, сильный хук в первую секунду, решают ретеншн и досмотр). " + _RICH,
+    "reels_deep":  REELS_RU,
     "shorts":      "Платформа: YouTube Shorts (до 60 сек, резкий старт, важен ретеншн). " + _RICH,
     "tiktok":      "Платформа: TikTok (сырая живая подача, тренды и звуки). " + _RICH,
     "youtube_long":"Платформа: YouTube длинное видео (8-15 мин, глубокое и подробное). Собери структуру одного сильного видео по теме: title, hook (первые 15-20 секунд - зацепка + чёткое обещание, что человек получит), sections (7-10 разделов; у каждого h - заголовок и points - ПОДРОБНЫЙ связный текст на 80-150 слов с конкретными примерами, фактами, цифрами, мини-кейсами и объяснением 'почему так, а не иначе'), outro (сильный вывод + мягкий призыв). Раскрывай тему по-настоящему глубоко: в каждом разделе минимум один конкретный пример или кейс. Плюс fact_check.",
@@ -134,7 +135,8 @@ PLATFORM = {
 }
 
 PLATFORM_EN = {
-    "reels":       REELS_EN,
+    "reels":       "Platform: Instagram Reels (9:16 vertical, a strong hook in the first second, retention and watch-through decide). " + _RICH_EN,
+    "reels_deep":  REELS_EN,
     "shorts":      "Platform: YouTube Shorts (up to 60 sec, sharp start, retention matters). " + _RICH_EN,
     "tiktok":      "Platform: TikTok (raw, lively delivery, trends and sounds). " + _RICH_EN,
     "youtube_long":"Platform: YouTube long-form video (8-15 min, deep and detailed). Build the structure of one strong video on the topic: title, hook (first 15-20 seconds - a grab + a clear promise of what the viewer gets), sections (7-10 sections; each with h - a heading and points - a DETAILED coherent text of 80-150 words with concrete examples, facts, numbers, mini-cases and an explanation of 'why this way and not another'), outro (a strong takeaway + a soft call). Cover the topic truly deeply: at least one concrete example or case per section. Plus fact_check.",
@@ -236,8 +238,8 @@ def build_system(platform: str, profile: dict | None, avoid: list | None = None,
     plat = (PLATFORM_EN if en else PLATFORM)
     inj = _INJ["en" if en else "ru"]
     s = base + "\n" + plat.get(platform, plat["reels"])
-    # бриф ролика (только reels): подробные вводные автора из формы
-    if platform == "reels" and brief:
+    # бриф ролика (reels и углубление reels_deep): подробные вводные автора из формы
+    if platform in ("reels", "reels_deep") and brief:
         blab = ({"audience": "Target audience", "goal": "Goal (what should happen after watching)",
                  "promo": "What is promoted", "idea": "Core message (one phrase)",
                  "style": "Delivery style", "format": "Format", "length": "Length"} if en else

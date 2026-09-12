@@ -172,6 +172,11 @@ em{font-style:normal;color:var(--coral)}
 .sc-unverifiable{background:#ece7f5;color:#5a4d86;border-color:#b0a2d6}
 .sc-enriched{background:#fff;border:2px dashed var(--coral);border-radius:8px;padding:11px 13px;font-size:15px;line-height:1.6;color:#2a2015;white-space:pre-wrap}
 .cardbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.deepbtn{background:var(--coral);color:var(--paper);border:2px solid var(--ink);border-radius:8px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.05em;padding:4px 10px;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
+.deepbtn:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.deepbtn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
+.deepbtn:disabled{opacity:.7;cursor:default}
+.rcard.reels-deep{margin-top:12px;border-style:dashed;background:var(--paper)}
 .votes{display:inline-flex;align-items:center;gap:6px}
 .voteq{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:10px;letter-spacing:.05em;color:var(--muted)}
 .vote{background:none;border:2px solid var(--ink);border-radius:8px;padding:2px 8px;font-size:15px;line-height:1.2;cursor:pointer;filter:grayscale(.4);opacity:.75}

@@ -301,6 +301,39 @@ def redo_endpoint(request: Request, req: RedoReq, user: dict = Depends(get_user)
         raise HTTPException(status_code=502, detail="не удалось переделать, попробуй ещё раз")
     return {"data": out}
 
+class ReelsDeepReq(BaseModel):
+    idea: str = Field(default="", max_length=600)
+    hook: str = Field(default="", max_length=600)
+    scenario: str = Field(default="", max_length=4000)
+    profile: Profile | None = None
+    lang: str = Field(default="ru", max_length=5)
+    b_audience: str = Field(default="", max_length=600)
+    b_goal: str = Field(default="", max_length=400)
+    b_promo: str = Field(default="", max_length=100)
+    b_idea: str = Field(default="", max_length=300)
+    b_style: str = Field(default="", max_length=100)
+    b_format: str = Field(default="", max_length=100)
+    b_length: str = Field(default="", max_length=100)
+
+@app.post("/api/reels-deep")
+@limiter.limit("60/hour")
+def reels_deep_endpoint(request: Request, req: ReelsDeepReq, user: dict = Depends(get_user)):
+    if not ((req.idea or "").strip() or (req.hook or "").strip()):
+        raise HTTPException(status_code=400, detail="пустая идея")
+    profile = req.profile.model_dump(exclude_none=True) if req.profile else None
+    lang = "en" if (req.lang or "").lower().startswith("en") else "ru"
+    try: author_voice = voice.sample(user["id"])
+    except Exception: author_voice = ""
+    try: aud = audience.for_prompt(user["id"])
+    except Exception: aud = ""
+    brief = {"audience": req.b_audience, "goal": req.b_goal, "promo": req.b_promo,
+             "idea": req.b_idea, "style": req.b_style, "format": req.b_format, "length": req.b_length}
+    try:
+        out = gen.reels_deep(req.idea, req.hook, req.scenario, profile, lang, brief, aud, author_voice)
+    except Exception:
+        raise HTTPException(status_code=502, detail="не удалось развернуть, попробуй ещё раз")
+    return out
+
 class FeedbackReq(BaseModel):
     platform: str = Field(max_length=32)
     item: str = Field(max_length=300)

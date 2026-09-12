@@ -133,6 +133,7 @@
       rb_length_1: "Короткий (до 30 сек)", rb_length_2: "Средний (30–60 сек)", rb_length_3: "Длинный (1–2 мин)",
       rb_r_analysis: "Разбор", rb_r_hook: "Хук", rb_r_dev: "Развитие", rb_r_amp: "Усиление", rb_r_finale: "Финал + CTA",
       rb_r_shoot: "Как снять", rb_r_captions: "Подписи", rb_r_why: "Почему это работает", rb_r_alts: "Альтернативы", rb_r_copy: "Скопировать сценарий",
+      reels_deep_btn: "Развернуть в сценарий", reels_deepening: "Разворачиваю…", reels_deep_fail: "Не удалось развернуть, попробуй ещё раз",
       // errors
       err_bad_creds: "Неверная почта или пароль", err_not_confirmed: "Почта ещё не подтверждена",
       err_registered: "Эта почта уже зарегистрирована", err_pass_min: "Пароль минимум 6 символов",
@@ -286,6 +287,7 @@
       rb_length_1: "Short (up to 30s)", rb_length_2: "Medium (30–60s)", rb_length_3: "Long (1–2 min)",
       rb_r_analysis: "Breakdown", rb_r_hook: "Hook", rb_r_dev: "Development", rb_r_amp: "Amplification", rb_r_finale: "Finale + CTA",
       rb_r_shoot: "How to shoot", rb_r_captions: "Captions", rb_r_why: "Why it works", rb_r_alts: "Alternatives", rb_r_copy: "Copy script",
+      reels_deep_btn: "Expand into full script", reels_deepening: "Expanding…", reels_deep_fail: "Couldn't expand, try again",
       err_bad_creds: "Wrong email or password", err_not_confirmed: "Email not confirmed yet",
       err_registered: "This email is already registered", err_pass_min: "Password must be at least 6 characters",
       err_pass_diff: "New password must differ from the old one", err_email_fmt: "Invalid email format",
