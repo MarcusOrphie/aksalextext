@@ -14,6 +14,9 @@ GUIDE_ITEMS = {
     "prompts":   {"kind": "guide", "guide": "prompts",   "label": "Гайд: промпты для контента"},
     "crosspost": {"kind": "guide", "guide": "crosspost", "label": "Кросспостинг: 1 бот - 3 площадки"},
 }
+# Отдельный платный продукт - курс (пожизненный доступ, не гайд, не подписка)
+COURSE_ITEM = {"kind": "course", "course": "proyavit", "label": "Проявить себя"}
+COURSE_KEYS = ("проявить", "прояви себя", "курс проявить")
 # правила по названию (в порядке; подстрока в lower-name). Первое совпадение выигрывает.
 NAME_RULES = [
     (("кросспостинг", "кросс-пост", "кросс пост"), "crosspost"),
@@ -114,6 +117,8 @@ def route(data: dict):
     затем резерв по сумме (для подписок). None если не распознали."""
     name = _product_name(data).lower()
     if name:
+        if any(k in name for k in COURSE_KEYS):
+            return COURSE_ITEM
         for keys, guide in NAME_RULES:
             if any(k in name for k in keys):
                 return GUIDE_ITEMS[guide]

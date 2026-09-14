@@ -8,16 +8,17 @@ SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "").strip()
 STORAGE = SUPABASE_URL + "/storage/v1"
 BUCKET = "uploads"
 KEY = "_system/paid_access.json"
+COURSE_KEY = "_system/course_access.json"   # пожизненный доступ к курсам: email -> {courses:[...], updated}
 _H = {"apikey": SERVICE_KEY, "Authorization": "Bearer " + SERVICE_KEY}
 
 PLAN_DAYS = 31
 
 
-def _read() -> dict:
+def _read(key: str = KEY) -> dict:
     if not SUPABASE_URL or not SERVICE_KEY:
         return {}
     # cache-buster: Supabase Storage GET кэшируется, свежий доступ иначе не виден сразу
-    url = STORAGE + "/object/" + BUCKET + "/" + urllib.parse.quote(KEY) + "?t=" + str(int(time.time()))
+    url = STORAGE + "/object/" + BUCKET + "/" + urllib.parse.quote(key) + "?t=" + str(int(time.time()))
     try:
         with urllib.request.urlopen(urllib.request.Request(url, headers={**_H, "Cache-Control": "no-cache"}), timeout=15) as r:
             d = json.loads(r.read().decode())
@@ -32,8 +33,8 @@ def _read() -> dict:
         return {}
 
 
-def _write(d: dict) -> bool:
-    url = STORAGE + "/object/" + BUCKET + "/" + urllib.parse.quote(KEY)
+def _write(d: dict, key: str = KEY) -> bool:
+    url = STORAGE + "/object/" + BUCKET + "/" + urllib.parse.quote(key)
     body = json.dumps(d, ensure_ascii=False).encode("utf-8")
     h = dict(_H); h["Content-Type"] = "application/json"; h["x-upsert"] = "true"
     try:
@@ -62,3 +63,30 @@ def active(email: str):
     if isinstance(node, dict) and node.get("until", 0) > time.time():
         return node
     return None
+
+
+# ---- Пожизненный доступ к курсам (отдельные разовые продукты) ----
+
+def grant_course(email: str, course: str = "proyavit") -> bool:
+    email = (email or "").strip().lower()
+    if not email:
+        return False
+    d = _read(COURSE_KEY)
+    node = d.get(email)
+    if not isinstance(node, dict):
+        node = {"courses": []}
+    courses = node.get("courses") or []
+    if course not in courses:
+        courses.append(course)
+    node["courses"] = courses
+    node["updated"] = int(time.time())
+    d[email] = node
+    return _write(d, COURSE_KEY)
+
+
+def has_course(email: str, course: str = "proyavit") -> bool:
+    email = (email or "").strip().lower()
+    if not email:
+        return False
+    node = _read(COURSE_KEY).get(email)
+    return isinstance(node, dict) and course in (node.get("courses") or [])

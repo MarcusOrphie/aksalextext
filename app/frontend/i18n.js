@@ -3,7 +3,7 @@
   var DICT = {
     ru: {
       // header
-      profile_btn: "Мои данные", home_btn: "В кабинет", logout_btn: "Выйти", close: "Закрыть",
+      profile_btn: "Мои данные", home_btn: "В кабинет", logout_btn: "Выйти", close: "Закрыть", nav_course: "Курс",
       profile_hint: "Заполни информацию о себе, чтобы результат был лучше",
       // auth
       tab_login: "Вход", tab_reg: "Регистрация",
@@ -165,7 +165,7 @@
       locale: "ru"
     },
     en: {
-      profile_btn: "My profile", home_btn: "Dashboard", logout_btn: "Log out", close: "Close",
+      profile_btn: "My profile", home_btn: "Dashboard", logout_btn: "Log out", close: "Close", nav_course: "Course",
       profile_hint: "Tell us about yourself so the results get better",
       tab_login: "Log in", tab_reg: "Sign up",
       auth_title_login: "Welcome back!", auth_title_reg: "Create account",

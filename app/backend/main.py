@@ -28,6 +28,7 @@ import edits
 import access
 import tg
 import prodamus
+import course_content
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -158,6 +159,16 @@ def me(user: dict = Depends(get_user)):
             "post_left": max(0, VISUAL_MONTHLY - post_used),
             "stories_left": max(0, VISUAL_MONTHLY - stories_used),
             "cover_left": max(0, VISUAL_MONTHLY - cover_used)}
+
+@app.get("/api/course")
+def course_endpoint(user: dict = Depends(get_user)):
+    """Контент курса «Проявить себя» - только авторизованным с доступом.
+    Доступ = разовая покупка курса (access.has_course) или белый список."""
+    email = user["email"]
+    entitled = access.has_course(email, course_content.COURSE_ID) or paid_plan(email) == "unlimited"
+    if entitled:
+        return {"access": True, "course": course_content.load()}
+    return {"access": False, "teaser": course_content.teaser()}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")
@@ -452,6 +463,12 @@ async def prodamus_hook(request: Request):
     try:
         if item["kind"] == "guide":
             mailer.send_guide(email, item["guide"])
+        elif item["kind"] == "course":
+            access.grant_course(email, item.get("course", "proyavit"))
+            try:
+                mailer.send_course_access(email, item.get("label", "Проявить себя"))
+            except Exception as e:
+                logging.error("PRODAMUS course email failed: %r", e)
         elif item["kind"] == "sub":
             access.grant(email, item["plan"])
             mailer.send_sub_activated(email, item["label"])

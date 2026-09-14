@@ -7,3 +7,4 @@ _dl/
 ideas/brief.json
 app/backend/.env
 app/frontend/avatar-src.jpg
+app/backend/course_content.json

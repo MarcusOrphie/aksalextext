@@ -17,6 +17,9 @@ em{font-style:normal;color:var(--coral)}
 .iconbtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink);background:var(--paper2);border:2px solid var(--ink);border-radius:9px;box-shadow:2px 2px 0 var(--ink);padding:5px;cursor:pointer;transition:transform .1s,box-shadow .1s}
 .iconbtn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);color:var(--coral-deep)}
 .iconbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.navcourse{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.02em;color:var(--paper);background:var(--coral);border:2px solid var(--ink);border-radius:9px;box-shadow:2px 2px 0 var(--ink);padding:6px 12px;cursor:pointer;transition:transform .1s,box-shadow .1s}
+.navcourse:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--ink);color:var(--paper)}
+.navcourse:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 .usermail{font-size:13px;color:var(--muted);font-weight:700;margin-right:2px}
 .langsw{display:inline-flex;border:2px solid var(--ink);border-radius:9px;overflow:hidden}
 .langsw a{padding:4px 8px;font-family:"Oswald";font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--muted);text-decoration:none;background:var(--paper2)}

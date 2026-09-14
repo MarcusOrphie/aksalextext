@@ -140,3 +140,22 @@ def send_sub_activated(email: str, plan_label: str):
     <a href="{CABINET}" style="display:inline-block;padding:14px 30px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;color:#faf5ec;text-decoration:none;">Открыть кабинет →</a></td></tr></table>
 </td></tr></table></td></tr></table></body></html>"""
     send(email, "Тариф " + plan_label + " активирован - Залихват", html)
+
+
+def send_course_access(email: str, course_label: str = "Проявить себя"):
+    """Письмо после покупки курса: доступ открыт, ссылка в кабинет на /course."""
+    url = CABINET.rstrip("/") + "/course"
+    html = f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"></head>
+<body style="margin:0;padding:0;background:#faf5ec;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px 16px;">
+<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+<tr><td style="padding:6px 4px 18px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:20px;color:#151210;">
+  <img src="https://aksalex.com/apple-touch-icon.png" width="34" height="34" alt="" style="vertical-align:middle;border-radius:50%;border:2px solid #151210;margin-right:9px;"> ЗАЛИХВАТ</td></tr>
+<tr><td style="background:#fffdf8;border:3px solid #151210;border-radius:18px;padding:34px 30px;box-shadow:8px 8px 0 #ff7f50;">
+  <div style="font-family:'Oswald',Arial,sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:2px;font-size:12px;color:#e85f2c;">Доступ открыт</div>
+  <h1 style="margin:8px 0 12px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.08;color:#151210;">Курс «{course_label}» твой!</h1>
+  <p style="margin:0 0 18px;font-family:'Nunito',Arial,sans-serif;font-size:16px;line-height:1.6;color:#2c2621;font-weight:600;">Это интерактивный курс-игра прямо в кабинете: проходишь уровни, отмечаешь задачи галочками, копишь XP, открываешь ачивки. Прогресс сохраняется и синхронизируется между устройствами.</p>
+  <p style="margin:0 0 20px;font-family:'Nunito',Arial,sans-serif;font-size:15px;line-height:1.6;color:#2c2621;font-weight:700;">Войди в кабинет с этой же почтой ({email}) и открой раздел «Курс».</p>
+  <table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="border-radius:14px;background:#ff7f50;border:3px solid #151210;">
+    <a href="{url}" style="display:inline-block;padding:14px 30px;font-family:'Oswald',Arial,sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;color:#faf5ec;text-decoration:none;">Открыть курс →</a></td></tr></table>
+</td></tr></table></td></tr></table></body></html>"""
+    send(email, "Доступ к курсу «" + course_label + "» открыт - Залихват", html)
