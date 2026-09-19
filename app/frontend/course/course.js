@@ -310,29 +310,66 @@
   }
   function teaser(user, t){
     t=t||{};
+    var L=t.landing||null;
     var payUrl=t.pay_url||"";
     if(payUrl){ payUrl += (payUrl.indexOf("?")>=0?"&":"?")+"customer_email="+encodeURIComponent(user.email); }
+    var priceTxt = t.price? (t.price+" ₽") : "";
+    function buyBtn(label){
+      return payUrl
+        ? '<a class="tz-buy" href="'+payUrl+'" target="_blank" rel="noopener">'+esc(label)+(priceTxt?' · '+priceTxt:'')+' →</a>'
+        : '<a class="tz-buy" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Как получить доступ →</a>';
+    }
+    var tag = t.tag||cTag(), title=t.title||cTitle(), sub=t.subtitle||cSub(), hero=t.hero||cHero();
+    var mc=t.modules_count||(t.modules||[]).length, tc=t.tasks_count||0, ac=t.achievements_count||0;
+
+    var html='<div class="hero" style="margin-top:16px">'
+        +'<span class="tag">'+esc(tag)+'</span>'
+        +'<h1>'+esc(title)+'</h1>'
+        +(sub?'<div class="sub">'+esc(sub)+'</div>':'')
+        +'<p>'+esc((L&&L.promise)||hero||(mc+' уровней, '+tc+' заданий, XP и ачивки.'))+'</p>'
+        +buyBtn("Получить доступ")
+        +'<div class="hero-meta">'+mc+' уровней · '+tc+' заданий · ИИ-наставник внутри</div>'
+      +'</div>';
+
+    // боли -> решения
+    if(L&&L.pains&&L.pains.length){
+      html+='<div class="ld-sec"><div class="ld-h">Знакомо?</div><div class="ld-pains">';
+      L.pains.forEach(function(p){
+        html+='<div class="ld-card"><div class="ld-pain"><span class="ld-x">✕</span>'+esc(p.pain)+'</div>'
+          +'<div class="ld-fix"><span class="ld-c">✓</span>'+esc(p.fix)+'</div></div>';
+      });
+      html+='</div></div>';
+    }
+
+    // что внутри
     var mods=(t.modules||[]).map(function(m){
       return '<div class="tz-mod"><span class="tz-n">'+(m.em||m.num||"•")+'</span>'
         +'<div><b>'+esc(m.title||"")+'</b>'+(m.days?' <span class="tz-days">'+esc(m.days)+'</span>':'')
         +'<div class="tz-why">'+esc(m.why||"")+'</div></div></div>';
     }).join("");
-    var priceTxt = t.price? (t.price+" ₽") : "";
-    var btn = payUrl
-      ? '<a class="tz-buy" href="'+payUrl+'" target="_blank" rel="noopener">Получить доступ'+(priceTxt?' · '+priceTxt:'')+' →</a>'
-      : '<a class="tz-buy" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Как получить доступ →</a>';
-    var mc=t.modules_count||(t.modules||[]).length, tc=t.tasks_count||0, ac=t.achievements_count||0;
-    app.innerHTML=
-      '<div class="hero" style="margin-top:16px">'
-        +'<span class="tag">'+esc(cTag())+'</span>'
-        +'<h1>'+esc(t.title||cTitle())+'</h1>'
-        +(cSub()?'<div class="sub">'+esc(cSub())+'</div>':'')
-        +'<p>'+esc(cHero()|| (mc+' уровней, '+tc+' заданий, XP и ачивки.'))+'</p>'
-        +btn
-      +'</div>'
-      +'<div class="tz-list"><div class="tz-h">Что внутри — '+mc+' уровней</div>'+mods+'</div>'
-      +'<div class="tz-foot">Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете. <a href="#" id="tz-reload">Обновить доступ</a></div>'
+    html+='<div class="tz-list"><div class="tz-h">Что внутри — '+mc+' уровней</div>'+mods+'</div>';
+
+    // что получишь
+    if(L&&L.outcomes&&L.outcomes.length){
+      html+='<div class="ld-sec"><div class="ld-h">Что получишь</div><ul class="ld-out">';
+      L.outcomes.forEach(function(o){ html+='<li>'+esc(o)+'</li>'; });
+      html+='</ul></div>';
+    }
+
+    // для кого
+    if(L&&L.audience){
+      html+='<div class="ld-aud"><b>Для кого:</b> '+esc(L.audience)+'</div>';
+    }
+
+    // финальный CTA
+    html+='<div class="ld-cta">'
+      +'<div class="ld-cta-t">'+esc(title)+(priceTxt?' — '+priceTxt:'')+'</div>'
+      +'<div class="ld-cta-s">Пожизненный доступ, прохождение с галочками и XP, ИИ-наставник внутри.</div>'
+      +buyBtn("Получить доступ")+'</div>';
+
+    html+='<div class="tz-foot">Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете. <a href="#" id="tz-reload">Обновить доступ</a></div>'
       +'<div class="foot">Залихват · @zalihvat_ai</div>';
+    app.innerHTML=html;
     var rl=document.getElementById("tz-reload");
     if(rl) rl.addEventListener("click", function(e){ e.preventDefault(); location.reload(); });
   }

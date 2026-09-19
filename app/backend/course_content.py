@@ -80,6 +80,8 @@ def teaser(course_id: str = "proyavit") -> dict:
     total_tasks = sum(len(m.get("tasks", [])) for m in c.get("modules", []))
     reg = COURSES.get(course_id) or {}
     return {"title": c.get("title", reg.get("title", "Курс")),
+            "subtitle": c.get("subtitle", ""), "hero": c.get("hero", ""), "tag": c.get("tag", ""),
+            "landing": c.get("landing"),
             "modules_count": len(mods), "tasks_count": total_tasks,
             "achievements_count": len(c.get("achievements", [])),
             "modules": mods,

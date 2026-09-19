@@ -142,6 +142,25 @@
   .tt-in{display:flex;gap:6px;padding:10px;border-top:2px solid var(--line)}
   .tt-in textarea{flex:1;resize:none;border:2px solid var(--ink);border-radius:9px;padding:8px;font-family:inherit;font-size:13px;font-weight:600;max-height:90px}
   .tt-in button{flex:none;width:40px;border:2px solid var(--ink);border-radius:9px;background:var(--coral);color:var(--paper);font-size:18px;font-weight:800;cursor:pointer}
+  /* лендинг: боли -> решения */
+  .hero-meta{margin-top:12px;font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.05em;color:#e9c9b8}
+  .ld-sec{margin:22px 0}
+  .ld-h{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:21px;margin-bottom:12px}
+  .ld-pains{display:grid;gap:10px}
+  .ld-card{background:var(--paper2);border:2.5px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:13px 15px}
+  .ld-pain{font-weight:800;color:var(--ink);font-size:14px;display:flex;gap:8px;align-items:flex-start}
+  .ld-pain .ld-x{color:#d1462f;font-weight:900;flex:none}
+  .ld-fix{margin-top:8px;padding-top:8px;border-top:2px dashed var(--line);font-size:13px;font-weight:700;color:#3a352f;display:flex;gap:8px;align-items:flex-start}
+  .ld-fix .ld-c{color:var(--ok);font-weight:900;flex:none}
+  .ld-out{margin:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+  .ld-out li{background:var(--coral-soft);border:2px solid var(--ink);border-radius:11px;padding:11px 14px 11px 38px;font-size:13.5px;font-weight:700;color:#3a2b20;position:relative}
+  .ld-out li::before{content:"★";position:absolute;left:14px;top:10px;color:var(--coral-deep)}
+  .ld-aud{background:var(--paper2);border:2px solid var(--ink);border-radius:12px;padding:12px 15px;font-size:13px;font-weight:700;color:#332e29;margin:18px 0}
+  .ld-aud b{font-family:"Oswald",sans-serif;text-transform:uppercase}
+  .ld-cta{margin:24px 0;padding:26px 22px;text-align:center;background:var(--ink);color:var(--paper);border:2.5px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--coral)}
+  .ld-cta-t{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:24px;line-height:1.05;color:var(--coral)}
+  .ld-cta-s{margin:9px 0 2px;font-size:13px;color:#d9d2c7;font-weight:700;max-width:46ch;margin-inline:auto}
+  @media(min-width:640px){ .ld-pains{grid-template-columns:1fr 1fr} }
   @media(max-width:600px){
     .hero h1{font-size:36px}
     .pbar{gap:10px;padding:10px}
@@ -164,6 +183,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.min.js"></script>
 <script src="/config.js"></script>
 <script>window.ZH_COURSE_ID="neuroteacher";window.ZH_TUTOR_ON=true;</script>
-<script src="/course/course.js?v=3"></script>
+<script src="/course/course.js?v=4"></script>
 </body>
 </html>
