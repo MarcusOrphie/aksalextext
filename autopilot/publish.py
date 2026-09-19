@@ -197,8 +197,16 @@ def main():
     os.makedirs(outdir, exist_ok=True)
 
     text = plain_text(d)
+    n_tables = sum(1 for s in d.get("sections", []) for b in s.get("blocks", []) if b.get("type") == "table")
+    MIN_CHARS, MAX_CHARS = 3000, 5000
+    if len(text) < MIN_CHARS or n_tables < 1:
+        print(f"length: {len(text)} | tables: {n_tables} | REJECTED: нужно {MIN_CHARS}-{MAX_CHARS} символов с пробелами и >= 1 таблицы. "
+              f"Расширь статью (примеры, разбор по шагам, таблица сравнения) и запусти снова.", flush=True)
+        sys.exit(2)
+    if len(text) > 6000:
+        print(f"length: {len(text)} | WARNING: длиннее целевых {MIN_CHARS}-{MAX_CHARS}, лучше сократить.", flush=True)
     uniq = textru(text)
-    print("uniqueness:", uniq, "| chars:", len(text), "| slug:", d["slug"], flush=True)
+    print("uniqueness:", uniq, "| chars:", len(text), "| tables:", n_tables, "| slug:", d["slug"], flush=True)
 
     make_cover(d.get("cover_title") or d["title"], d.get("cover_tag", "Нейросети · блог"),
                os.path.join(outdir, "cover.jpg"))
