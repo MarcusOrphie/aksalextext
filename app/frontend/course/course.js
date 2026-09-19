@@ -1,15 +1,24 @@
-/* Движок курса «Проявить себя». Рендер + прогресс + XP/ранги + ачивки + сохранение. */
+/* Движок курсов Залихвата. Мультикурсовый (по window.ZH_COURSE_ID). Рендер + прогресс + XP/ранги + ачивки + ИИ-наставник. */
 (function () {
   "use strict";
   var cfg = window.ZCFG || {};
   var sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
   var API = cfg.API_BASE || "/api";
-  var C = null;                       // контент курса приходит с бэкенда после проверки доступа
+  var CID = window.ZH_COURSE_ID || "proyavit";     // id курса
+  var TUTOR_ON = !!window.ZH_TUTOR_ON;             // включить ИИ-наставника
+  var C = null;
   var app = document.getElementById("app");
 
-  var uid = null, email = null;
+  var uid = null, email = null, token = null;
   var state = { v: 1, done: {}, ach: {}, days: [], started: null, updated: null };
   var saveTimer = null, allTasks = [], totalXpMax = 0;
+
+  // хардкод-тексты «Проявить себя» (back-compat); прочие курсы берут из C
+  var PROYAVIT = CID === "proyavit";
+  function cTitle(){ return (C && C.title) || (PROYAVIT ? "Проявить себя" : "Курс"); }
+  function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Пройди игру — и стань тем, кого видят и слышат" : ""); }
+  function cHero(){ return (C && C.hero) || (PROYAVIT ? "13 уровней-квестов: от «страшно показаться» до системного блога. Отмечай задачи — копи XP, повышай ранг, открывай ачивки. Прогресс сохраняется и синхронизируется между устройствами." : ""); }
+  function cTag(){ return (C && C.tag) || (PROYAVIT ? "Курс-игра · Залихват" : "Курс · Залихват"); }
 
   // ---------- utils ----------
   function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
@@ -25,31 +34,27 @@
     if(!state.days||!state.days.length) return 0;
     var set={}; state.days.forEach(function(d){ set[d]=1; });
     var n=0, d=new Date();
-    // допускаем, что сегодня ещё без активности — тогда считаем от вчера
     if(!set[todayStr()]) d.setDate(d.getDate()-1);
     for(;;){ var k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); if(set[k]){ n++; d.setDate(d.getDate()-1); } else break; }
     return n;
   }
 
-  // ---------- persistence ----------
-  function lsKey(){ return "zh_course_"+(uid||"anon"); }
+  // ---------- persistence (per-course) ----------
+  function remoteName(){ return PROYAVIT ? "_course.json" : "_course_"+CID+".json"; }
+  function lsKey(){ return PROYAVIT ? ("zh_course_"+(uid||"anon")) : ("zh_course_"+CID+"_"+(uid||"anon")); }
   function saveLocal(){ try{ localStorage.setItem(lsKey(), JSON.stringify(state)); }catch(e){} }
   function loadLocal(){ try{ var s=localStorage.getItem(lsKey()); if(s) return JSON.parse(s); }catch(e){} return null; }
-  function scheduleSave(){
-    saveLocal();
-    if(saveTimer) clearTimeout(saveTimer);
-    saveTimer=setTimeout(pushRemote, 900);
-  }
+  function scheduleSave(){ saveLocal(); if(saveTimer) clearTimeout(saveTimer); saveTimer=setTimeout(pushRemote, 900); }
   function pushRemote(){
     if(!uid) return;
     state.updated=new Date().toISOString();
     try{
       var blob=new Blob([JSON.stringify(state)],{type:"application/json"});
-      sb.storage.from("uploads").upload(uid+"/_course.json", blob, {upsert:true, contentType:"application/json"});
+      sb.storage.from("uploads").upload(uid+"/"+remoteName(), blob, {upsert:true, contentType:"application/json"});
     }catch(e){}
   }
   function pullRemote(){
-    return sb.storage.from("uploads").download(uid+"/_course.json")
+    return sb.storage.from("uploads").download(uid+"/"+remoteName())
       .then(function(r){ if(r&&r.data) return r.data.text().then(function(t){ return JSON.parse(t); }); return null; })
       .catch(function(){ return null; });
   }
@@ -76,10 +81,7 @@
 
   // ---------- toast + confetti ----------
   var toast=document.getElementById("toast"), toastQ=[], toastBusy=false;
-  function showToast(em, tt, ts){
-    toastQ.push([em,tt,ts]);
-    if(!toastBusy) nextToast();
-  }
+  function showToast(em, tt, ts){ toastQ.push([em,tt,ts]); if(!toastBusy) nextToast(); }
   function nextToast(){
     if(!toastQ.length){ toastBusy=false; return; }
     toastBusy=true;
@@ -92,24 +94,17 @@
   }
   function confetti(){
     var cols=["#ff7f50","#e85f2c","#151210","#ffe6d8","#2f9e60"];
-    for(var i=0;i<70;i++){
-      (function(){
-        var c=document.createElement("div"); c.className="cf";
-        c.style.left=(Math.random()*100)+"vw";
-        c.style.background=cols[i%cols.length];
-        var dur=(1.6+Math.random()*1.4), delay=Math.random()*0.5;
-        c.style.transition="transform "+dur+"s ease-in, opacity "+dur+"s ease-in";
-        c.style.transitionDelay=delay+"s";
-        c.style.transform="translateY(0) rotate(0deg)";
-        c.style.borderRadius=(Math.random()<.5?"2px":"50%");
-        document.body.appendChild(c);
-        requestAnimationFrame(function(){
-          c.style.transform="translateY("+(window.innerHeight+40)+"px) rotate("+(Math.random()*720-360)+"deg)";
-          c.style.opacity="0.2";
-        });
-        setTimeout(function(){ c.remove(); }, (dur+delay)*1000+200);
-      })();
-    }
+    for(var i=0;i<70;i++){(function(){
+      var c=document.createElement("div"); c.className="cf";
+      c.style.left=(Math.random()*100)+"vw"; c.style.background=cols[i%cols.length];
+      var dur=(1.6+Math.random()*1.4), delay=Math.random()*0.5;
+      c.style.transition="transform "+dur+"s ease-in, opacity "+dur+"s ease-in";
+      c.style.transitionDelay=delay+"s"; c.style.transform="translateY(0) rotate(0deg)";
+      c.style.borderRadius=(Math.random()<.5?"2px":"50%");
+      document.body.appendChild(c);
+      requestAnimationFrame(function(){ c.style.transform="translateY("+(window.innerHeight+40)+"px) rotate("+(Math.random()*720-360)+"deg)"; c.style.opacity="0.2"; });
+      setTimeout(function(){ c.remove(); }, (dur+delay)*1000+200);
+    })();}
   }
 
   // ---------- render ----------
@@ -124,8 +119,7 @@
     var x=xp(), pct=Math.round(doneCount()/allTasks.length*100), rk=rankFor(x), nr=nextRank(x), st=streak();
     var toNext = nr? (nr.min-x) : 0;
     var fill = nr? Math.round((x-rk.min)/(nr.min-rk.min)*100) : 100;
-    var el=document.getElementById("pbar");
-    el.innerHTML=
+    document.getElementById("pbar").innerHTML=
       '<div class="ring">'+ring(pct)+'<span class="pct">'+pct+'%</span></div>'
       +'<div class="pmeta">'
         +'<div class="rank">'+rk.em+' '+esc(rk.name)+' <small>· '+x+' XP</small></div>'
@@ -143,9 +137,10 @@
     }).join("");
   }
   function promptHTML(p){
+    var pre=p.text.replace(/</g,"").replace(/b>/g,"<b>").replace(/\/b>/g,"</b>").replace(//g,"&lt;");
     return '<div class="prompt"><div class="ph"><span class="ic">✦</span><span class="t">'+esc(p.title)+'</span>'
       +'<button class="copy" data-copy="'+encodeURIComponent(p.text)+'">Копировать</button></div>'
-      +'<pre>'+p.text.replace(/</g,"").replace(/b>/g,"<b>").replace(/\/b>/g,"</b>").replace(//g,"&lt;")+'</pre></div>';
+      +'<pre>'+pre+'</pre></div>';
   }
   function lessonHTML(l){ return '<h3><span class="dot">◆</span> '+esc(l.h)+'</h3>'+l.body; }
   function moduleHTML(m, idx){
@@ -183,43 +178,45 @@
     flat();
     var firstIncomplete=-1;
     for(var i=0;i<C.modules.length;i++){ if(!modDone(C.modules[i])){ firstIncomplete=i; break; } }
-    var html='<div class="pbar" id="pbar"></div>';
-    // hero
     var started = doneCount()>0;
-    html+='<div class="hero">'
-      +'<span class="tag">Курс-игра · Залихват</span>'
-      +'<h1>Проявить себя</h1>'
-      +'<div class="sub">Пройди игру — и стань тем, кого видят и слышат</div>'
-      +'<p>13 уровней-квестов: от «страшно показаться» до системного блога с целью, стратегией и первым выпущенным рилз. Отмечай задачи — копи XP, повышай ранг, открывай ачивки. Прогресс сохраняется и синхронизируется между устройствами.</p>'
-      +'<button class="cta" id="continue">'+(started?'Продолжить →':'Начать игру →')+'</button>'
-      +'</div>';
-    html+='<div class="ach-shelf"><div class="lab">🏅 Ачивки</div><div class="ach-row" id="ach"></div></div>';
+    var html='<div class="pbar" id="pbar"></div>'
+      +'<div class="hero">'
+        +'<span class="tag">'+esc(cTag())+'</span>'
+        +'<h1>'+esc(cTitle())+'</h1>'
+        +(cSub()?'<div class="sub">'+esc(cSub())+'</div>':'')
+        +(cHero()?'<p>'+esc(cHero())+'</p>':'')
+        +'<button class="cta" id="continue">'+(started?'Продолжить →':'Начать →')+'</button>'
+      +'</div>'
+      +'<div class="ach-shelf"><div class="lab">🏅 Ачивки</div><div class="ach-row" id="ach"></div></div>';
     C.modules.forEach(function(m,i){ html+=moduleHTML(m,i); });
-    html+='<div class="foot">Залихват · @zalihvat_ai · курс «Проявить себя»</div>';
+    html+='<div class="foot">Залихват · курс «'+esc(cTitle())+'»</div>';
     app.innerHTML=html;
     renderBar(); renderAch();
-
-    // open first incomplete
     var openIdx = firstIncomplete<0? 0 : firstIncomplete;
     var mods=app.querySelectorAll(".mod");
     if(mods[openIdx]) mods[openIdx].classList.add("open");
-
     bind();
+    if(TUTOR_ON) initTutor();
+  }
+
+  function currentModuleId(){
+    var open=app.querySelector(".mod.open");
+    if(open) return open.id;
+    for(var i=0;i<C.modules.length;i++){ if(!modDone(C.modules[i])) return C.modules[i].id; }
+    return C.modules[0] ? C.modules[0].id : "";
   }
 
   function toggleTask(id){
     var was=!!state.done[id];
     if(was) delete state.done[id]; else { state.done[id]=true; if(state.days.indexOf(todayStr())<0) state.days.push(todayStr()); }
-    // update DOM minimally
     var tEl=app.querySelector('.task[data-task="'+id+'"]');
     if(tEl) tEl.classList.toggle("on", !was);
-    // module done state
     C.modules.forEach(function(m){
       if((m.tasks||[]).some(function(t){return t.id===id;})){
         var mEl=document.getElementById(m.id); var d=modDone(m);
         if(mEl){ mEl.classList.toggle("done", d);
-          var cnt=modCount(m), tot=m.tasks.length, mxp=m.tasks.reduce(function(s,t){return s+t.xp;},0);
-          mEl.querySelector(".mprog").innerHTML='<b>'+cnt+'/'+tot+'</b> задач · '+mxp+' XP';
+          var cnt=modCount(m), mxp=m.tasks.reduce(function(s,t){return s+t.xp;},0);
+          mEl.querySelector(".mprog").innerHTML='<b>'+cnt+'/'+m.tasks.length+'</b> задач · '+mxp+' XP';
           mEl.querySelector(".mnum .em").textContent = d? '✓' : m.num;
         }
       }
@@ -227,12 +224,9 @@
     renderBar();
     if(!was){
       var newly=checkAchievements();
-      newly.forEach(function(a){ showToast(a.em, "Ачивка: "+a.name, "+"+"открыто новое достижение"); });
-      // rank up?
-      var before=rankFor(xp()-0); // recompute handled in renderBar; detect via stored
+      newly.forEach(function(a){ showToast(a.em, "Ачивка: "+a.name, "открыто новое достижение"); });
       if(newly.some(function(a){return a.cond.all;})) confetti();
     } else {
-      // recheck (снятие галочки может отобрать ачивку)
       C.achievements.forEach(function(a){ if(state.ach[a.id] && !achEarned(a)){ state.ach[a.id]=false; } });
       renderAch();
     }
@@ -244,19 +238,15 @@
   function detectRankUp(){
     var r=rankFor(xp());
     if(_lastRank && r.name!==_lastRank && r.min>0){
-      var prevMin = C.ranks.filter(function(x){return x.name===_lastRank;})[0];
-      if(!prevMin || r.min>prevMin.min){ showToast(r.em, "Новый ранг: "+r.name, "ты растёшь 🚀"); }
+      var prev=C.ranks.filter(function(x){return x.name===_lastRank;})[0];
+      if(!prev || r.min>prev.min){ showToast(r.em, "Новый ранг: "+r.name, "ты растёшь 🚀"); }
     }
     _lastRank=r.name;
   }
 
   function bind(){
-    app.querySelectorAll(".mhead").forEach(function(h){
-      h.addEventListener("click", function(){ h.parentNode.classList.toggle("open"); });
-    });
-    app.querySelectorAll(".task").forEach(function(t){
-      t.addEventListener("click", function(){ toggleTask(t.getAttribute("data-task")); });
-    });
+    app.querySelectorAll(".mhead").forEach(function(h){ h.addEventListener("click", function(){ h.parentNode.classList.toggle("open"); }); });
+    app.querySelectorAll(".task").forEach(function(t){ t.addEventListener("click", function(){ toggleTask(t.getAttribute("data-task")); }); });
     app.querySelectorAll(".copy").forEach(function(b){
       b.addEventListener("click", function(e){
         e.stopPropagation();
@@ -276,14 +266,48 @@
     });
   }
 
-  // ---------- gate (не залогинен) ----------
+  // ---------- ИИ-наставник ----------
+  var tutorHist=[];
+  function initTutor(){
+    if(document.getElementById("tutor-fab")) return;
+    var fab=document.createElement("button"); fab.id="tutor-fab"; fab.className="tutor-fab"; fab.innerHTML="🎓 Наставник";
+    var panel=document.createElement("div"); panel.id="tutor-panel"; panel.className="tutor-panel"; panel.hidden=true;
+    panel.innerHTML=''
+      +'<div class="tt-head"><b>ИИ-наставник</b><span class="tt-x" id="tt-x">✕</span></div>'
+      +'<div class="tt-msgs" id="tt-msgs"><div class="tt-m bot">Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.</div></div>'
+      +'<div class="tt-in"><textarea id="tt-q" rows="1" placeholder="Твой вопрос по уроку..."></textarea><button id="tt-send">→</button></div>';
+    document.body.appendChild(fab); document.body.appendChild(panel);
+    fab.addEventListener("click", function(){ panel.hidden=!panel.hidden; if(!panel.hidden) document.getElementById("tt-q").focus(); });
+    document.getElementById("tt-x").addEventListener("click", function(){ panel.hidden=true; });
+    var q=document.getElementById("tt-q"), send=document.getElementById("tt-send");
+    function doSend(){
+      var text=(q.value||"").trim(); if(!text) return;
+      q.value="";
+      addMsg("me", text);
+      var typing=addMsg("bot", "…"); typing.classList.add("typing");
+      fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},
+        body:JSON.stringify({course:CID, module_id:currentModuleId(), question:text, history:tutorHist.slice(-6)})})
+        .then(function(r){return r.json();})
+        .then(function(d){ var a=(d&&d.answer)||"Не получилось ответить. Попробуй ещё раз."; typing.classList.remove("typing"); typing.textContent=a; tutorHist.push({role:"user",content:text}); tutorHist.push({role:"assistant",content:a}); scrollMsgs(); })
+        .catch(function(){ typing.classList.remove("typing"); typing.textContent="Наставник сейчас не отвечает. Попробуй через минуту."; });
+      scrollMsgs();
+    }
+    send.addEventListener("click", doSend);
+    q.addEventListener("keydown", function(e){ if(e.key==="Enter" && !e.shiftKey){ e.preventDefault(); doSend(); } });
+  }
+  function addMsg(who, text){
+    var box=document.getElementById("tt-msgs");
+    var m=document.createElement("div"); m.className="tt-m "+(who==="me"?"me":"bot"); m.textContent=text;
+    box.appendChild(m); scrollMsgs(); return m;
+  }
+  function scrollMsgs(){ var box=document.getElementById("tt-msgs"); if(box) box.scrollTop=box.scrollHeight; }
+
+  // ---------- gate / teaser / boot ----------
   function gate(){
-    app.innerHTML='<div class="gate"><h2>Курс «Проявить себя»</h2>'
-      +'<p>Это интерактивный курс-игра внутри кабинета — с прохождением, галочками, XP и ачивками. Войди в кабинет Залихват, чтобы открыть курс и сохранять прогресс.</p>'
+    app.innerHTML='<div class="gate"><h2>'+esc(cTitle())+'</h2>'
+      +'<p>Это интерактивный курс внутри кабинета - с прохождением, галочками, XP и ачивками. Войди в кабинет Залихват, чтобы открыть курс и сохранять прогресс.</p>'
       +'<a class="btn" href="/">Войти в кабинет →</a></div>';
   }
-
-  // ---------- тизер (залогинен, но без доступа) ----------
   function teaser(user, t){
     t=t||{};
     var payUrl=t.pay_url||"";
@@ -297,23 +321,21 @@
     var btn = payUrl
       ? '<a class="tz-buy" href="'+payUrl+'" target="_blank" rel="noopener">Получить доступ'+(priceTxt?' · '+priceTxt:'')+' →</a>'
       : '<a class="tz-buy" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Как получить доступ →</a>';
+    var mc=t.modules_count||(t.modules||[]).length, tc=t.tasks_count||0, ac=t.achievements_count||0;
     app.innerHTML=
       '<div class="hero" style="margin-top:16px">'
-        +'<span class="tag">Курс-игра · Залихват</span>'
-        +'<h1>Проявить себя</h1>'
-        +'<div class="sub">Пройди игру — и стань тем, кого видят и слышат</div>'
-        +'<p>С нуля до системного блога: '+ (t.modules_count||13) +' уровней-квестов, '+(t.tasks_count||42)+' заданий с галочками, XP, ранги и '+(t.achievements_count||12)+' ачивок. Готовые промпты, вшитые в каждый уровень. Кем бы ты ни был — мама, эксперт, домохозяйка — курс проведёт за руку.</p>'
+        +'<span class="tag">'+esc(cTag())+'</span>'
+        +'<h1>'+esc(t.title||cTitle())+'</h1>'
+        +(cSub()?'<div class="sub">'+esc(cSub())+'</div>':'')
+        +'<p>'+esc(cHero()|| (mc+' уровней, '+tc+' заданий, XP и ачивки.'))+'</p>'
         +btn
       +'</div>'
-      +'<div class="tz-list"><div class="tz-h">Что внутри — '+(t.modules_count||13)+' уровней</div>'+mods+'</div>'
-      +'<div class="tz-foot">Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете. '
-        +'<a href="#" id="tz-reload">Обновить доступ</a></div>'
+      +'<div class="tz-list"><div class="tz-h">Что внутри — '+mc+' уровней</div>'+mods+'</div>'
+      +'<div class="tz-foot">Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете. <a href="#" id="tz-reload">Обновить доступ</a></div>'
       +'<div class="foot">Залихват · @zalihvat_ai</div>';
     var rl=document.getElementById("tz-reload");
     if(rl) rl.addEventListener("click", function(e){ e.preventDefault(); location.reload(); });
   }
-
-  // ---------- boot (есть доступ, C уже загружен) ----------
   function boot(user){
     uid=user.id; email=user.email;
     var local=loadLocal();
@@ -323,25 +345,22 @@
         state=Object.assign({v:1,done:{},ach:{},days:[],started:null}, remote);
       }
       if(!state.started){ state.started=new Date().toISOString(); }
-      if(state.days.indexOf(todayStr())<0){ /* активный день добавим при первом действии */ }
       flat();
       _lastRank=rankFor(xp()).name;
-      // подчистим ачивки под фактическое состояние
       C.achievements.forEach(function(a){ state.ach[a.id]= state.ach[a.id]||achEarned(a); });
       render();
       saveLocal();
     });
   }
-
   function fail(msg){
-    app.innerHTML='<div class="gate"><h2>Не удалось загрузить курс</h2><p>'+esc(msg||"Попробуй обновить страницу.")+'</p><a class="btn" href="/course">Обновить →</a></div>';
+    app.innerHTML='<div class="gate"><h2>Не удалось загрузить курс</h2><p>'+esc(msg||"Попробуй обновить страницу.")+'</p><a class="btn" href="'+location.pathname+'">Обновить →</a></div>';
   }
 
   sb.auth.getSession().then(function(r){
     var s=r&&r.data&&r.data.session;
     if(!(s&&s.user)){ gate(); return; }
-    var token=s.access_token;
-    fetch(API+"/course",{headers:{Authorization:"Bearer "+token}})
+    token=s.access_token;
+    fetch(API+"/course?course="+encodeURIComponent(CID),{headers:{Authorization:"Bearer "+token}})
       .then(function(res){ return res.json(); })
       .then(function(d){
         if(d && d.access && d.course){ C=d.course; boot(s.user); }

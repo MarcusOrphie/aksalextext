@@ -29,6 +29,7 @@ import access
 import tg
 import prodamus
 import course_content
+import tutor
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -161,14 +162,39 @@ def me(user: dict = Depends(get_user)):
             "cover_left": max(0, VISUAL_MONTHLY - cover_used)}
 
 @app.get("/api/course")
-def course_endpoint(user: dict = Depends(get_user)):
-    """Контент курса «Проявить себя» - только авторизованным с доступом.
+def course_endpoint(course: str = "proyavit", user: dict = Depends(get_user)):
+    """Контент курса по id - только авторизованным с доступом.
     Доступ = разовая покупка курса (access.has_course) или белый список."""
+    if not course_content.valid(course):
+        raise HTTPException(status_code=404, detail="unknown course")
     email = user["email"]
-    entitled = access.has_course(email, course_content.COURSE_ID) or paid_plan(email) == "unlimited"
+    entitled = access.has_course(email, course) or paid_plan(email) == "unlimited"
     if entitled:
-        return {"access": True, "course": course_content.load()}
-    return {"access": False, "teaser": course_content.teaser()}
+        return {"access": True, "course": course_content.load(course)}
+    return {"access": False, "teaser": course_content.teaser(course)}
+
+
+class TutorReq(BaseModel):
+    course: str = Field(default="proyavit", max_length=40)
+    module_id: str = Field(default="", max_length=64)
+    question: str = Field(max_length=2000)
+    history: list = Field(default_factory=list, max_length=12)
+
+@app.post("/api/tutor")
+@limiter.limit("60/hour")
+def tutor_endpoint(request: Request, req: TutorReq, user: dict = Depends(get_user)):
+    """ИИ-наставник курса (дешёвая модель). Только для купивших курс или белого списка."""
+    if not course_content.valid(req.course):
+        raise HTTPException(status_code=404, detail="unknown course")
+    email = user["email"]
+    if not (access.has_course(email, req.course) or paid_plan(email) == "unlimited"):
+        return {"answer": "Наставник открывается после покупки курса."}
+    q = (req.question or "").strip()
+    if not q:
+        return {"answer": "Задай вопрос по уроку - и я помогу."}
+    m = course_content.module(req.course, req.module_id) or {}
+    title = course_content.load(req.course).get("title", "")
+    return {"answer": tutor.ask(title, m, q, req.history)}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")

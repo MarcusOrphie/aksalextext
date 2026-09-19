@@ -8,3 +8,4 @@ ideas/brief.json
 app/backend/.env
 app/frontend/avatar-src.jpg
 app/backend/course_content.json
+app/backend/course_content_teacher.json
