@@ -22,6 +22,7 @@
 
   // ---------- utils ----------
   function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function ICON(e){ var m=window.ZH_ICONS&&window.ZH_ICONS[e]; if(!m) return esc(e||""); return '<svg class="zi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+m+'</svg>'; }
   function todayStr(){ var d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
   function flat(){ allTasks=[]; totalXpMax=0; C.modules.forEach(function(m){ (m.tasks||[]).forEach(function(t){ allTasks.push(t); totalXpMax+=t.xp; }); }); }
   function xp(){ var s=0; allTasks.forEach(function(t){ if(state.done[t.id]) s+=t.xp; }); return s; }
@@ -86,7 +87,7 @@
     if(!toastQ.length){ toastBusy=false; return; }
     toastBusy=true;
     var it=toastQ.shift();
-    toast.querySelector(".em").textContent=it[0];
+    toast.querySelector(".em").innerHTML=ICON(it[0]);
     toast.querySelector(".tt").textContent=it[1];
     toast.querySelector(".ts").textContent=it[2];
     toast.classList.add("show");
@@ -122,7 +123,7 @@
     document.getElementById("pbar").innerHTML=
       '<div class="ring">'+ring(pct)+'<span class="pct">'+pct+'%</span></div>'
       +'<div class="pmeta">'
-        +'<div class="rank">'+rk.em+' '+esc(rk.name)+' <small>· '+x+' XP</small></div>'
+        +'<div class="rank">'+ICON(rk.em)+' '+esc(rk.name)+' <small>· '+x+' XP</small></div>'
         +'<div class="sub">'+(nr? ('до ранга «'+esc(nr.name)+'» — '+toNext+' XP') : 'максимальный ранг достигнут 🔥')+'</div>'
         +'<div class="xpwrap"><i style="width:'+fill+'%"></i></div>'
       +'</div>'
@@ -133,7 +134,7 @@
     var el=document.getElementById("ach"); if(!el) return;
     el.innerHTML=C.achievements.map(function(a){
       var got=state.ach[a.id];
-      return '<div class="ach'+(got?' got':'')+'"><div class="med">'+(got?a.em:'🔒')+'</div><span class="an">'+esc(a.name)+'</span></div>';
+      return '<div class="ach'+(got?' got':'')+'"><div class="med">'+(got?ICON(a.em):ICON('🔒'))+'</div><span class="an">'+esc(a.name)+'</span></div>';
     }).join("");
   }
   function promptHTML(p){
@@ -187,7 +188,7 @@
         +(cHero()?'<p>'+esc(cHero())+'</p>':'')
         +'<button class="cta" id="continue">'+(started?'Продолжить →':'Начать →')+'</button>'
       +'</div>'
-      +'<div class="ach-shelf"><div class="lab">🏅 Ачивки</div><div class="ach-row" id="ach"></div></div>';
+      +'<div class="ach-shelf"><div class="lab">'+ICON('🏅')+' Ачивки</div><div class="ach-row" id="ach"></div></div>';
     C.modules.forEach(function(m,i){ html+=moduleHTML(m,i); });
     html+='<div class="foot">Залихват · курс «'+esc(cTitle())+'»</div>';
     app.innerHTML=html;
@@ -270,7 +271,7 @@
   var tutorHist=[];
   function initTutor(){
     if(document.getElementById("tutor-fab")) return;
-    var fab=document.createElement("button"); fab.id="tutor-fab"; fab.className="tutor-fab"; fab.innerHTML="🎓 Наставник";
+    var fab=document.createElement("button"); fab.id="tutor-fab"; fab.className="tutor-fab"; fab.innerHTML=ICON('🎓')+' <span>Наставник</span>';
     var panel=document.createElement("div"); panel.id="tutor-panel"; panel.className="tutor-panel"; panel.hidden=true;
     panel.innerHTML=''
       +'<div class="tt-head"><b>ИИ-наставник</b><span class="tt-x" id="tt-x">✕</span></div>'
@@ -343,7 +344,7 @@
 
     // что внутри
     var mods=(t.modules||[]).map(function(m){
-      return '<div class="tz-mod"><span class="tz-n">'+(m.em||m.num||"•")+'</span>'
+      return '<div class="tz-mod"><span class="tz-n">'+(m.em?ICON(m.em):(m.num||"•"))+'</span>'
         +'<div><b>'+esc(m.title||"")+'</b>'+(m.days?' <span class="tz-days">'+esc(m.days)+'</span>':'')
         +'<div class="tz-why">'+esc(m.why||"")+'</div></div></div>';
     }).join("");
