@@ -18,6 +18,11 @@ COURSES = {
         "price_env": "COURSE_TEACHER_PRICE", "payurl_env": "COURSE_TEACHER_PAY_URL",
         "default_price": 1490, "title": "Нейросети для учителя",
     },
+    "neurobase": {
+        "file": "course_content_ai.json",
+        "price_env": "COURSE_BASE_PRICE", "payurl_env": "COURSE_BASE_PAY_URL",
+        "default_price": 1490, "title": "Нейросети с нуля",
+    },
 }
 
 # Back-compat для старого кода (курс «Проявить себя»)
