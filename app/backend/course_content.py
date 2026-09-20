@@ -23,6 +23,11 @@ COURSES = {
         "price_env": "COURSE_BASE_PRICE", "payurl_env": "COURSE_BASE_PAY_URL",
         "default_price": 1490, "title": "Нейросети с нуля",
     },
+    "workflow": {
+        "file": "course_content_workflow.json", "file_en": "course_content_workflow_en.json",
+        "price_env": "COURSE_WF_PRICE", "payurl_env": "COURSE_WF_PAY_URL",
+        "default_price": 4900, "title": "AI Workflow Starter",
+    },
 }
 
 # Back-compat для старого кода (курс «Проявить себя»)

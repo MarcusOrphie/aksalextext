@@ -11,3 +11,5 @@ app/backend/course_content.json
 app/backend/course_content_teacher.json
 app/backend/course_content_ai.json
 app/backend/course_content_ai_en.json
+app/backend/course_content_workflow.json
+app/backend/course_content_workflow_en.json
