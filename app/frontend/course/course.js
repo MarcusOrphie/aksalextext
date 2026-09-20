@@ -20,6 +20,56 @@
   function cHero(){ return (C && C.hero) || (PROYAVIT ? "13 уровней-квестов: от «страшно показаться» до системного блога. Отмечай задачи — копи XP, повышай ранг, открывай ачивки. Прогресс сохраняется и синхронизируется между устройствами." : ""); }
   function cTag(){ return (C && C.tag) || (PROYAVIT ? "Курс-игра · Залихват" : "Курс · Залихват"); }
 
+  // ---------- i18n ----------
+  var LANG = (window.ZH_LANG==="en") ? "en" : "ru";
+  var T = {
+    ru: {
+      start:"Начать →", cont:"Продолжить →", maxRank:"максимальный ранг достигнут",
+      tasks:"задач", days:"дней подряд", ach:"Ачивки", lvlTasks:"Задачи уровня", info:"информация",
+      lvlDone:"✓ Уровень пройден - красавчик!", copy:"Копировать", copied:"Скопировано ✓",
+      exTitle:"Примеры под твою сферу", hintTitle:"Подсказка наставника", ask:"Спросить наставника →",
+      tHeader:"ИИ-наставник", tHi:"Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.",
+      tPh:"Твой вопрос по уроку...", tFab:"Наставник",
+      tErrA:"Не получилось ответить. Попробуй ещё раз.", tErrN:"Наставник сейчас не отвечает. Попробуй через минуту.",
+      gateBody:"Это интерактивный курс внутри кабинета - с прохождением, галочками, XP и ачивками. Войди в кабинет Залихват, чтобы открыть курс и сохранять прогресс.",
+      gateBtn:"Войти в кабинет →", buyGet:"Получить доступ", buyHow:"Как получить доступ →",
+      familiar:"Знакомо?", whatGet:"Что получишь", forWhom:"Для кого:",
+      ctaSub:"Пожизненный доступ, прохождение с галочками и XP, ИИ-наставник внутри.",
+      paid:"Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете.", refresh:"Обновить доступ",
+      failH:"Не удалось загрузить курс", failMsg:"Попробуй обновить страницу.", failNet:"Проверь соединение и обнови страницу.", refreshBtn:"Обновить →",
+      achSub:"открыто новое достижение", rankSub:"ты растёшь",
+      toRank:function(n,x){return 'до ранга «'+n+'» - '+x+' XP';},
+      foot:function(t){return 'Залихват · курс «'+t+'»';},
+      heroMeta:function(mc,tc){return mc+' уровней · '+tc+' заданий · ИИ-наставник внутри';},
+      whatInside:function(mc){return 'Что внутри - '+mc+' уровней';},
+      heroFb:function(mc,tc){return mc+' уровней, '+tc+' заданий, XP и ачивки.';},
+      achT:function(n){return 'Ачивка: '+n;}, rankT:function(n){return 'Новый ранг: '+n;}
+    },
+    en: {
+      start:"Start →", cont:"Continue →", maxRank:"top rank reached",
+      tasks:"tasks", days:"day streak", ach:"Achievements", lvlTasks:"Level tasks", info:"info",
+      lvlDone:"✓ Level complete - nice!", copy:"Copy", copied:"Copied ✓",
+      exTitle:"Examples for your field", hintTitle:"Mentor tip", ask:"Ask the mentor →",
+      tHeader:"AI mentor", tHi:"Hi! Ask anything about this lesson - I will help and point you to the next step.",
+      tPh:"Your question about the lesson...", tFab:"Mentor",
+      tErrA:"Could not answer. Try again.", tErrN:"The mentor is not responding. Try again in a minute.",
+      gateBody:"This is an interactive course inside your cabinet - with progress, checkboxes, XP and achievements. Sign in to your Zalihvat cabinet to open the course and save progress.",
+      gateBtn:"Sign in →", buyGet:"Get access", buyHow:"How to get access →",
+      familiar:"Sound familiar?", whatGet:"What you get", forWhom:"For whom:",
+      ctaSub:"Lifetime access, progress with checkboxes and XP, AI mentor inside.",
+      paid:"Already paid? Open the course with the same email as in your cabinet.", refresh:"Refresh access",
+      failH:"Could not load the course", failMsg:"Try refreshing the page.", failNet:"Check your connection and refresh.", refreshBtn:"Refresh →",
+      achSub:"new achievement unlocked", rankSub:"you are leveling up",
+      toRank:function(n,x){return 'to rank "'+n+'" - '+x+' XP';},
+      foot:function(t){return 'Zalihvat · course "'+t+'"';},
+      heroMeta:function(mc,tc){return mc+' levels · '+tc+' tasks · AI mentor inside';},
+      whatInside:function(mc){return 'What is inside - '+mc+' levels';},
+      heroFb:function(mc,tc){return mc+' levels, '+tc+' tasks, XP and achievements.';},
+      achT:function(n){return 'Achievement: '+n;}, rankT:function(n){return 'New rank: '+n;}
+    }
+  };
+  function L(k){ return (T[LANG]&&T[LANG][k]!=null)?T[LANG][k]:T.ru[k]; }
+
   // ---------- utils ----------
   function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
   function ICON(e){ var m=window.ZH_ICONS&&window.ZH_ICONS[e]; if(!m) return esc(e||""); return '<svg class="zi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+m+'</svg>'; }
@@ -124,11 +174,11 @@
       '<div class="ring">'+ring(pct)+'<span class="pct">'+pct+'%</span></div>'
       +'<div class="pmeta">'
         +'<div class="rank">'+ICON(rk.em)+' '+esc(rk.name)+' <small>· '+x+' XP</small></div>'
-        +'<div class="sub">'+(nr? ('до ранга «'+esc(nr.name)+'» — '+toNext+' XP') : 'максимальный ранг достигнут 🔥')+'</div>'
+        +'<div class="sub">'+(nr? L('toRank')(esc(nr.name),toNext) : L('maxRank'))+'</div>'
         +'<div class="xpwrap"><i style="width:'+fill+'%"></i></div>'
       +'</div>'
-      +'<div class="pstat"><b>'+doneCount()+'</b><span>задач</span></div>'
-      +'<div class="pstat"><b>'+st+'</b><span>дней подряд</span></div>';
+      +'<div class="pstat"><b>'+doneCount()+'</b><span>'+L('tasks')+'</span></div>'
+      +'<div class="pstat"><b>'+st+'</b><span>'+L('days')+'</span></div>';
   }
   function renderAch(){
     var el=document.getElementById("ach"); if(!el) return;
@@ -140,22 +190,22 @@
   function promptHTML(p){
     var pre=p.text.replace(/</g,"").replace(/b>/g,"<b>").replace(/\/b>/g,"</b>").replace(//g,"&lt;");
     return '<div class="prompt"><div class="ph"><span class="ic">✦</span><span class="t">'+esc(p.title)+'</span>'
-      +'<button class="copy" data-copy="'+encodeURIComponent(p.text)+'">Копировать</button></div>'
+      +'<button class="copy" data-copy="'+encodeURIComponent(p.text)+'">'+L('copy')+'</button></div>'
       +'<pre>'+pre+'</pre></div>';
   }
   function lessonHTML(l){ return '<h3><span class="dot">◆</span> '+esc(l.h)+'</h3>'+l.body; }
   function examplesHTML(ex, mid){
     var opts=(ex&&ex.options)||[]; if(!opts.length) return "";
     var chips=opts.map(function(o,i){ return '<button class="ex-chip'+(i===0?' on':'')+'" data-ex="'+mid+'" data-i="'+i+'">'+esc(o.label)+'</button>'; }).join("");
-    return '<div class="ex"><div class="ex-h">'+ICON('🎯')+' '+esc(ex.title||"Примеры под твою сферу")+'</div>'
+    return '<div class="ex"><div class="ex-h">'+ICON('🎯')+' '+esc(ex.title||L('exTitle'))+'</div>'
       +'<div class="ex-chips">'+chips+'</div>'
       +'<div class="ex-panel" id="ex-panel-'+mid+'">'+opts[0].body+'</div></div>';
   }
   function hintHTML(h){
     var text = typeof h==="string" ? h : (h.text||"");
     var ask = (typeof h==="object" && h.ask) ? h.ask : "";
-    var btn = (ask && TUTOR_ON) ? '<button class="hint-ask" data-ask="'+encodeURIComponent(ask)+'">Спросить наставника →</button>' : '';
-    return '<div class="hint">'+ICON('💬')+'<div class="hint-b"><b>Подсказка наставника</b><p>'+esc(text)+'</p>'+btn+'</div></div>';
+    var btn = (ask && TUTOR_ON) ? '<button class="hint-ask" data-ask="'+encodeURIComponent(ask)+'">'+L('ask')+'</button>' : '';
+    return '<div class="hint">'+ICON('💬')+'<div class="hint-b"><b>'+L('hintTitle')+'</b><p>'+esc(text)+'</p>'+btn+'</div></div>';
   }
   function exampleBody(mid, i){
     var m=C.modules.filter(function(x){return x.id===mid;})[0];
@@ -173,7 +223,7 @@
     if(m.prompts) m.prompts.forEach(function(p){ body+=promptHTML(p); });
     if(m.examples) body+=examplesHTML(m.examples, m.id);
     if(m.hint) body+=hintHTML(m.hint);
-    body+='<div class="tasks"><div class="th">Задачи уровня</div>';
+    body+='<div class="tasks"><div class="th">'+L('lvlTasks')+'</div>';
     (m.tasks||[]).forEach(function(t){
       var on=!!state.done[t.id];
       body+='<div class="task'+(on?' on':'')+'" data-task="'+t.id+'">'
@@ -182,12 +232,12 @@
         +'<span class="xp">+'+t.xp+' XP</span></div>';
     });
     body+='</div>';
-    body+='<div class="mdone-badge">✓ Уровень пройден — красавчик!</div>';
+    body+='<div class="mdone-badge">'+L('lvlDone')+'</div>';
     return '<div class="mod'+(done?' done':'')+'" id="'+m.id+'" data-idx="'+idx+'">'
       +'<div class="mhead">'
         +'<div class="mnum"><span class="em">'+(done?'✓':m.num)+'</span></div>'
         +'<div class="mtit"><div class="mt-top"><h2>'+esc(m.title)+'</h2>'+(m.days?'<span class="days">'+esc(m.days)+'</span>':'')+'</div>'
-          +'<div class="mprog">'+(tot?('<b>'+cnt+'/'+tot+'</b> задач · '+mxp+' XP'):'информация')+'</div></div>'
+          +'<div class="mprog">'+(tot?('<b>'+cnt+'/'+tot+'</b> '+L('tasks')+' · '+mxp+' XP'):L('info'))+'</div></div>'
         +'<span class="mbadge-xp"></span>'
         +'<span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>'
       +'</div>'
@@ -206,11 +256,11 @@
         +'<h1>'+esc(cTitle())+'</h1>'
         +(cSub()?'<div class="sub">'+esc(cSub())+'</div>':'')
         +(cHero()?'<p>'+esc(cHero())+'</p>':'')
-        +'<button class="cta" id="continue">'+(started?'Продолжить →':'Начать →')+'</button>'
+        +'<button class="cta" id="continue">'+(started?L('cont'):L('start'))+'</button>'
       +'</div>'
-      +'<div class="ach-shelf"><div class="lab">'+ICON('🏅')+' Ачивки</div><div class="ach-row" id="ach"></div></div>';
+      +'<div class="ach-shelf"><div class="lab">'+ICON('🏅')+' '+L('ach')+'</div><div class="ach-row" id="ach"></div></div>';
     C.modules.forEach(function(m,i){ html+=moduleHTML(m,i); });
-    html+='<div class="foot">Залихват · курс «'+esc(cTitle())+'»</div>';
+    html+='<div class="foot">'+esc(L('foot')(cTitle()))+'</div>';
     app.innerHTML=html;
     renderBar(); renderAch();
     var openIdx = firstIncomplete<0? 0 : firstIncomplete;
@@ -237,7 +287,7 @@
         var mEl=document.getElementById(m.id); var d=modDone(m);
         if(mEl){ mEl.classList.toggle("done", d);
           var cnt=modCount(m), mxp=m.tasks.reduce(function(s,t){return s+t.xp;},0);
-          mEl.querySelector(".mprog").innerHTML='<b>'+cnt+'/'+m.tasks.length+'</b> задач · '+mxp+' XP';
+          mEl.querySelector(".mprog").innerHTML='<b>'+cnt+'/'+m.tasks.length+'</b> '+L('tasks')+' · '+mxp+' XP';
           mEl.querySelector(".mnum .em").textContent = d? '✓' : m.num;
         }
       }
@@ -245,7 +295,7 @@
     renderBar();
     if(!was){
       var newly=checkAchievements();
-      newly.forEach(function(a){ showToast(a.em, "Ачивка: "+a.name, "открыто новое достижение"); });
+      newly.forEach(function(a){ showToast(a.em, L('achT')(a.name), L('achSub')); });
       if(newly.some(function(a){return a.cond.all;})) confetti();
     } else {
       C.achievements.forEach(function(a){ if(state.ach[a.id] && !achEarned(a)){ state.ach[a.id]=false; } });
@@ -260,7 +310,7 @@
     var r=rankFor(xp());
     if(_lastRank && r.name!==_lastRank && r.min>0){
       var prev=C.ranks.filter(function(x){return x.name===_lastRank;})[0];
-      if(!prev || r.min>prev.min){ showToast(r.em, "Новый ранг: "+r.name, "ты растёшь 🚀"); }
+      if(!prev || r.min>prev.min){ showToast(r.em, L('rankT')(r.name), L('rankSub')); }
     }
     _lastRank=r.name;
   }
@@ -272,7 +322,7 @@
       b.addEventListener("click", function(e){
         e.stopPropagation();
         var txt=decodeURIComponent(b.getAttribute("data-copy")).replace(/<b>|<\/b>/g,"");
-        function ok(){ b.classList.add("done"); b.textContent="Скопировано ✓"; setTimeout(function(){ b.classList.remove("done"); b.textContent="Копировать"; },1600); }
+        function ok(){ b.classList.add("done"); b.textContent=L('copied'); setTimeout(function(){ b.classList.remove("done"); b.textContent=L('copy'); },1600); }
         if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok,ok); }
         else { var ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e2){} ta.remove(); ok(); }
       });
@@ -312,12 +362,12 @@
   var tutorHist=[];
   function initTutor(){
     if(document.getElementById("tutor-fab")) return;
-    var fab=document.createElement("button"); fab.id="tutor-fab"; fab.className="tutor-fab"; fab.innerHTML=ICON('🎓')+' <span>Наставник</span>';
+    var fab=document.createElement("button"); fab.id="tutor-fab"; fab.className="tutor-fab"; fab.innerHTML=ICON('🎓')+' <span>'+L('tFab')+'</span>';
     var panel=document.createElement("div"); panel.id="tutor-panel"; panel.className="tutor-panel"; panel.hidden=true;
     panel.innerHTML=''
-      +'<div class="tt-head"><b>ИИ-наставник</b><span class="tt-x" id="tt-x">✕</span></div>'
-      +'<div class="tt-msgs" id="tt-msgs"><div class="tt-m bot">Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.</div></div>'
-      +'<div class="tt-in"><textarea id="tt-q" rows="1" placeholder="Твой вопрос по уроку..."></textarea><button id="tt-send">→</button></div>';
+      +'<div class="tt-head"><b>'+L('tHeader')+'</b><span class="tt-x" id="tt-x">✕</span></div>'
+      +'<div class="tt-msgs" id="tt-msgs"><div class="tt-m bot">'+esc(L('tHi'))+'</div></div>'
+      +'<div class="tt-in"><textarea id="tt-q" rows="1" placeholder="'+esc(L('tPh'))+'"></textarea><button id="tt-send">→</button></div>';
     document.body.appendChild(fab); document.body.appendChild(panel);
     fab.addEventListener("click", function(){ panel.hidden=!panel.hidden; if(!panel.hidden) document.getElementById("tt-q").focus(); });
     document.getElementById("tt-x").addEventListener("click", function(){ panel.hidden=true; });
@@ -328,10 +378,10 @@
       addMsg("me", text);
       var typing=addMsg("bot", "…"); typing.classList.add("typing");
       fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},
-        body:JSON.stringify({course:CID, module_id:currentModuleId(), question:text, history:tutorHist.slice(-6)})})
+        body:JSON.stringify({course:CID, module_id:currentModuleId(), question:text, history:tutorHist.slice(-6), lang:LANG})})
         .then(function(r){return r.json();})
-        .then(function(d){ var a=(d&&d.answer)||"Не получилось ответить. Попробуй ещё раз."; typing.classList.remove("typing"); typing.textContent=a; tutorHist.push({role:"user",content:text}); tutorHist.push({role:"assistant",content:a}); scrollMsgs(); })
-        .catch(function(){ typing.classList.remove("typing"); typing.textContent="Наставник сейчас не отвечает. Попробуй через минуту."; });
+        .then(function(d){ var a=(d&&d.answer)||L('tErrA'); typing.classList.remove("typing"); typing.textContent=a; tutorHist.push({role:"user",content:text}); tutorHist.push({role:"assistant",content:a}); scrollMsgs(); })
+        .catch(function(){ typing.classList.remove("typing"); typing.textContent=L('tErrN'); });
       scrollMsgs();
     }
     send.addEventListener("click", doSend);
@@ -347,19 +397,19 @@
   // ---------- gate / teaser / boot ----------
   function gate(){
     app.innerHTML='<div class="gate"><h2>'+esc(cTitle())+'</h2>'
-      +'<p>Это интерактивный курс внутри кабинета - с прохождением, галочками, XP и ачивками. Войди в кабинет Залихват, чтобы открыть курс и сохранять прогресс.</p>'
-      +'<a class="btn" href="/">Войти в кабинет →</a></div>';
+      +'<p>'+esc(L('gateBody'))+'</p>'
+      +'<a class="btn" href="/">'+L('gateBtn')+'</a></div>';
   }
   function teaser(user, t){
     t=t||{};
-    var L=t.landing||null;
+    var ld=t.landing||null;
     var payUrl=t.pay_url||"";
     if(payUrl){ payUrl += (payUrl.indexOf("?")>=0?"&":"?")+"customer_email="+encodeURIComponent(user.email); }
     var priceTxt = t.price? (t.price+" ₽") : "";
     function buyBtn(label){
       return payUrl
         ? '<a class="tz-buy" href="'+payUrl+'" target="_blank" rel="noopener">'+esc(label)+(priceTxt?' · '+priceTxt:'')+' →</a>'
-        : '<a class="tz-buy" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">Как получить доступ →</a>';
+        : '<a class="tz-buy" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">'+L('buyHow')+'</a>';
     }
     var tag = t.tag||cTag(), title=t.title||cTitle(), sub=t.subtitle||cSub(), hero=t.hero||cHero();
     var mc=t.modules_count||(t.modules||[]).length, tc=t.tasks_count||0, ac=t.achievements_count||0;
@@ -368,15 +418,15 @@
         +'<span class="tag">'+esc(tag)+'</span>'
         +'<h1>'+esc(title)+'</h1>'
         +(sub?'<div class="sub">'+esc(sub)+'</div>':'')
-        +'<p>'+esc((L&&L.promise)||hero||(mc+' уровней, '+tc+' заданий, XP и ачивки.'))+'</p>'
-        +buyBtn("Получить доступ")
-        +'<div class="hero-meta">'+mc+' уровней · '+tc+' заданий · ИИ-наставник внутри</div>'
+        +'<p>'+esc((ld&&ld.promise)||hero||L('heroFb')(mc,tc))+'</p>'
+        +buyBtn(L('buyGet'))
+        +'<div class="hero-meta">'+L('heroMeta')(mc,tc)+'</div>'
       +'</div>';
 
     // боли -> решения
-    if(L&&L.pains&&L.pains.length){
-      html+='<div class="ld-sec"><div class="ld-h">Знакомо?</div><div class="ld-pains">';
-      L.pains.forEach(function(p){
+    if(ld&&ld.pains&&ld.pains.length){
+      html+='<div class="ld-sec"><div class="ld-h">'+L('familiar')+'</div><div class="ld-pains">';
+      ld.pains.forEach(function(p){
         html+='<div class="ld-card"><div class="ld-pain"><span class="ld-x">✕</span>'+esc(p.pain)+'</div>'
           +'<div class="ld-fix"><span class="ld-c">✓</span>'+esc(p.fix)+'</div></div>';
       });
@@ -389,27 +439,27 @@
         +'<div><b>'+esc(m.title||"")+'</b>'+(m.days?' <span class="tz-days">'+esc(m.days)+'</span>':'')
         +'<div class="tz-why">'+esc(m.why||"")+'</div></div></div>';
     }).join("");
-    html+='<div class="tz-list"><div class="tz-h">Что внутри — '+mc+' уровней</div>'+mods+'</div>';
+    html+='<div class="tz-list"><div class="tz-h">'+L('whatInside')(mc)+'</div>'+mods+'</div>';
 
     // что получишь
-    if(L&&L.outcomes&&L.outcomes.length){
-      html+='<div class="ld-sec"><div class="ld-h">Что получишь</div><ul class="ld-out">';
-      L.outcomes.forEach(function(o){ html+='<li>'+esc(o)+'</li>'; });
+    if(ld&&ld.outcomes&&ld.outcomes.length){
+      html+='<div class="ld-sec"><div class="ld-h">'+L('whatGet')+'</div><ul class="ld-out">';
+      ld.outcomes.forEach(function(o){ html+='<li>'+esc(o)+'</li>'; });
       html+='</ul></div>';
     }
 
     // для кого
-    if(L&&L.audience){
-      html+='<div class="ld-aud"><b>Для кого:</b> '+esc(L.audience)+'</div>';
+    if(ld&&ld.audience){
+      html+='<div class="ld-aud"><b>'+L('forWhom')+'</b> '+esc(ld.audience)+'</div>';
     }
 
     // финальный CTA
     html+='<div class="ld-cta">'
-      +'<div class="ld-cta-t">'+esc(title)+(priceTxt?' — '+priceTxt:'')+'</div>'
-      +'<div class="ld-cta-s">Пожизненный доступ, прохождение с галочками и XP, ИИ-наставник внутри.</div>'
-      +buyBtn("Получить доступ")+'</div>';
+      +'<div class="ld-cta-t">'+esc(title)+(priceTxt?' - '+priceTxt:'')+'</div>'
+      +'<div class="ld-cta-s">'+esc(L('ctaSub'))+'</div>'
+      +buyBtn(L('buyGet'))+'</div>';
 
-    html+='<div class="tz-foot">Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете. <a href="#" id="tz-reload">Обновить доступ</a></div>'
+    html+='<div class="tz-foot">'+esc(L('paid'))+' <a href="#" id="tz-reload">'+L('refresh')+'</a></div>'
       +'<div class="foot">Залихват · @zalihvat_ai</div>';
     app.innerHTML=html;
     var rl=document.getElementById("tz-reload");
@@ -432,19 +482,19 @@
     });
   }
   function fail(msg){
-    app.innerHTML='<div class="gate"><h2>Не удалось загрузить курс</h2><p>'+esc(msg||"Попробуй обновить страницу.")+'</p><a class="btn" href="'+location.pathname+'">Обновить →</a></div>';
+    app.innerHTML='<div class="gate"><h2>'+L('failH')+'</h2><p>'+esc(msg||L('failMsg'))+'</p><a class="btn" href="'+location.pathname+'">'+L('refreshBtn')+'</a></div>';
   }
 
   sb.auth.getSession().then(function(r){
     var s=r&&r.data&&r.data.session;
     if(!(s&&s.user)){ gate(); return; }
     token=s.access_token;
-    fetch(API+"/course?course="+encodeURIComponent(CID),{headers:{Authorization:"Bearer "+token}})
+    fetch(API+"/course?course="+encodeURIComponent(CID)+"&lang="+LANG,{headers:{Authorization:"Bearer "+token}})
       .then(function(res){ return res.json(); })
       .then(function(d){
         if(d && d.access && d.course){ C=d.course; boot(s.user); }
         else { teaser(s.user, d && d.teaser); }
       })
-      .catch(function(){ fail("Проверь соединение и обнови страницу."); });
+      .catch(function(){ fail(L('failNet')); });
   }).catch(function(){ gate(); });
 })();

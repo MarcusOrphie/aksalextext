@@ -162,16 +162,17 @@ def me(user: dict = Depends(get_user)):
             "cover_left": max(0, VISUAL_MONTHLY - cover_used)}
 
 @app.get("/api/course")
-def course_endpoint(course: str = "proyavit", user: dict = Depends(get_user)):
-    """Контент курса по id - только авторизованным с доступом.
+def course_endpoint(course: str = "proyavit", lang: str = "ru", user: dict = Depends(get_user)):
+    """Контент курса по id и языку - только авторизованным с доступом.
     Доступ = разовая покупка курса (access.has_course) или белый список."""
     if not course_content.valid(course):
         raise HTTPException(status_code=404, detail="unknown course")
+    lang = "en" if lang == "en" else "ru"
     email = user["email"]
     entitled = access.has_course(email, course) or paid_plan(email) == "unlimited"
     if entitled:
-        return {"access": True, "course": course_content.load(course)}
-    return {"access": False, "teaser": course_content.teaser(course)}
+        return {"access": True, "course": course_content.load(course, lang)}
+    return {"access": False, "teaser": course_content.teaser(course, lang)}
 
 
 class TutorReq(BaseModel):
@@ -179,6 +180,7 @@ class TutorReq(BaseModel):
     module_id: str = Field(default="", max_length=64)
     question: str = Field(max_length=2000)
     history: list = Field(default_factory=list, max_length=12)
+    lang: str = Field(default="ru", max_length=5)
 
 @app.post("/api/tutor")
 @limiter.limit("60/hour")
@@ -189,12 +191,13 @@ def tutor_endpoint(request: Request, req: TutorReq, user: dict = Depends(get_use
     email = user["email"]
     if not (access.has_course(email, req.course) or paid_plan(email) == "unlimited"):
         return {"answer": "Наставник открывается после покупки курса."}
+    lang = "en" if req.lang == "en" else "ru"
     q = (req.question or "").strip()
     if not q:
-        return {"answer": "Задай вопрос по уроку - и я помогу."}
-    m = course_content.module(req.course, req.module_id) or {}
-    title = course_content.load(req.course).get("title", "")
-    return {"answer": tutor.ask(title, m, q, req.history)}
+        return {"answer": "Ask a question about the lesson." if lang == "en" else "Задай вопрос по уроку - и я помогу."}
+    m = course_content.module(req.course, req.module_id, lang) or {}
+    title = course_content.load(req.course, lang).get("title", "")
+    return {"answer": tutor.ask(title, m, q, req.history, lang)}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")

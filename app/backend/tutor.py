@@ -26,16 +26,25 @@ def _module_context(module: dict) -> str:
     return "\n".join(parts)[:3500]
 
 
-def ask(course_title: str, module: dict, question: str, history=None) -> str:
+def ask(course_title: str, module: dict, question: str, history=None, lang: str = "ru") -> str:
     if not API_KEY:
-        return "Наставник временно недоступен. Попробуй позже."
-    system = (
-        "Ты - дружелюбный наставник онлайн-курса по нейросетям «" + (course_title or "Курс") + "». "
-        "Отвечай коротко и по делу, на русском, на «ты». Помогай понять материал текущего урока, "
-        "давай конкретные шаги и примеры, направляй к следующему действию - но не делай всю работу за человека. "
-        "Если спрашивают не по теме курса - мягко верни к уроку. Никогда не используй длинное тире, только дефис (-). "
-        "Не выдумывай факты. Если не знаешь - честно скажи.\n\nКОНТЕКСТ ТЕКУЩЕГО УРОКА:\n" + _module_context(module)
-    )
+        return "The mentor is temporarily unavailable." if lang == "en" else "Наставник временно недоступен. Попробуй позже."
+    if lang == "en":
+        system = (
+            "You are a friendly mentor of the online AI course \"" + (course_title or "Course") + "\". "
+            "Answer briefly and to the point, in English. Help the learner understand the current lesson, "
+            "give concrete steps and examples, point to the next action - but do not do all the work for them. "
+            "If asked off-topic, gently steer back to the lesson. Never use an em dash, only a hyphen (-). "
+            "Do not make up facts. If you do not know, say so honestly.\n\nCURRENT LESSON CONTEXT:\n" + _module_context(module)
+        )
+    else:
+        system = (
+            "Ты - дружелюбный наставник онлайн-курса по нейросетям «" + (course_title or "Курс") + "». "
+            "Отвечай коротко и по делу, на русском, на «ты». Помогай понять материал текущего урока, "
+            "давай конкретные шаги и примеры, направляй к следующему действию - но не делай всю работу за человека. "
+            "Если спрашивают не по теме курса - мягко верни к уроку. Никогда не используй длинное тире, только дефис (-). "
+            "Не выдумывай факты. Если не знаешь - честно скажи.\n\nКОНТЕКСТ ТЕКУЩЕГО УРОКА:\n" + _module_context(module)
+        )
     msgs = []
     for h in (history or [])[-6:]:
         role = h.get("role")

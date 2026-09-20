@@ -19,7 +19,7 @@ COURSES = {
         "default_price": 1490, "title": "Нейросети для учителя",
     },
     "neurobase": {
-        "file": "course_content_ai.json",
+        "file": "course_content_ai.json", "file_en": "course_content_ai_en.json",
         "price_env": "COURSE_BASE_PRICE", "payurl_env": "COURSE_BASE_PAY_URL",
         "default_price": 1490, "title": "Нейросети с нуля",
     },
@@ -39,18 +39,20 @@ def _empty():
     return {"modules": [], "ranks": [], "achievements": []}
 
 
-def load(course_id: str = "proyavit") -> dict:
-    if course_id not in _CACHE:
-        c = COURSES.get(course_id)
-        if not c:
-            return _empty()
+def load(course_id: str = "proyavit", lang: str = "ru") -> dict:
+    c = COURSES.get(course_id)
+    if not c:
+        return _empty()
+    fn = c.get("file_en") if (lang == "en" and c.get("file_en")) else c["file"]
+    key = course_id + ":" + ("en" if fn == c.get("file_en") else "ru")
+    if key not in _CACHE:
         try:
-            with open(os.path.join(_DIR, c["file"]), "r", encoding="utf-8") as f:
-                _CACHE[course_id] = json.load(f)
+            with open(os.path.join(_DIR, fn), "r", encoding="utf-8") as f:
+                _CACHE[key] = json.load(f)
         except Exception as e:
-            logging.error("course_content load %s failed: %r", course_id, e)
-            _CACHE[course_id] = _empty()
-    return _CACHE[course_id]
+            logging.error("course_content load %s (%s) failed: %r", course_id, lang, e)
+            _CACHE[key] = _empty()
+    return _CACHE[key]
 
 
 def price(course_id: str = "proyavit") -> int:
@@ -67,17 +69,17 @@ def pay_url(course_id: str = "proyavit") -> str:
     return os.environ.get(c.get("payurl_env", ""), "").strip()
 
 
-def module(course_id: str, module_id: str):
+def module(course_id: str, module_id: str, lang: str = "ru"):
     """Найти модуль по id - для контекста ИИ-наставника."""
-    for m in load(course_id).get("modules", []):
+    for m in load(course_id, lang).get("modules", []):
         if m.get("id") == module_id:
             return m
     return None
 
 
-def teaser(course_id: str = "proyavit") -> dict:
+def teaser(course_id: str = "proyavit", lang: str = "ru") -> dict:
     """Публичная витрина без контента модулей - для незалогиненных/неоплативших."""
-    c = load(course_id)
+    c = load(course_id, lang)
     mods = [{"num": m.get("num"), "title": m.get("title"), "em": m.get("em"),
              "days": m.get("days"),
              "tasks": len(m.get("tasks", [])),
