@@ -144,15 +144,35 @@
       +'<pre>'+pre+'</pre></div>';
   }
   function lessonHTML(l){ return '<h3><span class="dot">◆</span> '+esc(l.h)+'</h3>'+l.body; }
+  function examplesHTML(ex, mid){
+    var opts=(ex&&ex.options)||[]; if(!opts.length) return "";
+    var chips=opts.map(function(o,i){ return '<button class="ex-chip'+(i===0?' on':'')+'" data-ex="'+mid+'" data-i="'+i+'">'+esc(o.label)+'</button>'; }).join("");
+    return '<div class="ex"><div class="ex-h">'+ICON('🎯')+' '+esc(ex.title||"Примеры под твою сферу")+'</div>'
+      +'<div class="ex-chips">'+chips+'</div>'
+      +'<div class="ex-panel" id="ex-panel-'+mid+'">'+opts[0].body+'</div></div>';
+  }
+  function hintHTML(h){
+    var text = typeof h==="string" ? h : (h.text||"");
+    var ask = (typeof h==="object" && h.ask) ? h.ask : "";
+    var btn = (ask && TUTOR_ON) ? '<button class="hint-ask" data-ask="'+encodeURIComponent(ask)+'">Спросить наставника →</button>' : '';
+    return '<div class="hint">'+ICON('💬')+'<div class="hint-b"><b>Подсказка наставника</b><p>'+esc(text)+'</p>'+btn+'</div></div>';
+  }
+  function exampleBody(mid, i){
+    var m=C.modules.filter(function(x){return x.id===mid;})[0];
+    if(m && m.examples && m.examples.options && m.examples.options[i]) return m.examples.options[i].body;
+    return "";
+  }
   function moduleHTML(m, idx){
     var cnt=modCount(m), tot=(m.tasks||[]).length, done=modDone(m);
     var mxp=(m.tasks||[]).reduce(function(s,t){return s+t.xp;},0);
     var body='';
     body+='<div class="why">'+esc(m.why)+'</div>';
     (m.lessons||[]).forEach(function(l){ body+=lessonHTML(l); });
-    if(m.book) body+='<div class="book"><div class="bh">'+esc(m.book.h)+'</div><p>'+esc(m.book.text)+'</p></div>';
+    if(m.book){ var bh=(m.book.h||"").replace(/^[^0-9A-Za-zА-Яа-яЁё]+/,""); body+='<div class="book"><div class="bh">'+ICON('💡')+' '+esc(bh)+'</div><p>'+esc(m.book.text)+'</p></div>'; }
     if(m.prompt) body+=promptHTML(m.prompt);
     if(m.prompts) m.prompts.forEach(function(p){ body+=promptHTML(p); });
+    if(m.examples) body+=examplesHTML(m.examples, m.id);
+    if(m.hint) body+=hintHTML(m.hint);
     body+='<div class="tasks"><div class="th">Задачи уровня</div>';
     (m.tasks||[]).forEach(function(t){
       var on=!!state.done[t.id];
@@ -255,6 +275,27 @@
         function ok(){ b.classList.add("done"); b.textContent="Скопировано ✓"; setTimeout(function(){ b.classList.remove("done"); b.textContent="Копировать"; },1600); }
         if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(ok,ok); }
         else { var ta=document.createElement("textarea"); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e2){} ta.remove(); ok(); }
+      });
+    });
+    app.querySelectorAll(".ex-chip").forEach(function(ch){
+      ch.addEventListener("click", function(e){
+        e.stopPropagation();
+        var mid=ch.getAttribute("data-ex"), i=+ch.getAttribute("data-i");
+        var wrap=ch.parentNode;
+        wrap.querySelectorAll(".ex-chip").forEach(function(x){ x.classList.remove("on"); });
+        ch.classList.add("on");
+        var panel=document.getElementById("ex-panel-"+mid);
+        if(panel) panel.innerHTML=exampleBody(mid,i);
+      });
+    });
+    app.querySelectorAll(".hint-ask").forEach(function(btn){
+      btn.addEventListener("click", function(e){
+        e.stopPropagation();
+        var q=decodeURIComponent(btn.getAttribute("data-ask")||"");
+        if(!TUTOR_ON) return;
+        if(!document.getElementById("tutor-fab")) initTutor();
+        var panel=document.getElementById("tutor-panel"); if(panel) panel.hidden=false;
+        var ta=document.getElementById("tt-q"); if(ta){ ta.value=q; ta.focus(); }
       });
     });
     var cont=document.getElementById("continue");
