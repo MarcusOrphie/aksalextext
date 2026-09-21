@@ -169,17 +169,18 @@ def reserve(rects, name, url, desc, email, logo_bytes, logo_ext):
 
 
 def confirm(order_id):
-    """Закрепить оплаченную бронь на холсте. Вызывается из вебхука Prodamus."""
+    """Закрепить оплаченную бронь на холсте. Вызывается из вебхука Prodamus.
+    Возвращает dict инфо о заказе при первом закреплении (для письма), {"already":True} на повтор, None/False иначе."""
     if not order_id:
-        return False
+        return None
     with _lock:
         res = _load(_RES)
         board_p = _load(_BOARD)
         rec = next((r for r in res if r.get("id") == order_id), None)
         if not rec:
-            return False
+            return None
         if any(p.get("id") == order_id for p in board_p):
-            return True  # уже закреплено (повтор вебхука)
+            return {"already": True}  # уже закреплено (повтор вебхука)
         if _blocks_of(rec["rects"]) & _occ(board_p):
             return False  # места успели занять - возврат средств вручную
         p = {"id": order_id, "rects": rec["rects"], "name": rec.get("name", ""),
@@ -192,7 +193,8 @@ def confirm(order_id):
         _save(_RES, res)
         _log("paid", {"order_id": order_id, "email": rec.get("email", ""), "name": rec.get("name", ""),
                       "px": rec.get("px", 0), "sum": rec.get("px", 0) * RUB_PER_PX})
-        return True
+        return {"email": rec.get("email", ""), "name": rec.get("name", ""),
+                "px": rec.get("px", 0), "sum": rec.get("px", 0) * RUB_PER_PX}
 
 
 def logo_path(order_id):

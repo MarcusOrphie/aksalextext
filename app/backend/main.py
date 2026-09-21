@@ -544,9 +544,15 @@ async def prodamus_hook(request: Request):
     # Пиксели (Тусовка брендов / brands.aksalex.com): закрепляем оплаченную бронь
     pix_oid = str(data.get("order_num") or data.get("order_id") or "")
     if pix_oid.startswith("bp"):
-        ok_pix = pixels.confirm(pix_oid)
-        logging.warning("PRODAMUS pixels confirm oid=%s ok=%s", pix_oid, ok_pix)
-        return {"ok": True, "pixels": ok_pix}
+        info = pixels.confirm(pix_oid)
+        logging.warning("PRODAMUS pixels confirm oid=%s ok=%s", pix_oid, bool(info))
+        if isinstance(info, dict) and info.get("email"):
+            try:
+                mailer.send_pixels_thanks(info["email"], info.get("name", ""),
+                                          info.get("px", 0), info.get("sum", 0))
+            except Exception as e:
+                logging.error("PRODAMUS pixels email failed: %r", e)
+        return {"ok": True, "pixels": bool(info)}
     email = (data.get("customer_email") or "").strip()
     item = prodamus.route(data)
     if not email or not item:
