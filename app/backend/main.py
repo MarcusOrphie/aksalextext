@@ -478,7 +478,7 @@ def pixels_board():
 @app.post("/api/pixels/reserve")
 async def pixels_reserve(rects: str = Form(...), name: str = Form(""),
                          url: str = Form(""), desc: str = Form(""),
-                         logo: UploadFile = File(None)):
+                         email: str = Form(""), logo: UploadFile = File(None)):
     import json as _json, urllib.parse
     try:
         rr = _json.loads(rects)
@@ -492,7 +492,7 @@ async def pixels_reserve(rects: str = Form(...), name: str = Form(""),
             logo_bytes = await logo.read()
             if len(logo_bytes) > 3 * 1024 * 1024:
                 return JSONResponse(status_code=400, content={"error": "logo_too_big"})
-    r = pixels.reserve(rr, name, url, desc, logo_bytes, logo_ext)
+    r = pixels.reserve(rr, name, url, desc, email, logo_bytes, logo_ext)
     if r.get("error"):
         return JSONResponse(status_code=409, content=r)
     pay = ("https://zalihvat.payform.ru/?do=pay"
@@ -500,8 +500,18 @@ async def pixels_reserve(rects: str = Form(...), name: str = Form(""),
            "&products[0][name]=" + urllib.parse.quote("Пиксели brands.aksalex.com" + ((" - " + name) if name else "")) +
            "&products[0][price]=" + str(pixels.RUB_PER_PX) +
            "&products[0][quantity]=" + str(r["px"]))
+    if email and "@" in email:
+        pay += "&customer_email=" + urllib.parse.quote(email)
     r["pay_url"] = pay
     return r
+
+
+@app.get("/api/pixels/orders")
+def pixels_orders(key: str = ""):
+    admin = os.environ.get("PIXELS_ADMIN_KEY", "").strip()
+    if not admin or key != admin:
+        raise HTTPException(status_code=403, detail="forbidden")
+    return {"orders": pixels.orders()}
 
 
 @app.get("/api/pixels/logo/{oid}")

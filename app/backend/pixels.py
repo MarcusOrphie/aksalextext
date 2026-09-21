@@ -16,7 +16,36 @@ _DIR = os.path.abspath(_DIR)
 _LOGOS = os.path.join(_DIR, "logos")
 _BOARD = os.path.join(_DIR, "board.json")
 _RES = os.path.join(_DIR, "reservations.json")
+_LOG = os.path.join(_DIR, "orders.jsonl")
 _lock = threading.Lock()
+
+
+def _log(kind, data):
+    """Журнал заказов: одна строка JSON на событие (reserve / paid)."""
+    try:
+        _ensure()
+        rec = {"ts": int(time.time()), "kind": kind}
+        rec.update(data)
+        with open(_LOG, "a", encoding="utf-8") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def orders(limit=1000):
+    out = []
+    try:
+        with open(_LOG, "r", encoding="utf-8") as f:
+            for ln in f:
+                ln = ln.strip()
+                if ln:
+                    try:
+                        out.append(json.loads(ln))
+                    except Exception:
+                        pass
+    except Exception:
+        pass
+    return out[-limit:][::-1]
 
 _EXT = {"image/png": "png", "image/jpeg": "jpg", "image/jpg": "jpg",
         "image/webp": "webp", "image/gif": "gif", "image/svg+xml": "svg"}
@@ -108,7 +137,7 @@ def stats():
     return {"px": sum(p.get("px", 0) for p in b), "count": len(b)}
 
 
-def reserve(rects, name, url, desc, logo_bytes, logo_ext):
+def reserve(rects, name, url, desc, email, logo_bytes, logo_ext):
     """Забронировать места. Возвращает {order_id, px, sum} или {error}."""
     if not _rects_valid(rects):
         return {"error": "bad_rects"}
@@ -126,7 +155,7 @@ def reserve(rects, name, url, desc, logo_bytes, logo_ext):
         px = len(want) * 100
         oid = "bp" + uuid.uuid4().hex[:16]
         rec = {"id": oid, "rects": rects, "name": (name or "")[:80], "url": (url or "")[:300],
-               "desc": (desc or "")[:140], "px": px, "sum": px * RUB_PER_PX,
+               "desc": (desc or "")[:140], "email": (email or "")[:120], "px": px, "sum": px * RUB_PER_PX,
                "exp": time.time() + RES_TTL, "done": False}
         if logo_bytes and logo_ext:
             with open(os.path.join(_LOGOS, oid + "." + logo_ext), "wb") as f:
@@ -134,6 +163,8 @@ def reserve(rects, name, url, desc, logo_bytes, logo_ext):
             rec["logo_ext"] = logo_ext
         res.append(rec)
         _save(_RES, res)
+        _log("reserve", {"order_id": oid, "email": rec["email"], "name": rec["name"],
+                         "url": rec["url"], "px": px, "sum": px * RUB_PER_PX, "rects": len(rects)})
         return {"order_id": oid, "px": px, "sum": px * RUB_PER_PX}
 
 
@@ -159,6 +190,8 @@ def confirm(order_id):
         _save(_BOARD, board_p)
         rec["done"] = True
         _save(_RES, res)
+        _log("paid", {"order_id": order_id, "email": rec.get("email", ""), "name": rec.get("name", ""),
+                      "px": rec.get("px", 0), "sum": rec.get("px", 0) * RUB_PER_PX})
         return True
 
 
