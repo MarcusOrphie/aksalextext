@@ -122,6 +122,7 @@ def board():
     out = []
     for p in b:
         out.append({
+            "id": p.get("id", ""),
             "rects": p["rects"],
             "name": p.get("name", ""),
             "url": p.get("url", ""),

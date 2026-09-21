@@ -502,6 +502,9 @@ async def pixels_reserve(rects: str = Form(...), name: str = Form(""),
            "&products[0][quantity]=" + str(r["px"]))
     if email and "@" in email:
         pay += "&customer_email=" + urllib.parse.quote(email)
+    _back = "https://brands.aksalex.com/?paid=" + urllib.parse.quote(r["order_id"])
+    pay += "&urlSuccess=" + urllib.parse.quote(_back)
+    pay += "&urlReturn=" + urllib.parse.quote("https://brands.aksalex.com/")
     r["pay_url"] = pay
     return r
 
