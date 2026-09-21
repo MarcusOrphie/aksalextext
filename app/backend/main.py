@@ -8,7 +8,7 @@ FastAPI-бэкенд контент-машины «Залихват».
 import os, logging
 from fastapi import FastAPI, Depends, HTTPException, Header, Request, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, Response
+from fastapi.responses import JSONResponse, Response, FileResponse
 from pydantic import BaseModel, Field
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -30,6 +30,7 @@ import tg
 import prodamus
 import course_content
 import tutor
+import pixels
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -468,6 +469,52 @@ def lab_reel_create(request: Request, req: LabReel, user: dict = Depends(get_use
     _lab_gate(user)
     return {"detail": "Сценарий принят. Сборку рилз включим после подключения видео-провайдера и готовых голоса+аватара."}
 
+# ---------- ПИКСЕЛИ: Тусовка брендов / Brand Party (brands.aksalex.com) ----------
+@app.get("/api/pixels/board")
+def pixels_board():
+    return {"placements": pixels.board(), "stats": pixels.stats()}
+
+
+@app.post("/api/pixels/reserve")
+async def pixels_reserve(rects: str = Form(...), name: str = Form(""),
+                         url: str = Form(""), desc: str = Form(""),
+                         logo: UploadFile = File(None)):
+    import json as _json, urllib.parse
+    try:
+        rr = _json.loads(rects)
+    except Exception:
+        return JSONResponse(status_code=400, content={"error": "bad_json"})
+    logo_bytes = None
+    logo_ext = None
+    if logo is not None:
+        logo_ext = pixels.ext_for(logo.content_type)
+        if logo_ext:
+            logo_bytes = await logo.read()
+            if len(logo_bytes) > 3 * 1024 * 1024:
+                return JSONResponse(status_code=400, content={"error": "logo_too_big"})
+    r = pixels.reserve(rr, name, url, desc, logo_bytes, logo_ext)
+    if r.get("error"):
+        return JSONResponse(status_code=409, content=r)
+    pay = ("https://zalihvat.payform.ru/?do=pay"
+           "&order_id=" + urllib.parse.quote(r["order_id"]) +
+           "&products[0][name]=" + urllib.parse.quote("Пиксели brands.aksalex.com" + ((" - " + name) if name else "")) +
+           "&products[0][price]=" + str(pixels.RUB_PER_PX) +
+           "&products[0][quantity]=" + str(r["px"]))
+    r["pay_url"] = pay
+    return r
+
+
+@app.get("/api/pixels/logo/{oid}")
+def pixels_logo(oid: str):
+    import re as _re
+    if not _re.match(r"^bp[a-f0-9]{1,32}$", oid):
+        raise HTTPException(status_code=404, detail="not found")
+    fp = pixels.logo_path(oid)
+    if not fp:
+        raise HTTPException(status_code=404, detail="not found")
+    return FileResponse(fp)
+
+
 @app.post("/api/hooks/prodamus")
 async def prodamus_hook(request: Request):
     import urllib.parse
@@ -484,6 +531,12 @@ async def prodamus_hook(request: Request):
         return JSONResponse(status_code=200, content={"ok": False, "reason": "bad_sign"})
     if not prodamus.is_success(data):
         return {"ok": True, "skipped": "not_success"}
+    # Пиксели (Тусовка брендов / brands.aksalex.com): закрепляем оплаченную бронь
+    pix_oid = str(data.get("order_num") or data.get("order_id") or "")
+    if pix_oid.startswith("bp"):
+        ok_pix = pixels.confirm(pix_oid)
+        logging.warning("PRODAMUS pixels confirm oid=%s ok=%s", pix_oid, ok_pix)
+        return {"ok": True, "pixels": ok_pix}
     email = (data.get("customer_email") or "").strip()
     item = prodamus.route(data)
     if not email or not item:
