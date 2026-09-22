@@ -102,7 +102,43 @@ def jsonld(d, url, today):
     blk = lambda o: '<script type="application/ld+json">\n' + json.dumps(o, ensure_ascii=False) + '\n</script>'
     return "\n".join([blk(blog), blk(faqp), blk(crumbs)])
 
-def build_html(d, url, today, date_ru):
+def top_post():
+    """Текущая самая свежая статья из blog/index.html (до вставки новой) - станет 'следующей' для новой статьи.
+    title/desc уже экранированы в индексе. Возвращает (href, title_html, desc_html) или None."""
+    try:
+        html = open(os.path.join(BLOG, "index.html"), encoding="utf-8").read()
+    except Exception:
+        return None
+    m = re.search(r'<a class="post" href="(/blog/[^"]+/)">.*?<h2>(.*?)</h2>\s*<p>(.*?)</p>', html, re.S)
+    return (m.group(1), m.group(2), m.group(3)) if m else None
+
+def next_for_slug(slug):
+    """Следующая (более старая) статья относительно slug в blog/index.html - для rebuild."""
+    try:
+        html = open(os.path.join(BLOG, "index.html"), encoding="utf-8").read()
+    except Exception:
+        return None
+    cards = re.findall(r'<a class="post" href="(/blog/[^"]+/)">.*?<h2>(.*?)</h2>\s*<p>(.*?)</p>', html, re.S)
+    for i, c in enumerate(cards):
+        if c[0] == "/blog/" + slug + "/":
+            return cards[i + 1] if i + 1 < len(cards) else (cards[0] if cards else None)
+    return None
+
+def next_block(nxt):
+    """Блок 'Читайте дальше' со ссылкой на следующую статью. nxt=(href, title_html, desc_html)."""
+    if not nxt:
+        return ""
+    href, title, desc = nxt
+    lead = "Раз тема оказалась полезной, вот что почитать следующим. " + desc
+    return (
+'    <a class="readnext" href="' + href + '" style="display:block;margin:38px 0 6px;padding:20px 22px;background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--coral);text-decoration:none;color:inherit">\n'
+"      <div style=\"font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--coral-deep);margin-bottom:6px\">Читайте дальше</div>\n"
+"      <div style=\"font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:20px;line-height:1.06;color:var(--ink);margin-bottom:8px\">" + title + "</div>\n"
+'      <p style="margin:0 0 10px;font-size:15px;line-height:1.6;color:#2c2621;font-weight:600">' + lead + "</p>\n"
+"      <span style=\"font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;color:var(--coral-deep)\">Читать статью →</span>\n"
+'    </a>\n')
+
+def build_html(d, url, today, date_ru, nxt=None):
     tpl = open(TPL, encoding="utf-8").read()
     repl = {
         "{{TITLE}}": esc(d["title"]), "{{META}}": esc(d.get("meta_description", "")),
@@ -110,6 +146,7 @@ def build_html(d, url, today, date_ru):
         "{{URL}}": url, "{{CRUMB}}": esc(d["title"]),
         "{{AMETA}}": f"Саша Аксенов · {date_ru} · {int(d.get('read_min', 4))} мин чтения",
         "{{BODY}}": body_html(d), "{{FAQ_HTML}}": faq_html(d), "{{JSONLD}}": jsonld(d, url, today),
+        "{{NEXT}}": next_block(nxt),
     }
     for k, v in repl.items():
         tpl = tpl.replace(k, v)
@@ -210,7 +247,8 @@ def main():
 
     make_cover(d.get("cover_title") or d["title"], d.get("cover_tag", "Нейросети · блог"),
                os.path.join(outdir, "cover.jpg"))
-    open(os.path.join(outdir, "index.html"), "w", encoding="utf-8").write(build_html(d, url, today, date_ru))
+    nxt = top_post()  # текущая свежая статья -> 'следующая' для этой (до вставки в индекс)
+    open(os.path.join(outdir, "index.html"), "w", encoding="utf-8").write(build_html(d, url, today, date_ru, nxt))
     update_blog_index(d, date_ru)
     update_sitemap(d, today)
     add_teaser(d)

@@ -29,7 +29,7 @@ def main():
     date_ru = orig_date_ru(old) or f"{dt.day} {P.MONTHS[dt.month]} {dt.year}"  # сохраняем дату публикации
     today = dt.isoformat()
     url = f"{P.SITE_URL}/blog/{slug}/"
-    open(idx, "w", encoding="utf-8").write(P.build_html(d, url, today, date_ru))
+    open(idx, "w", encoding="utf-8").write(P.build_html(d, url, today, date_ru, P.next_for_slug(slug)))
     print(f"REBUILT {slug}: chars={len(text)} tables={ntab} date='{date_ru}'", flush=True)
 
 if __name__ == "__main__":
