@@ -454,6 +454,18 @@
       transform:translateY(-2px);
     }
     .contact-btn svg { flex-shrink:0; }
+  #site-menu-btn{position:fixed;top:26px;left:26px;z-index:500;display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:38px;background:rgba(0,0,0,.28);backdrop-filter:blur(10px);border:none;border-radius:8px;cursor:pointer;padding:0 11px}
+  #site-menu-btn span{display:block;height:2.5px;width:100%;background:#fff;border-radius:2px;transition:transform .22s,opacity .15s}
+  #site-menu-btn.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  #site-menu-btn.open span:nth-child(2){opacity:0}
+  #site-menu-btn.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  #site-menu{position:fixed;top:74px;left:26px;z-index:499;min-width:220px;background:rgba(17,17,17,.96);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:10px;display:none;flex-direction:column;gap:2px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+  #site-menu.open{display:flex;animation:menudrop .18s ease}
+  @keyframes menudrop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+  #site-menu a{font-family:'Inter',sans-serif;font-weight:600;font-size:15px;color:rgba(255,255,255,.82);text-decoration:none;padding:10px 14px;border-radius:9px;transition:background .15s,color .15s}
+  #site-menu a:hover{background:rgba(255,255,255,.08);color:#fff}
+  #site-menu a.on{color:#ff7f50}
+  @media(max-width:700px){#site-menu-btn{top:16px;left:16px}#site-menu{top:60px;left:16px}}
   </style>
 </head>
 <body>
@@ -462,6 +474,19 @@
   <button class="lang-btn active" onclick="setLang('ru')">RU</button>
   <button class="lang-btn" onclick="setLang('en')">EN</button>
 </div>
+
+
+<!-- SITE BURGER MENU -->
+<button id="site-menu-btn" aria-label="Меню"><span></span><span></span><span></span></button>
+<nav id="site-menu">
+  <a href="/aboutme" class="on" data-i18n="nav.about">Обо мне</a>
+  <a href="/zalihvat" data-i18n="nav.zalihvat">Залихват</a>
+  <a href="https://brands.aksalex.com" data-i18n="nav.party">Тусовка брендов</a>
+  <a href="/guides/" data-i18n="nav.guides">Гайды</a>
+  <a href="https://app.aksalex.com" target="_blank" rel="noopener" data-i18n="nav.cab">Кабинет</a>
+  <a href="https://t.me/xAkse" target="_blank" rel="noopener" data-i18n="nav.help">Помощь</a>
+  <a href="/blog/" data-i18n="nav.blog">Блог</a>
+</nav>
 
 
 <!-- ── SVG DEFS (reusable icons) ── -->
@@ -1192,6 +1217,13 @@
       'hero.name2': 'Аксенов',
       'hero.role': 'Senior Product Manager',
       'hero.years': '14+ лет в digital-продуктах',
+      'nav.about': 'Обо мне',
+      'nav.zalihvat': 'Залихват',
+      'nav.party': 'Тусовка брендов',
+      'nav.guides': 'Гайды',
+      'nav.cab': 'Кабинет',
+      'nav.help': 'Помощь',
+      'nav.blog': 'Блог',
 
       's2.tr': 'Intro',
       's2.head.text': 'Senior PM с опытом в&nbsp;',
@@ -1281,6 +1313,13 @@
       'hero.name2': 'Aksenov',
       'hero.role': 'Senior Product Manager',
       'hero.years': '14+ years in digital products',
+      'nav.about': 'About me',
+      'nav.zalihvat': 'Zalihvat',
+      'nav.party': 'Brand Party',
+      'nav.guides': 'Guides',
+      'nav.cab': 'Cabinet',
+      'nav.help': 'Help',
+      'nav.blog': 'Blog',
 
       's2.tr': 'Intro',
       's2.head.text': 'Senior PM with expertise in&nbsp;',
@@ -1390,5 +1429,6 @@
 
 </script>
 
+<script>(function(){var b=document.getElementById('site-menu-btn'),m=document.getElementById('site-menu');if(!b||!m)return;b.addEventListener('click',function(e){e.stopPropagation();var o=!m.classList.contains('open');m.classList.toggle('open',o);b.classList.toggle('open',o);});document.addEventListener('click',function(e){if(!m.contains(e.target)&&e.target!==b&&!b.contains(e.target)){m.classList.remove('open');b.classList.remove('open');}});})();</script>
 </body>
 </html>

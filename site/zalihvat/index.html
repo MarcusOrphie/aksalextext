@@ -27,11 +27,11 @@
 <meta property="og:title" content="Залихват — контент для блога, пока малыш спит">
 <meta property="og:description" content="За 5 минут готовые идеи, посты, сторис, сценарии и карусели под твою тему и с твоей личностью. Копируй и публикуй.">
 <meta property="og:image" content="https://aksalex.com/face1.jpg">
-<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
@@ -67,6 +67,7 @@
   .navlinks{display:flex;gap:18px;align-items:center}
   .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
   .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .navlinks a.on{color:var(--coral-deep) !important}
   .langsw{display:inline-flex;border:2px solid var(--ink);border-radius:9px;overflow:hidden}
   .langsw a{padding:5px 9px;font-family:"Oswald";font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--muted);text-decoration:none;background:var(--paper2)}
   .langsw a.on{background:var(--ink);color:var(--paper)}
@@ -361,18 +362,17 @@
 
 <nav class="nav">
   <div class="in">
-    <a class="brand" href="/"><svg viewBox="0 0 600 150" style="height:56px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
     <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="navlinks">
+      <a href="/aboutme">Обо мне</a>
+      <a href="/zalihvat" class="on">Залихват</a>
       <a class="party-link" href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
-      <a href="#machine">Машина</a>
-      <a href="#how">Как это работает</a>
       <a href="/guides/">Гайды</a>
-      <a href="#about">Кто я</a>
-      <a href="/blog/">Блог</a>
+      <a href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
       <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a href="/blog/">Блог</a>
       <span class="langsw"><a href="/zalihvat" class="on">RU</a><a href="/en/">EN</a></span>
-      <a class="btn sm btn-primary navcta" href="https://app.aksalex.com" target="_blank" rel="noopener">Войти</a>
     </div>
   </div>
 </nav>
@@ -383,7 +383,7 @@
   <header class="hero">
     <span class="doodle d1" style="top:20px;left:6px;font-size:26px">✦</span>
     <span class="doodle d2" style="top:80px;right:4px;font-size:20px;color:var(--ink)">✱</span>
-    <div class="author-float"><img src="face1.jpg" alt="Саша Аксенов"><span>by Саша Аксенов</span></div>
+    <div class="author-float"><img src="/face1.jpg" alt="Саша Аксенов"><span>by Саша Аксенов</span></div>
     <div class="eyebrow topbrow">Блог на автомате · без рутины</div>
     <div class="herologo">
       <svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Залихват">
@@ -543,7 +543,7 @@
   <section id="about">
     <div class="about narrow">
       <div class="about-head">
-        <div class="mini"><img src="face1.jpg" alt="Саша Аксенов"></div>
+        <div class="mini"><img src="/face1.jpg" alt="Саша Аксенов"></div>
         <div><span class="eyebrow">Кто я</span><h3>Саша Аксенов</h3></div>
       </div>
       <p>У меня 2 дочки, 2 работы и я очень вовлечённый отец. Я 14+ лет в маркетинге и развитии продуктов: ищу точки роста и среди первых начал использовать нейросети. Развивал маркетинг в клинике по пересадке волос Real Trans Hair, автоматизировал валидацию и прототипирование продуктовых гипотез в билайн.</p>
@@ -598,10 +598,9 @@
   <footer>
     <a class="brand fbrand" href="/"><svg viewBox="0 0 600 150" style="height:60px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
     <div class="navlinks fmenu">
-      <a href="/zalihvat#machine">Машина</a>
-      <a href="/zalihvat#how">Как это работает</a>
-      <a href="/zalihvat#guides">Продукты</a>
-      <a href="/zalihvat#about">Кто я</a>
+      <a href="/zalihvat">Залихват</a>
+      <a href="/guides/">Гайды</a>
+      <a href="/aboutme">Обо мне</a>
       <a href="/blog/">Блог</a>
       <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram*</a>
       <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
