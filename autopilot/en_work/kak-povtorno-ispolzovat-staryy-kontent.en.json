@@ -1,0 +1,162 @@
+{
+ "slug": "kak-povtorno-ispolzovat-staryy-kontent",
+ "title": "How to Reuse Your Old Content",
+ "meta_description": "How to reuse your blog's old content: updating posts, repackaging into new formats, rotating your best. A table of methods and a breakdown of mistakes. More value.",
+ "og_description": "How to squeeze the most out of old content: update it, repackage it and send it back into the feed.",
+ "cover_title": "Reuse Old Content",
+ "read_min": 6,
+ "date_ru": "11 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why old content is an asset",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Every post you once made cost time and effort. If it went out once and vanished, you're using a tiny fraction of what you put in. And the feed lives in the moment: a post showed up for a slice of your followers and sank. Most of your audience never saw it."
+    },
+    {
+     "type": "p",
+     "text": "Add to that the steady flow of new followers. For them, your entire archive is fresh content. Bringing back the old stuff isn't embarrassing, it's smart: you give new people the valuable things they missed, and you don't burn energy shooting from scratch."
+    },
+    {
+     "type": "blockquote",
+     "text": "Your archive isn't the past, it's a warehouse of ready-made content. Most of your audience hasn't seen it yet."
+    }
+   ]
+  },
+  {
+   "h2": "Three ways to put content back to work",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "1. Update and republish"
+    },
+    {
+     "type": "p",
+     "text": "Take an old useful post, refresh the facts and examples, adjust the headline for today - and release it again. This works especially well with guides and roundups, where information gets outdated over time."
+    },
+    {
+     "type": "h3",
+     "text": "2. Repackage into another format"
+    },
+    {
+     "type": "p",
+     "text": "A strong video becomes a carousel, a post becomes a series of stories, a long read becomes a short Reel. The idea is the same, but the new form catches an audience that found the old format inconvenient."
+    },
+    {
+     "type": "h3",
+     "text": "3. Rotate your best back in"
+    },
+    {
+     "type": "p",
+     "text": "Your top posts can be repeated every few months with almost no changes. If a post landed once, it will very likely land again - the audience is already different."
+    }
+   ]
+  },
+  {
+   "h2": "What to reuse and how: a table",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Not every part of the archive should come back the same way. Go by content type: some pieces just need repackaging, others absolutely need an update."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Content type",
+      "How to bring it back",
+      "How often"
+     ],
+     "rows": [
+      [
+       "Evergreen guide",
+       "Update the facts and release again",
+       "Every 6-12 months"
+      ],
+      [
+       "Top video",
+       "Repackage into a carousel or post",
+       "Every 2-3 months"
+      ],
+      [
+       "Personal story",
+       "Retell it with a new takeaway",
+       "Every six months"
+      ],
+      [
+       "Roundup, list",
+       "Expand and update it",
+       "Every 3-4 months"
+      ],
+      [
+       "News post",
+       "Don't bring back - it's outdated",
+       "Don't reuse"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "There's no point bringing back news and moment-bound content - it's outdated. But evergreen topics that don't lose relevance can run for years, with just the details refreshed."
+    }
+   ]
+  },
+  {
+   "h2": "How to find what to reuse",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Don't guess, open your stats. Find the posts with high saves, reach and watch-through rates - those are your proven hits. They're the ones to bring back first, because the audience has already confirmed their value."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Sort past posts by saves and reach.",
+      "Write down the top ten - that's your gold reserve.",
+      "Mark which are evergreen and which are moment-bound.",
+      "Draw up a rotation plan: what you'll bring back and when."
+     ]
+    },
+    {
+     "type": "p",
+     "text": "This approach removes the eternal question of what to write about. You already have a list of proven topics - all that's left is to pick a format and serve it up again."
+    }
+   ]
+  },
+  {
+   "h2": "How not to slide into repetition and spam",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The main danger is posting the same thing too often and without changes. Regular followers will notice and get tired. So change the format, add a new angle or a fresh example, and leave a gap of several months between repeats of the same topic."
+    },
+    {
+     "type": "p",
+     "text": "A good rule is one reused post for every three or four fresh ones. That keeps the feed alive while taking some of the load off you. Reuse should support the blog, not replace new content entirely."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Won't followers notice it's an old post?",
+   "a": "Some regulars will, so change the format or angle and leave a gap of several months. For new followers and most of the feed, it will be fresh content."
+  },
+  {
+   "q": "What content is best to reuse?",
+   "a": "Evergreen topics with high saves and reach - guides, roundups, useful breakdowns. They don't go stale, and the stats already confirmed the audience wants them."
+  },
+  {
+   "q": "How often can I bring back the same post?",
+   "a": "A top post - every two or three months in a new format; an evergreen guide - every six months to a year, with an update. The key is no more often than that, and with changes, so it doesn't get old."
+  },
+  {
+   "q": "Should I bring back news posts?",
+   "a": "No. Content tied to the moment or a specific news event goes stale fast. Only reuse what stays relevant regardless of the date."
+  },
+  {
+   "q": "How much reused content is acceptable in the feed?",
+   "a": "Aim for one reused post per three or four fresh ones. That keeps the feed alive while reuse takes some of the load off, without replacing new content."
+  }
+ ]
+}

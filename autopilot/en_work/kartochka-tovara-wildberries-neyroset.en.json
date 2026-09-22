@@ -1,0 +1,150 @@
+{
+ "slug": "kartochka-tovara-wildberries-neyroset",
+ "title": "A Wildberries Product Listing With AI",
+ "meta_description": "Step by step: how to fill out a Wildberries product listing with AI - keywords, specs, description. Common seller mistakes.",
+ "og_description": "Building a Wildberries product listing with AI: keywords, specs, description.",
+ "read_min": 6,
+ "date_ru": "20 сентября 2026",
+ "cover_title": "Wildberries Listings With AI",
+ "sections": [
+  {
+   "h2": "What a Wildberries listing is made of",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Beyond photos and infographics, a listing rests on three text blocks: the title, the set of specs, and the product description. The platform's search takes all three into account, so AI is useful here not for pretty writing but for making sure the listing gets found for the right queries at all."
+    },
+    {
+     "type": "p",
+     "text": "Next, the workflow for each block."
+    }
+   ]
+  },
+  {
+   "h2": "Step 1. Pick your keywords",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Ask the AI to draft a list of words and phrases a buyer might type into search when looking for this kind of product: different wordings, synonyms, colloquial variants of the name. This is a rough list, not a finished keyword plan."
+    },
+    {
+     "type": "h3",
+     "text": "What to do with the list next"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Check query frequency in the platform's own tools rather than relying on the model's guess",
+      "Remove duplicates and completely irrelevant variants",
+      "Keep only the words that genuinely describe the product",
+      "Split the list into words for the title and words for the specs"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Step 2. Title and specs",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Wildberries titles have a character limit that varies by category - check the exact limit in your seller dashboard while filling out the listing, not in generic advice from the internet. Ask the AI to fit your keywords into several title variants of different lengths, then pick the one that fits the limit."
+    },
+    {
+     "type": "p",
+     "text": "With the specs, AI helps you describe the product in your own words from the input you give it, but the fields must be filled in with exact values from the product documents - size, composition, country of manufacture. This isn't a creative task, it's a fact-check."
+    }
+   ]
+  },
+  {
+   "h2": "Step 3. Product description",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A good description answers three questions: who the product is for, what its key features are, and how it differs from similar ones. AI puts together such a text from your input reasonably well, but usually overdoes the superlatives - 'the best', 'unique', 'perfect'."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Cut unverified superlative claims from the text",
+      "Check that all numbers and facts match the listing's specs",
+      "Don't copy the same text onto every product variant unchanged"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A marketplace description sells not with elegant prose but with a precise answer to the buyer's question. AI gives you a draft of that answer; the accuracy stays on you."
+    }
+   ]
+  },
+  {
+   "h2": "Where AI helps and where it can hurt",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Task",
+      "AI helps",
+      "Needs your check"
+     ],
+     "rows": [
+      [
+       "Title draft",
+       "Yes, variants with keywords",
+       "Exact character limit"
+      ],
+      [
+       "Specs",
+       "Phrasing",
+       "Exact values from documents"
+      ],
+      [
+       "Description",
+       "Structure and draft text",
+       "Facts and superlative claims"
+      ],
+      [
+       "Keywords",
+       "A list of synonyms",
+       "Frequency on the platform"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when filling out a listing",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is transferring the AI draft into the listing without checking the specs: a wrong composition or size leads to returns and a lower seller rating. The second mistake is stuffing the title and description with keywords with no coherent meaning, which the platform may treat as spam."
+    },
+    {
+     "type": "p",
+     "text": "The third mistake shows up with sellers who have a large assortment - copying one description text onto dozens of similar products without adapting it to the specific model, size, or color."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can you leave the whole spec section to the AI?",
+   "a": "The phrasing, yes, but the exact values (size, composition, country of manufacture) must come from the product documents, not the model's answer. An error in the specs leads to returns and buyer complaints."
+  },
+  {
+   "q": "How does AI help with keywords for Wildberries search?",
+   "a": "It quickly drafts a list of synonyms and phrasings buyers might use. You still need to check the frequency of those queries in the platform's own tools rather than trusting the model's guess."
+  },
+  {
+   "q": "Which words can't you use in a Wildberries description?",
+   "a": "Unverified superlative claims like 'the best' or 'unique' are better removed - AI inserts them often and without regard for the facts. Check the exact list of banned wordings in the platform's rules for your category."
+  },
+  {
+   "q": "Do you need to rewrite the description for each size and color separately?",
+   "a": "You don't need to fully rewrite it, but it's worth adapting the details to the specific variant rather than copying the text verbatim. Identical descriptions across all listings work worse in search and look sloppy to the buyer."
+  },
+  {
+   "q": "Which AI is best for a Wildberries listing?",
+   "a": "There's no fundamental difference between ChatGPT, YandexGPT, and GigaChat for this task - all handle a draft title, specs, and description. The choice usually comes down to interface convenience and the free-tier limits."
+  }
+ ]
+}

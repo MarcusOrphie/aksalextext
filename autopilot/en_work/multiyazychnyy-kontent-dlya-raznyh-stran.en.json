@@ -1,0 +1,150 @@
+{
+ "slug": "multiyazychnyy-kontent-dlya-raznyh-stran",
+ "title": "Multilingual Content: Posts for Different Countries",
+ "meta_description": "How to adapt posts for audiences in different countries with AI: translation, cultural nuances, and what to rewrite from scratch rather than just translate.",
+ "og_description": "How to prepare content for audiences in different countries with AI without losing meaning in translation.",
+ "read_min": 5,
+ "date_ru": "19 сентября 2026",
+ "cover_title": "Content Across Borders",
+ "sections": [
+  {
+   "h2": "Translation and adaptation are different tasks",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Translation preserves the meaning of the words. Adaptation preserves the effect the post was written for - to hook, to amuse, to build trust. If in the original you address the reader with a joke about local life, a literal translation turns it into a baffling string of words for someone in another country."
+    },
+    {
+     "type": "p",
+     "text": "AI does a great job translating facts - numbers, instructions, product descriptions. It handles humor, idioms, and cultural references worse, and there's no getting around hands-on editing here."
+    }
+   ]
+  },
+  {
+   "h2": "What you can trust AI with, no edits needed",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "Technical descriptions, specs, instructions",
+      "Answers to common questions with no emotional coloring",
+      "A rough translation of a long text for later editing",
+      "Finding synonyms and simplifying complex phrasing"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "This is the case where speed matters more than artistry: AI gives you a working base in seconds, and you spend time only on the final proofread rather than translating from scratch."
+    }
+   ]
+  },
+  {
+   "h2": "What you absolutely must check by hand",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Post element",
+      "Risk with machine translation",
+      "What to do"
+     ],
+     "rows": [
+      [
+       "Jokes and puns",
+       "Lose their meaning or sound odd",
+       "Replace with a local equivalent or cut them"
+      ],
+      [
+       "Dates and measurements",
+       "The format confuses the reader",
+       "Convert to the system familiar in that country"
+      ],
+      [
+       "Forms of address and tone",
+       "Too formal or too familiar",
+       "Check against the norms of communication in that culture"
+      ],
+      [
+       "References to local realities",
+       "Meaningless outside the country",
+       "Replace with a universal example"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A good translation is invisible to the reader. They don't think 'this was translated', they just understand the post as easily as the original."
+    }
+   ]
+  },
+  {
+   "h2": "How to set up a process so you're not translating every post from scratch",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Build a glossary of recurring terms"
+    },
+    {
+     "type": "p",
+     "text": "The product name, key phrases, frequently used expressions - put them in a separate list with a ready translation. Then AI will use the same phrasings each time instead of inventing new ones."
+    },
+    {
+     "type": "h3",
+     "text": "Check the tone with a real person"
+    },
+    {
+     "type": "p",
+     "text": "If you know a native speaker or someone from the target country, show them your finished translations from time to time. Even five minutes of feedback once a month saves you from awkward phrasings you'd never catch yourself."
+    },
+    {
+     "type": "h3",
+     "text": "Don't translate everything"
+    },
+    {
+     "type": "p",
+     "text": "Not every post needs another language. Personal stories and local humor are often better left as they are; translate universal formats: guides, lists, reviews."
+    }
+   ]
+  },
+  {
+   "h2": "The mistakes that most often ruin the impression",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even with a good translation, you can spoil the impression with organizational details."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A different tone in the original and the translation - as if two different people wrote them",
+      "Forgotten untranslated bits of interface or captions on screenshots",
+      "Ignoring the time zone and the relevance of news for another country",
+      "Translating without adapting currency and prices in examples"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can you fully trust AI with translating posts?",
+   "a": "For factual information, yes; for emotional and humorous content, no. Such texts need to be reread and adapted by hand."
+  },
+  {
+   "q": "At what share of foreign audience does it make sense to translate content?",
+   "a": "If a single country steadily brings in 10-15% of your audience, it's already worth trying to adapt at least some of your posts for them."
+  },
+  {
+   "q": "How do you check that a translation sounds natural?",
+   "a": "Show it to a native speaker or someone who has lived in that country for a long time. A machine check can't replace a live reaction to the text."
+  },
+  {
+   "q": "Do you need to translate absolutely every post?",
+   "a": "No. Personal stories and local references are often better left in the original language only, while you translate universal formats like guides and reviews."
+  },
+  {
+   "q": "How do you handle humor when translating into another language?",
+   "a": "A literal translation of a joke almost never works. It's easier to replace it with an equivalent that makes sense in the reader's culture, or to cut it entirely if there's no equivalent."
+  }
+ ]
+}

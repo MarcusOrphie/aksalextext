@@ -1,0 +1,147 @@
+{
+ "slug": "kak-vernutsya-v-blog-posle-dolgogo-molchaniya",
+ "title": "How to Return to Your Blog After a Long Silence",
+ "meta_description": "How to write your first post after a break from blogging without shame or long apologies. What to write and what to avoid.",
+ "og_description": "Your first post after a silence doesn't have to be an excuse. Let's look at how to return with ease.",
+ "cover_title": "Back After Silence",
+ "read_min": 4,
+ "date_ru": "7 сентября 2026",
+ "sections": [
+  {
+   "h2": "Where the shame about a break comes from",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "It feels like silence is a failure that has to be explained and made up for. In reality, for most readers a pause in someone else's blog stirs up less than a tenth of the emotion you feel about it. Everyone's life rolls on its own way, and six months with no posts from one account is ordinary, not an event."
+    },
+    {
+     "type": "p",
+     "text": "The shame grows not from your followers' reaction but from an inner expectation that you had to keep the pace no matter what. You can let that expectation go right now, before the first post."
+    }
+   ]
+  },
+  {
+   "h2": "What not to write in the first post",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "A five-paragraph apology for disappearing",
+      "A detailed report on exactly why you couldn't write",
+      "Promises like \"now I'll definitely post every day\"",
+      "Comparing yourself to bloggers who never took a break"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Each of these keeps the attention on the break rather than on what's happening now. Followers quickly forget the pause, as long as you don't remind them of it three times in a row."
+    }
+   ]
+  },
+  {
+   "h2": "What actually works in the first post",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "One short line about the break, with no details or excuses",
+      "A photo or video from today, not from the archive",
+      "One thought or observation that built up over this time",
+      "A question to your followers, so you get a response right away and aren't left in silence in the comments"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "The first post after a break doesn't have to be an event. It's enough for it to be the next post."
+    }
+   ]
+  },
+  {
+   "h2": "Return formats and what they give you",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Format",
+      "What it gives"
+     ],
+     "rows": [
+      [
+       "One line plus a photo",
+       "A quick, easy start with no pressure"
+      ],
+      [
+       "An honest question to the audience",
+       "Responses in the comments, contact restored right away"
+      ],
+      [
+       "A short story from the break",
+       "Context without a point-by-point account of the reasons"
+      ],
+      [
+       "A series of several short posts in a row",
+       "Rebuilds the habit of publishing"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to pick a topic for the very first post",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "You don't have to find something special for the comeback. Any topic that genuinely occupies you right now will do - even if it seems small."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "What changed in your life during the break, in one line",
+      "An observation from the last week that crossed your mind in passing",
+      "An answer to a question people asked you in DMs",
+      "Whatever you see in front of you right now, with no preparation"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "The main thing is not to pick a topic by the standard of \"how impressive it'll be after a long break.\" That standard almost always leads back to the idea of a big explanatory post, which is exactly what to steer away from."
+    }
+   ]
+  },
+  {
+   "h2": "What to do with the fear that everyone left",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Some followers really will stop seeing your posts in the feed after a long break - that's how algorithms work, not how they feel about you personally. It's not a reason to hold off, it's a reason not to expect an instant response to your first post."
+    },
+    {
+     "type": "p",
+     "text": "Reach and engagement recover over a few posts, as long as you keep showing up at your own pace instead of trying to catch up on everything in a single day."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Do I need to explain the reason for the long silence?",
+   "a": "One short line is enough. A detailed account of the reasons keeps the attention on the break rather than on the present moment."
+  },
+  {
+   "q": "What format is best to start the return with?",
+   "a": "The easiest one - a photo or video from today with a short caption. You don't need a grand first post."
+  },
+  {
+   "q": "What if reach dropped a lot after the break?",
+   "a": "That's normal and temporary. It recovers over a few posts in a row, without sharp spikes in activity."
+  },
+  {
+   "q": "Should I apologize to my followers for the break?",
+   "a": "Not necessarily. An apology is fitting if you personally want to say it, not because it's expected."
+  },
+  {
+   "q": "How do I avoid falling into a new break right after returning?",
+   "a": "Set a minimal goal for the week, not the plan you had before the break. Two posts done reliably beats seven and then silence again."
+  }
+ ]
+}

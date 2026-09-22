@@ -1,0 +1,156 @@
+{
+ "slug": "neyroseti-dlya-rasshifrovki-efirov-v-posty",
+ "title": "Neural Networks for Turning Livestreams Into Text Posts",
+ "meta_description": "How to turn a voice livestream or a live broadcast into ready-made text posts using a neural network for speech transcription.",
+ "og_description": "One livestream, several posts: how to transcribe a voice recording with a neural network without losing the meaning.",
+ "read_min": 5,
+ "date_ru": "13 сентября 2026",
+ "cover_title": "Streams Into Posts",
+ "sections": [
+  {
+   "h2": "Why livestreams are a warehouse of ready content",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "During a live conversation, thoughts come out more easily and vividly than when writing text from a blank page. You answer questions, give examples, explain things simply - and all of it can be turned into separate posts."
+    },
+    {
+     "type": "p",
+     "text": "The problem isn't a shortage of material, it's that transcribing by hand takes longer than the livestream itself. A neural network solves exactly this part - it turns audio into text in minutes rather than hours."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A single 40-60 minute stream yields 3-5 topics for posts",
+      "The phrasing is already alive, you don't have to invent it again",
+      "The transcript can be used for both captions and a carousel"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How transcribing a livestream works",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The stream recording is uploaded to a speech transcription service, and the output is a text file with the lines. From there you read the whole text and mark the chunks that sound like a complete thought."
+    },
+    {
+     "type": "h3",
+     "text": "What matters at this stage"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Check the transcript by ear in ambiguous spots",
+      "Remove filler words and repetitions typical of spoken speech",
+      "Keep the conversational turns of phrase - they make the post feel alive"
+     ]
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Stage",
+      "What you do"
+     ],
+     "rows": [
+      [
+       "Uploading the recording",
+       "Send the audio or video to a transcription service"
+      ],
+      [
+       "Rough text",
+       "Get a transcript with the spoken lines"
+      ],
+      [
+       "Selecting fragments",
+       "Mark the complete thoughts and examples"
+      ],
+      [
+       "Shaping the post",
+       "Add an intro and structure"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to turn a transcript into a specific post",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A finished transcript is a draft, not a post. Spoken speech and written text read differently: in a conversation you can repeat yourself and wander off, while a post needs structure and a clear entry point."
+    },
+    {
+     "type": "p",
+     "text": "Take one fragment of the stream on a specific idea, add a short intro on why it matters at all, and finish with a practical takeaway. The other fragments from the same stream become material for the next posts."
+    },
+    {
+     "type": "blockquote",
+     "text": "A transcript gives you raw material, but you assemble the post from it - with a beginning, a middle, and a clear takeaway."
+    }
+   ]
+  },
+  {
+   "h2": "Which formats come out of a single livestream",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "From the transcript of one stream you usually get several different formats, not one long retelling. That's handy if you need to spread the content out over the week ahead."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "An in-depth post on a single idea from an answer to a question",
+      "A short carousel with the steps from an explanation",
+      "A collection of quote-style takeaways for Stories",
+      "Caption text for a video cut from the same stream"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when working with a transcript",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is publishing the transcript with almost no edits. Spoken speech is full of connective words and repetitions that look clunky in text and tire the reader by the middle of the paragraph."
+    },
+    {
+     "type": "p",
+     "text": "The second mistake is removing every conversational turn of phrase, turning a lively answer into a dry summary. Then the post loses the very thing it was worth making for - your intonation."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Publishing the transcript without cuts",
+      "Fully flattening the speech into a written style",
+      "The final post having no headline or structure"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How many posts can I get from one livestream?",
+   "a": "Usually 3-5 posts from an hour-long stream, if the conversation was substantive and touched on several separate topics rather than one idea the whole time."
+  },
+  {
+   "q": "Do I need to edit the transcript before publishing?",
+   "a": "Yes, absolutely. The transcript is a draft: it still has filler words, repetitions, and unfinished phrases typical of spoken speech, which read heavily in text."
+  },
+  {
+   "q": "Is a transcript suitable for long blog articles?",
+   "a": "Yes, especially if the stream was structured. You can take the transcript as the basis for an article and flesh it out with examples, lists, and subheadings for easy reading."
+  },
+  {
+   "q": "How do I keep the liveliness of speech after transcribing?",
+   "a": "Don't flatten the text completely into a written style. Keep some of the conversational turns of phrase and personal examples - those are exactly what makes the post sound like your real speech."
+  },
+  {
+   "q": "Can I transcribe other people's livestreams for inspiration?",
+   "a": "Technically yes, but using someone else's thoughts as your own content isn't a good idea. Transcription is most useful for your own livestreams and recordings."
+  }
+ ]
+}

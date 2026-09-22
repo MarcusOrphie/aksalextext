@@ -1,0 +1,138 @@
+{
+ "slug": "kak-zapustit-blog-s-nulya-za-nedelyu",
+ "title": "How to Launch a Blog from Scratch in a Week",
+ "meta_description": "A step-by-step plan for launching a blog in a week: from choosing a niche to your first posts. No drawn-out prep, no endless tweaking.",
+ "og_description": "A 7-day plan that moves your blog from 'someday' to 'already up and running.'",
+ "read_min": 6,
+ "date_ru": "11 сентября 2026",
+ "cover_title": "Blog Launch Week",
+ "sections": [
+  {
+   "h2": "Why a week is a realistic timeline",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The goal for the week isn't a polished channel with a year-long strategy mapped out, but a living blog with its first posts and a clear next step. Perfect preparation most often works as a way to postpone the start: until the 'right' handle is chosen and the perfect first post is written, the launch never happens at all."
+    },
+    {
+     "type": "p",
+     "text": "A short timeline forces you to make decisions quickly and leaves the fine-tuning for later, when you already have real feedback from an audience instead of just assumptions about it."
+    }
+   ]
+  },
+  {
+   "h2": "Days 1-2: niche and packaging",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The first two days go to defining the blog's topic and setting up the profile so that a new visitor understands in five seconds what the channel is about and why they should follow it."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Sum up the topic in one sentence: who the blog is for and what problem it solves",
+      "Write a profile bio without generic phrases like 'a blog about everything interesting'",
+      "Set a photo or avatar you can be recognized by",
+      "Prepare a channel cover if the platform supports one"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Days 3-4: content plan and first pieces",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The task for these days isn't to write everything perfectly, but to gather enough of a topic reserve and prepare the first posts, so the launch doesn't turn into one post and silence."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Day",
+      "Task"
+     ],
+     "rows": [
+      [
+       "Day 3",
+       "Gather 10-15 topics from questions people have already asked you in life or in messages"
+      ],
+      [
+       "Day 3",
+       "Sort the topics into 2-3 categories so the content doesn't look chaotic"
+      ],
+      [
+       "Day 4",
+       "Write and format the first 3 posts from your topic list"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Day 5: first post and technical setup",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Day five is the point of the first publication. The important thing is not to wait for the 'right moment' and not to push it to next Monday. While you're at it, set up the things that make life easier later: saved replies to common questions, a pinned intro post, links in your profile bio."
+    },
+    {
+     "type": "blockquote",
+     "text": "The first post is never the best post on a blog - it just needs to exist so there's somewhere to grow from."
+    }
+   ]
+  },
+  {
+   "h2": "Days 6-7: rhythm and first tweaks",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "As you come out of the week, the point is to lock in a rhythm rather than a one-off burst: figure out how many posts you can realistically keep up without burning out, and mark those days in your calendar. This is also where you take an honest look at how your first readers reacted and adjust course if something clearly isn't landing."
+    },
+    {
+     "type": "h3",
+     "text": "Common mistakes at the start"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Posting chaotically, without fixed days of the week",
+      "Trying to cover too broad a topic right away",
+      "Comparing your first post with someone else's thousandth",
+      "Expecting fast growth and quitting the blog when it doesn't come in the first week"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "What to do after the first week",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "From here the task shifts from launching to keeping up the pace. It helps to build a list of topics a month ahead so you don't end up facing a blank page again, and to gradually test different formats - from short notes to in-depth breakdowns - to find out what suits you and your audience best."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Is it realistic to launch a blog in a week with no experience?",
+   "a": "Yes, if the goal is a living start rather than a perfect product. Experience is built after the launch, on real posts and feedback."
+  },
+  {
+   "q": "How many posts should I publish in the first week?",
+   "a": "Three or four is enough for the channel to have at least some content and to show that the blog is alive, not abandoned right after it was created."
+  },
+  {
+   "q": "What if I still haven't settled on a niche in two days?",
+   "a": "Pick a working version of the topic and start with it. A niche almost always gets refined as you run the blog, not before it launches."
+  },
+  {
+   "q": "Do I need to think through monetization right away?",
+   "a": "Not in the first week. First it's important to build consistency and content; monetization becomes a relevant task later."
+  },
+  {
+   "q": "How do I avoid quitting the blog after the first week?",
+   "a": "Lock in a realistic posting schedule in advance and stick to it, even if reach is modest at first - blog results are cumulative, not instant."
+  }
+ ]
+}

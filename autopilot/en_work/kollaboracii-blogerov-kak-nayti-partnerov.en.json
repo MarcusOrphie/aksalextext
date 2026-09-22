@@ -1,0 +1,163 @@
+{
+ "slug": "kollaboracii-blogerov-kak-nayti-partnerov",
+ "title": "Blogger Collaborations: How to Find Partners",
+ "meta_description": "How to find collaboration partners and pick the right format. AI to the rescue: finding bloggers, writing a pitch, planning joint content.",
+ "og_description": "How to search for collaboration partners and prepare a partnership pitch with AI.",
+ "cover_title": "Find Blog Partners",
+ "read_min": 5,
+ "date_ru": "19 сентября 2026",
+ "sections": [
+  {
+   "h2": "Who to look for: criteria, not just audience size",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is choosing a partner by follower count. A blogger with half a million in reach and moms as their target audience will do nothing for a blog about finance for IT people. An audience match matters more than size."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A similar or adjacent topic, but without direct competition for the same niche",
+      "A comparable audience size - a 3-5x difference still works, 20x doesn't",
+      "A similar delivery style: if you're serious and your partner only jokes, the audiences won't line up on expectations",
+      "An active, not dead audience - look at the comments, not just the follower count"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "AI helps here at the analysis stage: load a description of your audience and ask it to sketch out a list of topics and blog formats worth looking for overlap with. After that, you check specific people by hand."
+    }
+   ]
+  },
+  {
+   "h2": "How to find candidates faster",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Manual searching through feed recommendations works, but it's slow. A few tricks speed the process up."
+    },
+    {
+     "type": "h3",
+     "text": "Combing through comments"
+    },
+    {
+     "type": "p",
+     "text": "Look at who actively comments on posts by bloggers in your niche - these are often the future mid-sized partners who aren't yet spoiled by collaboration offers."
+    },
+    {
+     "type": "h3",
+     "text": "Roundups and rankings"
+    },
+    {
+     "type": "p",
+     "text": "Ask the AI to put together a list of search query formats: blogger roundups by niche, hashtags, topical directories. It won't hand you ready-made names, but it will narrow the search area many times over."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Search method",
+      "Pro",
+      "Con"
+     ],
+     "rows": [
+      [
+       "Feed recommendations",
+       "The interest match is already there",
+       "Few options at a time"
+      ],
+      [
+       "Comments under others' posts",
+       "You can see real activity",
+       "Takes time to look through"
+      ],
+      [
+       "Topical roundups and directories",
+       "Many candidates at once",
+       "Data isn't always current"
+      ],
+      [
+       "Mutual blogger acquaintances",
+       "High trust from the start",
+       "A limited circle"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Collaboration formats that actually work",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A joint format should solve a problem for both sides, not just be an excuse to tag each other. Here are the formats that most often reach a result rather than staying a one-off activity."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A mutual interview - you're a guest on your partner's channel and vice versa, in a Q&A format",
+      "A joint checklist or guide that each of you publishes on your own channel",
+      "A week-long marathon or challenge with a shared hashtag",
+      "Breaking down one topic from two different points of view"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "The best collaboration looks like a natural continuation of both sides' content, not like advertising each other in a single go."
+    }
+   ]
+  },
+  {
+   "h2": "How to write a pitch that gets a reply",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A short, impersonal message like \"hi, let's do a collab\" almost always gets ignored. Specifics work: exactly what you're proposing, why this particular person, and what they get out of it."
+    },
+    {
+     "type": "p",
+     "text": "Here AI saves time on the draft: describe your idea, your audience and the partner's platform, and you'll get a structured pitch. Then add personal details - what you like about their content, why you chose them specifically - and send it."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes in collaborations",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even a well-chosen partner won't save a collaboration if you skip the organizational details."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "No clear publishing date for both sides - the material comes out out of sync",
+      "Not discussing in advance who publishes what and in which format",
+      "Forgetting to agree on mentions and links to each other",
+      "One side prepares while the other drags things out until the last day"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Where do I start looking for a collaboration partner?",
+   "a": "By defining your audience: who else your content would be useful to besides your current followers. Then look for bloggers with exactly that audience, not with the largest follower count."
+  },
+  {
+   "q": "Can AI find specific bloggers for a collaboration on its own?",
+   "a": "It can suggest topics, formats and search queries, but the specific real people and how current they are right now need to be checked by hand."
+  },
+  {
+   "q": "How do I tell that a collaboration won't work?",
+   "a": "If the audiences overlap by less than 20-30% in interests or delivery style, the result is usually weak - followers don't click through and don't stay."
+  },
+  {
+   "q": "Is it worth collaborating with a blogger 10 times bigger?",
+   "a": "You can, but don't expect an equal exchange. Usually in such a pairing the big partner gives reach and the small one gives a fresh format or narrow expertise."
+  },
+  {
+   "q": "How often should I do collaborations so it doesn't look like spam?",
+   "a": "Once every month or six weeks is plenty. Do it more often and the audience starts to see it as an ad conveyor belt rather than a genuine partnership."
+  }
+ ]
+}

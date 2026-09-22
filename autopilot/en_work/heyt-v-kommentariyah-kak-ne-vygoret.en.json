@@ -1,0 +1,145 @@
+{
+ "slug": "heyt-v-kommentariyah-kak-ne-vygoret",
+ "title": "Hate in the Comments: How Bloggers Avoid Burnout",
+ "meta_description": "How to handle hate and negativity in the comments without burning out. Where AI genuinely helps you sort through the flood, and where you have to reply yourself.",
+ "og_description": "How to survive hate in the comments without burning out, and how AI actually helps with it.",
+ "cover_title": "Handling Comment Hate",
+ "read_min": 5,
+ "date_ru": "19 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why hate wears you down more than it seems",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "It is not any single message, it is the constant readiness to take a hit. The brain does not tell a one-off unpleasantness apart from chronic stress - if you brace for something nasty under every post day after day, your body reacts the same way it would to a real threat."
+    },
+    {
+     "type": "p",
+     "text": "It gets worse because normal, even useful, critical comments come mixed in with the hate. Sorting them by hand when you are already emotionally drained is hard - so you either ignore everything or get stuck on the negativity."
+    }
+   ]
+  },
+  {
+   "h2": "What AI can take off your plate",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "First-pass sorting of comments: aggression, question, support, spam",
+      "A draft of a calm reply to constructive criticism",
+      "Flagging comments that genuinely need moderation or a ban",
+      "Gathering recurring complaints into one list so you can spot a systemic problem"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "The point is not to avoid seeing negativity at all, it is to avoid reading it mixed in with everything else. A sorted stream reads more calmly: you know what has already been filtered, and you engage selectively."
+    }
+   ]
+  },
+  {
+   "h2": "Where automation only makes things worse",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Situation",
+      "Safe to hand to AI",
+      "You need to do yourself"
+     ],
+     "rows": [
+      [
+       "A product question with a hint of irritation",
+       "Yes, a draft of a calm reply",
+       "-"
+      ],
+      [
+       "A personal insult",
+       "Deletion or ban only",
+       "A reply, if you decide to respond"
+      ],
+      [
+       "Detailed, well-reasoned criticism",
+       "Collecting it into a shared list of topics",
+       "A personal, substantive reply"
+      ],
+      [
+       "Pile-on harassment from several people",
+       "No",
+       "Moderation and a decision made by hand"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "AI can sort the stream. Deciding what to do with a specific person always stays with you - it is a question of boundaries, not response speed."
+    }
+   ]
+  },
+  {
+   "h2": "In practice: how to build your own filter",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Set the rules in advance"
+    },
+    {
+     "type": "p",
+     "text": "Decide before the wave of negativity hits: what you delete on sight, what you reply to, what you ignore. When the rules exist ahead of time, you do not have to make decisions on emotion in the moment."
+    },
+    {
+     "type": "h3",
+     "text": "Read the report, not the stream"
+    },
+    {
+     "type": "p",
+     "text": "Ask the AI to prepare a short summary: how many comments there are, how many are negative, which topics keep coming up. A summary lowers anxiety better than endlessly scrolling the comment feed."
+    },
+    {
+     "type": "h3",
+     "text": "Take breaks between reviews"
+    },
+    {
+     "type": "p",
+     "text": "Do not read comments right after publishing if you know the topic is touchy. Let the stream pass its first-hour peak, then sort through it with a clear head and with sorting in place."
+    }
+   ]
+  },
+  {
+   "h2": "When it is time to stop and not review at all",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "If reviewing the comments leaves you anxious or low for the whole day, no amount of sorting will save you - the problem is not the volume, it is your state. In periods like that it is better to temporarily turn off notifications and hand the review to someone on your team, or rely on automatic filtering alone without reading every message yourself."
+    },
+    {
+     "type": "p",
+     "text": "Hate in the comments is not a sign that you are doing something wrong. It is part of being public, something any blogger with a noticeable audience runs into. The goal is not to stop being upset entirely, it is to stop spending more energy on it than it is worth."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can AI reply to hate for me?",
+   "a": "It can technically prepare a draft, but personal insults are better answered by you or left unanswered. An automated reply to a conflict often looks fake and makes people angrier."
+  },
+  {
+   "q": "How do I tell hate from constructive criticism?",
+   "a": "Criticism points to a specific problem and does not get personal. Hate is often emotional, sweeping, and offers nothing constructive - these are different categories, and they deserve to be handled differently."
+  },
+  {
+   "q": "Should I read negative comments at all?",
+   "a": "Sometimes there is useful feedback among them, so ignoring everything is not always right. But you should read them in a calm state and preferably in already-sorted batches, not mixed in with everything else."
+  },
+  {
+   "q": "Does keyword-based comment moderation help?",
+   "a": "It helps partly - it filters out obvious profanity and spam. Subtler forms of negativity without clear trigger words slip past that kind of filter, and that is where you need an AI that understands context."
+  },
+  {
+   "q": "What should I do if my mood drops after every comment review?",
+   "a": "That is a signal to cut down contact with the stream: turn on automatic sorting, disable some notifications, hand the review to an assistant. Your state matters more than any engagement metric."
+  }
+ ]
+}

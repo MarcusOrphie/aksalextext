@@ -1,0 +1,145 @@
+{
+ "slug": "sindrom-samozvanca-v-bloge-kto-ya-chtoby-uchit",
+ "title": "Imposter Syndrome in Blogging: Who Am I to Teach?",
+ "meta_description": "Imposter syndrome keeps you from blogging and sharing your experience. We unpack where the thought \"who am I to teach\" comes from and how to publish in spite of it.",
+ "og_description": "The thought \"who am I to teach\" is familiar to almost every creator. We unpack where it comes from and what to do about it.",
+ "read_min": 5,
+ "date_ru": "8 сентября 2026",
+ "cover_title": "Beating Imposter Syndrome",
+ "sections": [
+  {
+   "h2": "Where the thought \"who am I to teach\" comes from",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Imposter syndrome works by the same logic every time: you compare your draft with someone else's finished result. An experienced expert's blog post is the tip of an iceberg, behind which lie months of trial, deleted posts and quiet failures you never see."
+    },
+    {
+     "type": "p",
+     "text": "Hence the feeling that everyone around is confident and competent, and you alone are the one doubting. In reality almost everyone doubts - they just do not write about it on their blog."
+    }
+   ]
+  },
+  {
+   "h2": "Why \"teaching\" is the wrong word",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Some of the tension lifts if you stop calling your posts teaching. You do not have to be an expert with a diploma to share what worked for you personally. This is not a lesson from a podium, but one equal person telling another about their experience."
+    },
+    {
+     "type": "blockquote",
+     "text": "More often the reader needs not a perfect expert but a person who walked the path one step earlier and told the truth about it."
+    },
+    {
+     "type": "p",
+     "text": "That framing removes the pressure to be flawless and gives back the right to write about what you genuinely know from your own experience."
+    }
+   ]
+  },
+  {
+   "h2": "How to tell imposter syndrome from a real gap",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Sign",
+      "Imposter syndrome",
+      "A real gap in knowledge"
+     ],
+     "rows": [
+      [
+       "Doubt",
+       "Appears always, even in topics you have mastered",
+       "Appears in a specific, narrow topic"
+      ],
+      [
+       "Source",
+       "Comparison with someone else's success",
+       "A lack of personal experience on the question"
+      ],
+      [
+       "What to do",
+       "Publish despite the doubt",
+       "Check the facts or do not publish"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "If doubt shows up over anything at all and is not tied to a specific lack of knowledge, it is most likely imposter syndrome rather than real incompetence."
+    }
+   ]
+  },
+  {
+   "h2": "What helps you write despite the voice of doubt",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Techniques that work"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Write in the first person: \"this worked for me\" instead of \"here is how it should be done\"",
+      "State the source of your experience: \"I tried this on myself over a month\"",
+      "Do not delete a post right after publishing - give yourself an hour before deciding",
+      "Reread readers' responses, not just your own doubts"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Framing things from your own experience removes the need to be an infallible source of truth - you are telling what happened to you, and that is already valuable."
+    }
+   ]
+  },
+  {
+   "h2": "The role of comparison with other bloggers",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A social feed shows other people's best moments, not their process. When you compare your ordinary day with a montage of someone else's bright shots, the gap seems enormous, though in reality there is none."
+    },
+    {
+     "type": "p",
+     "text": "A useful habit is to limit how much you view other people's blogs before sitting down to write your own. Less comparison means less reason to doubt your right to speak."
+    }
+   ]
+  },
+  {
+   "h2": "What to do if the doubt does not pass",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Imposter syndrome rarely disappears completely - even authors with plenty of experience live with it. The goal is not to get rid of doubt forever, but to publish in spite of it."
+    },
+    {
+     "type": "p",
+     "text": "Each post you publish, despite the voice of \"who are you,\" slightly weakens its hold over the next post. It does not work right away, but it works."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "What is imposter syndrome as it applies to blogging?",
+   "a": "It is the feeling that you have no right to share your experience or opinion, even though there is no objective reason for it. It arises from comparing your draft with someone else's polished result."
+  },
+  {
+   "q": "How do I know it is imposter syndrome and not a lack of knowledge?",
+   "a": "If doubt shows up in almost any topic without a specific reason, it is most likely imposter syndrome. A real gap in knowledge is usually tied to a narrow, specific question."
+  },
+  {
+   "q": "Do I have to be an expert to run a blog?",
+   "a": "No. It is enough to honestly share your personal experience and results without passing them off as universal truth. Readers often value a living account more than formal expertise."
+  },
+  {
+   "q": "How do I stop comparing myself to other bloggers?",
+   "a": "Limit how much you view other people's blogs before sitting down to write your own - the feed shows only someone else's best version, not the process that led to it."
+  },
+  {
+   "q": "Can I get rid of imposter syndrome completely?",
+   "a": "Completely - even experienced authors rarely manage that. A realistic goal is not to wait for the doubt to vanish, but to publish in spite of it, weakening its influence step by step."
+  }
+ ]
+}

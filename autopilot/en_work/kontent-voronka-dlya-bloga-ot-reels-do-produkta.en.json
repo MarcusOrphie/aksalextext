@@ -1,0 +1,148 @@
+{
+ "slug": "kontent-voronka-dlya-bloga-ot-reels-do-produkta",
+ "title": "A Content Funnel for Your Blog: From Reels to Product",
+ "meta_description": "How to build a content funnel for your blog: from a short video to selling a product. The stages, formats, and common mistakes at each step.",
+ "og_description": "Breaking down a blog content funnel: from Reels to product. Stages, formats, and mistakes at each step.",
+ "cover_title": "Reels to Product",
+ "read_min": 5,
+ "date_ru": "6 сентября 2026",
+ "sections": [
+  {
+   "h2": "What a Content Funnel Is and Why a Blog Needs One",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A content funnel is a sequence of formats that leads a viewer from a random scroll to a deliberate action: following, clicking into the blog, buying. At each stage the viewer gets their portion of value and gradually gets to know you better."
+    },
+    {
+     "type": "p",
+     "text": "Without a funnel, a blog works as one-off bursts of attention: a video takes off, racks up views, and then the viewer forgets about the blog until the next random impression. With a funnel, every format works toward the next step instead of existing on its own."
+    }
+   ]
+  },
+  {
+   "h2": "What a Funnel from Reels to Product Consists Of",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "The Main Stages"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Reach - short videos seen by new people who don't know you yet",
+      "Engagement - content that holds attention and sparks interest in the author",
+      "Trust - more personal or expert content where the viewer gets to know you better",
+      "Warm-up - material that shows the product's value in practice",
+      "Product - a concrete offer with a clear next step"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "You don't have to go through all the stages in separate videos - sometimes one format handles several tasks. But it's important to understand which stage a specific viewer is at, so you don't sell to someone seeing you for the first time."
+    }
+   ]
+  },
+  {
+   "h2": "What the Funnel Looks Like in Practice",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Below is an example of how different formats can cover different stages of the funnel."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Stage",
+      "Content format",
+      "Goal for the viewer"
+     ],
+     "rows": [
+      [
+       "Reach",
+       "A short video with a strong hook",
+       "Notice it and watch to the end"
+      ],
+      [
+       "Engagement",
+       "A series of videos on one topic",
+       "Start recognizing the author and their style"
+      ],
+      [
+       "Trust",
+       "A personal story, a breakdown of mistakes",
+       "Feel that the author can be trusted"
+      ],
+      [
+       "Warm-up",
+       "A case study or a breakdown of a result",
+       "See the product's value through an example"
+      ],
+      [
+       "Product",
+       "A direct offer with a call to action",
+       "Take a clear next step"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A funnel works not because there's a call to buy at the end, but because every previous step made that call the logical next move."
+    }
+   ]
+  },
+  {
+   "h2": "How to Keep the Viewer at Each Stage",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common funnel failure is a gap between stages. The viewer watched an entertaining video, and the next touchpoint is a hard sell - it comes across as jarring and breeds distrust. Transitions between stages should be gradual."
+    },
+    {
+     "type": "p",
+     "text": "It helps to guide the viewer not only through videos but through other touchpoints too: a newsletter subscription, saved posts, pinned stories. That way a person doesn't get lost between stages, even if they don't see every video in a row."
+    }
+   ]
+  },
+  {
+   "h2": "Common Mistakes When Building a Funnel",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Many try to sell right from the first touch - that rarely works, because trust hasn't been built yet. The other extreme is endless warm-up with no concrete offer, which leaves the viewer never understanding what you're actually selling."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Selling in the first video a new viewer sees",
+      "No clear next step in the content at the warm-up stage",
+      "Ignoring the engagement stage - jumping straight from reach to product",
+      "The same tone of delivery across every stage of the funnel"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Where do I start building a content funnel if I don't have one yet?",
+   "a": "First look at which formats you already have in the blog and sort them into stages - reach, engagement, trust, product. It often turns out there's a shortage of material for the middle of the funnel."
+  },
+  {
+   "q": "How many videos do I need at each stage of the funnel?",
+   "a": "There's no fixed number - go by whether the viewer has time to get to know you and the product enough that the next step looks logical rather than abrupt."
+  },
+  {
+   "q": "Can I sell right away in short reach videos?",
+   "a": "You can, but carefully - that format is better at showing value through an example than through a direct call, otherwise a new viewer scrolls past it."
+  },
+  {
+   "q": "How do I know the viewer is ready to see the product?",
+   "a": "Usually it's the people who have already interacted with the blog before - watched several videos, saved posts, or subscribed to the newsletter."
+  },
+  {
+   "q": "Do I need to rebuild the funnel if the product changes?",
+   "a": "Yes, it's worth revisiting the warm-up and product stages - reach and engagement usually stay workable, while the warm-up needs to be adapted to the new value."
+  }
+ ]
+}

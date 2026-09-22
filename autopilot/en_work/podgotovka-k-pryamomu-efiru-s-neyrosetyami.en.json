@@ -1,0 +1,160 @@
+{
+ "slug": "podgotovka-k-pryamomu-efiru-s-neyrosetyami",
+ "title": "A Blogger's Live Stream: How to Prepare With AI",
+ "meta_description": "How to prepare for a live stream with AI: build the structure, timing and audience questions in advance so you don't sit in silence on camera for 40 minutes.",
+ "og_description": "Stream structure, timing and audience questions ready in advance: how AI helps you avoid dead air on a live stream.",
+ "cover_title": "Live Stream Prep",
+ "read_min": 5,
+ "date_ru": "18 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why a live format doesn't cancel the plan",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The feeling that a stream is a heart-to-heart chat with no preparation at all is misleading. A viewer drops in for a few minutes, sees silence or confusion, and leaves before the most interesting part. A plan doesn't kill the liveliness, it gives a framework you can freely improvise within without fear of losing the thread."
+    },
+    {
+     "type": "p",
+     "text": "Good preparation takes 20-30 minutes and solves three problems: you know how to start, how to fill a pause if the chat goes quiet, and how to end the stream deliberately instead of cutting the broadcast off mid-sentence."
+    }
+   ]
+  },
+  {
+   "h2": "How AI helps you build the stream's structure",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Describe the stream's topic, audience and the goal of the session to the AI - to sell, to get to know your followers, or to work through questions. In return you'll get a draft made of blocks: an intro, a main part with subtopics, answers to frequent questions, and a closing with a call to action."
+    },
+    {
+     "type": "h3",
+     "text": "What to ask the AI for during prep"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Three intro options: opening with a story, with a question to the chat, with a topic announcement",
+      "A list of 8-10 questions usually asked on this topic",
+      "Transitions between subtopics, so it doesn't sound like a list of bullet points",
+      "Ready answers to two or three tricky questions from your niche",
+      "A closing line for the stream with a clear call to action"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Stream script by blocks and timing",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "It's handy to keep in front of you not a solid wall of text but a table with blocks and a rough time for each. That way you can see whether you've dwelt on one topic longer than planned."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Block",
+      "What you do",
+      "Minutes"
+     ],
+     "rows": [
+      [
+       "Intro",
+       "Greeting, topic announcement, a question to the chat to warm up",
+       "5"
+      ],
+      [
+       "Main part",
+       "Breaking down the topic by subpoints with examples",
+       "20"
+      ],
+      [
+       "Q&A",
+       "Reading the chat, answering live questions",
+       "10"
+      ],
+      [
+       "Case study",
+       "One real example walked through in full",
+       "8"
+      ],
+      [
+       "Closing",
+       "Recap, call to action, announcing the next stream",
+       "5"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Prep mistakes that make a stream sag",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The topic is too broad, and in an hour you only get through the intro",
+      "No prepared questions in case the chat is quiet for the first few minutes",
+      "The script is memorized and sounds like reading off a page",
+      "No clear ending, and the stream cuts off mid-thought",
+      "The gear wasn't tested in advance, and the first five minutes go to fixing the sound"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "Viewers forgive stumbles and hiccups, but they don't forgive the sense that you don't understand why you started this stream in the first place."
+    }
+   ]
+  },
+  {
+   "h2": "How to handle pauses and nerves on camera",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "If the chat goes quiet, don't answer with silence - name it out loud: ask who's watching right now and from where, and offer a short warm-up question from your prepared list. Questions prepared in advance work like a lifeline in these moments, because you don't have to come up with them on the fly in front of the camera."
+    },
+    {
+     "type": "p",
+     "text": "Nerves ease when the stream's structure is in front of your eyes rather than in your head. Keep notes on a second screen or printed out: not to read word for word, but for a quick glance if you lose your train of thought."
+    }
+   ]
+  },
+  {
+   "h2": "A checklist before you go live",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The stream's topic and goal are stated in one phrase",
+      "There's a block-by-block script with timing for each",
+      "8-10 questions are prepared in case the chat goes quiet",
+      "Sound, light and internet were checked 10 minutes before the stream",
+      "There's a clear closing line and a call to action"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Do I need a detailed script if I've been streaming for a long time?",
+   "a": "Even experienced bloggers benefit from a short block-by-block plan: it doesn't replace improvisation, it insures you against pauses and lost structure, especially when the stream's topic is new."
+  },
+  {
+   "q": "How does the AI know what questions my audience asks?",
+   "a": "It doesn't know your audience directly, but it gathers typical questions on the topic based on your description. It's worth checking the final list against questions people have already asked you in the comments."
+  },
+  {
+   "q": "How much time does prep with AI take?",
+   "a": "On average 20-30 minutes: describe the topic and goal, get a draft structure and questions, then adapt it to your own way of speaking."
+  },
+  {
+   "q": "What do I do if the stream goes off script?",
+   "a": "The script is support, not a rigid plan. If the conversation drifted but stays interesting to the audience, keep going, and return to the structure when you feel the topic is exhausted."
+  },
+  {
+   "q": "How do I end a stream if time's up but a thought isn't finished?",
+   "a": "Prepare a bridge line in advance: briefly sum up what you managed to cover and offer to continue the topic in the next stream or in the comments."
+  }
+ ]
+}

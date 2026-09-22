@@ -1,0 +1,163 @@
+{
+ "slug": "prezentaciya-k-uroku-s-neyrosetyu",
+ "title": "How to Build a Lesson Presentation With AI",
+ "meta_description": "A step-by-step guide: how to build a lesson presentation with AI in one evening - from outline to finished slides. Tools, prompts and common mistakes.",
+ "og_description": "Building a lesson presentation with AI: the outline, the tool, a draft of the slides, and the check.",
+ "read_min": 5,
+ "date_ru": "20 сентября 2026",
+ "cover_title": "Lesson Slides With AI",
+ "sections": [
+  {
+   "h2": "Why presentations are the right place to start",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Of all a teacher's tasks, a presentation is the most formalizable: it has a clear structure (introduction, main part, review) and a clear result - a set of slides. AI is good precisely at tasks like this, where you need to turn text into structure."
+    },
+    {
+     "type": "p",
+     "text": "A mistake here will not cost you much: you will notice a bad slide while checking, not in the middle of the lesson. That makes presentations a safe testing ground for a first encounter with AI at work."
+    }
+   ]
+  },
+  {
+   "h2": "Step 1. Put your lesson outline into text",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI works from text, not from an idea in your head. Before you open a tool, sketch a short outline: the topic, the grade, 3-4 key points, and how the lesson will end."
+    },
+    {
+     "type": "h3",
+     "text": "What the outline must include"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Topic and grade - without them the split into slides will be too generic",
+      "The lesson's goal - what the children should learn by the end of the class",
+      "Key concepts - 3-5 terms that must make it onto the slides",
+      "The review format - a question, task or mini-quiz at the end"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Step 2. Choose a tool for the task",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Slide-generation tools differ in output format and in what they are built into. If you will later need to refine the presentation in your usual PowerPoint, it is worth factoring that in from the start, not after generating."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Tool",
+      "Output format",
+      "When it is handy"
+     ],
+     "rows": [
+      [
+       "Gamma",
+       "Its own platform, export to PDF",
+       "A quick structure draft"
+      ],
+      [
+       "Canva Magic Design",
+       "Its own platform, export to PPTX",
+       "You need attractive template design"
+      ],
+      [
+       "Tome",
+       "Its own platform, a view link",
+       "A presentation in story format"
+      ],
+      [
+       "Copilot in PowerPoint",
+       "Straight to PPTX",
+       "You have a Microsoft 365 subscription"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Step 3. Generate a draft and check it",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "You paste the outline from step 1 into your chosen tool and get a draft in a minute or two. Then comes the most important part: checking it."
+    },
+    {
+     "type": "h3",
+     "text": "What to look at first"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Dates, numbers and terms - AI can be confidently wrong",
+      "Illustrations - the automatic picks often miss the lesson's topic",
+      "The amount of text on a slide - AI likes to insert whole paragraphs",
+      "The order of slides - the lesson's logic and the tool's logic do not always match"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A slide is a support for your delivery, not text people read instead of listening to you. If the AI has crammed three paragraphs onto a slide, cut it down to bullet points."
+    }
+   ]
+  },
+  {
+   "h2": "Step 4. Get the presentation lesson-ready",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "After the draft, it is worth adapting the presentation to a specific class: adding a discussion question in one spot, a slide with a review task in another. Ready-made tool templates rarely account for the fact that some children in the class are weaker and need a simpler support."
+    },
+    {
+     "type": "p",
+     "text": "Also check that the presentation will open on the classroom computer - not all school projectors get along with online links, so it is safer to export the file to PPTX or PDF in advance rather than count on internet during the lesson."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when working with AI",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is trusting the facts on a slide without checking them. The second most common is using generated images without regard for copyright, if you plan to share the presentation beyond the classroom. The third is spending time on endless design polishing instead of the lesson's content."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Do not publish a presentation with AI-generated images publicly without checking the license",
+      "Do not rely on facts without cross-checking against your own source",
+      "Do not spend more time on design than on content"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How long does a presentation with AI take on average?",
+   "a": "Generating the draft itself takes a couple of minutes, but checking the facts and adapting it to the class is the main time cost, usually 20-40 minutes. The overall saving compared to assembling slides by hand is still noticeable."
+  },
+  {
+   "q": "Can I export the finished presentation to PowerPoint?",
+   "a": "Yes, Canva Magic Design and Copilot in PowerPoint have PPTX export built in from the start. Gamma and Tome handle export differently - via PDF or a view link, which is worth factoring in ahead of time."
+  },
+  {
+   "q": "What do I do if the AI inserted a wrong image or fact?",
+   "a": "Replace the image manually with your own or one found separately, and check the fact against a textbook or another reliable source before showing the slide to the class. Automatic fact-checking is not yet built into such tools."
+  },
+  {
+   "q": "Do I need internet during the lesson to show such a presentation?",
+   "a": "If you export the file to PPTX or PDF in advance, you do not need internet during the lesson itself. But link-based presentations, like Tome's, will not open without internet."
+  },
+  {
+   "q": "Is this approach suitable for primary school?",
+   "a": "It is, but it needs more manual refinement: AI usually produces text aimed at an older age. The terms and the amount of text on a slide almost always have to be simplified for young children."
+  }
+ ]
+}

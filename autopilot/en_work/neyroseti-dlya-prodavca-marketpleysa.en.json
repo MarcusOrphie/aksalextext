@@ -1,0 +1,168 @@
+{
+ "slug": "neyroseti-dlya-prodavca-marketpleysa",
+ "title": "AI for Marketplace Sellers",
+ "meta_description": "Which AI tools a Wildberries and Ozon seller really needs: photo editing, listing infographics, and product descriptions. Services and examples.",
+ "og_description": "AI for marketplace sellers: product photos, infographics, and descriptions without a photo studio or a copywriter.",
+ "cover_title": "AI for Sellers",
+ "read_min": 6,
+ "date_ru": "20 сентября 2026",
+ "sections": [
+  {
+   "h2": "What AI Can Actually Do on a Marketplace",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Three seller tasks are handled well by AI individually: editing and enhancing product photos, building the infographic for the cover, and writing the listing text. Fully automating the whole path from shoot to publish isn't possible yet - each task still needs a manual check."
+    },
+    {
+     "type": "p",
+     "text": "Below is a breakdown of each task - specific services and what to look for when choosing."
+    }
+   ]
+  },
+  {
+   "h2": "Product Photos Without a Photo Studio",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "If a shot was taken on a phone at home, AI can pull it up to a decent look: remove the background, correct the color, add a shadow under the product."
+    },
+    {
+     "type": "h3",
+     "text": "What to Use"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Remove.bg - removes the background in seconds if the product outline is clear",
+      "Photoroom - swaps the background for a studio one and adds a realistic shadow",
+      "Upscale services like Let's Enhance - pull up the quality of a blurry shot",
+      "Placeit - drops the product into ready-made scenes for lifestyle photos"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Marketplaces are reluctant to accept a fully generated product photo made from scratch - moderation sometimes rejects listings where you can tell the photo isn't real. It's safer to take a real shot and refine it with AI than to draw the product from scratch."
+    }
+   ]
+  },
+  {
+   "h2": "Infographics on the Main Photo",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The first listing photo is a mini-poster with the key facts: size, material, what's included, the benefit - not just a shot of the product. Building that layout by hand in a photo editor takes a while, whereas AI tools like Canva Magic Design offer a ready text-and-icon layer over the photo in a couple of minutes."
+    },
+    {
+     "type": "h3",
+     "text": "Rules for Good Infographics on a Cover"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "No more than 3-4 key facts on one photo - otherwise no one reads it",
+      "Large font - the listing is most often viewed on a phone",
+      "Text contrasting with the photo background, not laid on without a backing",
+      "A consistent infographic style across all the store's listings - it builds recognition"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "Infographics on a listing sell faster than the description - people read them in a second while scrolling the feed. The text is only read by those who are already interested."
+    }
+   ]
+  },
+  {
+   "h2": "Listing Text: Title, Description, Specs",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "ChatGPT, YandexGPT, and GigaChat write a decent description draft from the inputs: product name, key specs, who it's for, and how it differs from alternatives. Always reread the finished text - the model likes to add unverified exaggerations about quality."
+    },
+    {
+     "type": "p",
+     "text": "A separate task is keywords in the title and description for marketplace search. AI can suggest synonyms and phrasings, but the query frequency is better checked in the platform's own tools than left to the model's guesswork."
+    }
+   ]
+  },
+  {
+   "h2": "What to Choose for a Specific Task",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Task",
+      "Service",
+      "Free access"
+     ],
+     "rows": [
+      [
+       "Remove background from a photo",
+       "Remove.bg",
+       "Yes, with a size limit"
+      ],
+      [
+       "Studio background and shadow",
+       "Photoroom",
+       "Yes, with a watermark"
+      ],
+      [
+       "Infographics on the cover",
+       "Canva Magic Design",
+       "Yes, with a template limit"
+      ],
+      [
+       "Description text",
+       "YandexGPT / ChatGPT",
+       "Yes"
+      ],
+      [
+       "Photo quality enhancement",
+       "Let's Enhance",
+       "A limited number of photos"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common Seller Mistakes",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is publishing an AI description without fact-checking: the specs, sizes, and composition have to match the real product, otherwise it means returns and complaints. The second mistake is overloaded infographics where fine text can't be read on a phone."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Don't publish specs without cross-checking against the real product",
+      "Don't overload the cover with text - it lowers conversion, not raises it",
+      "Don't use a fully generated photo instead of a real shot of the product"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can I use AI for product photos instead of a photographer?",
+   "a": "For refining a real shot - yes: AI handles background replacement, shadows, and quality enhancement quickly and cheaply. Fully replacing a photographer is harder - marketplaces are wary of clearly generated product images."
+  },
+  {
+   "q": "Will AI fix a bad photo to meet listing requirements?",
+   "a": "It will noticeably improve blur and weak lighting, but it won't save a shot where the product itself isn't visible or the proportions are distorted. Better to reshoot with proper lighting and use AI for the final polish."
+  },
+  {
+   "q": "Will a listing with AI images get banned on Wildberries or Ozon?",
+   "a": "A refined real photo is standard practice and doesn't get banned. The risk arises with fully generated images that moderation may deem misleading - here you should be more careful."
+  },
+  {
+   "q": "Which AI is best for a product description?",
+   "a": "ChatGPT and YandexGPT perform about the same for a draft - the difference is more often in interface convenience and free-plan limits. The final text needs a reread and a cleanup of exaggerations either way."
+  },
+  {
+   "q": "How much does it cost to build a listing with AI?",
+   "a": "The basic set of tasks - background, infographics, text - is covered by the free plans of these services with quantity limits. A paid subscription is only needed if you have many listings and the free-version limits aren't enough."
+  }
+ ]
+}

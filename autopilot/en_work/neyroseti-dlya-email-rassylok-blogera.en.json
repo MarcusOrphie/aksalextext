@@ -1,0 +1,138 @@
+{
+ "slug": "neyroseti-dlya-email-rassylok-blogera",
+ "title": "AI for a Blogger's Email Newsletter",
+ "meta_description": "How AI helps a blogger run an email newsletter: from email ideas to copy and subject lines. We break down a workflow that skips hiring a copywriter.",
+ "og_description": "How a blogger can run an email newsletter with AI - from email ideas to finished copy and subject lines.",
+ "cover_title": "AI Email Newsletters",
+ "read_min": 5,
+ "date_ru": "12 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why a blogger needs email when there is social media",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A social network can change its algorithm, block your account, or stop showing you to subscribers with no explanation. Your list of email addresses belongs to you directly and does not depend on someone else's platform."
+    },
+    {
+     "type": "p",
+     "text": "People read an email more calmly than a feed: they opened their inbox themselves, which means they have a couple of minutes of attention. It is the best place for longer thoughts, breakdowns, and offers that do not fit into a short post."
+    }
+   ]
+  },
+  {
+   "h2": "What AI does well in a newsletter",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI does not replace your voice and experience, but it takes over part of the mechanical work that usually slows down your consistency."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Generates 10-15 email topics based on your niche and content you have already published",
+      "Writes several subject line variants so you can pick the most compelling one",
+      "Assembles a draft structure: intro, main point, call to action",
+      "Shortens a long post into an email format",
+      "Suggests P.S. options with a soft transition to your product"
+     ]
+    },
+    {
+     "type": "h3",
+     "text": "Where AI is weaker than a human"
+    },
+    {
+     "type": "p",
+     "text": "Personal stories, specific numbers from your own practice, and honest observations are things AI will not invent - and should not. The AI's job is to assemble the frame of the email, and you add the living details."
+    }
+   ]
+  },
+  {
+   "h2": "The workflow: from idea to a sent email",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The easiest way is to build the process in three steps, and each takes 10-15 minutes instead of an hour from scratch."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Step",
+      "What you do"
+     ],
+     "rows": [
+      [
+       "1. Topic",
+       "You ask the AI to suggest topics based on recent posts or subscriber questions"
+      ],
+      [
+       "2. Draft",
+       "You give a short brief - what the email is about and the takeaway you want to land - and get a structure"
+      ],
+      [
+       "3. Editing",
+       "You add a personal example, cut generic phrases, and check the tone"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "An email used to take my whole evening: I spent ages deciding how to start. Now the draft is ready in 10 minutes, and I spend my time on what really matters - on my own story inside the email."
+    }
+   ]
+  },
+  {
+   "h2": "How not to lose your voice in the email",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The main risk of AI text is that it sounds smooth but faceless. An email from AI without edits is easy to spot: overly even phrasing, no personal details, bureaucratic turns like \"in today's world.\""
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Replace generic examples with your own specific cases",
+      "Keep the conversational turns of phrase you use in real life",
+      "Trim the intro if it sounds like the opening of a report",
+      "Read the email aloud before sending - unnatural phrases are immediately audible"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when using AI in a newsletter",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "There are a few habits that cancel out all the benefit of the AI."
+    },
+    {
+     "type": "p",
+     "text": "The first is sending the text without a single edit. Even a good draft needs your voice and a fresh fact. The second is asking the AI to invent statistics or results you do not have: that undermines trust if a subscriber asks for details. The third is using the same email structure template for months, which makes the newsletter predictable so people stop opening it."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can I fully trust AI to write the email?",
+   "a": "The draft, yes; the final text, no. Personal examples, specific numbers, and your tone of voice are worth adding yourself, otherwise the email loses subscribers' trust."
+  },
+  {
+   "q": "How often should I send a newsletter with this approach?",
+   "a": "Consistency matters more than frequency. Once a week with living examples works better than daily emails assembled entirely by AI."
+  },
+  {
+   "q": "Which emails does AI help write fastest?",
+   "a": "Informational breakdowns, roundups, and digest emails with material already available from your posts. Personal stories and emotional emails are faster to write yourself."
+  },
+  {
+   "q": "Should I tell subscribers the email was written with AI?",
+   "a": "Not necessarily, if the final text has gone through your edits and reflects your voice. It is worth disclosing if the AI is the main author with no changes."
+  },
+  {
+   "q": "How do I check whether a subject line actually grabs people?",
+   "a": "Compare open rates for emails with different subject line wording. Over a few newsletters it becomes clear which style of subject lines works for your audience."
+  }
+ ]
+}

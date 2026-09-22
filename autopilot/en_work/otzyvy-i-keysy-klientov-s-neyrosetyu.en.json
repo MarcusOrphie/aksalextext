@@ -1,0 +1,154 @@
+{
+ "slug": "otzyvy-i-keysy-klientov-s-neyrosetyu",
+ "title": "Client Reviews and Case Studies: How to Craft Them with AI",
+ "meta_description": "How to gather client reviews and turn them into case studies with AI: the questions, structure, and formatting that actually sell.",
+ "og_description": "How to collect a client review and shape it into a case study with AI: the questions, the structure, and the common mistakes.",
+ "read_min": 5,
+ "date_ru": "18 сентября 2026",
+ "cover_title": "Reviews That Sell",
+ "sections": [
+  {
+   "h2": "Why reviews decide more than they seem to",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A new person looking at your blog or product for the first time can't verify your promises themselves. They look for outside confirmation: stories of people who have already walked this path. A short 'I liked it' doesn't provide that confirmation, because it doesn't answer where the person was before they came to you and what changed afterward."
+    },
+    {
+     "type": "p",
+     "text": "A case study with specifics works differently: it shows the starting point, the process, and the result, so a new client can picture themselves in the story and see that a similar situation has already been solved."
+    }
+   ]
+  },
+  {
+   "h2": "How AI helps gather a review, not just ask for one",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The request 'leave a review' usually gets a short, generic answer, because the client has nothing to build on. AI helps you put together a list of specific questions that guide a person toward a detailed, useful response."
+    },
+    {
+     "type": "h3",
+     "text": "Which questions to ask a client"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "What problem or task brought you to us",
+      "What you tried before and why it didn't work",
+      "What specifically changed after working with us",
+      "Was there a moment you had doubts, and what removed them",
+      "Who would you recommend this solution to and why"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Answers to questions like these already form a case-study structure on their own, and AI helps pull them into coherent text while keeping the client's own wording where it sounds vivid."
+    }
+   ]
+  },
+  {
+   "h2": "From review to case study: a structure that sells",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Case study block",
+      "What's in it"
+     ],
+     "rows": [
+      [
+       "The situation",
+       "The client's problem before reaching out, specific numbers or facts"
+      ],
+      [
+       "What they tried before",
+       "Past experience and why it didn't solve the task"
+      ],
+      [
+       "What was done",
+       "A brief take on the process, without extra technical detail"
+      ],
+      [
+       "The result",
+       "The specific change: numbers, facts, the client's feelings"
+      ],
+      [
+       "Quote",
+       "The client's own words, sounding vivid and to the point"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Mistakes in gathering and presenting reviews",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "Asking for a review right after payment, when the result isn't visible yet",
+      "Questions too general, so the answer comes out vague",
+      "Stripping all the vivid wording out of the client's text for the sake of 'smoothness'",
+      "No numbers or specifics in the case study, only general phrases about satisfaction",
+      "The case study written only from the brand's point of view, with the client's voice barely heard"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A good case study doesn't brag about the result, it shows a journey in which the reader recognizes their own situation."
+    }
+   ]
+  },
+  {
+   "h2": "Where and how to show case studies so they work",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "One detailed case study can be turned into several formats: a post with the full story, a short carousel with the key numbers, and a story with the client's quote. That way the material is used more than once and works across several weeks in different formats."
+    },
+    {
+     "type": "p",
+     "text": "Place case studies where a person is already hesitating: next to the product description, in pinned stories, or in reply to a common question in the comments. In a moment of doubt, a specific story convinces better than one more explanation from the brand."
+    }
+   ]
+  },
+  {
+   "h2": "A good case study checklist",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The client's starting situation is stated, not just the result",
+      "There's at least one number or specific fact",
+      "The client's direct quote in their own words is kept",
+      "It's clear who this story will be useful and relatable to",
+      "The text was read by the client and confirmed before publishing"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "When is the best time to ask a client for a review?",
+   "a": "One to two weeks after the result has become noticeable, not right after payment or the first contact, when the effect can't be judged yet."
+  },
+  {
+   "q": "Can I publish a case study without the client's permission?",
+   "a": "No. Even if you use only initials, you should clear the final text and the fact of publication with the client, especially if numbers or situation details are included."
+  },
+  {
+   "q": "What do I do if a client gives too short a review?",
+   "a": "Ask a few follow-up questions from the list above in your messages, then assemble a detailed text based on their answers while keeping the client's wording."
+  },
+  {
+   "q": "Do I have to include numbers in a case study?",
+   "a": "Numbers strengthen trust, but if there aren't any, specific facts work: timelines, changes in the process, or tangible shifts you can describe without exact figures."
+  },
+  {
+   "q": "How often should I publish case studies so it doesn't look pushy?",
+   "a": "One or two case studies a month is enough, as long as they differ in situation and don't repeat each other in structure and message."
+  }
+ ]
+}

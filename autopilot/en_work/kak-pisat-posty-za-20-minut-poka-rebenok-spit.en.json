@@ -1,0 +1,154 @@
+{
+ "slug": "kak-pisat-posty-za-20-minut-poka-rebenok-spit",
+ "title": "How to Write Posts in 20 Minutes While the Baby Naps",
+ "meta_description": "How a mom can write a post in 20 minutes during a short nap window: post structure, prep work, an AI draft, and an idea bank. With a timing table and a breakdown of mistakes.",
+ "og_description": "A system that helps you write a post in 20 minutes during a nap window - no blank-page freeze, no do-overs.",
+ "read_min": 6,
+ "date_ru": "8 сентября 2026",
+ "cover_title": "Posts During Naptime",
+ "sections": [
+  {
+   "h2": "Why a post won't get written in 20 minutes",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "It's rarely because you type slowly. Two things eat the time: coming up with a topic from scratch, and trying to write it beautifully on the first pass. You sit down with an empty head, spend ten minutes wondering what to even write about, then another ten polishing the first sentence - and the baby is already stirring."
+    },
+    {
+     "type": "p",
+     "text": "The fix is to separate thinking from writing. You prepare ideas and structure ahead of time, in the background, and in the nap window you only assemble the text on a ready-made frame. Then twenty minutes is more than enough."
+    },
+    {
+     "type": "blockquote",
+     "text": "A post gets written fast not when you type fast, but when you don't have to invent it from scratch."
+    }
+   ]
+  },
+  {
+   "h2": "The idea bank: think while your hands are busy",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Post ideas don't come at your desk - they come on a walk, in the kitchen, while feeding the baby. Start a note on your phone and drop in any thought, a question from a follower, something that happened to you, an observation. Don't polish it - one line is enough."
+    },
+    {
+     "type": "h3",
+     "text": "What to put in the idea bank"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Questions people ask you in DMs and in real life.",
+      "Moments from your day that stirred an emotion.",
+      "Mistakes you made and learned from.",
+      "Thoughts you felt like discussing with someone."
+     ]
+    },
+    {
+     "type": "p",
+     "text": "When the nap window comes, you don't stare into space - you open the bank and pick a ready topic. Half the work is already done in advance, in the minutes when you couldn't have written anyway."
+    }
+   ]
+  },
+  {
+   "h2": "A structure the post builds itself on",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A blank page is scary; a template isn't. Keep a simple four-block frame in your head, and the text will fall into place almost automatically, without agonizing over every paragraph."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Block",
+      "Job",
+      "Time"
+     ],
+     "rows": [
+      [
+       "Hook",
+       "Grab them with the first line",
+       "3 minutes"
+      ],
+      [
+       "Core",
+       "Unpack one idea",
+       "8 minutes"
+      ],
+      [
+       "Example",
+       "Show it through your own story",
+       "5 minutes"
+      ],
+      [
+       "Question",
+       "Invite them into the comments",
+       "2 minutes"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "One idea per post - that matters. Don't try to cram in everything you know about the topic. One post, one idea, one example, one question. It writes faster that way, and it reads easier too."
+    }
+   ]
+  },
+  {
+   "h2": "AI as a draft, not the author",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "If the freeze hits anyway, hand the first draft to an AI. Give it a topic from your bank, your idea in a couple of lines, and ask it to build a post on the hook-core-example-question structure in a conversational tone. In a minute you'll have a frame that just needs to be brought to life in your own words."
+    },
+    {
+     "type": "p",
+     "text": "The key is not to publish the draft as is - it sounds smooth but faceless. Your job is to write your voice into it: add a detail from your day, roughen up the too-even phrases, cut the corporate stiffness. AI takes away the fear of the blank page, but the text has to stay yours."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes that steal your time",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The first is editing as you write. Write the whole draft without stopping, and edit only at the very end. The second is chasing the perfect text in one clean pass: it paralyzes you. Give yourself the right to a messy first version."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Editing every phrase on the fly - you lose momentum and your train of thought.",
+      "Trying to fit three topics into one post - you get bogged down.",
+      "Waiting for the perfect mood - the nap window runs out for nothing.",
+      "Not keeping an idea bank - you start from scratch every time."
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Set up the system once: an idea bank in your notes, a four-block structure, an AI on standby. Then even a short, unpredictable nap window turns into a finished post instead of wasted nerves."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "What do I do if I have no post ideas at all?",
+   "a": "Start an idea bank in your phone's notes and drop in followers' questions, moments from your day, and your own observations. Ideas come on the go, not at your desk, so catch them right away."
+  },
+  {
+   "q": "How can I write fast if I'm not a writer?",
+   "a": "Write on the hook-core-example-question structure and don't edit as you go. Draft the whole thing first, edits at the end. The template removes the fear of the blank page and speeds up assembling the text."
+  },
+  {
+   "q": "Can I write posts with AI?",
+   "a": "AI is great as a draft: it builds a frame from your idea. But you shouldn't publish its text as is - bring it to life with your own voice, details, and natural phrasing."
+  },
+  {
+   "q": "How many topics should I keep in reserve?",
+   "a": "It's comfortable when the idea bank holds at least 10-15 topics. Then you never sit down with an empty head and can pick whatever resonates today."
+  },
+  {
+   "q": "What if the baby wakes up before the post is finished?",
+   "a": "Save the draft and come back to it in the next window. That's exactly why you prepare the idea and structure in advance - an unfinished text on a frame is easy to pick up from any point."
+  }
+ ]
+}

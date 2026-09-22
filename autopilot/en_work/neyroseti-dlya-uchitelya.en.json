@@ -1,0 +1,190 @@
+{
+ "slug": "neyroseti-dlya-uchitelya",
+ "title": "AI for Teachers: From Lesson to Grading",
+ "meta_description": "Which AI tools actually save teachers time: presentations, lesson plans, grading work and feedback for students. Specific services and examples.",
+ "og_description": "AI for teachers: presentations, lesson plans and grading without the extra busywork.",
+ "read_min": 6,
+ "date_ru": "20 сентября 2026",
+ "cover_title": "AI for Teachers",
+ "sections": [
+  {
+   "h2": "Why a teacher should understand AI",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI won't replace a teacher in the classroom, and it won't explain a topic to a child better than a real person. Its value is elsewhere - it takes over the routine actions: sketching a lesson outline, the tedious slide layout, formatting handouts."
+    },
+    {
+     "type": "p",
+     "text": "The freed-up time goes to what matters more: working through tough questions with the class, an individual approach to students, live feedback rather than a generic template."
+    },
+    {
+     "type": "h3",
+     "text": "Where to start if you haven't tried it before"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Pick one task to start with - say, just presentations",
+      "Choose a free tool with no software to install",
+      "Spend one evening trying it on your own real material",
+      "Save the prompts that work in your notes"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Lesson presentations without hours in PowerPoint",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Building a presentation by hand means hunting for images and fighting the layout. AI tools turn a text lesson plan into a draft of slides in minutes: all that's left is to check and touch it up."
+    },
+    {
+     "type": "h3",
+     "text": "Which tools to use"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Gamma - assembles slides from a text plan",
+      "Canva Magic Design - fills ready templates with your text and images",
+      "Tome - handy for presentations in a story format",
+      "Copilot in PowerPoint - generates slides inside Office with a Microsoft 365 subscription"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "The workflow is the same: you write a short lesson plan, paste it into the tool, get a draft of slides and check every fact by hand. The automatic illustrations are worth reviewing too - they often miss the point of the topic."
+    },
+    {
+     "type": "blockquote",
+     "text": "AI will put together a slide structure faster than you can open the template gallery. But you're the one responsible for the facts on the slide, not the algorithm."
+    }
+   ]
+  },
+  {
+   "h2": "Outlines, lesson plans and materials",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A lesson map - goals, stages, timing - can be sketched out by AI in a single request, if you describe the inputs: the topic, the grade, the time available and what the students have already covered."
+    },
+    {
+     "type": "h3",
+     "text": "A prompt skeleton for a lesson plan"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Topic and grade - without these the plan will be too generic",
+      "The lesson goal - what specifically the students should learn",
+      "Structure - split it into introduction, main part and consolidation",
+      "Response format - a table with stages and timing"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Grading work and giving students feedback",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI can draft a comment: flag recurring mistakes, suggest wording. But the teacher should set the final grade - the model doesn't always understand the context of the assignment."
+    },
+    {
+     "type": "p",
+     "text": "A separate issue is personal data. Before pasting a student's work into a chat, it's worth removing the last name: some tools store the conversation and may use it to train the model."
+    },
+    {
+     "type": "h3",
+     "text": "How not to lose objectivity"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Use AI for a draft comment, not for the verdict",
+      "Reread the work yourself before assigning a grade",
+      "Check the AI's comment against your grading rubric",
+      "The decision on the grade stays with you"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Which tool for which task",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A short table of which tool best suits which teacher's task."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Task",
+      "Tool",
+      "Free access"
+     ],
+     "rows": [
+      [
+       "Lesson presentation",
+       "Gamma",
+       "Yes, with a limit"
+      ],
+      [
+       "PowerPoint presentation",
+       "Copilot",
+       "Subscription only"
+      ],
+      [
+       "Lesson plan",
+       "YandexGPT / GigaChat",
+       "Yes"
+      ],
+      [
+       "Feedback draft",
+       "ChatGPT",
+       "Yes, with a limit"
+      ],
+      [
+       "Plagiarism check",
+       "Antiplagiat",
+       "Usually paid"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Limits and ethics: what AI shouldn't do for you",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI shouldn't assign a final grade without your review, shouldn't be a source of facts - it sometimes invents dates and quotes in a confident tone - and you shouldn't publish students' work without anonymizing it. It's like a junior colleague: it prepares a draft, but it doesn't sign the document."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Which AI tool is best for teachers making presentations?",
+   "a": "For quickly assembling slides from text, Gamma and Canva Magic Design are handy - they take a text plan and lay it out across slides. If your school has a Microsoft 365 subscription, it makes more sense to use Copilot right inside PowerPoint."
+  },
+  {
+   "q": "Can I trust AI to grade essays?",
+   "a": "AI can write a draft comment on the mistakes, but the final grade and the analysis of the work's meaning should come from the teacher. The model doesn't always understand the context of the assignment and can miss a factual error."
+  },
+  {
+   "q": "Is it safe to upload students' work to AI?",
+   "a": "Before uploading, it's worth removing last names and other personal data - many public tools store the conversation and may use it to train the model. Check your school's personal-data policy in advance."
+  },
+  {
+   "q": "Does a teacher need to pay for AI, or are the free ones enough?",
+   "a": "For getting started, the free plans of ChatGPT, YandexGPT or Gamma are enough - the limits there are mainly on the number of requests per day. A paid version is only needed if AI is built into your daily work."
+  },
+  {
+   "q": "How do I use AI so students don't cheat with it too?",
+   "a": "Frame assignments so the answer requires personal experience or an oral defense - AI produces generic text poorly for that. Keep a plagiarism checker on hand to compare against a database of sources."
+  }
+ ]
+}

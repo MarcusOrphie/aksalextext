@@ -1,0 +1,150 @@
+{
+ "slug": "kak-provesti-ii-audit-bloga",
+ "title": "How to Run an AI Audit of Your Blog: What to Cut, What to Grow",
+ "meta_description": "A step-by-step AI audit of your blog: how to use AI to find weak sections, repeated topics, and points of growth in your content.",
+ "og_description": "How to review your blog with AI in one evening and figure out what to keep and what to cut.",
+ "cover_title": "AI Blog Audit",
+ "read_min": 5,
+ "date_ru": "13 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why audit if the blog already works",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even if your reach is stable, some of the content may be running on inertia rather than delivering value. An audit is not about breaking everything, it is about seeing the blog from the outside and understanding where time goes without results."
+    },
+    {
+     "type": "p",
+     "text": "This is especially noticeable after running a blog for a long time: sections multiply, topics repeat under different headlines, and some formats have been dragging engagement down for months yet keep getting made out of habit."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Shows which topics are already exhausted",
+      "Finds sections that duplicate each other",
+      "Highlights formats with low returns",
+      "Helps build a content plan without chaos"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "What to gather before you start the audit",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "An audit starts not with the AI but with gathering data. Export a list of published posts from the past few months, with each one's topic and, if you have them, basic reach or engagement numbers."
+    },
+    {
+     "type": "h3",
+     "text": "What you will need"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A list of post topics and headlines",
+      "The sections or formats they belong to",
+      "Publication dates",
+      "Engagement metrics, if you have them"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How AI helps find the weak spots",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Once the list of topics is gathered, hand it to the AI and ask it to group the posts by meaning rather than by date. That immediately reveals which topics repeat under different headlines and where the same idea has actually been retold several times."
+    },
+    {
+     "type": "p",
+     "text": "Next, ask it to match topics against engagement metrics, if you have them. This will show which formats are consistently weaker than the rest - not by gut feeling but by specific posts."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Question for the AI",
+      "What it gives you"
+     ],
+     "rows": [
+      [
+       "Group the post topics by meaning",
+       "You see repeated and closely related topics"
+      ],
+      [
+       "Which sections barely overlap with the rest",
+       "You find isolated, unwanted formats"
+      ],
+      [
+       "Are there topics not updated in six months or more",
+       "A list of topics that need refreshing"
+      ],
+      [
+       "Compare engagement across formats",
+       "It becomes clear which is consistently weaker"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "An audit is not about deleting half your blog, it is about understanding where you are repeating yourself and where you have not been in a long time."
+    }
+   ]
+  },
+  {
+   "h2": "What to do with the audit results",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "After grouping the topics, three categories become visible: what works and is worth continuing, what duplicates other topics, and what has not been updated in a while even though the audience is still interested."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Merge duplicate topics into one strong section",
+      "Move abandoned but still-alive topics into your next content plan",
+      "Put low-return formats on pause rather than deleting them outright",
+      "Expand strong topics into several formats"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How often to repeat the audit",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Once a quarter is plenty for most blogs. A more frequent audit does not have time to show the real picture, because trends and engagement change over months, not a couple of weeks."
+    },
+    {
+     "type": "p",
+     "text": "A good time for an audit is the moment you feel your content plan has started repeating itself. That is a sure sign it is time to stop and check against your list of posts rather than push out yet another similar post on inertia."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Where do I start an AI blog audit if I have a lot of posts?",
+   "a": "Start with the last three or four months, not the whole history of the blog. That is enough to see current repeats and weak topics without extra work."
+  },
+  {
+   "q": "Do I need exact reach numbers for the audit?",
+   "a": "They help but are not required. Even without numbers, grouping topics by meaning already reveals repeats and abandoned directions that content has not touched in a while."
+  },
+  {
+   "q": "How do I know a section should be closed?",
+   "a": "If a topic gets no response for months and duplicates other sections, that is a reason to pause it rather than delete it immediately. Sometimes changing the format of delivery is enough."
+  },
+  {
+   "q": "Can the AI suggest new topics after the audit?",
+   "a": "Yes, if you show it the list of strong and abandoned topics, it will suggest options at their intersection - a convenient starting point for a new content plan."
+  },
+  {
+   "q": "How often should I run this blog audit?",
+   "a": "Once a quarter is the optimal interval for most blogs. More often makes little sense, and less often lets content pile up a lot of unnoticed repeats."
+  }
+ ]
+}

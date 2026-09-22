@@ -1,0 +1,151 @@
+{
+ "slug": "krossposting-s-neyrosetyu-pod-raznye-socseti",
+ "title": "Cross-Posting With a Neural Network: One Post for Every Platform",
+ "meta_description": "Cross-posting with a neural network: how to adapt one piece of text for different social platforms without losing meaning or spending hours rewriting each version.",
+ "og_description": "How to adapt one post for different social platforms with a neural network: length, tone, and format for each one.",
+ "read_min": 5,
+ "date_ru": "18 сентября 2026",
+ "cover_title": "One Post, Every Platform",
+ "sections": [
+  {
+   "h2": "Why an exact copy performs worse than the original",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The algorithms of social networks and readers' habits diverge sharply. On one network people scroll the feed vertically and read the first line before deciding to expand the text. On another they open the post in full and expect a coherent story with a beginning and an end. The same text in both cases either gets cut off in the wrong spot or looks too short for the format."
+    },
+    {
+     "type": "p",
+     "text": "Because of this, metrics sag not because the topic is uninteresting, but because the packaging doesn't fit the platform. Adapting takes little time but directly affects whether the post gets read to the end."
+    }
+   ]
+  },
+  {
+   "h2": "How a neural network adapts one text to different formats",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Take a finished post as the base and ask the neural network to rework it for a specific platform: specify the desired length, the tone, and whether a call to action at the end is needed. The meaning and structure are preserved, while the delivery changes."
+    },
+    {
+     "type": "h3",
+     "text": "What to tell the neural network when adapting"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "The target platform and roughly how long the text should be for it",
+      "Whether to cut it down to a single idea or keep the whole story",
+      "The tone: conversational, expert, or more formal",
+      "Paragraph format: solid text or short blocks with spacing",
+      "Whether a separate call to action is needed for the platform"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How formats differ across platforms",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Platform",
+      "Text length",
+      "Delivery specifics"
+     ],
+     "rows": [
+      [
+       "Telegram channel",
+       "Medium, with paragraphs",
+       "Read in full, personal tone valued"
+      ],
+      [
+       "Instagram caption",
+       "Short, with a hook up front",
+       "The first line decides whether the text gets expanded"
+      ],
+      [
+       "VK community",
+       "Medium or long",
+       "Lists and subheadings work well"
+      ],
+      [
+       "Short-form video",
+       "Minimal on-screen text",
+       "The meaning is carried by speech, not the caption"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Cross-posting mistakes that cut your reach",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "Long text dropped without adaptation into a platform built for short-form reading",
+      "A hook from one platform carried over to another where it doesn't work the same way",
+      "The same call to action everywhere, even though each platform's audience behaves differently",
+      "Formatting lost in copying: paragraphs mashed into one block",
+      "Links and mentions not adapted to a specific platform's rules"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "The same idea deserves different packaging, because it's read in different conditions: on the subway, on the go, or in the evening with a cup of tea."
+    }
+   ]
+  },
+  {
+   "h2": "How to build the process: from draft to published posts",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Write the main version of the text on the platform where the format is the most expanded, then trim it down for the rest. Going the other way, from short to long, is harder, because you have to invent the missing details."
+    },
+    {
+     "type": "p",
+     "text": "Keep all the versions of one post side by side in a single document. That makes it easier to notice if the meaning got lost in the trimming and to quickly check that the same message is preserved everywhere."
+    }
+   ]
+  },
+  {
+   "h2": "Pre-publish adaptation checklist",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The text length matches the platform's usual format",
+      "The first line works as a hook for that specific feed",
+      "Formatting - paragraphs, lists, spacing - survived the copy",
+      "The call to action fits how that platform's audience behaves",
+      "Links and mentions are checked against the platform's rules"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Do I need to write a separate text for each platform from scratch?",
+   "a": "No, one expanded version is enough, then adapted to each platform's length and tone. There's no need to rewrite the meaning from scratch."
+  },
+  {
+   "q": "How does a neural network know what length is normal for a platform?",
+   "a": "It doesn't know automatically, so you need to specify the length and format explicitly in your request, based on what usually works on that network with your audience."
+  },
+  {
+   "q": "What do I do if the text lost its meaning after trimming?",
+   "a": "Compare the short version with the original line by line and put back the key idea that dropped out. Usually it's not the topic that's lost but the detail that made the post feel alive."
+  },
+  {
+   "q": "Should I publish on all platforms at the same time?",
+   "a": "Not necessarily: you can publish a few hours apart, timing it to when each specific platform's audience is active."
+  },
+  {
+   "q": "How quickly can I get the hang of adapting text to different formats?",
+   "a": "After a few posts you develop a sense of what edits each platform needs, and the adaptation process takes no more than ten minutes per text."
+  }
+ ]
+}

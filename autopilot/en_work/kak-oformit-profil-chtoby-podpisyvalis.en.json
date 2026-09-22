@@ -1,0 +1,133 @@
+{
+ "slug": "kak-oformit-profil-chtoby-podpisyvalis",
+ "title": "How to Set Up a Profile That Wins Followers",
+ "meta_description": "How to set up a social profile so people follow in 3 seconds: avatar, bio, description and pinned posts, step by step.",
+ "og_description": "We break down profile setup step by step: the avatar, bio, description and pinned posts that turn a visitor into a follower.",
+ "read_min": 4,
+ "date_ru": "10 сентября 2026",
+ "cover_title": "Profile That Converts",
+ "sections": [
+  {
+   "h2": "What people see first",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A visitor doesn't read your posts right away - they scan the profile: avatar, name, a short description, a couple of pinned cards. If those few seconds don't make it clear who you are and why they should follow you, the person leaves without even opening the feed."
+    },
+    {
+     "type": "p",
+     "text": "So profile setup isn't about looking pretty, it's about how fast you're understood. The job is to answer \"what's in this for me\" before the visitor has a chance to close the page."
+    }
+   ]
+  },
+  {
+   "h2": "Avatar and name: leave no room for doubt",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The avatar has to be recognizable on a small screen: a close-up face, a light background, no tiny details. A logo or a collage of several photos as an avatar works worse - the eye can't read the image in the split second of scrolling the feed."
+    },
+    {
+     "type": "p",
+     "text": "In the name it helps to state your niche or the value you offer, not just a creative handle. \"Anna Petrova\" tells a new person nothing; \"Anna Petrova - content for moms on maternity leave\" instantly explains why they should stop by."
+    }
+   ]
+  },
+  {
+   "h2": "The bio: what you absolutely must write",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "A three-line structure"
+    },
+    {
+     "type": "p",
+     "text": "A working formula is who you are, what you give and what to do next. The first line is your niche and the result, the second is a specific or a number, the third is a call to action: where to message or what to look at."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Line",
+      "What to write"
+     ],
+     "rows": [
+      [
+       "Who you are",
+       "Your niche and value in one phrase"
+      ],
+      [
+       "What you give",
+       "A specific result or format"
+      ],
+      [
+       "What to do",
+       "A call to action: save, message, follow the link"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "I rewrote my bio from a generic \"a blog about life and hobbies\" to \"a content plan in an hour for moms on maternity leave\" - and DM inquiries started coming in the very next day, even though the posts hadn't changed."
+    }
+   ]
+  },
+  {
+   "h2": "Pinned posts and highlights work for you",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Pinned posts and highlights are a second bio for your profile, only with examples instead of promises. This is where to put your best result, a testimonial, a short introduction and an explanation of what you do."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "One introduction post - who you are and what you help with",
+      "One post with a specific result or case study",
+      "One post with a testimonial or a thank-you from a follower",
+      "Highlights with answers to frequently asked questions"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common setup mistakes",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "There are a few things that quietly scare off new followers."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "An empty bio with no description of what you do",
+      "A link to a website instead of a specific offer - a subscription, a guide, a consultation",
+      "Pinned posts that are old and no longer reflect the blog's current focus",
+      "An avatar that changes too often - the audience can't learn to recognize you visually"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How do I know if my profile is set up well?",
+   "a": "Show it to someone who doesn't know you and ask them to say what you do in 5 seconds. If the answer is right, the setup works; if not, the bio is worth rewriting."
+  },
+  {
+   "q": "Do I need to write the bio differently for each social network?",
+   "a": "Yes, the format and text length differ, but the essence stays the same: who you are, what you give and what to do next. Adapt it to the limits of each specific platform."
+  },
+  {
+   "q": "How often should I change pinned posts?",
+   "a": "Once every month or two, or whenever the blog's main focus shifts. An outdated pinned post is worse than none - it shows something you no longer do."
+  },
+  {
+   "q": "Do I have to state my niche in the profile name?",
+   "a": "Not necessarily, but it speeds up recognition a lot. If there's little space, move the niche into the first line of the description instead of the name."
+  },
+  {
+   "q": "What do I do if my niche isn't defined yet?",
+   "a": "Describe not the niche but the value: what a person will learn or get by reading you. You can add a specific niche to the bio later, once it takes shape."
+  }
+ ]
+}

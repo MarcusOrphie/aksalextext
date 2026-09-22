@@ -1,0 +1,159 @@
+{
+ "slug": "kak-pridumat-rubriki-dlya-bloga-s-ii",
+ "title": "How to Come Up With Blog Categories Using AI",
+ "meta_description": "How to come up with blog categories using AI: why categories matter, how to pull out themes, a prompt for AI and a month-long content grid. Example table and mistakes covered.",
+ "og_description": "How to use AI to build blog categories so you no longer have to think up what to post about every single day.",
+ "read_min": 6,
+ "date_ru": "6 сентября 2026",
+ "cover_title": "Blog Content Categories",
+ "sections": [
+  {
+   "h2": "Why a blog needs categories",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Without categories, a blog turns into a chaotic stream: a recipe today, philosophy tomorrow, a sale the day after. The audience does not understand why they follow you, and you invent a topic from scratch every time. Categories solve both problems at once."
+    },
+    {
+     "type": "p",
+     "text": "For you, they are a system that removes the agony of the blank page. For your follower, they are a clear promise: they know Tuesdays bring a breakdown of mistakes and Fridays a personal story. Predictability in content is not boring - it builds the habit of coming back."
+    },
+    {
+     "type": "blockquote",
+     "text": "Categories are the rails for a blog. Content rolls along them on its own, and you do not have to lay the track anew each time."
+    }
+   ]
+  },
+  {
+   "h2": "What categories are made of",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Strong categories grow from the overlap of three things: what you can do and enjoy, what your audience needs, and what holds their attention. A category that is only about you gets boring fast, one that is only useful drains the life out of the blog, and one that is only emotion leaves it without meaning."
+    },
+    {
+     "type": "h3",
+     "text": "Basic types of categories"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Useful: breakdowns, how-tos, mistakes, answers to questions.",
+      "Personal: stories, everyday life, your journey, thoughts on your blog's theme.",
+      "Engaging: polls, discussions, questions for the audience.",
+      "Selling: gently about the product, case studies, reviews.",
+      "Entertaining: something light, humor, trends in your niche."
+     ]
+    },
+    {
+     "type": "p",
+     "text": "A comfortable starting set is three or four categories, with at least one useful and one personal. More than five is hard to keep up at the start, and the grid starts to fall apart."
+    }
+   ]
+  },
+  {
+   "h2": "How to build categories with AI",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI is great at breaking a big theme into subtopics. Give it your niche, describe your audience, and ask it to suggest categories with example posts for each. In a minute you get a draft that just needs tailoring to you."
+    },
+    {
+     "type": "blockquote",
+     "text": "You are a content strategist. Blog niche: [niche]. Audience: [who they are, what hurts, what they want]. Suggest 5 categories for regular content: useful, personal, engaging, selling, light. For each, give a name and 5 example post topics."
+    },
+    {
+     "type": "p",
+     "text": "Do not take everything at face value. From what it offers, pick the categories you would enjoy running and that hit your audience's pain points. Then ask the AI to throw out 10-15 topics for each chosen category - that instantly fills your idea bank."
+    }
+   ]
+  },
+  {
+   "h2": "Category examples for different niches",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "To make it clearer, here is how categories look across different niches. Plug in your own theme by analogy."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Niche",
+      "Useful category",
+      "Personal category"
+     ],
+     "rows": [
+      [
+       "Motherhood blog",
+       "Life hacks with a baby",
+       "My day with my child"
+      ],
+      [
+       "Marketing expert",
+       "Breaking down clients' mistakes",
+       "A freelancer's journey"
+      ],
+      [
+       "Cooking blog",
+       "A recipe in 15 minutes",
+       "What I cook for my family"
+      ],
+      [
+       "Psychologist",
+       "Answering a common question",
+       "An observation from practice"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "You can see the pattern: the useful category hits the audience's task, the personal one shows the human behind the blog. Trust holds at the intersection of these two lines."
+    }
+   ]
+  },
+  {
+   "h2": "How to lay categories out on a calendar",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Categories without a schedule stay just an idea. Pin each one to its own day or rhythm: for example, Monday is useful, Wednesday is engagement, Friday is personal. Then your posting grid assembles itself, and your head does not have to decide anew."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Spread the categories across the days of the week or by frequency.",
+      "Fill each one with a bank of topics a month ahead.",
+      "Prepare content in batches for each category.",
+      "Once a month, check the stats: which category lands, which needs changing."
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Categories are not concrete. If after a month you see one is not landing, replace it. The grid should work for the blog, not lock you into a frame that brings no results."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How many categories does a blog need?",
+   "a": "At the start, three or four are enough, with at least one useful and one personal. More than five is hard to keep up regularly, and the posting grid starts to fall apart."
+  },
+  {
+   "q": "How do I know a category is working?",
+   "a": "Watch the stats: a good category steadily collects reach, saves and engagement. If one line keeps flopping, swap it for a new topic from your idea bank."
+  },
+  {
+   "q": "Can I fully delegate categories to AI?",
+   "a": "AI is good at suggesting options, but leave the choice to yourself. Take the categories you would enjoy running and that hit your audience's pain points, not just everything on offer."
+  },
+  {
+   "q": "Do I have to tie categories to days of the week?",
+   "a": "You do not have to, but it is more convenient. A fixed day builds a habit for the audience and removes the question of what to post today - you open the grid and see the category."
+  },
+  {
+   "q": "What do I do if I get tired of my categories?",
+   "a": "Change them. Categories are a flexible tool, not a rigid frame. Every few months, review the grid, drop what is not landing and add fresh lines."
+  }
+ ]
+}

@@ -1,0 +1,150 @@
+{
+ "slug": "kontent-dlya-ekspertov-kak-pokazat-kompetentnost",
+ "title": "How to Show Expertise in Your Content",
+ "meta_description": "How to show expertise in your content without bragging: case breakdowns, answering questions, industry mistakes, proof. Includes a table of formats and a breakdown of mistakes.",
+ "og_description": "How to show expertise in your content not by talking about yourself, but by breaking down tasks, cases, and mistakes.",
+ "cover_title": "Proving Your Expertise",
+ "read_min": 6,
+ "date_ru": "11 сентября 2026",
+ "sections": [
+  {
+   "h2": "Expertise is shown, not declared",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The words \"I am an expert with ten years of experience\" do not convince anyone - everybody writes them. Trust is born when you break down a specific situation and the reader sees the depth: you notice what a beginner misses and explain causes, not just effects."
+    },
+    {
+     "type": "p",
+     "text": "The audience judges usefulness, not a diploma. If your breakdown helped someone solve a problem or understand what had been bothering them, they will draw their own conclusion about your competence. That is many times stronger than any list of titles in a profile bio."
+    },
+    {
+     "type": "blockquote",
+     "text": "Expertise is not proven with credentials. It is shown by how you think and solve a problem in front of the reader."
+    }
+   ]
+  },
+  {
+   "h2": "Formats that build a reputation",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Some formats work for expertise better than others, because they demonstrate thinking rather than self-promotion."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Format",
+      "What it proves",
+      "Example"
+     ],
+     "rows": [
+      [
+       "Case breakdown",
+       "You solve real problems",
+       "\"How I pulled a client out of the red\""
+      ],
+      [
+       "Answer to a common question",
+       "You know the audience's pain points",
+       "\"Why your reach is not growing\""
+      ],
+      [
+       "Breakdown of an industry mistake",
+       "You see deeper than others",
+       "\"Why this advice does harm\""
+      ],
+      [
+       "Step-by-step breakdown",
+       "You have command of the method",
+       "\"How I do this step by step\""
+      ],
+      [
+       "Opinion on a divisive topic",
+       "You have a position",
+       "\"Why I am against this approach\""
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Notice: not one format is about you directly. They are all about the audience's problem, solved by your hands. Expertise shows through as a side effect of usefulness, and that is the most convincing way to demonstrate it."
+    }
+   ]
+  },
+  {
+   "h2": "How to break things down so people believe you",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A strong expert breakdown moves from the problem to the solution through the cause. Not \"do it this way\" but \"here is why this works and when it will not.\" It is precisely explaining causes that separates an expert from someone who is retelling other people's advice."
+    },
+    {
+     "type": "h3",
+     "text": "What strengthens trust"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Specifics: numbers, timelines, real situations, not vague words.",
+      "Causes, not just recipes: why this works.",
+      "Honesty about limitations: where the method does not fit.",
+      "Your own experience: \"in practice I see,\" \"in my projects.\""
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Do not be afraid to acknowledge nuances and exceptions. A willingness to say \"it is more complicated here\" earns more trust than sweeping promises. A real expert knows the limits of their method and is not afraid to talk about them."
+    }
+   ]
+  },
+  {
+   "h2": "Proof without bragging",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "You do need proof of competence, but it is best delivered through usefulness rather than vanity. Instead of \"I am great,\" show the result in the context of a breakdown: how the problem was solved and what came of it. A case study convinces more than praising yourself directly."
+    },
+    {
+     "type": "p",
+     "text": "Testimonials, numbers, and results work when they are woven into a story and serve as a lesson for the reader. The same case can be told as bragging or as a breakdown with takeaways useful to the audience. The second option builds a reputation, the first pushes people away."
+    }
+   ]
+  },
+  {
+   "h2": "Mistakes that kill expertise",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The first mistake is talking about yourself instead of the audience's problems. A feed of credentials and achievements is boring and unconvincing. The second is complicating your language to seem smarter: a real expert explains complex things clearly, not the other way around."
+    },
+    {
+     "type": "p",
+     "text": "The third mistake is handing out obvious advice on the level of \"drink water.\" It does not show depth. Give what a beginner does not know or understands wrong. The fourth is being afraid of your own position and writing vaguely. Opinion and viewpoint are part of expertise; without them you blend in with a hundred identical accounts."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How do I show expertise if I have no impressive credentials?",
+   "a": "Through breakdowns of the audience's problems. Show how you solve a problem and why it works. A useful breakdown convinces people of your competence more than any list of titles."
+  },
+  {
+   "q": "Which format works best for reputation?",
+   "a": "Case breakdowns and answers to common questions. They show thinking and knowledge of the audience's pain points rather than self-promotion. Expertise shows through as a side effect of usefulness."
+  },
+  {
+   "q": "How do I prove competence without bragging?",
+   "a": "Weave results and cases into a breakdown with takeaways for the reader. The same result can be delivered as boasting or as a lesson - the second builds a reputation, the first pushes people away."
+  },
+  {
+   "q": "Do I need to complicate my language to look like an expert?",
+   "a": "The opposite. A real expert explains complex things in simple words. Convoluted language adds no weight; it gets in the way of usefulness and scares off the audience you are writing for."
+  },
+  {
+   "q": "Should I voice a divisive opinion?",
+   "a": "Yes, a well-argued position is part of expertise. It sets you apart from identical accounts. The key is to base your opinion on experience and reasons, not on a wish to argue."
+  }
+ ]
+}

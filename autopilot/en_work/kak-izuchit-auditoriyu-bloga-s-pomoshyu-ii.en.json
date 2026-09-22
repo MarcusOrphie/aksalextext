@@ -1,0 +1,156 @@
+{
+ "slug": "kak-izuchit-auditoriyu-bloga-s-pomoshyu-ii",
+ "title": "How to Study Your Blog Audience With AI",
+ "meta_description": "How to use AI to break down your blog's comments and stats and understand who actually reads you and what they expect from you.",
+ "og_description": "A way to turn comments and reach into a clear reader portrait in a single evening with AI.",
+ "cover_title": "Know Your Audience",
+ "read_min": 5,
+ "date_ru": "16 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why study your audience if the reach is already there",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Reach shows how many people watched a video, but not why. The same format can pull thousands of views from one audience and flop with another - and without knowing exactly who's watching, it's hard to repeat a success on purpose rather than by luck."
+    },
+    {
+     "type": "p",
+     "text": "An audience portrait isn't for a pretty presentation, it's for practice: it tells you which topics to take, what language to write in, and which questions to answer first."
+    }
+   ]
+  },
+  {
+   "h2": "What AI can pull from the data you already have",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "You already have material for analysis - it's just sitting there unused: comments under posts, questions in your DMs, reactions in stories, gender and age stats from your social platforms."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Export 50-100 comments from the last month into a single text file",
+      "Add the questions that come up most often in DMs or chat",
+      "Attach a screenshot of your age and gender stats from the platform",
+      "Hand all of it to the AI and ask it to find patterns"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "AI won't replace common sense, but it will notice what the eye glosses over while skimming: recurring phrasings of a pain point, similar questions under different posts, the tone people write comments in."
+    }
+   ]
+  },
+  {
+   "h2": "Prompts for breaking down comments and questions",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The more specific the task, the more useful the answer. Here are prompts that give a workable result instead of vague lines about an \"engaged audience.\""
+    },
+    {
+     "type": "ul",
+     "items": [
+      "\"Read these comments and pull out 5 recurring themes that people care about\"",
+      "\"Find the phrasings of pain or problems in these messages and quote them word for word\"",
+      "\"Determine what register the audience uses: formal, conversational, or humorous\"",
+      "\"Group the DM questions by topic and count which topic comes up most often\""
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to build a reader portrait from the answers",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "After a few passes with different prompts, you accumulate material you can turn into a table - a handy way to keep several audience segments in view at once, if you have them."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Segment",
+      "Main pain point",
+      "What works best"
+     ],
+     "rows": [
+      [
+       "Newcomers to the topic",
+       "Don't know where to start",
+       "Step-by-step instructions and checklists"
+      ],
+      [
+       "Those who've already tried",
+       "Disappointed by past experience",
+       "Breakdowns of mistakes and honest stories"
+      ],
+      [
+       "Advanced",
+       "Want nuances and shortcuts",
+       "Tool comparisons and case studies"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "An audience portrait only works when you keep it updated. What was true six months ago may no longer match whoever is reading you today."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when studying your audience",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even with AI, it's easy to get a useless result if the source data was gathered carelessly."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Analyzing only the positive comments and ignoring the criticism",
+      "Taking a sample from a single day instead of a month - patterns don't show up that way",
+      "Treating all followers as one group with no segments",
+      "Making the portrait once and never coming back to it",
+      "Confusing active commenters with the silent majority that only watches"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to put the audience portrait to work in your content",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A finished portrait only matters when you check it against your content plan. Before writing a script or a post, ask yourself: does this topic address the pain of a specific segment, or are you once again making a video for an abstract \"everyone\"?"
+    },
+    {
+     "type": "p",
+     "text": "Once a month it's worth redoing the comment breakdown - your blog's audience shifts along with the topics you raise, and an old portrait gradually loses accuracy."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How many comments are needed for the analysis to be reliable?",
+   "a": "Usually 50-100 comments or messages over a month is enough. A smaller sample often shows random spikes rather than stable patterns."
+  },
+  {
+   "q": "Can I study my audience if the blog is very small?",
+   "a": "You can and should - early on it's even easier, because there aren't many comments and you can read them all. A portrait at the early stage helps you pick a niche more precisely."
+  },
+  {
+   "q": "What if there are few comments but lots of DM questions?",
+   "a": "In that case DMs and conversations are more valuable than comments: people write there more honestly and in more detail than under a public post."
+  },
+  {
+   "q": "How often should I update the audience portrait?",
+   "a": "Every one to two months, or after a noticeable shift in your blog's topics. The audience adapts to the content, not the other way around."
+  },
+  {
+   "q": "Can AI make mistakes when analyzing comments?",
+   "a": "It can, especially if the sample is small or the comments are taken out of context. Final conclusions are worth checking against your own sense of talking to your audience."
+  }
+ ]
+}

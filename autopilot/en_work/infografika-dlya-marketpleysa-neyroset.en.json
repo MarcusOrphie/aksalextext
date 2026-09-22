@@ -1,0 +1,153 @@
+{
+ "slug": "infografika-dlya-marketpleysa-neyroset",
+ "title": "Marketplace Infographics With a Neural Network",
+ "meta_description": "A step-by-step guide: how to build infographics for a marketplace product listing using a neural network. Tools, layout principles, and common mistakes.",
+ "og_description": "Building infographics for a marketplace listing with a neural network: from a list of facts to a finished layout.",
+ "read_min": 5,
+ "date_ru": "20 сентября 2026",
+ "cover_title": "Marketplace Infographics",
+ "sections": [
+  {
+   "h2": "Why a listing needs infographics at all",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A marketplace shopper rarely reads the description until the product catches their interest - and it's the first photo that has to catch it. Infographics laid over the image add the size, material, contents, or benefit to the picture that would otherwise stay buried in the description text."
+    },
+    {
+     "type": "p",
+     "text": "That's exactly the neural network's job here - not to draw a pretty picture for its own sake, but to quickly build a layout with the key facts over the product photo."
+    }
+   ]
+  },
+  {
+   "h2": "Step 1. Gather your list of facts",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Before you open any tool, write out 3-4 facts about the product that genuinely affect the decision to buy: size, material, lifespan, what's included. This is the one case where you don't need a neural network - you put the list together yourself, since you know the product."
+    },
+    {
+     "type": "h3",
+     "text": "How to choose what to keep"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Keep only what sets the product apart from similar ones from competitors",
+      "Drop facts that are already visible in the photo",
+      "Order the facts by importance - the strongest argument goes at the top of the layout",
+      "No more than 4 points - anything beyond that won't read on a single slide"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Step 2. Choose a tool to build it",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "You can build infographics in almost any graphics editor, but tools with neural-network templates do it faster - they drop text and icons into a ready-made structure in a couple of minutes."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Tool",
+      "What it offers",
+      "Free access"
+     ],
+     "rows": [
+      [
+       "Canva Magic Design",
+       "Ready-made templates for product listings",
+       "Yes, with a template limit"
+      ],
+      [
+       "VistaCreate",
+       "Templates and icon matching for your text",
+       "Yes, with a watermark"
+      ],
+      [
+       "Figma with AI plugins",
+       "Flexible layout in your own style",
+       "Free for a single project"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Step 3. Build the layout",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Drop in the product photo and the list of facts from step 1, and ask the tool to arrange them on the template. From there the layout almost always needs a manual touch-up - automatic placement doesn't always account for where the product actually sits in the photo."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Don't cover the key part of the product in the photo with text",
+      "Keep one font and one color scheme across every slide of the listing",
+      "Add a backing behind the text if the photo background is busy"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "Good infographics read in a second, they aren't a puzzle to solve. If you have to squint at tiny text, it's already not working."
+    }
+   ]
+  },
+  {
+   "h2": "Step 4. Check it on a small screen",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Most shoppers browse listings on a phone, where the photo preview is quite small. Open the finished layout on a phone screen and see whether the text reads without zooming in - if not, make the font bigger and the facts fewer."
+    },
+    {
+     "type": "p",
+     "text": "Also check the platform's requirements for the size and format of the main photo - they differ between marketplaces. Look up the exact numbers in your seller dashboard when uploading, not in generic advice from the internet."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when building infographics",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is overloading the slide with text, because the neural network defaults to inserting every fact at once. The second mistake is a different infographic style on every listing in the store, which keeps the brand from being memorable."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Don't put more than 4 facts on a single slide",
+      "Don't change the design style from listing to listing without a reason",
+      "Don't publish a layout without checking it on a small screen"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How many facts should fit on one infographic slide?",
+   "a": "Three to four points is ideal - any more won't read in the short time a shopper spends looking at a photo in the search feed. If you have more facts, spread them across several photos in the listing rather than cramming them into one."
+  },
+  {
+   "q": "Which infographics tool should a beginner choose?",
+   "a": "Canva Magic Design is the easiest to pick up from scratch - its ready-made product-listing templates require no design skills. Figma with AI plugins gives more flexibility, but the learning curve is steeper."
+  },
+  {
+   "q": "Do I need infographics for every photo in the listing?",
+   "a": "No, usually the first photo plus one or two with the key specs is enough. It's better to leave the rest without text so they show the product itself from every angle."
+  },
+  {
+   "q": "How do I check that the infographics read on a phone?",
+   "a": "Open the finished layout on a phone screen at the real preview size, not on a large monitor while designing. If you have to zoom in to read the text, the font needs to be bigger."
+  },
+  {
+   "q": "Can I use one infographic template for all the products in my store?",
+   "a": "Yes, and it's actually better for recognition - one design style across all listings works in the store's favor. Only the facts and the product photo change, while the structure and color scheme stay consistent."
+  }
+ ]
+}

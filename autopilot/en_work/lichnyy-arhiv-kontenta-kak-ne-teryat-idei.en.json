@@ -1,0 +1,154 @@
+{
+ "slug": "lichnyy-arhiv-kontenta-kak-ne-teryat-idei",
+ "title": "A Personal Content Archive: How Not to Lose Ideas",
+ "meta_description": "How to build a personal content archive with AI: ideas, drafts, formats that worked. A system that saves hours before every shoot.",
+ "og_description": "How to build an archive of ideas and materials for your blog with AI and stop starting from scratch every time.",
+ "read_min": 5,
+ "date_ru": "19 сентября 2026",
+ "cover_title": "Content Idea Archive",
+ "sections": [
+  {
+   "h2": "Why ideas get lost without a system",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The brain is bad at holding onto fleeting thoughts - it lets them go if you don't capture them in the first few minutes. The problem gets worse when ideas are scattered across five different places: phone notes, screenshots, drafts in social apps, voice memos to yourself. Finding the right thought in that chaos is nearly impossible."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "The idea got written down, but somewhere you forgot about a week later",
+      "Written too briefly - a month on, you can't tell what the thought even was",
+      "No tags or categories - it's unclear which format the idea fits",
+      "Duplicates: the same thought written down three times in different places"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "What a working archive is made of",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "An archive isn't just a list of ideas but a structure of several layers. Each layer answers its own question when you plan content."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Archive layer",
+      "What goes into it",
+      "Why it's needed"
+     ],
+     "rows": [
+      [
+       "Raw ideas",
+       "Thoughts on the go, one line",
+       "Nothing gets lost in the moment"
+      ],
+      [
+       "Developed topics",
+       "Idea + format + a rough angle",
+       "Ready to shoot in 10 minutes"
+      ],
+      [
+       "Formats that worked",
+       "What worked and why",
+       "Reusing proven approaches"
+      ],
+      [
+       "Audience questions",
+       "Real questions from comments and DMs",
+       "Topics you know are of interest"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How AI turns notes into ready topics",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Sorting the raw notes"
+    },
+    {
+     "type": "p",
+     "text": "Once a week you dump all the scattered notes into one place and ask the AI to group them by topic and remove duplicates. What looked like a pile of random thoughts turns into five to seven clear directions."
+    },
+    {
+     "type": "h3",
+     "text": "Building an idea up into a format"
+    },
+    {
+     "type": "p",
+     "text": "A short note like \"write about hate in the comments\" isn't ready to shoot on its own. The AI helps you quickly sketch out which format suits it best - a post, a carousel, a breakdown in Stories - and which points to include."
+    },
+    {
+     "type": "h3",
+     "text": "Searching the archive"
+    },
+    {
+     "type": "p",
+     "text": "When ideas number in the hundreds, it's important to quickly find the right one by topic or keyword. A simple tag system helps here, one the AI can suggest and apply to the notes you've already gathered."
+    }
+   ]
+  },
+  {
+   "h2": "How to keep the archive from becoming a graveyard of ideas",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Many people have an archive but don't use it - notes pile up, yet content still gets thought up from scratch before every shoot. The reason is the missing habit of checking it regularly."
+    },
+    {
+     "type": "blockquote",
+     "text": "An archive works only when turning to it becomes the first step of planning, not the last one you remember when the ideas have already run out."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Set a fixed time once a week to sort through new notes",
+      "Start content planning from the archive, not from a blank page",
+      "Mark ideas you've used so you don't repeat yourself",
+      "Delete anything that's clearly outdated or no longer resonates"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "A simple start for those with no archive yet",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "You don't need to build a complex system with a dozen categories right away. Start with one place for raw notes - any app you can drop a thought into from your phone in five seconds works. Once a week, dump what's piled up and ask the AI to help group and build the ideas into topics."
+    },
+    {
+     "type": "p",
+     "text": "After a month of this practice you'll have a stock of ideas several weeks ahead, and content planning will stop starting with the panic of \"what on earth do I even film about.\""
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Where's the best place to keep an idea archive for a blog?",
+   "a": "Any place where you can quickly jot down a thought from your phone works - notes, a personal chat with yourself, a simple spreadsheet. The tool matters less than the habit of logging ideas right away, before they're forgotten."
+  },
+  {
+   "q": "How often should I sort through accumulated notes?",
+   "a": "Once a week is enough for most bloggers. Sorting more rarely increases the risk that some ideas will be forgotten without their context."
+  },
+  {
+   "q": "Can AI come up with ideas on its own instead of an archive?",
+   "a": "It can, but such ideas are usually generic and disconnected from your experience and audience. An archive is valuable precisely because it holds your personal observations, which are hard to invent from the outside."
+  },
+  {
+   "q": "What do I do with old ideas that are no longer relevant?",
+   "a": "Delete them without regret. The archive should stay a working tool, not a dump of everything that ever crossed your mind."
+  },
+  {
+   "q": "Should I archive questions from the comments separately?",
+   "a": "Yes, it's one of the most valuable layers of the archive - such questions already confirm audience interest and almost always turn into successful content."
+  }
+ ]
+}

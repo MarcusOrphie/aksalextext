@@ -1,0 +1,161 @@
+{
+ "slug": "neyroseti-dlya-lendinga-blogera",
+ "title": "AI for a Blogger's Landing Page, No Coding",
+ "meta_description": "How to build a blogger's landing page with AI without a developer: page structure, copy, and ready-to-use prompts.",
+ "og_description": "How to build a landing page for a course or consultations in one evening, without a single line of code.",
+ "read_min": 5,
+ "date_ru": "16 сентября 2026",
+ "cover_title": "Landing Page, No Code",
+ "sections": [
+  {
+   "h2": "Why a blogger needs a landing page when they have social media",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A social media profile is great for a first impression but bad at selling a specific offer. Someone scrolls the feed, gets distracted by other people's stories, and forgets why they even opened your profile. A separate page with one offer and one button works differently: there's nothing there to distract you."
+    },
+    {
+     "type": "p",
+     "text": "You don't always need a landing page - for a one-off post about a discount, a story is enough. But for a course, consultations, a guide, or a media kit, a dedicated page almost always lifts conversion, because there you can calmly explain the value."
+    }
+   ]
+  },
+  {
+   "h2": "What AI can assemble for you",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Modern AI-based website generators do three things at once: they write the copy from your brief, choose a block structure to fit the task, and assemble the page itself with a responsive design."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A headline and subhead for the specific offer",
+      "A block on the audience's pain points and benefits",
+      "A description of the product or service in plain words",
+      "A block with reviews or case studies, if you have them",
+      "A request form or a button that opens a messenger"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "Your job isn't to write code, but to give a precise brief: who the audience is, what you're selling, and what action a person should take on the page."
+    }
+   ]
+  },
+  {
+   "h2": "What blocks a working landing page is made of",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even a simple one-screen page works better when it follows a certain logic rather than a chaotic pile of images."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Block",
+      "Job"
+     ],
+     "rows": [
+      [
+       "Headline",
+       "Hook in 3 seconds, name the essence of the offer"
+      ],
+      [
+       "Audience pain point",
+       "Show that you understand the reader's problem"
+      ],
+      [
+       "Solution",
+       "Explain exactly what the person gets"
+      ],
+      [
+       "Proof",
+       "Reviews, case studies, numbers, result screenshots"
+      ],
+      [
+       "Call to action",
+       "One clear button, no extra choices"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Prompts for landing page copy",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The generic request 'write copy for a landing page' almost always gives a boilerplate result full of corporate stiffness. It's better to break the task into parts."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "'Write a headline for a course landing page about [topic] for an audience of [description], with no cliches and no superlatives'",
+      "'Describe the three main pain points of an audience of [description] briefly, one sentence each'",
+      "'Rewrite this product description in plain language, as if explaining it to a friend'",
+      "'Cut this text in half, keep only the essence'"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A landing page doesn't have to be perfect from the first launch. It has to be clear and functional - the rest gets fixed after the first inquiries."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when building a landing page",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even with AI's help, it's easy to build a page that looks nice but doesn't sell."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Too much text before the first action button",
+      "Several different calls to action on one page instead of one",
+      "No price, or at least a price range, where the audience expects clarity",
+      "Copying someone else's structure without adapting it to your product",
+      "No mobile version - most people open the link from a smartphone"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to test a landing page before launch",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Before you put the link in your profile bio, it's worth showing the page to three to five people who don't know your product. Ask them to tell you in a minute what's being sold here and what you need to do to buy it. If the answer is muddled, rework the structure before launch, not after the first weeks with no inquiries."
+    },
+    {
+     "type": "p",
+     "text": "Also check the page on a phone: some text may get cut off and the button may run off the edge of the screen. It's a small thing that costs you a share of inquiries."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Do I need a programmer to build a landing page with AI?",
+   "a": "No, modern AI-based site generators assemble the page from a brief without a single line of code. A programmer is only needed for complex custom logic."
+  },
+  {
+   "q": "How long does it take to build a landing page with AI?",
+   "a": "A rough version is usually ready in a couple of hours: brief, generating the copy and structure, edits. Polishing the details can take another day or two."
+  },
+  {
+   "q": "Can I use one landing page for several products?",
+   "a": "Technically you can, but conversion drops: a page with one clear offer almost always works better than a universal one."
+  },
+  {
+   "q": "What should I do if I don't have reviews and case studies yet?",
+   "a": "Replace that block with a detailed description of your experience and approach to work. An empty block with no reviews is better removed than left with a placeholder."
+  },
+  {
+   "q": "How often should I update the landing page?",
+   "a": "Check the page every month or two: prices change, new reviews appear, and the wording can get sharper over time as you understand your audience better."
+  }
+ ]
+}

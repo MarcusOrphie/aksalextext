@@ -1,0 +1,142 @@
+{
+ "slug": "finansovyy-uchet-blogera-s-neyrosetyami",
+ "title": "A Blogger's Finances: How AI Tracks Your Income",
+ "meta_description": "How to track your blog's income and expenses with AI: from reading receipts to forecasting the month ahead.",
+ "og_description": "How AI helps a blogger track income and expenses and stop losing money in the chaos of payments.",
+ "read_min": 5,
+ "date_ru": "17 сентября 2026",
+ "cover_title": "Smart Money Tracking",
+ "sections": [
+  {
+   "h2": "Why a blogger needs real numbers, not just a feeling of profit",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "While your income is small, it feels like there is nothing to track: money comes in, money goes out. But the moment you have more than two income sources, that feeling of profit starts to lie. A brand deal can look profitable until you subtract the cost of the hours spent filming and editing. You track your finances not to report to anyone, but to see which activities actually feed the blog and which only eat up your time."
+    },
+    {
+     "type": "p",
+     "text": "The second reason is taxes and reporting. Even if you work as a sole trader or freelancer, accurate income and expense figures save time at filing and lower the risk of mistakes."
+    }
+   ]
+  },
+  {
+   "h2": "What AI can already do for your bookkeeping",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Task",
+      "How AI helps",
+      "What stays with you"
+     ],
+     "rows": [
+      [
+       "Reading receipts and statements",
+       "Recognizes amounts and categories from a photo or PDF",
+       "Check the category and amount by hand"
+      ],
+      [
+       "Consolidating income by source",
+       "Groups payments by platform and date",
+       "Specify where each payment came from"
+      ],
+      [
+       "Cash-flow gap forecast",
+       "Uses your history to predict when money might run short",
+       "Decide what to do about the forecast"
+      ],
+      [
+       "Payment reminders",
+       "Tracks subscriptions and recurring charges",
+       "Confirm you still need the subscription"
+      ],
+      [
+       "A draft report for yourself",
+       "Builds a table of income and expenses for a period",
+       "Reconcile it against real bank statements"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to set up AI bookkeeping in one evening",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Step 1. Gather all your sources in one place"
+    },
+    {
+     "type": "p",
+     "text": "Write out where money comes in and where it goes: bank cards, e-wallets, platforms that pay affiliate revenue. Without this map, AI cannot piece together the full picture - it only works with what you show it."
+    },
+    {
+     "type": "h3",
+     "text": "Step 2. Upload your statements and receipts"
+    },
+    {
+     "type": "p",
+     "text": "Many finance apps and spreadsheets with AI features can pull amounts and dates straight from a photo of a receipt or a bank statement in PDF. Upload the last month of data and ask the tool to break it down by category."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Income: ads, sales, affiliates, donations - each on its own line",
+      "Content costs: editing, props, AI subscriptions",
+      "Promotion costs: advertising, collaborations",
+      "Taxes and mandatory payments in a separate block"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A table of numbers does not lie, even when it feels like the month went well. It shows what actually happened to the money."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when automating your blog's finances",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most common mistake is trusting the AI's final numbers without checking them. Receipt recognition is not perfect: an amount can slip by a cent, a category can be tagged wrong. Once a month it is worth reconciling against a real bank statement, not just the numbers the table shows."
+    },
+    {
+     "type": "p",
+     "text": "The second mistake is mixing personal and work spending in one stream. If a single card covers everything, even smart AI cannot tell a content expense from a grocery run. A separate card, or at least a separate category in the table, saves you hours of sorting."
+    }
+   ]
+  },
+  {
+   "h2": "Is it worth fully automating your bookkeeping",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Full automation makes sense when your income is steady and you have many sources. Early on, while income is modest, a manual spreadsheet with AI help once a week is enough - it takes about twenty minutes and gives you the same clarity as a complex system. It makes sense to scale up automation as you grow, rather than roll everything out at once."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can I trust AI to calculate a blogger's taxes?",
+   "a": "AI can gather the data for the calculation and show a rough figure, but for the final number and the actual filing it is better to check with an accountant or the current rules for your status - sole trader, freelancer or otherwise."
+  },
+  {
+   "q": "What data is safe to upload to AI finance tools?",
+   "a": "Upload only amounts, dates and transaction categories. You should never enter card numbers, security codes or banking-app passwords into such tools."
+  },
+  {
+   "q": "Do I need a dedicated app, or is a spreadsheet with AI features enough?",
+   "a": "Early on, a spreadsheet with AI add-ons is enough. A dedicated service makes sense once you have a lot of transactions and manual reconciliation takes more than an hour a week."
+  },
+  {
+   "q": "How often should I check the data the AI has gathered?",
+   "a": "Once a month at a minimum, so you catch recognition errors before they pile up and muddle the whole picture of income and expenses."
+  },
+  {
+   "q": "Does tracking finances help me see which content formats pay off?",
+   "a": "Yes, if you count not just income but also the time each format takes. Sometimes a video with less reach turns out more profitable per hour of work than a more popular format."
+  }
+ ]
+}

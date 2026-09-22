@@ -1,0 +1,154 @@
+{
+ "slug": "cheklist-publikacii-posta-s-neyrosetyu",
+ "title": "Post Publishing Checklist: What to Check With AI",
+ "meta_description": "A publishing checklist for posts made with AI: what to check in the text, visuals and settings before you hit publish, so you don't delete the post an hour later.",
+ "og_description": "What to check before publishing a post with AI: text, visuals and the technical details, point by point.",
+ "cover_title": "Pre-Publish Checklist",
+ "read_min": 4,
+ "date_ru": "18 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why a checklist when the post already looks ready",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Once the text is written and the image is picked, it feels like the job is done. But this is exactly when your attention drops: you reread the post for the tenth time and stop seeing the mistakes, because your brain fills in what it expects to see rather than what's actually on the page."
+    },
+    {
+     "type": "p",
+     "text": "A checklist removes that problem by turning the final review into a set of concrete points instead of a vague sense that it \"seems fine.\" Five minutes going down the list saves you an hour later on deleting, explaining to followers and republishing."
+    }
+   ]
+  },
+  {
+   "h2": "What AI checks better than a tired eye",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "After a few rounds of edits it's easy to miss a logical gap: a paragraph in the middle refers to an idea you've already cut. AI is good at catching exactly this kind of thing, as long as you ask it something specific rather than a general \"what do you think of the text?\""
+    },
+    {
+     "type": "h3",
+     "text": "What to ask it to check"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Consistency: whether the ending contradicts what was said at the start",
+      "Repeated words and similar sentence structures in neighboring lines",
+      "Typos and dropped words left after trimming the text",
+      "Tone match: whether the post drifted into stiff, bureaucratic language after edits",
+      "Whether the call to action at the end actually makes sense"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Checklist by stages: text, visuals, technical details",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Stage",
+      "What to check"
+     ],
+     "rows": [
+      [
+       "Text",
+       "Typos, repetition, logic from start to finish"
+      ],
+      [
+       "Headline and first line",
+       "Whether it hooks and doesn't get cut off in the feed"
+      ],
+      [
+       "Visual",
+       "Sharpness, cropped faces, readability of text on the image"
+      ],
+      [
+       "Links",
+       "Lead where they should and open on a phone"
+      ],
+      [
+       "Hashtags and tags",
+       "Match the topic, and the right accounts are tagged"
+      ],
+      [
+       "Publishing time",
+       "Lines up with when your audience is active"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Mistakes that slip past a self-check",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The headline gets cut off in the feed and loses its meaning mid-phrase",
+      "An image with text reads fine on a computer but not on a phone",
+      "A link was copied wrong and leads to a 404 error page",
+      "The call to action got lost when the text was trimmed to fit the limit",
+      "Hashtags left over from the last post that have nothing to do with the current topic"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "Readers will spot a typo in your post, but only the ones who got frustrated and quietly left will notice a broken link."
+    }
+   ]
+  },
+  {
+   "h2": "How to build the checklist into your workflow",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A checklist only works if it's within reach, not buried in a file you open once a month. Save it in your phone's notes right next to where you usually prepare posts, and run through the points out loud before you press \"publish.\""
+    },
+    {
+     "type": "p",
+     "text": "Once a month, revisit the list: drop points that no longer matter and add new ones if you notice a recurring mistake. A checklist is a working tool that evolves along with your content format."
+    }
+   ]
+  },
+  {
+   "h2": "The final list before the publish button",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The whole text was read out loud, not skimmed diagonally",
+      "The headline and first line were checked for how they get cut off in the feed",
+      "Every link was opened and leads to the right place",
+      "The visual was checked on a phone, not just on a big screen",
+      "Hashtags and tags match the topic of this specific post"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How long does a checklist review take?",
+   "a": "On average 5-7 minutes per post, once the list is drawn up and within reach. It may take a little longer at first, until the review becomes a habit."
+  },
+  {
+   "q": "Can AI fully replace human proofreading?",
+   "a": "No. It catches typos, repetition and inconsistencies well, but it doesn't replace your feel for tone or your sense of whether a joke will land with your specific audience."
+  },
+  {
+   "q": "Do I need a separate checklist for each social network?",
+   "a": "The basics about text and links are the same everywhere, but technical details like image cropping or character limits are better checked separately for each platform."
+  },
+  {
+   "q": "What should I do if a mistake is spotted after publishing?",
+   "a": "If it's a typo that doesn't distort the meaning, quietly fixing the text is enough. If a link is broken or the meaning is skewed, it's better to delete the post and republish, adding a note in the next post if it really matters to your audience."
+  },
+  {
+   "q": "How do I know it's time to update the checklist?",
+   "a": "If the same mistake keeps happening several times in a row, the list is missing a point. Add it right away, while the situation is fresh in your mind."
+  }
+ ]
+}

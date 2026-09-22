@@ -1,0 +1,162 @@
+{
+ "slug": "neyroseti-dlya-direkta-ne-teryat-lidov",
+ "title": "AI for Your DMs: How Not to Lose Leads",
+ "meta_description": "How AI helps you sort your DMs, never miss an inquiry and reply faster. Tools, scenarios and the typical mistakes bloggers make.",
+ "og_description": "How AI helps you stop losing clients in your DMs and reply faster without losing the warmth in the conversation.",
+ "read_min": 5,
+ "date_ru": "19 сентября 2026",
+ "cover_title": "Never Lose a Lead",
+ "sections": [
+  {
+   "h2": "Why leads get lost in DMs",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "DMs are built so that the important and the trivial sit in the same feed. A question about the price of your course sits next to a fire emoji reaction to a story, and a potential client's inquiry next to a message from a spam bot. When there are twenty messages a day, tracking it all by hand is doable. When there are two hundred, some of it simply gets lost."
+    },
+    {
+     "type": "p",
+     "text": "The second reason is delay. While you film, edit and go live, the conversation sits still. But a person who wrote in with a purchase question has an attention window of a few hours - after that they switch to another blogger or shop."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Messages get lost among reactions and stickers",
+      "A reply comes a day or two later, when the interest has cooled",
+      "The same questions are asked ten times a day",
+      "There is no history: who already wrote, what they asked, how it ended"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "What AI can already do with your DMs",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "This is not about fully automating the conversation - better not to do that, the audience senses the substitution and it hurts trust. It is about three specific tasks that AI handles better than a person in the moment of overload."
+    },
+    {
+     "type": "h3",
+     "text": "Sorting and priorities"
+    },
+    {
+     "type": "p",
+     "text": "AI can go through your inbox and flag where a message is a purchase question, where it is a thank-you, and where it is spam. That saves time on sorting, not on the reply itself - you immediately see who needs answering first."
+    },
+    {
+     "type": "h3",
+     "text": "A draft reply"
+    },
+    {
+     "type": "p",
+     "text": "For standard questions - about price, timing, how you work - AI prepares a draft in your wording and tone. You read it, tweak a couple of words for the specific person and send. The time difference is several times over, and the voice stays yours."
+    },
+    {
+     "type": "h3",
+     "text": "Reminders about loose ends"
+    },
+    {
+     "type": "p",
+     "text": "The most common way to lose a lead is not rudeness but forgetfulness. Someone wrote, you replied, they went quiet for two days, you got busy and never came back to the conversation. An AI assistant can highlight these stalled threads."
+    }
+   ]
+  },
+  {
+   "h2": "Tools: what to choose for your workload",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "If your DMs are ten to fifteen messages a day, an ordinary chatbot with AI for draft replies right in the conversation is enough. If it runs into the hundreds a week and you have steady sales, it is worth looking at services with CRM logic: they remember a client's history and suggest the next step."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Task",
+      "What fits",
+      "When you need it"
+     ],
+     "rows": [
+      [
+       "Draft replies to frequent questions",
+       "A chatbot with tone settings",
+       "From 10 messages a day"
+      ],
+      [
+       "Sorting the inbox by topic",
+       "Automation with tags and rules",
+       "From 50 messages a day"
+      ],
+      [
+       "Client memory and conversation history",
+       "A service with CRM features",
+       "You have regular sales"
+      ],
+      [
+       "Reminders about unfinished threads",
+       "A task planner for chats",
+       "More than two social networks at once"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to set it up so the conversation does not sound like a mass mailing",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The main mistake is loading the AI with ready-made phrases from a script and sending them word for word. A follower reads the template instantly, and trust drops faster than conversion rises."
+    },
+    {
+     "type": "blockquote",
+     "text": "The AI should write in the voice of the blog's owner, not the voice of a manual. If the draft does not sound like the way you talk in stories - rewrite it, do not send it."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Load examples of your real replies into the prompt, not generic phrasing",
+      "Leave room in the draft for the name and a detail from the person's message",
+      "Check every reply before sending it for the first week, until you see the patterns",
+      "Do not automate replies to complaints and conflict messages - here only you will do"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "What you should not trust AI with in your DMs",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "There are categories of message where automation makes things worse, not better. These are refunds, dissatisfaction with quality, the audience's personal stories, and any message where the person needs to feel you specifically, not an assistant."
+    },
+    {
+     "type": "p",
+     "text": "AI is good where a question repeats and the answer does not need empathy right here and now: price, delivery times, a payment link. As soon as emotion appears in the conversation - irritation, disappointment, delight - it is better to reply yourself, live and without a draft."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Won't an automatic reply in DMs scare followers off?",
+   "a": "It will, if it looks like a mass mailing. If it is a draft you tailor to the specific person, the difference is unnoticeable - only the speed of preparation changes, not the tone."
+  },
+  {
+   "q": "At what message volume does it make sense to bring in AI?",
+   "a": "The time savings on drafts are already noticeable from 10-15 messages a day. Below that volume, replying by hand is simpler and faster."
+  },
+  {
+   "q": "Can I fully delegate sales to AI?",
+   "a": "Not a good idea. AI is good at preparing answers to standard questions, but the decision to buy is more often made because of live contact with you, not with a bot."
+  },
+  {
+   "q": "How do I teach AI to reply in my tone, not with generic phrases?",
+   "a": "Give it examples of your real messages - at least ten or fifteen covering different situations. The more specific the examples, the closer the drafts are to your voice."
+  },
+  {
+   "q": "What do I do with negative messages in my DMs?",
+   "a": "Reply yourself and without an AI draft. Such messages need empathy and an understanding of context that automation cannot yet convey."
+  }
+ ]
+}

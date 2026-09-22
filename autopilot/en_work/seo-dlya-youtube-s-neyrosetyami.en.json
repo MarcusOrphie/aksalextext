@@ -1,0 +1,147 @@
+{
+ "slug": "seo-dlya-youtube-s-neyrosetyami",
+ "title": "YouTube SEO: How AI Promotes Your Videos",
+ "meta_description": "How AI helps with YouTube SEO: keyword research, titles, descriptions, and subtitles that search can find.",
+ "og_description": "How to set up YouTube SEO with AI: from the title to the subtitles that search picks up.",
+ "read_min": 5,
+ "date_ru": "17 сентября 2026",
+ "cover_title": "YouTube SEO With AI",
+ "sections": [
+  {
+   "h2": "How YouTube search works and where SEO fits in",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "YouTube reads a video's text - title, description, tags, subtitles - and matches it against what the viewer types into search. After showing the video, the algorithm watches behavior: whether people watch it through and click on it from the results. SEO handles the first part - getting the video into the results for the right query at all - and then the content takes over."
+    },
+    {
+     "type": "p",
+     "text": "Without the right keywords, even an excellent video may only show to subscribers through the recommendations feed and never reach new viewers via search."
+    }
+   ]
+  },
+  {
+   "h2": "What AI can do for video SEO",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Task",
+      "How AI helps",
+      "What to check yourself"
+     ],
+     "rows": [
+      [
+       "Keyword research",
+       "Gathers a list of phrases for the video's topic",
+       "Weed out anything that doesn't reflect the video"
+      ],
+      [
+       "Title draft",
+       "Suggests options with the keyword up front",
+       "Keep it honest, don't overstate"
+      ],
+      [
+       "Video description",
+       "Writes a structured text with keywords",
+       "Add links and timestamps by hand"
+      ],
+      [
+       "Subtitles and transcript",
+       "Recognizes speech and lays it out as text",
+       "Check terms and proper names"
+      ],
+      [
+       "Video tags",
+       "Suggests a list of tags for the topic",
+       "Remove irrelevant and duplicate tags"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to assemble an SEO package for a video, step by step",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "1. The keyword comes before the script, not after"
+    },
+    {
+     "type": "p",
+     "text": "Before you film, ask the AI to gather a list of queries on the topic and see what wording your audience uses. That way the title and structure of the video answer a real question from the start, rather than how the topic sounds in your own head."
+    },
+    {
+     "type": "h3",
+     "text": "2. Title and description"
+    },
+    {
+     "type": "p",
+     "text": "The keyword should be closer to the start of the title - that way it's visible both in search and on the thumbnail. In the description, AI can build the structure: the first two sentences with the keyword, then details and timestamps."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Gather a list of queries on the topic before filming, not after editing",
+      "Put the main keyword in the first words of the title",
+      "Open the description with two sentences that answer the query",
+      "Add subtitles - they give search the full text of the video",
+      "Check the tags by hand and remove anything off-topic"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "YouTube search finds by text, but recommends by viewer behavior. SEO opens the door into the results; people watch the video through because of the content."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes in YouTube SEO with AI",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The first mistake is copying the title and description the AI generated without adapting them to your channel's voice. Such texts often sound impersonal and don't match how you normally address your viewers, which hurts recognizability."
+    },
+    {
+     "type": "p",
+     "text": "The second is keyword-stuffing the description and tags. YouTube's algorithm detects gaming and may push the video down in results instead of lifting it. Keywords should sound natural, like ordinary speech."
+    }
+   ]
+  },
+  {
+   "h2": "Subtitles as a separate SEO tool",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Subtitles are the full text of the video, which search reads in its entirety, not just the title and description. Auto-transcription with AI takes a couple of minutes, but it's worth checking: errors in terms and names can distort the meaning and throw off both search and viewers who are hard of hearing."
+    },
+    {
+     "type": "p",
+     "text": "Subtitles also open the video up to viewers watching without sound - and there are many of those on mobile - which directly affects the video's watch-through rate."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Do tags affect YouTube as much as they used to?",
+   "a": "Their weight in ranking has dropped compared to the title, description, and subtitles, but they still help the algorithm understand the video's context, especially when different channels have similar titles."
+  },
+  {
+   "q": "Can you fully trust AI with writing a video description?",
+   "a": "A draft, yes, but the final text is worth adapting to your channel's voice and adding links, timestamps, and calls to action that the AI doesn't know without your input."
+  },
+  {
+   "q": "How does AI help choose between several title options?",
+   "a": "It can gauge which option is closer to the wording of real search queries, but the final call is worth making based on what you know about your audience."
+  },
+  {
+   "q": "Do you need subtitles if the video already gets plenty of views?",
+   "a": "Yes, subtitles widen your reach: search reads them, and viewers without sound or with hearing impairments use them. It's an extra growth channel even if your base numbers are already decent."
+  },
+  {
+   "q": "How often should you update the SEO of already-published videos?",
+   "a": "If a video steadily gets views, it's best not to touch the metadata without reason. It's worth updating videos that clearly underperform on reach despite good content quality."
+  }
+ ]
+}

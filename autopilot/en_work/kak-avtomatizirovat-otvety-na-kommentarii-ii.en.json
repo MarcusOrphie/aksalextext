@@ -1,0 +1,149 @@
+{
+ "slug": "kak-avtomatizirovat-otvety-na-kommentarii-ii",
+ "title": "How to Automate Comment Replies With AI",
+ "meta_description": "How to set up automated comment replies with AI: which questions to hand off to AI and which to keep for yourself.",
+ "og_description": "Auto-replies to common comments with AI - without losing genuine connection with your audience.",
+ "read_min": 4,
+ "date_ru": "13 сентября 2026",
+ "cover_title": "Automate Comment Replies",
+ "sections": [
+  {
+   "h2": "Which comments are worth automating",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Automation only makes sense for questions that come up again and again in the same wording or close variations. These are factual questions: price, delivery times, availability, terms of participation."
+    },
+    {
+     "type": "p",
+     "text": "Personal questions, arguments, criticism, or a heartfelt thank-you with a story are a different matter. Here what counts is your reaction, not a ready-made template, however polite it may be."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Questions about price and payment methods",
+      "Clarifications about timing and delivery",
+      "Technical 'how do I get access' questions",
+      "Repeated questions under a specific post"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How an AI-based auto-reply works",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The idea behind the setup is this: the AI recognizes the topic of a comment and picks a suitable pre-written reply, or assembles one from your own phrasings. The key words here are your phrasings, not lines generated from scratch."
+    },
+    {
+     "type": "h3",
+     "text": "What the system is made of"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A bank of common questions and your real answers to them",
+      "Rules for which words identify a comment's topic",
+      "A plan for what to do when a question doesn't match any rule"
+     ]
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Type of comment",
+      "What the auto-reply does"
+     ],
+     "rows": [
+      [
+       "Common on-topic question",
+       "Answers with a ready phrasing from the bank"
+      ],
+      [
+       "Similar but not exact question",
+       "Answers with the closest matching option"
+      ],
+      [
+       "Unfamiliar question",
+       "Flags it for a manual reply"
+      ],
+      [
+       "Spam or ads",
+       "Hides it or flags it for deletion"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to build a reply bank that sounds like you",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Don't grab ready-made phrases off the internet - build your bank from your own real answers over the past few months. Scroll through your comments, find the recurring questions, and copy your exact wording rather than inventing it anew."
+    },
+    {
+     "type": "blockquote",
+     "text": "An auto-reply only works when the person can't tell they're reading a template rather than your own words."
+    },
+    {
+     "type": "p",
+     "text": "Once you've gathered the bank, ask the AI to group similar questions together, so close phrasings get an answer that's the same in meaning but not word-for-word identical."
+    }
+   ]
+  },
+  {
+   "h2": "What to keep for yourself only",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Automation should cover the routine, not replace genuine connection. Comments with a personal story, criticism, or thanks deserve an answer from you, even if it costs an extra couple of minutes."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Replies to criticism and contentious comments",
+      "Personal stories and thank-you notes from readers",
+      "Questions you're seeing for the first time",
+      "Comments from regular followers you recognize"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to check that auto-replies aren't hurting the impression",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Every couple of weeks, review what exactly went out automatically. If you see that someone asked a follow-up question under a reply and got no reaction, that's a signal to bring the topic back to manual mode."
+    },
+    {
+     "type": "p",
+     "text": "Auto-replies run in the background, but they shouldn't create the feeling that no one is watching the blog. A genuine, personal moment at least once in an exchange with someone often matters more than the sheer speed of the reply."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Don't auto-replies to comments come across as insincere?",
+   "a": "They do, if you use generic template phrases. If the bank is built from your real phrasings, the reply sounds natural and is indistinguishable from what you'd have written yourself."
+  },
+  {
+   "q": "How many questions should you collect before launching auto-replies?",
+   "a": "Usually 15-20 of the most common questions with wording variations is enough. After that, you can keep expanding the bank as new recurring topics come up."
+  },
+  {
+   "q": "What about comments that don't match any template?",
+   "a": "Such comments should be flagged for a manual reply, not left without a reaction. Full automation with no human oversight quickly loses your audience's trust."
+  },
+  {
+   "q": "Can you automate replies in DMs, not just under posts?",
+   "a": "Yes, the principle is the same: frequently asked factual questions can be handled with pre-written answers, while personal messages should stay with you."
+  },
+  {
+   "q": "How often should the reply bank be updated?",
+   "a": "Once every month or two, when new common questions appear or your terms change - prices, timing, participation format. An outdated auto-reply is worse than none at all."
+  }
+ ]
+}

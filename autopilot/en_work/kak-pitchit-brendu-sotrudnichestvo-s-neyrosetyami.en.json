@@ -1,0 +1,143 @@
+{
+ "slug": "kak-pitchit-brendu-sotrudnichestvo-s-neyrosetyami",
+ "title": "How to Pitch a Brand a Collaboration Using AI",
+ "meta_description": "How to write a brand pitch for a collaboration using AI: email structure, arguments, and the mistakes bloggers make most.",
+ "og_description": "How AI helps you put together a strong brand pitch and not get lost in the back-and-forth with a manager.",
+ "read_min": 5,
+ "date_ru": "17 сентября 2026",
+ "cover_title": "Pitch Brands With AI",
+ "sections": [
+  {
+   "h2": "Why most blogger pitches go unanswered",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A brand manager gets dozens of proposals a week and spends a few seconds on each before deciding whether to keep reading or close the email. The classic mistake is opening the pitch by talking about yourself and your blog instead of showing right away what's in it for the brand. The second mistake is a vague proposal with no specific format and no audience numbers."
+    },
+    {
+     "type": "p",
+     "text": "AI is useful here as an editor: it sees the structure of your email from the outside and points out where you've buried your main point under polite preamble."
+    }
+   ]
+  },
+  {
+   "h2": "What a pitch should be made of",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Part of the email",
+      "What to write",
+      "Common mistake"
+     ],
+     "rows": [
+      [
+       "Subject line",
+       "Be specific: the format and the brand, not a generic greeting",
+       "A vague subject, and the email gets lost in the inbox"
+      ],
+      [
+       "First line",
+       "Why you're writing to this brand in particular",
+       "A generic 'I'd like to collaborate' with no reason"
+      ],
+      [
+       "About your audience",
+       "Who your followers are and what resonates with them",
+       "Only general numbers, no picture of the audience"
+      ],
+      [
+       "The offer",
+       "A specific format: how many posts, what reach",
+       "A vague 'I'm open to collaborating'"
+      ],
+      [
+       "Call to action",
+       "What the manager should do next",
+       "An email with no clear next step"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How AI helps you put a pitch together",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Step 1. Gather the facts yourself"
+    },
+    {
+     "type": "p",
+     "text": "AI doesn't know your real stats or your history with the brand - you have to give it that in text. Write out your reach, engagement, examples of successful integrations, and why you chose this brand in particular."
+    },
+    {
+     "type": "h3",
+     "text": "Step 2. Ask for a structure, not a finished text"
+    },
+    {
+     "type": "p",
+     "text": "If you ask AI to write the whole pitch outright, you'll get an impersonal template. Better to ask for a structure by section and write the phrasing in your own words - that way the email keeps your voice."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Give the AI the facts: your audience, reach, examples of past integrations",
+      "Ask for a draft email structure tailored to the specific brand",
+      "Rewrite the phrasing in your own language, without corporate jargon",
+      "Trim the email down to something that reads in about a minute",
+      "Check that the email has a specific call to action"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "The brand doesn't need a perfect text. It needs to understand in a minute what problem you'll solve and why you rather than someone else."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when using AI for pitches",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The most obvious mistake is blasting the same generated text to dozens of brands in a row, changing only the company name. Managers recognize such emails from the first line, and they go to the trash faster than a pitch written without AI at all."
+    },
+    {
+     "type": "p",
+     "text": "The second mistake is trusting AI with your audience or reach numbers. It doesn't know your real stats and may plug in plausible but wrong figures. Every number in the pitch should be your own and verified."
+    }
+   ]
+  },
+  {
+   "h2": "What to do after the brand replies",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "If the manager replies and asks for a media kit or your terms, AI is useful again - it helps you quickly draft a media kit or rate card from your numbers. But the final terms and price are worth working through yourself: at this stage the exchange becomes a negotiation rather than an email, and the nuances that matter here are ones AI can't read."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Should you mention in the pitch that part of the text was put together with AI?",
+   "a": "Not necessarily, as long as the content is truthful and the numbers are your own. The brand cares about the result of the email, not which tool you used for the draft."
+  },
+  {
+   "q": "How quickly do brands usually respond to a blogger's pitch?",
+   "a": "Timelines vary a lot by company and season, there's no single standard. If there's no reply after more than two weeks, a polite one-line reminder is appropriate."
+  },
+  {
+   "q": "Can you use AI to translate a pitch into another language?",
+   "a": "Yes, it's handy for a basic translation, but you should then proofread the text or show it to a native speaker - automatic translation sometimes shifts the tone and loses nuance."
+  },
+  {
+   "q": "Do you need a media kit if the brand reached out first?",
+   "a": "Often yes - even inbound interest may come with a request to back things up with numbers. It helps to keep an up-to-date media kit ready in advance rather than scrambling to make one after the request."
+  },
+  {
+   "q": "How do you tell if a pitch has gotten too long?",
+   "a": "If the email doesn't fit on one screen without scrolling, it's probably too long. Cut it down to the essentials: who you are, who you're writing to and what you're offering, and the next step."
+  }
+ ]
+}

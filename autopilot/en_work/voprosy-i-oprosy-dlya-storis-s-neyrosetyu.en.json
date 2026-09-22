@@ -1,0 +1,153 @@
+{
+ "slug": "voprosy-i-oprosy-dlya-storis-s-neyrosetyu",
+ "title": "Questions and Polls for Stories With AI",
+ "meta_description": "How AI helps you come up with questions and polls for your Stories when your mind is blank, and which formats actually drive engagement.",
+ "og_description": "Ready-made question formulas for Stories and prompts that break the blank-screen freeze.",
+ "read_min": 4,
+ "date_ru": "16 сентября 2026",
+ "cover_title": "Story Questions With AI",
+ "sections": [
+  {
+   "h2": "Why ask your audience anything in Stories at all",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A question in Stories does two things at once: it lifts your reach through interactions and gives you material for future content. Readers' answers often contain ready-made post topics - the wording of their pain points and questions that would never have occurred to you alone."
+    },
+    {
+     "type": "p",
+     "text": "The trouble is that coming up with a new question every day is tiring. That's where the habit of slapping on the same dull sticker with no audience reaction comes from."
+    }
+   ]
+  },
+  {
+   "h2": "Which question formats actually work",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Not all questions drive engagement equally. Different formats solve different tasks, and it's worth alternating them rather than getting stuck on one."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "An open question - gives you detailed answers and post topics, but few people reply",
+      "A choice between two options - almost everyone answers, because there's no thinking involved",
+      "A rating slider - good for light topics and a quick read on the audience's mood",
+      "A poll with answer options - handy when you need to make a decision together with your audience",
+      "A provocative question with a gentle debate - collects the most comments"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Prompts that produce workable phrasings",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The AI's job is to offer options from which you pick the right tone. A generic request like 'come up with a question for Stories' usually gives you something bland, so it's worth specifying the context."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "\"Come up with 10 open questions about [topic] for an audience of [description], no cliches like 'how are you'\"",
+      "\"Come up with 5 two-option questions on the topic of [topic], both options should be realistic\"",
+      "\"Come up with a provocative question on [topic] that gently splits the audience into two camps\"",
+      "\"Reword this question to be shorter and livelier, drop the stiff, formal words\""
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A question in Stories works not because it's clever, but because it's easy to answer in a second without leaving the feed."
+    }
+   ]
+  },
+  {
+   "h2": "How to use your audience's answers afterward",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The answers you collect aren't a one-time bit of fun, they're raw material for your next content. Different question formats yield material of different value."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Question format",
+      "What it gives you once answers are in"
+     ],
+     "rows": [
+      [
+       "Open question",
+       "Ready-made post topics and quotes for screenshots"
+      ],
+      [
+       "Choice of two",
+       "An understanding of which topic angle interests the audience more"
+      ],
+      [
+       "Poll with options",
+       "An argument for the next post: 'you chose this topic yourselves'"
+      ],
+      [
+       "Provocation",
+       "Comments you can unpack in a separate post"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes with questions in Stories",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Even a good question loses its effect if you make one of the typical mistakes."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Asking a question with no context - the audience doesn't understand what it's even about",
+      "Placing the question sticker on a slide crowded with text next to it",
+      "Asking the same thing every day - the audience stops noticing",
+      "Not showing the audience's answers - people reply more willingly when they see they're being read",
+      "Using provocation too often - it only works if it isn't your only format"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How not to turn Stories into a stream of identical questions",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Questions drive engagement, but if you put them in every other Story, the audience gets tired of answering. Better to keep a balance: one or two interactive stickers a day, the rest regular content with no call to act."
+    },
+    {
+     "type": "p",
+     "text": "Once a week it's worth reviewing which question formats got the most answers and dropping the ones that stopped working. The audience gets used to a format over time, and what landed a month ago may no longer catch on."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How many questions can you post in Stories per day?",
+   "a": "One or two interactive stickers a day is usually enough. More than that, and the audience starts swiping through Stories without looking at the content."
+  },
+  {
+   "q": "Which question format gets the most answers?",
+   "a": "A choice between two options and a slider usually collect the most answers, because they don't require any written text. An open question gets fewer replies, but the answers are more substantial."
+  },
+  {
+   "q": "How do you tell that a question fell flat?",
+   "a": "If there are noticeably fewer reactions than usual, or the answers are identical and short, the wording was too general. It's worth narrowing the topic or clarifying the context."
+  },
+  {
+   "q": "Can you use audience questions as topics for posts?",
+   "a": "Yes, that's one of the main reasons to ask them. The wording from the answers often describes the audience's pain points more precisely than any guesses the author could make."
+  },
+  {
+   "q": "Do you need to reply to every comment under a poll?",
+   "a": "Not necessarily every one, but it's worth showing a few genuine answers in your Stories - it boosts engagement in future posts."
+  }
+ ]
+}

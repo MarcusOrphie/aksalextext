@@ -1,0 +1,136 @@
+{
+ "slug": "scenarii-dlya-youtube-shorts-s-neyrosetyami",
+ "title": "YouTube Shorts Scripts with AI",
+ "meta_description": "How to write YouTube Shorts scripts with AI: video structure, working the hook, subtitles and the common mistakes beginners make.",
+ "og_description": "YouTube Shorts scripts with AI: structure, the hook and subtitles, without the extra theory.",
+ "read_min": 5,
+ "date_ru": "15 сентября 2026",
+ "cover_title": "Shorts Scripts",
+ "sections": [
+  {
+   "h2": "How Shorts differ from Reels for a script",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "On YouTube viewers more often arrive through search and subscriptions, not just through the recommendations feed. That means the title and the first frame work as the video's thumbnail - they're visible before the view, and the click depends on them too."
+    },
+    {
+     "type": "p",
+     "text": "The second difference is that YouTube viewers are used to longer videos on the platform overall, so Shorts have a slightly higher tolerance for a slow build at the start than Reels do. That's no reason to stretch out the intro, but a couple of seconds of context works better here than on other platforms."
+    }
+   ]
+  },
+  {
+   "h2": "Script structure: three mandatory blocks",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "The hook (0-2 seconds) - states the problem or the result people stay to see",
+      "The body - one point per video, no trying to cram in three topics at once",
+      "The ending - a conclusion, a question to the viewer or a lead-in to the next video in the series"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "The beginners' mistake is writing the script linearly, from start to finish. It's faster to work in reverse: first the ending and the main conclusion, then the hook built for that conclusion, and only then the body, which connects the two."
+    }
+   ]
+  },
+  {
+   "h2": "How AI helps with the script",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Give the AI the topic, the video's key point and 2-3 examples of good hooks from your niche - it'll offer several structure options to choose from. Then you pick one and rewrite the text in your own way of speaking."
+    },
+    {
+     "type": "blockquote",
+     "text": "AI quickly produces structure options, but it doesn't know what actually landed with your audience last week. That part of the work still falls to the author."
+    },
+    {
+     "type": "p",
+     "text": "AI is separately useful for drafting subtitles and on-screen text - it condenses long script text into short phrases, which by hand takes more time than the shoot itself."
+    }
+   ]
+  },
+  {
+   "h2": "Hook formats for different video goals",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Video goal",
+      "Hook type",
+      "Example opening"
+     ],
+     "rows": [
+      [
+       "Teaching",
+       "A promise of a result",
+       "In 30 seconds you'll learn how to..."
+      ],
+      [
+       "Entertainment",
+       "An unexpected fact",
+       "Nobody talks about this, but..."
+      ],
+      [
+       "Personal experience",
+       "A conflict or a mistake",
+       "I lost a month because..."
+      ],
+      [
+       "Tool review",
+       "A before/after comparison",
+       "Here's what changed when I..."
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes in Shorts scripts",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "Too many points in one video"
+    },
+    {
+     "type": "p",
+     "text": "One idea per video works better than three. If the topic is big, split it into a series of several Shorts, each with a logical ending."
+    },
+    {
+     "type": "h3",
+     "text": "An ending with no payoff"
+    },
+    {
+     "type": "p",
+     "text": "A video that ends mid-sentence with no conclusion loses some retention in the final seconds. Even a short closing line keeps the viewer to the end better than an abrupt cutoff."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How is a Shorts script fundamentally different from a Reels one?",
+   "a": "The difference isn't the length but the audience behavior: on YouTube viewers more often seek out a video deliberately, so the title and first frame work as part of the click, not just retention."
+  },
+  {
+   "q": "How long should the hook be?",
+   "a": "Usually the first 1-2 seconds decide whether the viewer stays or scrolls on. Stretching the intro longer than that is risky for retention."
+  },
+  {
+   "q": "Can AI write a finished script without my input?",
+   "a": "It'll put together a working structure draft, but without your point, examples and way of speaking the text comes out generic. The final version is still refined by the author."
+  },
+  {
+   "q": "Do Shorts need subtitles if the video has sound?",
+   "a": "Yes, some viewers watch with the sound off, especially in the first seconds. Subtitles or on-screen text noticeably improve watch-through."
+  },
+  {
+   "q": "How do I tell that a script turned out to be a good one?",
+   "a": "By the retention stats after publishing: if viewers drop off en masse in the first seconds, the problem is the hook; if it's closer to the middle, it's the structure of the body."
+  }
+ ]
+}

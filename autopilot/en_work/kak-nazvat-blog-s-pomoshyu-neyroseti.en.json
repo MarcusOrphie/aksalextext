@@ -1,0 +1,164 @@
+{
+ "slug": "kak-nazvat-blog-s-pomoshyu-neyroseti",
+ "title": "How to Name Your Blog with AI",
+ "meta_description": "How to come up with a blog name using AI: working prompts, checking the domain and social handles, and the common mistakes in naming.",
+ "og_description": "A step-by-step way to come up with a blog name with AI and not regret it a month later.",
+ "cover_title": "Naming Your Blog",
+ "read_min": 5,
+ "date_ru": "16 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why Think About the Name at All If Content Is What Matters",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A lot of bloggers treat naming as a formality and grab the first thing that comes to mind. That works while the blog is small. But as the account grows, an awkward or clunky name starts to get in the way: it's hard to say on a podcast, impossible to write cleanly on a business card, and the domain for a website is already taken by some curtain shop."
+    },
+    {
+     "type": "p",
+     "text": "A good name doesn't have to be brilliant. It's enough for it to be short, easy to pronounce, and free on at least two or three social platforms at once. And that's exactly the task where AI genuinely saves time: it runs through dozens of options faster than you can open a notebook of ideas."
+    }
+   ]
+  },
+  {
+   "h2": "How AI Comes Up with Options",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI doesn't know your niche in advance, so the whole result depends on what you feed it. The more specific your input, the fewer generic words like 'ProBlog' and 'MediaSpace' you'll get back."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Describe the topic in one sentence: not 'a blog about life' but 'a blog about editing video on your phone for beginners'",
+      "Specify the tone: ironic, friendly, expert, bold",
+      "Give 2-3 examples of names you like and explain exactly what you like about them",
+      "List the words you definitely don't want to see in the name"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "After that, AI generates not an abstract list but options tailored to a specific task. You'll still need to filter them by hand, but the base you get is a working one."
+    }
+   ]
+  },
+  {
+   "h2": "Prompts That Produce Usable Options",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "One general request like 'come up with a name for a blog' almost always spits out boilerplate words. It's better to break the task into several passes from different angles."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "'Come up with 15 short blog names about [topic] in English, no more than two syllables each'",
+      "'Come up with 10 names in the form of a question or a phrase from everyday speech for a blog about [topic]'",
+      "'Take the word [key word of the topic] and suggest 10 wordplays and rhymes based on it'",
+      "'Come up with 10 names that will be clear without explanation, from the name alone'"
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "A name isn't a brand on day one. It's a working label that gathers meaning over time through your content, not the other way around."
+    }
+   ]
+  },
+  {
+   "h2": "How to Check a Name Before You Fall in Love with It",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "AI doesn't know whether the domain is free or the name is taken on social media right now - that part of the work you'll have to do yourself. Don't skip it: moving from a promoted but taken name to a new one is expensive."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "What to check",
+      "Where to look"
+     ],
+     "rows": [
+      [
+       ".com and country domain",
+       "Any domain registration service"
+      ],
+      [
+       "Handle availability",
+       "Instagram, TikTok, YouTube, Telegram directly in search"
+      ],
+      [
+       "Similar names among competitors",
+       "Search for the name + the word 'blog'"
+      ],
+      [
+       "Trademark",
+       "The trademark registry, if you plan to sell products under this name"
+      ],
+      [
+       "How it sounds out loud",
+       "Say the name to a stranger and ask them to repeat it"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "The last point seems trivial, but it's the one that catches bad options most often: if a person mishears or mangles the name the first time, your audience will do the same."
+    }
+   ]
+  },
+  {
+   "h2": "Common Mistakes in Blog Naming",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Most failed names don't flop from a lack of imagination but from the same handful of traps."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "A name too narrow to let you change topics in six months",
+      "A foreign word your audience misspells",
+      "A pun only the author understands",
+      "A name that duplicates an already well-known large channel in the niche",
+      "A name longer than three words - no one remembers it on the first try"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "How to Pick One Option Out of Ten",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Once you have a shortlist of 8-10 names that passed the availability check, the final choice is better made not alone. Show the list to three to five people from your target audience and ask which name they remembered an hour after the conversation, without prompting. It's a rough but honest test of memorability."
+    },
+    {
+     "type": "p",
+     "text": "If several names get roughly the same number of votes, take the one that's easier to type and doesn't need explaining out loud. In the long run, convenience beats originality."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can I take a name the AI suggested without changes?",
+   "a": "You can, if it passed the check for a free domain and handles. But more often the AI's version becomes just a base you should tweak slightly to fit your tone and pronunciation."
+  },
+  {
+   "q": "How many name options should I generate before choosing?",
+   "a": "Usually 30-40 options from three or four different prompts is enough. After the availability check, at most 5-8 workable candidates will remain."
+  },
+  {
+   "q": "Should I use English words in the name?",
+   "a": "Only if the audience will definitely understand and spell the word correctly. If there's any doubt about pronunciation or spelling, it's better to find a native-language equivalent."
+  },
+  {
+   "q": "What should I do if the name I like is already taken on Instagram?",
+   "a": "Add a short prefix based on the blog's topic or region, or look for a similar-sounding option through AI, specifying 'suggest words that sound alike but are free.'"
+  },
+  {
+   "q": "Should I change the name if the blog is already growing but the name is bad?",
+   "a": "A rebrand makes sense at an early stage, while the audience is small. If the blog already has thousands of followers, it's usually smarter to keep the name and strengthen the visual presentation than to lose recognition."
+  }
+ ]
+}

@@ -1,0 +1,142 @@
+{
+ "slug": "neyroseti-dlya-napisaniya-tekstov-postov",
+ "title": "AI for Writing Post Captions",
+ "meta_description": "How to use AI to write post captions: where to start, what prompt to give, and why you should always polish the draft yourself.",
+ "og_description": "Let's look at how AI helps write post captions and why the draft still needs polishing.",
+ "cover_title": "AI Post Captions",
+ "read_min": 5,
+ "date_ru": "6 сентября 2026",
+ "sections": [
+  {
+   "h2": "Why hand your post captions to AI at all",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The caption isn't the main element of a post, but it's often what decides whether people watch the video through and leave a comment. Writing dozens of captions by hand eats up time you could spend filming or editing."
+    },
+    {
+     "type": "p",
+     "text": "AI handles the routine part well - structure, options for the first line, questions that pull people into the comments. Your part of the job is to steer it and cut whatever doesn't sound like you."
+    }
+   ]
+  },
+  {
+   "h2": "How to build a prompt that works for a caption",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A vague prompt like \"write a caption for a video about AI\" almost always gives a generic, faceless text. The more specific the inputs, the closer the result to what you actually want to publish."
+    },
+    {
+     "type": "h3",
+     "text": "What to include in the prompt"
+    },
+    {
+     "type": "ul",
+     "items": [
+      "The video's topic and main idea in one or two sentences",
+      "The tone of delivery - personal, expert, humorous",
+      "The length of the post and whether there's a character limit",
+      "Whether you want a question for the comments at the end"
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Post formats and when to use each",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Different types of posts solve different tasks, and AI is easier to steer if you already know which format you need."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "Post format",
+      "When to use",
+      "What to watch for"
+     ],
+     "rows": [
+      [
+       "Short caption",
+       "The video already explains the point itself",
+       "The first line has to hook on a phone"
+      ],
+      [
+       "Long-form text",
+       "The topic needs explanation or context",
+       "Don't stretch the intro, get to the point fast"
+      ],
+      [
+       "List post",
+       "Practical advice in several points",
+       "Each point is a complete thought with no fluff"
+      ],
+      [
+       "Personal story",
+       "You want to show yourself, not just the topic",
+       "Keep the vivid details, don't let AI smooth them out"
+      ]
+     ]
+    },
+    {
+     "type": "blockquote",
+     "text": "AI will write a polished text. What makes it alive are the details that exist only in your story."
+    }
+   ]
+  },
+  {
+   "h2": "What to polish by hand after AI",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "An AI draft is rarely ready to publish without edits. Most often it has phrases that are too smooth, generic wording, and clichés you'd find in any other text on the same topic."
+    },
+    {
+     "type": "p",
+     "text": "It helps to read the text out loud - if a phrase sounds unnatural when you say it, it will most likely sound unnatural to the reader too. It's also worth adding concrete details from your own experience - that's exactly what sets the text apart from a generic one."
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when working on captions with AI",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "The main mistake is publishing the first version without edits. AI doesn't know your voice or your followers' context, so the text comes out correct in structure but faceless in substance."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "Copying the text without adapting it to your usual way of talking",
+      "Wording that's too generic, with no concrete details from the video",
+      "Ignoring the platform's length limits",
+      "The same post structure from one publication to the next"
+     ]
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Can I publish AI text without edits?",
+   "a": "Technically yes, but the text usually sounds faceless - it's better to add your own details and cut the generic phrases before publishing."
+  },
+  {
+   "q": "How do I explain my style of talking to my audience to the AI?",
+   "a": "Give it a few examples of your past posts and ask it to match their tone and sentence length."
+  },
+  {
+   "q": "How many text versions should I ask the AI for?",
+   "a": "Usually two or three versions are enough to pick a good structure and refine it with details, rather than sifting through dozens of similar texts."
+  },
+  {
+   "q": "Is AI suitable for writing personal stories?",
+   "a": "It can give the structure of the story, but the details and emotions are worth adding yourself - that's what makes a story personal."
+  },
+  {
+   "q": "How do I avoid clichés in AI-written text?",
+   "a": "Ask for concrete wording instead of generic phrases and read the text out loud - clichés usually stand out precisely by ear."
+  }
+ ]
+}

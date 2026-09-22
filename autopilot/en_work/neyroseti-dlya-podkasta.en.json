@@ -1,0 +1,132 @@
+{
+ "slug": "neyroseti-dlya-podkasta",
+ "title": "AI for a Podcast: From Idea to Publishing",
+ "meta_description": "AI for a podcast: how to prep an episode, clean up the audio, transcribe it, and turn the episode into posts for social media.",
+ "og_description": "How AI helps a podcaster at every stage - from the episode topic to posts made from the finished recording.",
+ "cover_title": "AI Podcast Workflow",
+ "read_min": 5,
+ "date_ru": "15 сентября 2026",
+ "sections": [
+  {
+   "h2": "Where AI saves time in a podcast",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Broadly, making an episode splits into prep, recording, processing, and packaging for social media. The voice and the substance of the conversation belong to the host and guest, and AI is no help there. But planning the outline, cleaning up the audio, and turning the recording into text content are tasks where the help is immediately noticeable."
+    },
+    {
+     "type": "p",
+     "text": "The main rule is not to try to automate everything at once. Start with the one stage where you personally have the most routine, and bring AI in exactly there."
+    }
+   ]
+  },
+  {
+   "h2": "Prepping the episode: a conversation outline",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "Formulate the episode topic and the main question the episode answers",
+      "Ask the AI to sketch a list of subtopics and follow-up questions on the topic",
+      "Weed out questions you already covered in past episodes",
+      "Keep an outline of 5-7 points - a live conversation will drift from a rigid script anyway"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "The outline is not for reading off a sheet, it is insurance against pauses when the topic of conversation suddenly runs dry ahead of time."
+    }
+   ]
+  },
+  {
+   "h2": "Cleaning up the audio without a studio",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Noise reduction, leveling voice volume, and removing filler words are tasks that used to require a sound engineer. Services with AI audio processing do the basic cleanup in a single pass, and for most podcasts that is enough."
+    },
+    {
+     "type": "blockquote",
+     "text": "Perfect audio will not save a boring conversation, and a lively conversation with average audio gets listened to all the way through. Do not spend more time on processing than on preparing the topic."
+    }
+   ]
+  },
+  {
+   "h2": "Transcription and text content from an episode",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A transcription AI turns a recording into text in minutes rather than hours of manual transcribing. From there, a text AI helps assemble an article for the website, a post with the key points, or cards for social media out of the transcript."
+    },
+    {
+     "type": "table",
+     "headers": [
+      "From",
+      "You get",
+      "What it is for"
+     ],
+     "rows": [
+      [
+       "Episode transcript",
+       "A draft article for the blog",
+       "SEO traffic to the podcast"
+      ],
+      [
+       "Key quotes",
+       "Posts for social media",
+       "Teasing the episode without retelling it in full"
+      ],
+      [
+       "Timestamps",
+       "An episode table of contents",
+       "Convenient navigation for the listener"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "h2": "Common mistakes when bringing in AI",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "A transcript instead of an article"
+    },
+    {
+     "type": "p",
+     "text": "A raw transcript of a conversation reads poorly as an article - it keeps the slips, repeats, and conversational constructions. Text for the website is worth assembling anew from the key points rather than publishing the transcript as is."
+    },
+    {
+     "type": "h3",
+     "text": "A finished script instead of an outline"
+    },
+    {
+     "type": "p",
+     "text": "If you read the AI's questions word for word, the conversation sounds like an interview off a cheat sheet. The outline should be a support, and the wording in the conversation is better left in your own words."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Which stage of the podcast should I start using AI at?",
+   "a": "The one that personally takes you the most time - for some it is the episode outline, for others it is cleaning up the audio or transcribing. Starting with every stage at once is not a good idea."
+  },
+  {
+   "q": "Will AI replace a sound engineer?",
+   "a": "For basic cleanup of a recording, yes, and that is enough for most podcasts. For complex post-production with several microphones and a live audience, a specialist is still needed."
+  },
+  {
+   "q": "Can I publish an episode transcript as an article on the website?",
+   "a": "You can, but such text reads worse than a dedicated article - a transcript keeps the repeats and slips of spoken speech. It is better to assemble the article anew from the key points of the conversation."
+  },
+  {
+   "q": "How does AI help with promoting the podcast on social media?",
+   "a": "It pulls quotes and key points out of the transcript, which turn into posts and cards - you pick the strong moments and format them for each platform."
+  },
+  {
+   "q": "Do I need a conversation outline if the podcast is a free-flowing chat?",
+   "a": "Yes, even a short outline of a few points insures against awkward pauses when the topic runs dry before the recording time is up."
+  }
+ ]
+}

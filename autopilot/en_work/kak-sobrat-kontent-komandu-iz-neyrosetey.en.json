@@ -1,0 +1,144 @@
+{
+ "slug": "kak-sobrat-kontent-komandu-iz-neyrosetey",
+ "title": "How to Build a Content Team Out of AI Tools",
+ "meta_description": "How to replace part of a blogger's team with AI: assigning the roles of scriptwriter, editor and designer across different AI tools.",
+ "og_description": "How to spread a blogger's tasks across AI tools instead of hiring a team - roles, tools and workflow.",
+ "read_min": 5,
+ "date_ru": "12 сентября 2026",
+ "cover_title": "AI Content Team",
+ "sections": [
+  {
+   "h2": "Why think in roles, not tools",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A common mistake is grabbing yet another AI tool because someone wrote about it on another blog, and trying to squeeze it in wherever it fits. The reverse approach works better: first write out the roles a normal team covers, then pick a specific tool for each one."
+    },
+    {
+     "type": "p",
+     "text": "In a classic content team that's a scriptwriter, a text editor, a cover designer and someone who tracks the stats. Each role has its own job, and mixing them up means losing quality at every stage."
+    }
+   ]
+  },
+  {
+   "h2": "The roles and what AI covers in each",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Role",
+      "What the AI does"
+     ],
+     "rows": [
+      [
+       "Scriptwriter",
+       "Suggests the structure of a video or post, hooks and ways to frame a topic"
+      ],
+      [
+       "Text editor",
+       "Checks the text for fluff, jargon and length, offers livelier phrasing"
+      ],
+      [
+       "Cover designer",
+       "Generates cover and thumbnail options from a short description"
+      ],
+      [
+       "Analyst",
+       "Helps break down the stats and find patterns in successful posts"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "You don't have to use four different tools - many of the larger AI models cover several roles at once. What matters more is the principle: at each stage you know which task you're solving right now."
+    }
+   ]
+  },
+  {
+   "h2": "How to set up the workflow",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Chaos sets in when all the roles get mixed into one request: \"write a post and come up with a cover and calculate whether it'll land.\" The result comes out mediocre on every point at once."
+    },
+    {
+     "type": "h3",
+     "text": "Work one role at a time"
+    },
+    {
+     "type": "p",
+     "text": "First finish the script completely, then switch to editing the text, and only at the end deal with the visuals. This order saves time because you don't have to go back and rewrite parts that were already done."
+    },
+    {
+     "type": "h3",
+     "text": "Keep a single brief document"
+    },
+    {
+     "type": "p",
+     "text": "Set up a short file describing your niche, tone and audience. Paste this brief at the start of any request to an AI - that way the \"team\" speaks in one voice, even if the tools are different."
+    },
+    {
+     "type": "blockquote",
+     "text": "Once I stopped throwing the whole list of tasks at the AI at once and started going through one role at a time, content came out many times faster - and there was far less to redo."
+    }
+   ]
+  },
+  {
+   "h2": "What stays only with you",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "An AI team lacks the main thing - your personal experience and the decisions you're accountable for."
+    },
+    {
+     "type": "ul",
+     "items": [
+      "The final call on which topic really matters to the audience",
+      "Personal stories and examples from your own practice",
+      "Judging whether the text sounds like you, not like an average blogger",
+      "Strategy - where the blog is heading overall, not a single post"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "AI tools handle the routine and the rough work, but the direction and the voice stay human - otherwise content loses the very thing people read it for."
+    }
+   ]
+  },
+  {
+   "h2": "Where to start if you used to do it all yourself",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Don't try to build the whole system in a single day. Take one role that eats the most of your time - most often it's the script or the covers - and pick one tool for it. A week later, add the second role."
+    },
+    {
+     "type": "p",
+     "text": "This gradual approach gives you time to get used to the format of the requests and keeps you from dropping everything after the first failed attempt."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "How many AI tools do I need to cover all the roles?",
+   "a": "Two or three are enough: one for text and scripts, one for visuals, and, if you like, a separate tool for analyzing the stats."
+  },
+  {
+   "q": "Can I use one AI tool for all the roles at once?",
+   "a": "You can, but the result is usually weaker in each individual task. Specialized tools more often give a more precise result in their role."
+  },
+  {
+   "q": "What do I do if I have no budget for paid tools?",
+   "a": "Start with the free versions of popular AI tools - their capabilities are usually enough to get going, and paid features become necessary as your content volume grows."
+  },
+  {
+   "q": "How do I know when it's time to hire a real person instead of an AI role?",
+   "a": "When the volume of tasks in one role takes more time to brief the AI and fix its output than it would take a specialist to do directly."
+  },
+  {
+   "q": "Should I tell my audience that AI is part of the team?",
+   "a": "Not necessarily, as long as the content goes through your final edit and reflects your voice. It's a tool, not the author of the post."
+  }
+ ]
+}

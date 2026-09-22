@@ -1,0 +1,151 @@
+{
+ "slug": "mediakit-blogera-s-neyrosetyami",
+ "title": "A Blogger's Media Kit with AI: How to Build One",
+ "meta_description": "How to build a blogger's media kit with AI in one evening: what to include, which tools help, and which numbers brands look at first.",
+ "og_description": "A blogger's media kit in an evening: what to include and how AI takes over the grind of assembling the text and numbers.",
+ "read_min": 5,
+ "date_ru": "15 сентября 2026",
+ "cover_title": "Media Kit in an Evening",
+ "sections": [
+  {
+   "h2": "Why a blogger needs a media kit and what brands look for in it",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "A brand manager gets dozens of pitches from bloggers a day. They don't have time to scroll your profile and calculate engagement by hand. A media kit saves them that time and shows you take collaboration seriously, rather than writing 'wanna do an ad?' in the DMs."
+    },
+    {
+     "type": "p",
+     "text": "A brand usually looks at three things: reach and engagement, an audience profile (gender, age, geography), and examples of past collaborations with results. If that data isn't in the media kit, the manager will request it separately - and some bloggers lose the deal at this stage over a slow reply."
+    }
+   ]
+  },
+  {
+   "h2": "What must be in a media kit",
+   "blocks": [
+    {
+     "type": "ul",
+     "items": [
+      "Who you are and what the blog is about - one or two sentences, no long intro",
+      "Audience: gender, age, top 3 cities or countries",
+      "Post and story reach over the last month",
+      "Engagement (likes, comments, saves) as a percentage",
+      "The ad formats you do and their prices",
+      "Case studies of past collaborations with specific numbers"
+     ]
+    },
+    {
+     "type": "p",
+     "text": "You don't have to spell out each point in a paragraph. A brand cares about numbers and context, not the story of your blog from its first post."
+    }
+   ]
+  },
+  {
+   "h2": "How AI speeds up building a media kit",
+   "blocks": [
+    {
+     "type": "p",
+     "text": "Pulling stats from the social network's app and formatting them into something readable is the tedious part of the job. A text AI helps write the blocks: positioning, audience description, case studies - you give it the raw numbers and facts, and it assembles coherent text from them."
+    },
+    {
+     "type": "p",
+     "text": "For layout, builders with AI templates work well: they suggest a media-kit structure themselves and let you drop in numbers without designing from scratch. For the cover and visual style, you can generate illustrations with AI if you don't want to book a photoshoot."
+    },
+    {
+     "type": "blockquote",
+     "text": "A media kit is a working sales tool, not a creative project. The faster a brand finds the numbers in it, the higher the chance of a deal."
+    }
+   ]
+  },
+  {
+   "h2": "The plan: build a media kit in one evening",
+   "blocks": [
+    {
+     "type": "table",
+     "headers": [
+      "Stage",
+      "What to do",
+      "Time"
+     ],
+     "rows": [
+      [
+       "Gathering numbers",
+       "Export reach and audience stats from the social network's app",
+       "20 minutes"
+      ],
+      [
+       "Text",
+       "Ask the AI to assemble your positioning and case studies from your data",
+       "30 minutes"
+      ],
+      [
+       "Layout",
+       "Drop the text and numbers into a builder template",
+       "40 minutes"
+      ],
+      [
+       "Review",
+       "Read it aloud and cut the corporate stiffness",
+       "15 minutes"
+      ]
+     ]
+    },
+    {
+     "type": "p",
+     "text": "A finished media kit lasts 3-6 months if there hasn't been a sharp jump in audience. After a major news moment or a blog rebrand, refresh the numbers again."
+    }
+   ]
+  },
+  {
+   "h2": "Common media kit mistakes",
+   "blocks": [
+    {
+     "type": "h3",
+     "text": "A document that's too long"
+    },
+    {
+     "type": "p",
+     "text": "No one reads ten slides of blog history. A brand manager spends less than a minute on a media kit - keep only what affects the decision."
+    },
+    {
+     "type": "h3",
+     "text": "Rounded numbers with no time period"
+    },
+    {
+     "type": "p",
+     "text": "'About 10,000 reach' sounds unconvincing. Give exact numbers for a specific period - it looks more honest and more professional."
+    },
+    {
+     "type": "h3",
+     "text": "No ad pricing"
+    },
+    {
+     "type": "p",
+     "text": "If the price isn't listed, some brands won't bother writing to ask - they'll move on to the next blog on the list, where the price is visible right away."
+    }
+   ]
+  }
+ ],
+ "faq": [
+  {
+   "q": "Do I need a media kit if my audience is small?",
+   "a": "Yes, a media kit is worth having at any audience size - brands increasingly choose bloggers with small audiences for engagement, not just reach, and you can't show that without numbers."
+  },
+  {
+   "q": "How often should I update the media kit?",
+   "a": "Every 3-6 months, or right after a noticeable audience jump and new successful collaborations."
+  },
+  {
+   "q": "Can I leave out exact audience numbers?",
+   "a": "You can, but it lowers trust. Brands verify numbers through the platform's stats, so rounding them beyond recognition looks suspicious."
+  },
+  {
+   "q": "What format should a media kit be in?",
+   "a": "Most often it's a 1-3 page PDF or a link to an online page. The format depends on which is easier for the brand to forward within their team."
+  },
+  {
+   "q": "Can AI write the whole media kit without my data?",
+   "a": "No, without real numbers and facts the text comes out generic and won't reflect your blog. AI formats and structures what you give it, it doesn't invent numbers for you."
+  }
+ ]
+}
