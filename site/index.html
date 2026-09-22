@@ -11,21 +11,20 @@
         for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
         k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
     })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112136771', 'ym');
-
     ym(112136771, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/112136771" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Залихват — контент для блога, пока малыш спит</title>
-<meta name="description" content="Готовые идеи, посты, сторис, сценарии и карусели для блога за 5 минут. Без камеры и монтажа, с твоей личностью. Для тех, кто хочет вести блог, но катастрофически не хватает времени.">
+<title>Саша Аксенов - продукты и проекты на нейросетях</title>
+<meta name="description" content="Обо мне, контент-машина Залихват, гайды по нейросетям и Тусовка брендов - всё в одном месте. Product-менеджер и автор продуктов на AI.">
 <link rel="canonical" href="https://aksalex.com/">
 <link rel="alternate" hreflang="ru" href="https://aksalex.com/">
 <link rel="alternate" hreflang="en" href="https://aksalex.com/en/">
 <link rel="alternate" hreflang="x-default" href="https://aksalex.com/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Залихват — контент для блога, пока малыш спит">
-<meta property="og:description" content="За 5 минут готовые идеи, посты, сторис, сценарии и карусели под твою тему и с твоей личностью. Копируй и публикуй.">
+<meta property="og:title" content="Саша Аксенов - продукты на нейросетях">
+<meta property="og:description" content="Обо мне, Залихват, гайды и Тусовка брендов - всё в одном месте.">
 <meta property="og:image" content="https://aksalex.com/face1.jpg">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -39,38 +38,31 @@
   :root{
     --paper:#faf5ec; --paper2:#fffdf8; --ink:#151210;
     --coral:#ff7f50; --coral-deep:#e85f2c; --coral-soft:#ffe6d8;
-    --muted:#7b7168; --line:#151210;
-    --maxw:1080px;
+    --muted:#7b7168; --line:#151210; --maxw:1080px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-  body{
-    background:var(--paper); color:var(--ink);
-    font-family:"Nunito",system-ui,-apple-system,sans-serif; font-weight:600;
-    line-height:1.55; overflow-x:hidden; position:relative;
-  }
+  body{background:var(--paper);color:var(--ink);
+    font-family:"Nunito",system-ui,-apple-system,sans-serif;font-weight:600;
+    line-height:1.55;overflow-x:hidden;position:relative;min-height:100vh;display:flex;flex-direction:column}
   body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
     background-image:radial-gradient(rgba(255,127,80,.16) 1.1px, transparent 1.2px);background-size:16px 16px}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;position:relative;z-index:1}
-  .narrow{max-width:760px;margin-left:auto;margin-right:auto}
-
-  h1,h2,h3,h4,.display{font-family:"Oswald",sans-serif;text-transform:uppercase;line-height:.98;font-weight:700;letter-spacing:.01em}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;position:relative;z-index:1;width:100%}
+  h1,h2,h3,h4{font-family:"Oswald",sans-serif;text-transform:uppercase;line-height:.98;font-weight:700;letter-spacing:.01em}
   .eyebrow{font-family:"Oswald";font-weight:600;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral-deep)}
   em{font-style:normal;color:var(--coral)}
 
   /* nav */
-  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);
-    border-bottom:2px solid var(--ink)}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink)}
   .nav .in{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
-  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .brand{display:inline-flex;align-items:center;gap:10px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
+  .brand img{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
   .navlinks{display:flex;gap:18px;align-items:center}
   .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
   .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
   .langsw{display:inline-flex;border:2px solid var(--ink);border-radius:9px;overflow:hidden}
   .langsw a{padding:5px 9px;font-family:"Oswald";font-weight:700;font-size:12px;letter-spacing:.04em;color:var(--muted);text-decoration:none;background:var(--paper2)}
   .langsw a.on{background:var(--ink);color:var(--paper)}
-  @media(max-width:759px){.navlinks .langsw{display:inline-flex}.navlinks .langsw a{display:inline-block}}
   .nav .navcta{display:inline-flex}
   .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:46px;height:40px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:11px;box-shadow:2px 2px 0 var(--ink);cursor:pointer;padding:0 11px;flex:none;transition:box-shadow .1s,transform .1s}
   .burger:active{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--ink)}
@@ -79,296 +71,88 @@
   .nav.open .burger span:nth-child(2){opacity:0}
   .nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
   @keyframes navdrop{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
-  @media (max-width:759px){
-    .nav .in{padding:11px 16px;position:relative}.brand{font-size:14px}.brand img{width:28px;height:28px}
+  @media (max-width:820px){
+    .nav .in{padding:11px 16px;position:relative}.brand{font-size:14px}.brand img{width:30px;height:30px}
     .burger{display:flex}
-    .navlinks{position:absolute;top:calc(100% + 10px);right:0;flex-direction:column;align-items:stretch;gap:5px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);padding:12px;min-width:216px;display:none;z-index:60}
+    .navlinks{position:absolute;top:calc(100% + 10px);right:0;flex-direction:column;align-items:stretch;gap:5px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);padding:12px;min-width:224px;display:none;z-index:60}
     .nav.open .navlinks{display:flex;animation:navdrop .18s ease}
     .navlinks a:not(.btn){display:block;font-size:13.5px;padding:9px 11px;border-radius:9px;color:var(--ink)}
     .navlinks a:not(.btn):hover{background:var(--coral-soft);color:var(--coral-deep);text-shadow:none}
     .navlinks .langsw{align-self:flex-start;margin:5px 0 2px 9px}
-    .navlinks .langsw a{padding:5px 9px;font-size:12px;color:var(--muted);background:var(--paper2);border-radius:0}
-    .navlinks .langsw a.on{background:var(--ink);color:var(--paper)}
     .nav .navcta{width:100%;padding:11px;font-size:13px;min-height:46px;margin-top:5px}}
 
   /* buttons */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.03em;
-    border:3px solid var(--ink);border-radius:14px;text-decoration:none;cursor:pointer;
-    transition:transform .05s ease, box-shadow .05s ease;padding:13px 22px;min-height:54px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.03em;border:3px solid var(--ink);border-radius:14px;text-decoration:none;cursor:pointer;transition:transform .05s ease, box-shadow .05s ease;padding:13px 22px;min-height:54px}
   .btn.sm{min-height:42px;padding:8px 16px;font-size:13px;border-width:2.5px;border-radius:11px}
   .btn:active{transform:translate(3px,3px)}
   .btn-primary{background:var(--coral);color:var(--paper);box-shadow:6px 6px 0 var(--ink)}
   .btn-primary:active{box-shadow:2px 2px 0 var(--ink)}
-  .btn-ghost{background:var(--paper2);color:var(--ink);box-shadow:6px 6px 0 var(--ink)}
-  .btn-ghost:active{box-shadow:2px 2px 0 var(--ink)}
-  .btn-ink{background:var(--ink);color:var(--paper);box-shadow:6px 6px 0 var(--coral)}
-  .btn-ink:active{box-shadow:2px 2px 0 var(--coral)}
   .btn.sm.btn-primary{box-shadow:3px 3px 0 var(--ink)}
   .btn.sm.btn-primary:active{box-shadow:1px 1px 0 var(--ink)}
 
-  section{padding:54px 0 6px}
-  .sec-h{text-align:center;margin-bottom:30px}
-  .sec-h h2{font-size:34px}
-  .sec-h .eyebrow{margin-bottom:8px;display:block}
-  .sec-sub{color:#4a443d;font-size:16px;max-width:52ch;margin:10px auto 0}
-  /* RESULTS - скрины статистики */
-  .results{display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;max-width:900px;margin:0 auto}
-  .results img{display:block;border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--coral);background:#fff}
-  .res-strips{display:flex;flex-direction:column;gap:16px;flex:0 1 348px;min-width:260px;padding-left:44px;position:relative}
-  .res-strips img{width:100%;height:auto}
-  .res-growth{position:relative;display:flex;flex-direction:column;gap:16px}
-  .growth-arrow{position:absolute;left:-60px;top:50%;transform:translateY(-50%) rotate(-12deg);width:64px;height:188px;overflow:visible;pointer-events:none}
-  .growth-arrow path{fill:none;stroke:var(--coral);stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
-  .res-phone{width:206px;height:auto}
-  @media(max-width:760px){.results{gap:12px}.res-strips{flex:1 1 100%;order:-1}.res-phone{width:46%;min-width:150px}}
+  /* hero */
+  .hub-hero{text-align:center;padding:52px 0 30px;position:relative}
+  .author-chip{display:inline-flex;align-items:center;gap:9px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:100px;padding:6px 16px 6px 6px;box-shadow:4px 4px 0 var(--ink);margin-bottom:20px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:.04em}
+  .author-chip img{width:34px;height:34px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .hub-hero .eyebrow{display:block;margin-bottom:12px}
+  .hub-hero h1{font-size:clamp(40px,8.5vw,74px)}
+  .hub-hero .sub{max-width:54ch;margin:16px auto 0;color:#4a443d;font-size:17px;font-weight:600}
 
-  /* HERO */
-  .hero{text-align:center;padding:40px 0 8px;position:relative}
-  .doodle{position:absolute;color:var(--coral);z-index:0;font-family:"Oswald";font-weight:700;pointer-events:none}
-  .face{
-    width:158px;height:158px;border-radius:50%;margin:0 auto 22px;position:relative;
-    border:4px solid var(--ink);box-shadow:7px 7px 0 var(--ink);
-    background:radial-gradient(circle at 50% 38%, var(--coral-soft), var(--coral) 120%);
-    overflow:hidden}
-  .face img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
-  .face::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px dashed rgba(21,18,16,.25)}
-  .hero .eyebrow{margin-bottom:14px}
-  .herologo{max-width:470px;margin:0 auto 12px}
-  .herologo svg{width:100%;height:auto;display:block}
-  .byline{display:inline-flex;align-items:center;gap:8px;margin:0 auto 20px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.08em;color:var(--muted)}
-  .byline img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 18%;box-shadow:2px 2px 0 var(--ink)}
-  .author-float{position:absolute;top:30px;left:0;z-index:4;display:flex;flex-direction:column;align-items:center;gap:8px;transform:rotate(-5deg)}
-  .author-float img{width:104px;height:104px;border-radius:50%;border:4px solid var(--ink);box-shadow:6px 6px 0 var(--coral);object-fit:cover;object-position:50% 20%;display:block;background:var(--coral-soft)}
-  .author-float span{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.05em;color:var(--muted);background:var(--paper2);border:2px solid var(--ink);border-radius:999px;padding:3px 9px;box-shadow:2px 2px 0 var(--ink)}
-  .topbrow{margin-bottom:12px}
-  @media(max-width:900px){.author-float{position:static;transform:none;flex-direction:row;gap:8px;justify-content:center;margin:0 auto 14px}.author-float img{width:56px;height:56px;box-shadow:3px 3px 0 var(--coral);border-width:3px}.author-float span{font-size:11px}}
-  h1.title{font-size:clamp(33px,9.2vw,48px);letter-spacing:.005em;margin:0 auto 16px;max-width:15ch;text-wrap:balance;overflow-wrap:break-word}
-  .hero .lead{font-size:18px;color:#332e29;max-width:46ch;margin:0 auto 26px;font-weight:700}
-  .hero-q{max-width:600px;margin:0 auto 18px;font-family:"Nunito";font-weight:800;font-size:21px;line-height:1.42;color:var(--ink)}
-  .hero-q em{color:var(--coral);font-style:normal}
-  .hero-a{max-width:640px;margin:0 auto 26px;background:var(--paper2);border:3px solid var(--ink);border-radius:18px;box-shadow:7px 7px 0 var(--coral);padding:20px 22px;text-align:left}
-  .hero-a p{font-size:16px;line-height:1.55;color:#332e29;font-weight:600;margin-bottom:11px}
-  .hero-a p:last-child{margin-bottom:0}
-  .hero-a .ha-lead{font-weight:800;font-size:17.5px;color:var(--ink)}
-  .hero-a .ha-lead b{color:var(--coral-deep)}
-  .hero-a em{color:var(--coral-deep);font-style:normal;font-weight:800}
-  .hero-cta{display:flex;flex-direction:column;gap:12px;max-width:460px;margin:0 auto 22px}
-  .hero-cta .btn{width:100%}
-  .trust{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px;margin:0 auto}
-  .chip{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:11.5px;letter-spacing:.05em;
-    color:var(--ink);background:var(--paper2);border:2px solid var(--ink);border-radius:999px;padding:6px 13px;box-shadow:2px 2px 0 var(--ink)}
-  .chip b{color:var(--coral-deep)}
-  .timesave{display:inline-flex;align-items:center;gap:8px;margin:4px auto 0;background:var(--paper2);border:2.5px solid var(--ink);border-radius:999px;box-shadow:3px 3px 0 var(--ink);padding:8px 18px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:13px;letter-spacing:.03em;color:var(--ink)}
-  .timesave s{color:var(--muted);text-decoration-thickness:2px}
-  .timesave b{color:var(--coral-deep);font-size:16px;font-weight:700}
+  /* hub grid */
+  .hub{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:920px;margin:8px auto 0;padding-bottom:8px}
+  .hcard{position:relative;display:flex;flex-direction:column;gap:12px;background:var(--paper2);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);padding:26px 26px 24px;text-decoration:none;color:var(--ink);transition:transform .09s ease,box-shadow .09s ease}
+  .hcard:hover{transform:translate(-2px,-2px);box-shadow:11px 11px 0 var(--ink)}
+  .hcard:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
+  .hcard.c-coral{box-shadow:8px 8px 0 var(--coral)}
+  .hcard.c-coral:hover{box-shadow:11px 11px 0 var(--coral)}
+  .hcard.c-coral:active{box-shadow:3px 3px 0 var(--coral)}
+  .hnum{position:absolute;top:20px;right:24px;font-family:"Oswald";font-weight:700;font-size:15px;color:#cfc4b6}
+  .hbadge{width:58px;height:58px;border-radius:16px;display:flex;align-items:center;justify-content:center;border:2.5px solid var(--ink);background:var(--coral-soft);flex:none}
+  .hbadge svg{width:30px;height:30px}
+  .htag{display:inline-flex;align-self:flex-start;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.14em;color:var(--coral-deep);background:var(--coral-soft);border-radius:100px;padding:4px 12px}
+  .hcard h3{font-size:26px;line-height:1.02}
+  .hcard p{font-weight:600;color:#4a443d;font-size:15.5px;line-height:1.5}
+  .hcard .go{margin-top:auto;padding-top:4px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.05em;color:var(--coral-deep);display:inline-flex;align-items:center;gap:7px}
+  .hcard:hover .go{gap:11px}
 
-  /* PAIN */
-  .pains{display:grid;grid-template-columns:1fr;gap:14px}
-  .pain{display:flex;gap:13px;align-items:flex-start;background:var(--paper2);border:3px solid var(--ink);
-    border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:16px 18px}
-  .pain .x{flex:none;width:48px;height:48px;border-radius:13px;background:var(--coral);border:2.5px solid var(--ink);
-    box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center}
-  .pain p{font-size:15.5px;color:#332e29;margin:0}
-  .pain-note{text-align:center;margin-top:24px;font-family:"Oswald";font-weight:700;text-transform:uppercase;
-    font-size:19px;letter-spacing:.01em;color:var(--ink)}
-  .pain-note em{color:var(--coral)}
+  /* footer */
+  footer{border-top:2px solid var(--ink);margin-top:44px;padding:34px 0 60px;text-align:center;position:relative;z-index:1}
+  footer .fbrand{display:inline-flex;margin-bottom:14px}
+  .fmenu{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-bottom:18px}
+  .fnote{font-size:13px;color:var(--muted);font-weight:600}
 
-  /* STEPS */
-  .steps{display:grid;grid-template-columns:1fr;gap:18px;counter-reset:s}
-  .step{background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:7px 7px 0 var(--ink);padding:24px 22px;position:relative}
-  .step .num{counter-increment:s;width:48px;height:48px;border-radius:13px;background:var(--coral);color:var(--paper);
-    border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-family:"Oswald";font-weight:700;font-size:23px;
-    display:grid;place-items:center;margin-bottom:14px}
-  .step .num::before{content:counter(s)}
-  .step h3{font-size:21px;margin-bottom:8px}
-  .step p{font-size:15px;color:#4a443d}
-
-  /* PRODUCTS */
-  .cards{display:grid;grid-template-columns:1fr;gap:20px;align-items:start}
-  .card{background:var(--paper2);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);padding:24px 22px;position:relative;display:flex;flex-direction:column;height:100%}
-  .card.feat{background:var(--coral-soft);box-shadow:8px 8px 0 var(--coral-deep)}
-.machine{background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:26px;box-shadow:10px 10px 0 var(--coral);padding:36px 30px;text-align:center;position:relative;overflow:hidden}
-.machine .eyebrow{color:var(--coral)}
-.machine h2{font-size:clamp(26px,5.2vw,42px);line-height:1.03;margin:8px 0 12px;color:var(--ink)}
-.machine em{color:var(--coral);font-style:normal}
-.machine .mlead{color:#4a443d;font-size:17px;max-width:660px;margin:0 auto 18px}
-.machine .mfresh{max-width:660px;margin:0 auto 18px;font-size:15px;line-height:1.5;color:#4a443d;background:var(--coral-soft);border:2px solid var(--coral);border-radius:14px;padding:12px 18px}
-.machine .mfresh b{color:var(--coral)}
-.machine .mfeat{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:22px}
-.machine .mfeat span{background:var(--paper2);border:2px solid var(--coral);border-radius:999px;padding:6px 14px;font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--ink)}
-.machine .mprice{color:var(--coral);font-family:"Oswald";font-weight:700;display:inline-flex;align-items:baseline;gap:7px;margin-bottom:18px}
-.machine .mprice .amt{font-size:34px;line-height:1}
-.machine .mprice .per{color:var(--muted);font-size:15px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.machine .mcta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.machine .mplans{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:660px;margin:4px auto 0;text-align:left}
-.mplan{background:var(--paper2);color:var(--ink);border:3px solid var(--ink);border-radius:18px;padding:22px 20px;box-shadow:6px 6px 0 rgba(0,0,0,.3);position:relative;display:flex;flex-direction:column}
-.mplan.mp-pro{border-color:var(--coral);box-shadow:6px 6px 0 var(--coral)}
-.mp-badge{position:absolute;top:-13px;right:16px;background:var(--coral);color:var(--paper);border:2.5px solid var(--ink);border-radius:999px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.06em;padding:3px 12px}
-.mp-name{font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:15px;color:var(--muted)}
-.mp-price{font-family:"Oswald";font-weight:700;display:flex;align-items:baseline;gap:5px;margin:2px 0 14px}
-.mp-price .amt{font-size:38px;line-height:1;color:var(--coral-deep)}
-.mp-price svg{color:var(--coral-deep);width:.8em;height:.8em}
-.mp-price .per{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;font-weight:600}
-.mp-list{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:8px}
-.mp-list li{position:relative;padding-left:23px;font-size:14px;font-weight:600;color:#2c2621;line-height:1.35}
-.mp-list li::before{content:"";position:absolute;left:0;top:5px;width:12px;height:12px;border-radius:50%;background:var(--coral);border:2px solid var(--ink)}
-.mplan .btn{margin-top:auto;width:100%;text-align:center}
-.machine .mhint{margin:16px 0 0}
-.machine .mhint a{color:var(--muted);font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12px;letter-spacing:.05em;text-decoration:none}
-.machine .mhint a:hover{color:var(--coral)}
-@media(max-width:560px){.machine .mplans{grid-template-columns:1fr}}
-  .card .tags{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-  .tag{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.06em;
-    padding:5px 12px;border-radius:999px;border:2px solid var(--ink)}
-  .tag-free{background:var(--coral);color:var(--paper)}
-  .tag-paid{background:var(--ink);color:var(--paper)}
-  .tag-hit{background:var(--paper);color:var(--coral-deep)}
-  .tag-emoji{font-size:26px;margin-left:auto}
-  .card h3{font-size:23px;margin:2px 0 8px;text-wrap:balance}
-  .card .desc{font-size:14.5px;color:#4a443d;margin-bottom:14px}
-  .card ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin:0 0 20px}
-  .card li{position:relative;padding-left:24px;font-size:14px;color:#4a443d}
-  .card li::before{content:"";position:absolute;left:0;top:6px;width:10px;height:10px;border-radius:2px;background:var(--coral);border:2px solid var(--ink);transform:rotate(45deg)}
-  .card .btn{margin-top:auto;width:100%}
-
-  /* OUTCOMES */
-  .out{display:grid;grid-template-columns:1fr;gap:14px}
-  .orow{display:flex;gap:14px;align-items:center;background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:16px 18px}
-  .orow .ic{flex:none;width:42px;height:42px;border-radius:11px;background:var(--coral);color:var(--paper);border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:grid;place-items:center;font-size:20px}
-  .orow p{font-size:15px;color:#332e29;margin:0}
-  .orow p b{color:var(--coral-deep)}
-
-  /* ABOUT */
-  .about{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:24px;box-shadow:9px 9px 0 var(--coral);padding:30px 26px}
-  .about-head{display:flex;align-items:center;gap:16px;margin-bottom:16px}
-  .about .mini{flex:none;width:88px;height:88px;border-radius:50%;border:3px solid var(--paper);box-shadow:4px 4px 0 var(--coral);overflow:hidden}
-  .about .mini img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block}
-  .about-head .eyebrow{color:var(--coral);margin-bottom:4px;display:block}
-  .about-head h3{font-size:28px;color:var(--paper)}
-  .about p{font-size:15px;color:#e9e2d6;margin-bottom:12px}
-  .about p:last-child{margin-bottom:0}
-  .about .join{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:17px;letter-spacing:.02em;color:var(--coral)}
-
-  /* FAQ */
-  .faq{display:flex;flex-direction:column;gap:12px}
-  details{background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);padding:4px 20px;overflow:hidden}
-  details summary{list-style:none;cursor:pointer;padding:16px 0;font-family:"Oswald";font-weight:700;text-transform:uppercase;
-    font-size:16px;letter-spacing:.01em;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:14px}
-  details summary::-webkit-details-marker{display:none}
-  details summary::after{content:"+";font-size:26px;color:var(--coral-deep);font-weight:700;line-height:1}
-  details[open] summary::after{content:"–"}
-  details .a{padding:0 0 18px;font-size:15px;color:#4a443d;font-weight:600}
-
-  /* FINAL CTA */
-  .final{background:var(--coral);border:3px solid var(--ink);border-radius:26px;box-shadow:10px 10px 0 var(--ink);
-    text-align:center;padding:46px 28px;margin-top:10px}
-  .final h2{font-size:36px;color:var(--paper);-webkit-text-stroke:2px var(--ink);text-shadow:4px 4px 0 var(--ink);margin-bottom:12px;text-wrap:balance}
-  .final p{color:#2a1a12;font-size:16px;font-weight:800;max-width:40ch;margin:0 auto 24px}
-  .final .fcta{display:flex;flex-direction:column;gap:12px;max-width:420px;margin:0 auto}
-  .final .fcta .btn{width:100%}
-
-  /* FOOTER */
-  footer{margin:44px 0 60px;text-align:center;border-top:2px solid var(--ink);padding-top:28px}
-  .fbrand{justify-content:center;margin-bottom:16px}
-  .fmenu{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 22px;margin-bottom:18px}
-  .flinks{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:520px;margin:0 auto 20px}
-  .fnote{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
-  @media (max-width:600px){.fnote{white-space:normal}}
-  .fnote b{color:var(--coral-deep)}
-
-  /* desktop */
-  @media (min-width:760px){
-    .nav .navcta{display:inline-flex}
-    h1.title{font-size:64px}
-    .hero .lead{font-size:20px}
-    .hero-cta{flex-direction:row;max-width:none;justify-content:center}
-    .hero-cta .btn{width:auto}
-    .sec-h h2{font-size:42px}
-    .pains{grid-template-columns:1fr 1fr}
-    .steps{grid-template-columns:repeat(3,1fr)}
-    .cards{grid-template-columns:repeat(3,1fr)}
-    .out{grid-template-columns:1fr 1fr}
-  .out .orow:last-child{grid-column:1 / -1}
-    .final h2{font-size:48px}
-    .about{padding:38px 40px}
-    .about-head .mini{width:104px;height:104px}
+  @media(max-width:759px){
+    .hub-hero{padding:36px 0 22px}
+    .hub{grid-template-columns:1fr;gap:16px}
+    .hcard{padding:20px;border-radius:18px;box-shadow:6px 6px 0 var(--ink)}
+    .hcard.c-coral{box-shadow:6px 6px 0 var(--coral)}
+    .hcard h3{font-size:22px}
+    .hbadge{width:52px;height:52px}
+    .hnum{top:16px;right:18px}
+    .fmenu{gap:12px}
   }
-  @media (min-width:760px){
-    .doodle.d1{top:40px;left:8%;font-size:34px}
-    .doodle.d2{top:120px;right:9%;font-size:26px;color:var(--ink)}
-  }
-
-  /* button hover: sticker pop */
-  .btn{transition:transform .13s ease, box-shadow .13s ease, background .13s ease, color .13s ease}
-  .btn-primary:hover,.btn-ghost:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 var(--ink)}
-  .btn-ink:hover{transform:translate(-2px,-2px);box-shadow:9px 9px 0 var(--coral)}
-  .btn-ghost:hover{background:var(--coral);color:var(--paper)}
-  .btn.sm.btn-primary:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px)}
-  .btn-primary:active,.btn-ghost:active{box-shadow:2px 2px 0 var(--ink)}
-  .btn-ink:active{box-shadow:2px 2px 0 var(--coral)}
-  .btn.sm.btn-primary:active{box-shadow:1px 1px 0 var(--ink)}
-  @media (hover:none){
-    .btn-primary:hover,.btn-ghost:hover,.btn-ink:hover,.btn.sm.btn-primary:hover{transform:none}
-    .btn-ghost:hover{background:var(--paper2);color:var(--ink)}
-  }
-
-  /* icons */
-  .icon{display:inline-block;vertical-align:-0.15em;flex:none;width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .icon.fill{fill:currentColor;stroke:none}
-  .x{color:var(--paper)}
-  .x .icon{width:27px;height:27px;stroke-width:2.3}
-  .ic .icon{width:24px;height:24px;stroke-width:2.2}
-  .tag-emoji{color:var(--coral-deep)}
-  .tag-emoji .icon{width:26px;height:26px}
-  .tag .icon.star{width:.95em;height:.95em;margin-left:2px;vertical-align:-0.12em}
-  .btn .icon{width:1.15em;height:1.15em}
-  .final .btn .icon{width:1.25em;height:1.25em}
-
-  /* floaters - сердечки и звёздочки, парят при скролле */
-  .floaters{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:hidden}
-  .floater{position:absolute;will-change:transform}
-  .floater .fl-in{display:block;animation:flbob var(--d,7s) ease-in-out infinite;animation-delay:var(--dl,0s)}
-  .floater svg{display:block}
-  @keyframes flbob{0%,100%{transform:translate(0,0) rotate(var(--r,0deg))}25%{transform:translate(7px,-18px) rotate(calc(var(--r,0deg) + 7deg))}50%{transform:translate(-6px,-34px) rotate(calc(var(--r,0deg) + 14deg))}75%{transform:translate(-9px,-16px) rotate(calc(var(--r,0deg) - 5deg))}}
-  @media (prefers-reduced-motion:reduce){.floater .fl-in{animation:none}}
 </style>
 </head>
 <body>
 
-<div class="floaters" id="floaters" aria-hidden="true"></div>
-
-<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute;overflow:hidden">
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
 <defs>
-<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4 6.2 6.2 0 0 0 20 14.5Z"/></symbol>
-<symbol id="i-trend-down" viewBox="0 0 24 24"><polyline points="3 7 10 14 13 11 21 18"/><polyline points="21 13 21 18 16 18"/></symbol>
-<symbol id="i-calendar-x" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4M10.5 13l3 3M13.5 13l-3 3"/></symbol>
-<symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.3 9.2a2.8 2.8 0 0 1 5.4 1c0 1.8-2.7 2.2-2.7 4"/><path d="M12 17.4v.1"/></symbol>
-<symbol id="i-rocket" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5"/><path d="M21 3 14.5 21 10.5 13.5 3 9.5 21 3Z"/></symbol>
-<symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2.5"/><path d="M8 3v18M16 3v18M3 12h18M3 7.5h5M3 16.5h5M16 7.5h5M16 16.5h5"/></symbol>
-<symbol id="i-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4.6"/><circle cx="12" cy="3.3" r="1.2"/><circle cx="9.4" cy="13.5" r="1.15"/><circle cx="14.6" cy="13.5" r="1.15"/><path d="M9.6 19v1.6M14.4 19v1.6"/></symbol>
-<symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 17.5h6M10 20.5h4"/><path d="M8.4 14.3a5.5 5.5 0 1 1 7.2 0c-.6.5-1.1 1.2-1.1 2.1v.1h-5v-.1c0-.9-.5-1.6-1.1-2.1Z"/></symbol>
-<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></symbol>
-<symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.1-2.1-.2-4 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.2.4-2.3 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></symbol>
-<symbol id="i-stopwatch" viewBox="0 0 24 24"><circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V9.6M10 2.5h4M12 4.3V2.5M18.4 7.1 19.9 5.6"/></symbol>
-<symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M4 10v4a1 1 0 0 0 1 1h2l5.5 3.6V5.4L7 9H5a1 1 0 0 0-1 1Z"/><path d="M16.5 9a4.5 4.5 0 0 1 0 6"/></symbol>
-<symbol id="i-book" viewBox="0 0 24 24"><path d="M5 5a2 2 0 0 1 2-2h12v15H7a2 2 0 0 0-2 2Z"/><path d="M19 18H7a2 2 0 0 0-2 2"/></symbol>
-<symbol id="i-camera" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8.5 7 10 4.5h4L15.5 7"/><circle cx="12" cy="13.5" r="3.4"/></symbol>
-<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.5 5.3 5.8.5-4.4 3.8 1.3 5.7L12 21.3 6.8 18.6l1.3-5.7L3.7 8.8l5.8-.5Z"/></symbol>
+<symbol id="g-user" viewBox="0 0 24 24" fill="none" stroke="#151210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 4-6.5 8-6.5s8 2.3 8 6.5"/></symbol>
+<symbol id="g-bot" viewBox="0 0 24 24" fill="none" stroke="#151210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4.6"/><circle cx="12" cy="3.3" r="1.2"/><circle cx="9.4" cy="13.5" r="1.15"/><circle cx="14.6" cy="13.5" r="1.15"/><path d="M9.6 19v1.6M14.4 19v1.6"/></symbol>
+<symbol id="g-book" viewBox="0 0 24 24" fill="none" stroke="#151210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5a2 2 0 0 1 2-2h12v15H7a2 2 0 0 0-2 2Z"/><path d="M19 18H7a2 2 0 0 0-2 2"/></symbol>
+<symbol id="g-grid" viewBox="0 0 24 24" fill="none" stroke="#151210" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></symbol>
 </defs>
 </svg>
 
 <nav class="nav">
   <div class="in">
-    <a class="brand" href="/"><svg viewBox="0 0 600 150" style="height:56px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
     <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
     <div class="navlinks">
-      <a class="party-link" href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
-      <a href="#machine">Машина</a>
-      <a href="#how">Как это работает</a>
+      <a href="/aboutme">Обо мне</a>
+      <a href="/zalihvat">Залихват</a>
       <a href="/guides/">Гайды</a>
-      <a href="#about">Кто я</a>
+      <a class="party-link" href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
       <a href="/blog/">Блог</a>
       <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
       <span class="langsw"><a href="/" class="on">RU</a><a href="/en/">EN</a></span>
@@ -379,297 +163,70 @@
 
 <div class="wrap">
 
-  <!-- HERO -->
-  <header class="hero">
-    <span class="doodle d1" style="top:20px;left:6px;font-size:26px">✦</span>
-    <span class="doodle d2" style="top:80px;right:4px;font-size:20px;color:var(--ink)">✱</span>
-    <div class="author-float"><img src="face1.jpg" alt="Саша Аксенов"><span>by Саша Аксенов</span></div>
-    <div class="eyebrow topbrow">Блог на автомате · без рутины</div>
-    <div class="herologo">
-      <svg viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Залихват">
-        <path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g>
-        <g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5">
-          <text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text>
-          <text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text>
-        </g>
-      </svg>
-    </div>
-    <h1 class="title">Контент за <em>5 минут</em></h1>
-    <p class="hero-q">Хочешь развивать блог, но <em>времени нет</em>? А всюду только и рассказывают, как использовать нейронки и что вбить в Claude?</p>
-    <div class="hero-a">
-      <p class="ha-lead">Я создал <b>Залихват</b>, чтобы забыть про подписки на нейросети, бесконечное копирование промптов, убрать рутину и просто <em>творить</em> контент.</p>
-      <p>В Залихвате собраны все самые свежие тренды и промпты от <em>лучших</em> российских и зарубежных блогеров.</p>
-      <p class="ha-cap">За <em>5 минут</em> у тебя идеи, виральные сценарии для рилз, хуки, посты, карусели, сториз - и всё в твоём неповторимом стиле.</p>
-    </div>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть Залихват →</a>
-      <a class="btn btn-ghost" href="#how">Как это работает</a>
-    </div>
-    <div class="timesave">Один пост <s>2 часа</s> → <b>5 минут</b></div>
+  <header class="hub-hero">
+    <span class="author-chip"><img src="/face1.jpg" alt="Саша Аксенов">by Саша Аксенов</span>
+    <span class="eyebrow">Нейросети · автоматизация · продукты</span>
+    <h1>Всё, что я <em>создаю</em></h1>
+    <p class="sub">Product-менеджер и автор продуктов на нейросетях. Собрал здесь всё в одном месте - выбирай, что интересно.</p>
   </header>
 
-  <!-- PAIN -->
-  <section id="pain">
-    <div class="sec-h">
-      <span class="eyebrow">Знакомо?</span>
-      <h2>2 часа делаешь рилз, а <em>он собирает 40 просмотров</em></h2>
-    </div>
-    <div class="pains narrow">
-      <div class="pain"><div class="x"><svg class="icon"><use href="#i-bulb"/></svg></div><p>Надо тратить время искать идеи и тренды.</p></div>
-      <div class="pain"><div class="x"><svg class="icon"><use href="#i-trend-down"/></svg></div><p>Каждый день трачу энергию на никому не нужный контент, как мне кажется.</p></div>
-      <div class="pain"><div class="x"><svg class="icon"><use href="#i-calendar-x"/></svg></div><p>Вокруг только «скачай промпт», «как запустить Claude». А я хочу ещё быстрее - по 1 кнопке!</p></div>
-      <div class="pain"><div class="x"><svg class="icon"><use href="#i-help"/></svg></div><p>Нейросети - сложно, а разбираться нет времени. Вообще!</p></div>
-    </div>
-    <p class="pain-note">Залихват берёт рутину на себя - <em>тебе остаётся снять и выложить</em>.</p>
-  </section>
+  <main class="hub">
 
-  <!-- RESULTS (доказательство) -->
-  <section id="results">
-    <div class="sec-h">
-      <span class="eyebrow">Результаты</span>
-      <h2>3 месяца <em>веду блог</em></h2>
-      <p class="sec-sub">По моей системе, на которой работает Залихват. И вот результаты:</p>
-    </div>
-    <div class="results">
-      <div class="res-strips">
-        <div class="res-growth">
-          <img src="/stat/5.jpg" width="720" height="243" alt="Было: 453 подписчика" loading="lazy">
-          <svg class="growth-arrow" viewBox="14 6 92 190" aria-hidden="true"><path d="M96 14 C 40 22, 34 74, 66 78 C 92 81, 84 40, 58 52 C 22 68, 20 156, 94 186"/><path transform="rotate(-20 94 186)" d="M94 186 L77 184 M94 186 L89 169"/></svg>
-          <img src="/stat/1.jpg" width="720" height="231" alt="Стало: 10,9 тыс. подписчиков" loading="lazy">
-        </div>
-        <img src="/stat/2.jpg" width="720" height="168" alt="Просмотры 2 млн, +901 подписчик" loading="lazy">
-      </div>
-      <img class="res-phone" src="/stat/3.jpg" width="640" height="1387" alt="Статистика: контент" loading="lazy">
-      <img class="res-phone" src="/stat/4.jpg" width="640" height="1387" alt="Статистика блога" loading="lazy">
-    </div>
-  </section>
+    <a class="hcard" href="/aboutme">
+      <span class="hnum">01</span>
+      <div class="hbadge"><svg><use href="#g-user"/></svg></div>
+      <span class="htag">Презентация</span>
+      <h3>Обо мне</h3>
+      <p>14+ лет в digital-продуктах, кейсы билайн и GrowFood, навыки, инструменты и подход к работе.</p>
+      <span class="go">Смотреть →</span>
+    </a>
 
-  <!-- HOW -->
-  <section id="how">
-    <div class="sec-h">
-      <span class="eyebrow">3 шага</span>
-      <h2>Как это <em>работает</em></h2>
-      <p class="sec-sub">От «ничего не сработает!» до эффективного блога - 3 шага.</p>
-    </div>
-    <div class="steps">
-      <div class="step"><div class="num"></div><h3>Заходишь в кабинет</h3><p>Регистрируйся и не забудь рассказать о себе и твоём блоге.</p></div>
-      <div class="step"><div class="num"></div><h3>Выбираешь формат</h3><p>Пост, сторис, карусель, Reels - что нужно прямо сейчас.</p></div>
-      <div class="step"><div class="num"></div><h3>Забираешь готовое</h3><p>Сценарии, посты и карусели за секунды - скачиваешь и публикуешь.</p></div>
-    </div>
-  </section>
+    <a class="hcard c-coral" href="/zalihvat">
+      <span class="hnum">02</span>
+      <div class="hbadge"><svg><use href="#g-bot"/></svg></div>
+      <span class="htag">Веб-приложение</span>
+      <h3>Контент-машина «Залихват»</h3>
+      <p>Идеи, посты, сторис, рилз и карусели для блога за 5 минут на AI - в твоём стиле, без камеры и монтажа.</p>
+      <span class="go">Открыть →</span>
+    </a>
 
-  <!-- MACHINE (веб-приложение, подписка) -->
-  <section id="machine">
-    <div class="machine">
-      <span class="eyebrow">Тарифы · подписка</span>
-      <h2>Залихват: <em>автоматическая</em> контент-машина</h2>
-      <p class="mlead">Залихват создан специально для тех, у кого нет времени на поиск идей, тренды, сценарии и оформление контента. Внутри уже встроены все самые свежие тренды и промпты от лучших российских и зарубежных блогеров. Тебе осталось только зарегистрироваться и нажать <em>Создать</em>!</p>
-      <p class="mfresh"><b>Все приёмы - максимально свежие.</b> Машина смотрит тренды прямо сейчас и работает по актуальным механикам виральности, а не по прошлогодним шаблонам.</p>
-      <div class="mfeat">
-        <span>Reels</span><span>Shorts</span><span>YouTube</span><span>TikTok</span><span>Карусель</span><span>Пост</span><span>Stories</span>
-      </div>
-      <div class="mplans">
-        <div class="mplan">
-          <div class="mp-name">Старт</div>
-          <div class="mp-price"><span class="amt">999</span><span class="per">₽ / мес</span></div>
-          <ul class="mp-list">
-            <li>До 5 тем и сценариев в день</li>
-            <li>7 форматов контента</li>
-            <li>Персонализация под твою тему блога и под тебя как автора</li>
-          </ul>
-          <a class="btn btn-ghost" href="https://app.aksalex.com" target="_blank" rel="noopener">Начать со Старта →</a>
-        </div>
-        <div class="mplan mp-pro">
-          <div class="mp-badge">Хит</div>
-          <div class="mp-name">Pro</div>
-          <div class="mp-price"><span class="amt">2499</span><span class="per">₽ / мес</span></div>
-          <ul class="mp-list">
-            <li>До 20 тем и сценариев в день</li>
-            <li>Создание карусели + шаблоны дизайна</li>
-            <li>Создание поста + шаблоны дизайна</li>
-            <li>Все платформы + Stories от лица автора</li>
-            <li>Загрузка своих материалов</li>
-            <li>Приоритетная скорость</li>
-          </ul>
-          <a class="btn btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Взять Pro →</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    <a class="hcard" href="/guides/">
+      <span class="hnum">03</span>
+      <div class="hbadge"><svg><use href="#g-book"/></svg></div>
+      <span class="htag">Обучение</span>
+      <h3>Гайды</h3>
+      <p>Пошаговые продукты и гайды по нейросетям для блога, работы и жизни - от простого к сложному.</p>
+      <span class="go">Открыть →</span>
+    </a>
 
-  <!-- BRAND PARTY -->
-  <section id="party">
-    <div class="machine">
-      <span class="eyebrow">Новое · пиксельный холст</span>
-      <h2><em>Тусовка</em> брендов</h2>
-      <p class="mlead">Общий холст, где все бренды стоят рядом. Занимаешь место, ставишь свой логотип со ссылкой - и он на холсте который видят все. Повышает узнаваемость и дает трафик!</p>
-      <div class="mfeat">
-        <span>Свой логотип</span><span>Ссылка на сайт</span><span>Место 10×10</span><span>Виден всем</span>
-      </div>
-      <div style="margin-top:10px">
-        <a class="btn btn-primary" href="https://brands.aksalex.com" target="_blank" rel="noopener">Зайти в тусовку →</a>
-      </div>
-    </div>
-  </section>
+    <a class="hcard c-coral" href="https://brands.aksalex.com" target="_blank" rel="noopener">
+      <span class="hnum">04</span>
+      <div class="hbadge"><svg><use href="#g-grid"/></svg></div>
+      <span class="htag">Тусовка брендов</span>
+      <h3>Тусовка брендов</h3>
+      <p>Общий холст, где бренды ставят логотипы рядом - узнаваемость и трафик. Займи своё место.</p>
+      <span class="go">Зайти →</span>
+    </a>
 
-  <!-- PRODUCTS -->
-  <section id="guides">
-    <div class="sec-h">
-      <span class="eyebrow">Если хочется разобраться самостоятельно</span>
-      <h2><em>Гайды</em></h2>
-    </div>
-    <div class="narrow" style="text-align:center">
-      <p class="lead" style="margin-bottom:22px">Разборы, готовые форматы рилзов и профи-промпты для блога - скачал и применил. Один гайд бесплатный, остальные - недорогие мини-продукты 99-399 ₽.</p>
-      <a class="btn btn-primary" href="/guides/">Смотреть все гайды →</a>
-    </div>
-  </section>
-
-  <!-- OUTCOMES -->
-  <section id="outcomes">
-    <div class="sec-h">
-      <span class="eyebrow">Твой результат</span>
-      <h2>Что ты <em>получишь</em></h2>
-    </div>
-    <div class="out narrow">
-      <div class="orow"><div class="ic"><svg class="icon"><use href="#i-bulb"/></svg></div><p><b>Рабочая система ведения блога</b> - за минимум времени.</p></div>
-      <div class="orow"><div class="ic"><svg class="icon"><use href="#i-target"/></svg></div><p><b>Контент, за который не стыдно</b> - с твоим видением и профессионализмом Залихвата.</p></div>
-      <div class="orow"><div class="ic"><svg class="icon"><use href="#i-flame"/></svg></div><p><b>Регулярность и мотивация</b> - с готовыми темами и 5 минутами в день меньше вероятность забросить блог.</p></div>
-      <div class="orow"><div class="ic"><svg class="icon"><use href="#i-stopwatch"/></svg></div><p><b>Твоё имя и твои деньги</b> - блог про тебя и твои увлечения, который принесёт тебе деньги.</p></div>
-      <div class="orow"><div class="ic"><svg class="icon"><use href="#i-flame"/></svg></div><p><b>Всегда свежие приёмы</b> - Залихват ежедневно ищет тренды и актуальные механики виральности.</p></div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about narrow">
-      <div class="about-head">
-        <div class="mini"><img src="face1.jpg" alt="Саша Аксенов"></div>
-        <div><span class="eyebrow">Кто я</span><h3>Саша Аксенов</h3></div>
-      </div>
-      <p>У меня 2 дочки, 2 работы и я очень вовлечённый отец. Я 14+ лет в маркетинге и развитии продуктов: ищу точки роста и среди первых начал использовать нейросети. Развивал маркетинг в клинике по пересадке волос Real Trans Hair, автоматизировал валидацию и прототипирование продуктовых гипотез в билайн.</p>
-      <p>Сейчас веду блог, читаю лекции, занимаюсь автоматизацией и нейросетями. Чтобы экономить время на рутине в ведении блога, я создал систему Залихват, по которой и сам веду свой блог.</p>
-      <p class="join">Присоединяйся - вместе мы достигнем невероятных высот!</p>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="sec-h">
-      <span class="eyebrow">Вопросы</span>
-      <h2>Коротко о <em>главном</em></h2>
-    </div>
-    <div class="faq narrow">
-      <details open>
-        <summary>Нужно ли уметь программировать?</summary>
-        <div class="a">Нет. Всё с телефона, первый готовый пост - за 5 минут, никаких промптов и технических настроек.</div>
-      </details>
-      <details>
-        <summary>Получится безликий AI-текст?</summary>
-        <div class="a">Нет. Залихват понимает твою личность по твоим же текстам и пишет так, как пишешь ты - живо, по-человечески.</div>
-      </details>
-      <details>
-        <summary>У меня маленький блог, мне подойдёт?</summary>
-        <div class="a">Да. Залихват как раз для старта и для тех, у кого мало времени - набрать обороты и не выгореть.</div>
-      </details>
-      <details>
-        <summary>Сколько это стоит?</summary>
-        <div class="a">Подписка от 999 ₽/мес - меньше пары кофе или часа няни. Хочешь сначала попробовать - есть бесплатный гайд, а мини-продукты стоят 99 и 399 ₽.</div>
-      </details>
-      <details>
-        <summary>Сколько времени займёт?</summary>
-        <div class="a">Регистрация - 10 секунд. Первый готовый контент - за 5 минут.</div>
-      </details>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section id="cta">
-    <div class="final">
-      <h2>Собери первый пост за 5 минут</h2>
-      <p>Собери первый пост в Залихвате, пока есть пара минут. А в канале - идеи и разборы по блогу, нейросетям и автоматизации, если мало времени.</p>
-      <div class="fcta">
-        <a class="btn btn-ink" href="https://app.aksalex.com" target="_blank" rel="noopener"><svg class="icon"><use href="#i-bot"/></svg> Открыть Залихват →</a>
-        <a class="btn btn-ghost" href="https://t.me/zalihvat_ai" target="_blank" rel="noopener"><svg class="icon"><use href="#i-megaphone"/></svg> Подписаться на канал</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <a class="brand fbrand" href="/"><svg viewBox="0 0 600 150" style="height:60px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M95 36 L140 75 L95 114" fill="none" stroke="#151210" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/><g transform="translate(80,75) rotate(-90) scale(0.75)"><path d="M0,40 C -22,15 -44,2 -44,-16 C -44,-34 -22,-40 -8,-26 C -3,-21 0,-15 0,-10 C 0,-15 3,-21 8,-26 C 22,-40 44,-34 44,-16 C 44,2 22,15 0,40 Z" fill="#ff7f50" stroke="#151210" stroke-width="3" stroke-linejoin="round"/></g><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="176" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="172" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
-    <div class="navlinks fmenu">
-      <a href="/#machine">Машина</a>
-      <a href="/#how">Как это работает</a>
-      <a href="/#guides">Продукты</a>
-      <a href="/#about">Кто я</a>
-      <a href="/blog/">Блог</a>
-      <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram*</a>
-      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
-      <a class="btn sm btn-primary" href="https://app.aksalex.com" target="_blank" rel="noopener">Войти</a>
-    </div>
-    <p class="fnote">Залихват · <b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
-    <p class="fnote" style="margin-top:6px;color:#9a8f83;font-weight:600">Аксенов Александр Андреевич · ИНН 773102096413</p>
-    <p class="fnote" style="margin-top:8px"><a href="/offer.pdf" target="_blank" rel="noopener" style="color:var(--coral-deep);text-decoration:underline">Публичная оферта</a></p>
-    <p class="fnote fmeta" style="margin-top:10px;font-style:italic;font-size:11px;color:#9a8f83">*Meta признана экстремистской организацией, ее деятельность в России запрещена</p>
-  </footer>
+  </main>
 
 </div>
 
-<script>
-(function(){
-  var host=document.getElementById("floaters"); if(!host) return;
-  var seed=20260906; function rnd(){seed=(seed*1103515245+12345)&0x7fffffff;return seed/0x7fffffff;}
-  var HEART='<svg width="@S" height="@S" viewBox="0 0 24 24"><path d="M12 21C4 14 2 9.5 4.8 6.3 6.7 4.1 9.8 4.8 12 7.7 14.2 4.8 17.3 4.1 19.2 6.3 22 9.5 20 14 12 21Z" fill="@C"/></svg>';
-  var SPARK='<svg width="@S" height="@S" viewBox="0 0 24 24"><path d="M12 1C12.5 7.2 12.9 8.6 23 12 12.9 15.4 12.5 16.8 12 23 11.5 16.8 11.1 15.4 1 12 11.1 8.6 11.5 7.2 12 1Z" fill="@C"/></svg>';
-  var KINDS=[["heart","#ff7f50"],["spark","#ff7f50"],["spark","#151210"],["heart","#e85f2c"],["spark","#151210"],["spark","#ff7f50"]];
-  var N=window.innerWidth<760?16:30;
-  var items=[];
-  for(var i=0;i<N;i++){
-    var k=KINDS[i%KINDS.length];
-    var size=18+Math.floor(rnd()*28);
-    // в основном по боковым полям (на десктопе видно вокруг контента), иногда по центру
-    var left=(i%2)?(84+rnd()*13):(2+rnd()*12);
-    if(i%5===4) left=20+rnd()*58;
-    var top=6+(i/N)*86+(rnd()*3);
-    var svg=(k[0]==="heart"?HEART:SPARK).replace(/@S/g,size).replace("@C",k[1]);
-    var rot=Math.floor(rnd()*50-25);
-    var f=document.createElement("div"); f.className="floater";
-    f.style.left=left+"%"; f.style.top=top+"%";
-    f.style.opacity=(k[1]==="#151210"?0.62:0.85);
-    var span=document.createElement("span"); span.className="fl-in";
-    span.style.setProperty("--r",rot+"deg");
-    span.style.setProperty("--d",(3+rnd()*2.5).toFixed(1)+"s");
-    span.style.setProperty("--dl",(-rnd()*5).toFixed(1)+"s");
-    span.innerHTML=svg; f.appendChild(span); host.appendChild(f);
-    items.push({el:f,speed:(0.08+rnd()*0.2)*(rnd()<0.5?-1:1)});
-  }
-  var H=window.innerHeight;
-  function layout(){
-    host.style.height="0px";
-    var docH=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
-    host.style.height=docH+"px"; H=window.innerHeight; onScroll();
-  }
-  var ticking=false;
-  function onScroll(){
-    if(ticking) return; ticking=true;
-    requestAnimationFrame(function(){
-      var sc=window.scrollY||window.pageYOffset;
-      for(var i=0;i<items.length;i++){
-        var it=items[i],base=it.el.offsetTop,p=(sc+H/2)-base;
-        if(p>H)p=H; if(p<-H)p=-H;
-        it.el.style.transform="translateY("+(p*it.speed).toFixed(1)+"px)";
-      }
-      ticking=false;
-    });
-  }
-  window.addEventListener("scroll",onScroll,{passive:true});
-  window.addEventListener("resize",layout);
-  window.addEventListener("load",layout);
-  layout();
-})();
-</script>
-<script>(function(){var n=document.querySelector('.nav'),b=n&&n.querySelector('.burger');if(!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);});document.addEventListener('click',function(e){if(!n.contains(e.target)){n.classList.remove('open');b.setAttribute('aria-expanded','false');}});n.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false');});});})();</script>
-<script>/*shared-login*/(function(){try{var m=(document.cookie.match(/(?:^|; )zh_email=([^;]*)/)||[])[1];if(!m)return;var email=decodeURIComponent(m);document.querySelectorAll(".navcta").forEach(function(a){a.textContent="Кабинет";});document.querySelectorAll('a[href*="payform.ru"]').forEach(function(a){try{var u=new URL(a.href,location.href);if(!u.searchParams.get("customer_email")){u.searchParams.set("customer_email",email);a.href=u.toString();}}catch(e){}});}catch(e){}})();</script>
-</body>
+<footer>
+  <a class="brand fbrand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
+  <div class="navlinks fmenu">
+    <a href="/aboutme">Обо мне</a>
+    <a href="/zalihvat">Залихват</a>
+    <a href="/guides/">Гайды</a>
+    <a href="https://brands.aksalex.com">Тусовка брендов</a>
+    <a href="/blog/">Блог</a>
+    <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+  </div>
+  <p class="fnote"><b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
+  <p class="fnote" style="margin-top:6px;color:#9a8f83">Аксенов Александр Андреевич · ИНН 773102096413</p>
+  <p class="fnote" style="margin-top:8px"><a href="/offer.pdf" target="_blank" rel="noopener" style="color:var(--coral-deep);text-decoration:underline">Публичная оферта</a></p>
+</footer>
 
+<script>(function(){var n=document.querySelector('.nav'),b=n&&n.querySelector('.burger');if(!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);});document.addEventListener('click',function(e){if(!n.contains(e.target)){n.classList.remove('open');b.setAttribute('aria-expanded','false');}});n.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');b.setAttribute('aria-expanded','false');});});})();</script>
+</body>
 </html>
