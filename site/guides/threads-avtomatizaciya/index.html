@@ -106,6 +106,21 @@
   .fmenu a:hover{color:var(--coral)}
   .fnote{font-size:13px;color:var(--muted);font-weight:700}
   .fnote b{color:var(--coral-deep)}
+  .code{position:relative;padding-top:38px}
+  .copybtn{position:absolute;top:7px;right:7px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.05em;color:#f4ede1;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.35);border-radius:8px;padding:5px 11px;cursor:pointer;transition:background .15s}
+  .copybtn:hover{background:rgba(255,255,255,.22)}
+  .copybtn.ok{background:var(--coral);border-color:var(--coral);color:#fff}
+  .promptlabel{display:inline-flex;align-items:center;gap:7px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.05em;color:var(--coral-deep);background:var(--coral-soft);border:2px solid var(--coral);border-radius:100px;padding:6px 14px;margin:20px 0 -4px}
+  .shot{margin:16px 0}
+  .shot img{width:100%;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);display:block}
+  .shot figcaption{font-size:13.5px;color:var(--muted);font-weight:700;margin-top:8px;text-align:center}
+  .stepcheck{display:inline-flex;align-items:center;gap:9px;margin:12px 0 8px;padding:8px 15px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:100px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12.5px;letter-spacing:.05em;color:var(--ink);-webkit-user-select:none;user-select:none}
+  .stepcheck:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  .stepcheck .sc-box{width:20px;height:20px;border:2.5px solid var(--ink);border-radius:6px;background:var(--paper);display:flex;align-items:center;justify-content:center;flex:none}
+  .stepcheck .sc-box svg{width:14px;height:14px;color:var(--paper);opacity:0;transition:opacity .15s}
+  .stepcheck.done{background:var(--coral-soft)}
+  .stepcheck.done .sc-box{background:var(--coral)}
+  .stepcheck.done .sc-box svg{opacity:1}
   @media(min-width:640px){h1{font-size:48px}}
 </style>
 </head>
@@ -151,16 +166,64 @@
       <li><b>Аналитика</b> - UTM плюс метрики Threads: видно, какой пост принёс переходы и продажи, а какой только лайки.</li>
     </ul>
 
-    <h2>Что нужно до старта</h2>
-    <p>Звучит серьёзно, но по факту это шесть простых вещей. Настраиваются один раз за вечер:</p>
+    <h2>6 важных пунктов для начала</h2>
+    <div class="callout"><b>Важно:</b> всё ниже делаем внутри Claude. Открываешь <b>один чат с Claude Code</b> в папке проекта и вставляешь туда команды и промпты - Claude сам всё выполнит. У каждого блока справа есть кнопка «Копировать». Отмечай галочку под пунктом, когда прошёл его.</div>
+
+    <h3>1. Поставить Claude и открыть папку проекта</h3>
+    <p>Claude - мозг всей системы: ищет темы, пишет посты, разбирает комментарии.</p>
     <ul>
-      <li><b>Claude</b> - мозг всей системы. Скачай приложение Claude (Claude Code) и открой в нём папку проекта. Именно он ищет тренды, пишет посты и разбирает комментарии. Без него это просто пустые скрипты.</li>
-      <li><b>Аккаунт Threads</b> - открытый (публичный). В настройках приватности выключи «закрытый профиль», иначе ключ-токен не выдадут. Лучше завести отдельный аккаунт под проект.</li>
-      <li><b>Приложение Meta</b> - бесплатный «пропуск» для программы. Заходишь на developers.facebook.com, жмёшь «Создать приложение» и добавляешь продукт «Threads API».</li>
-      <li><b>Разрешения (галочки)</b> - что программе можно делать: <code class="inl">threads_basic</code> (читать), <code class="inl">threads_content_publish</code> (постить), <code class="inl">threads_manage_insights</code> (видеть статистику), <code class="inl">threads_manage_replies</code> (комментарии) и <code class="inl">threads_keyword_search</code> (искать тренды).</li>
-      <li><b>Токен</b> - это длинный ключ-пароль, который разрешает постить от твоего имени. Берётся кнопкой «Генератор маркеров пользователя», живёт около 60 дней. Скопировал - вставил в файл secrets.json.</li>
-      <li><b>Python</b> - уже стоит на большинстве компьютеров. Ничего докупать и доустанавливать не нужно.</li>
+      <li>Скачай приложение Claude с <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> (кнопка Download) или поставь Claude Code.</li>
+      <li>Войди в свой аккаунт.</li>
+      <li>Открой папку проекта: в Claude нажми «Open folder / Добавить папку» и выбери папку с проектом. Дальше всё делаем в одном чате прямо в этой папке.</li>
     </ul>
+    <figure class="shot"><img src="shots/01-claude-open-folder.png" alt="Открыть папку в Claude Code" onerror="this.closest('.shot').style.display='none'"><figcaption>Открываем папку проекта в Claude Code</figcaption></figure>
+    <button class="stepcheck" data-k="s1"><span class="sc-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="sc-t">Отметить как сделано</span></button>
+
+    <h3>2. Сделать аккаунт Threads открытым</h3>
+    <ul>
+      <li>Открой приложение Threads, свой профиль, меню из трёх полосок, затем «Настройки».</li>
+      <li>Зайди в «Конфиденциальность» и выключи «Закрытый профиль». Если профиль закрыт - ключ-токен не выдадут.</li>
+      <li>Совет: заведи отдельный аккаунт именно под этот проект.</li>
+    </ul>
+    <figure class="shot"><img src="shots/02-threads-public.png" alt="Публичный профиль Threads" onerror="this.closest('.shot').style.display='none'"><figcaption>Профиль должен быть открытым</figcaption></figure>
+    <button class="stepcheck" data-k="s2"><span class="sc-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="sc-t">Отметить как сделано</span></button>
+
+    <h3>3. Создать приложение Meta</h3>
+    <p>Это бесплатный «пропуск», через который программа получает доступ к Threads.</p>
+    <ul>
+      <li>Зайди на <a href="https://developers.facebook.com" target="_blank" rel="noopener">developers.facebook.com</a> и войди через Facebook или Instagram.</li>
+      <li>Вверху справа нажми «My Apps», затем «Create App».</li>
+      <li>Дай приложению имя и пройди шаги создания.</li>
+      <li>В приложении нажми «Add product» и добавь <b>Threads API</b>.</li>
+    </ul>
+    <figure class="shot"><img src="shots/03-meta-create-app.png" alt="Создание приложения Meta и Threads API" onerror="this.closest('.shot').style.display='none'"><figcaption>Создаём приложение и добавляем продукт Threads API</figcaption></figure>
+    <button class="stepcheck" data-k="s3"><span class="sc-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="sc-t">Отметить как сделано</span></button>
+
+    <h3>4. Включить разрешения и добавить себя тестировщиком</h3>
+    <ul>
+      <li>В приложении открой Threads API, раздел «Use cases» или «Permissions», и включи галочки: <code class="inl">threads_basic</code>, <code class="inl">threads_content_publish</code>, <code class="inl">threads_manage_insights</code>, <code class="inl">threads_manage_replies</code>, <code class="inl">threads_keyword_search</code>.</li>
+      <li>Там же добавь свой Threads-аккаунт как «Threads Tester».</li>
+      <li>Прими приглашение: приложение Threads, «Настройки», «Аккаунт», раздел с приглашениями тестировщика.</li>
+    </ul>
+    <figure class="shot"><img src="shots/04-permissions.png" alt="Разрешения Threads API" onerror="this.closest('.shot').style.display='none'"><figcaption>Включаем разрешения и добавляем себя тестировщиком</figcaption></figure>
+    <button class="stepcheck" data-k="s4"><span class="sc-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="sc-t">Отметить как сделано</span></button>
+
+    <h3>5. Получить токен и вставить в secrets.json</h3>
+    <p>Токен - это длинный ключ-пароль, который разрешает постить от твоего имени.</p>
+    <ul>
+      <li>В приложении открой Threads API и найди «Генератор маркеров пользователя» (User token generator).</li>
+      <li>Выбери свой аккаунт, нажми «Generate token» и скопируй длинный ключ.</li>
+      <li>Вставь его в файл <code class="inl">secrets.json</code> (шаблон ниже). Токен живёт около 60 дней.</li>
+    </ul>
+    <figure class="shot"><img src="shots/05-token-generator.png" alt="Генератор токена Threads" onerror="this.closest('.shot').style.display='none'"><figcaption>Генерируем токен и копируем ключ</figcaption></figure>
+    <button class="stepcheck" data-k="s5"><span class="sc-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="sc-t">Отметить как сделано</span></button>
+
+    <h3>6. Проверить Python</h3>
+    <ul>
+      <li>Python уже стоит на большинстве компьютеров. Проверь: в чате Claude Code попроси выполнить <code class="inl">python --version</code>.</li>
+      <li>Показалась версия - всё готово. Клиент работает на стандартной библиотеке, докупать ничего не нужно.</li>
+    </ul>
+    <button class="stepcheck" data-k="s6"><span class="sc-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="sc-t">Отметить как сделано</span></button>
     <div class="callout"><b>Простыми словами:</b> API - это когда программа общается с Threads напрямую, без рук. Токен - ключ от твоего аккаунта. Разрешения - галочки, что этим ключом можно делать.</div>
     <div class="callout">Добавил новую галочку-разрешение - <b>перевыпусти токен</b> (возьми новый). Старый ключ новые права не увидит. На этом спотыкаются все.</div>
     <p>Кладём токен в файл <code class="inl">secrets.json</code> и проверяем связь (просто скопируй эти строки):</p>
@@ -181,6 +244,7 @@ python threads_client.py status   <span class="c"># сколько постов 
 
     <h2>Brand Brain: индивидуальность и тональность</h2>
     <p>Это короткий документ, который ты даёшь Claude каждый раз. Без него любой ИИ звучит одинаково пресно. Самое ценное здесь - anti-examples: именно они убирают «нейросетевой» привкус и задают твою тональность.</p>
+    <div class="promptlabel">Заполни и вставь в чат с Claude Code</div>
     <div class="code">Кто говорит: роль + 1-2 личных факта для узнаваемости
 Оффер: что продаём и кому, одним предложением
 Аудитория и боли: 3-5 болей их словами
@@ -208,7 +272,8 @@ python threads_client.py status   <span class="c"># сколько постов 
       <li><b>Безопасность</b> - нет ли репутационного или юридического риска.</li>
     </ul>
     <p>Берём темы, где высоки «связь с оффером» и «безопасность». Чистый хайп без связи с продуктом даёт лайки, но не переходы - проверено: пост-шутка собрал сто лайков и ноль продаж.</p>
-    <p>Готовый промпт для трендоискателя (отдай его Claude):</p>
+    <p>Готовый промпт для трендоискателя - подставь свои данные в квадратные скобки.</p>
+    <div class="promptlabel">Вставь в тот же чат с Claude Code</div>
     <div class="code">Ты трендоискатель для Threads под оффер: [оффер].
 Аудитория и боли: [из Brand Brain].
 1. Через keyword_search (TOP) по словам [5-10 слов] собери 10-15 тем.
@@ -326,6 +391,27 @@ python threads_client.py post-next --stateless      <span class="c"># для о�
   <p class="fnote"><b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
 </footer>
 
+<script>(function(){
+  // copy buttons on every code block
+  document.querySelectorAll('.code').forEach(function(block){
+    var txt=block.innerText;
+    var btn=document.createElement('button');btn.type='button';btn.className='copybtn';btn.textContent='Копировать';
+    btn.addEventListener('click',function(e){e.stopPropagation();
+      function ok(){btn.textContent='Скопировано';btn.classList.add('ok');setTimeout(function(){btn.textContent='Копировать';btn.classList.remove('ok');},1600);}
+      function fb(){try{var ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);ok();}catch(e){}}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,fb);}else{fb();}
+    });
+    block.appendChild(btn);
+  });
+  // per-step "done" checkboxes
+  document.querySelectorAll('.stepcheck').forEach(function(b){
+    var k='tg-step-'+b.getAttribute('data-k'),t=b.querySelector('.sc-t'),on=false;
+    try{on=localStorage.getItem(k)==='1'}catch(e){}
+    function render(){b.classList.toggle('done',on);if(t)t.textContent=on?'Сделано':'Отметить как сделано';}
+    render();
+    b.addEventListener('click',function(){on=!on;try{localStorage.setItem(k,on?'1':'0')}catch(e){}render();});
+  });
+})();</script>
 <script>(function(){var items=document.querySelectorAll('#checklist li'),prog=document.getElementById('cl-progress'),KEY='threads-guide-checklist';if(!items.length)return;var saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}function upd(){var d=0;items.forEach(function(li){if(li.classList.contains('done'))d++});if(prog)prog.textContent='Готово '+d+' из '+items.length;}items.forEach(function(li,i){if(saved[i])li.classList.add('done');li.addEventListener('click',function(e){if(e.target.tagName==='A'||e.target.tagName==='CODE')return;li.classList.toggle('done');saved[i]=li.classList.contains('done');try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}upd();});});upd();})();</script>
 <script>(function(){var n=document.querySelector('.nav'),b=n&&n.querySelector('.burger');if(!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);});document.addEventListener('click',function(e){if(!n.contains(e.target)){n.classList.remove('open');b.setAttribute('aria-expanded','false');}});n.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');});});})();</script>
 </body>
