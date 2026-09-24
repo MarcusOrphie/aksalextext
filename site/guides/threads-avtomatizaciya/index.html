@@ -83,6 +83,21 @@
   .cta .h{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.05;color:var(--paper);-webkit-text-stroke:2px var(--ink);text-shadow:3px 3px 0 var(--ink)}
   .cta .s{margin-top:10px;color:#3a2418;font-weight:800;font-size:15px}
   .cta .btn{display:inline-block;margin-top:16px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:12px 26px;border-radius:999px;box-shadow:4px 4px 0 var(--ink);text-decoration:none}
+  .cl-progress{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.06em;color:var(--coral-deep);margin:6px 0 12px}
+  .checklist{list-style:none;display:flex;flex-direction:column;gap:12px;margin:16px 0}
+  .checklist li::before{content:none !important;display:none !important}
+  .checklist li{display:flex;gap:14px;align-items:flex-start;background:var(--paper2);border:2.5px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:14px 16px;cursor:pointer;transition:transform .08s,box-shadow .08s,background .15s;-webkit-user-select:none;user-select:none}
+  .checklist li:hover{transform:translate(-1px,-1px);box-shadow:6px 6px 0 var(--ink)}
+  .checklist li:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .checklist .box{flex:none;width:28px;height:28px;border:2.5px solid var(--ink);border-radius:8px;background:var(--paper);display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .checklist .box svg{width:18px;height:18px;color:var(--paper);opacity:0;transform:scale(.4);transition:opacity .15s,transform .15s}
+  .checklist li.done{background:var(--coral-soft)}
+  .checklist li.done .box{background:var(--coral)}
+  .checklist li.done .box svg{opacity:1;transform:scale(1)}
+  .checklist .ci{font-size:16px;color:#2c2621}
+  .checklist .ci b{font-size:17px;color:var(--ink)}
+  .checklist .ci span{display:block;font-weight:600;color:#6b6258;font-size:14.5px;line-height:1.55;margin-top:3px}
+  .checklist li.done .ci b{text-decoration:line-through;color:var(--muted)}
   footer{margin-top:44px;padding-top:28px;border-top:2px solid var(--ink);text-align:center}
   .fbrand{display:inline-flex;align-items:center;gap:9px;justify-content:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);margin-bottom:16px;text-decoration:none}
   .fbrand img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
@@ -121,7 +136,7 @@
   <p class="lead">Представь: контент в Threads выходит сам, звучит как ты, цепляет актуальные темы и приводит людей в твой продукт. А ты тратишь на это час в неделю, а не пять вечеров.</p>
 
   <article>
-    <p>Этот гайд - не про «поставил бота и забыл». Такие боты быстро превращают аккаунт в свалку и попадают под блок. Мы соберём другое: <b>умный конвейер, где рутину делает Claude, а решения остаются за тобой</b>. Ниже - по шагам, по-человечески и сразу с рабочими командами. Вся система крутится вокруг Claude: его один раз ставим и подключаем к папке проекта, дальше он ищет темы, пишет посты и разбирает комментарии.</p>
+    <p>Этот гайд - не про «поставил бота и забыл». Такие боты быстро превращают аккаунт в свалку и попадают под блок. Мы соберём другое: <b>умный конвейер, где рутину делает Claude, а решения остаются за тобой</b>. Ниже - по шагам, по-человечески и сразу с рабочими командами. Вся система крутится вокруг Claude: его один раз ставим и подключаем к папке проекта, дальше он ищет темы, пишет посты и разбирает комментарии. Не пугайся слов «API» и «токен» - дальше всё объясняю простыми словами и по шагам, справится даже подросток.</p>
 
     <blockquote>Главный принцип: мы строим не «полный автопилот», а управляемую систему Threads -> продукт. За контроль и измеримость платят. За автопостинг вслепую - банят.</blockquote>
 
@@ -137,16 +152,18 @@
     </ul>
 
     <h2>Что нужно до старта</h2>
+    <p>Звучит серьёзно, но по факту это шесть простых вещей. Настраиваются один раз за вечер:</p>
     <ul>
-      <li><b>Claude</b> - мозг всей системы. Ставим приложение Claude (Claude Code) и подключаем к папке проекта: именно он ищет тренды, пишет посты и разбирает комментарии. Без него это просто скрипты.</li>
-      <li>Аккаунт Threads - <b>публичный</b> (у приватного не работает генератор токенов). Лучше отдельный под проект.</li>
-      <li>Приложение Meta на developers.facebook.com с продуктом «Threads API».</li>
-      <li>Права: <code class="inl">threads_basic</code>, <code class="inl">threads_content_publish</code>, <code class="inl">threads_manage_insights</code>, <code class="inl">threads_manage_replies</code>, а для трендов - <code class="inl">threads_keyword_search</code>.</li>
-      <li>Долгоживущий токен (около 60 дней) из «Генератора маркеров пользователя».</li>
-      <li>Python - только стандартная библиотека, ничего ставить не нужно.</li>
+      <li><b>Claude</b> - мозг всей системы. Скачай приложение Claude (Claude Code) и открой в нём папку проекта. Именно он ищет тренды, пишет посты и разбирает комментарии. Без него это просто пустые скрипты.</li>
+      <li><b>Аккаунт Threads</b> - открытый (публичный). В настройках приватности выключи «закрытый профиль», иначе ключ-токен не выдадут. Лучше завести отдельный аккаунт под проект.</li>
+      <li><b>Приложение Meta</b> - бесплатный «пропуск» для программы. Заходишь на developers.facebook.com, жмёшь «Создать приложение» и добавляешь продукт «Threads API».</li>
+      <li><b>Разрешения (галочки)</b> - что программе можно делать: <code class="inl">threads_basic</code> (читать), <code class="inl">threads_content_publish</code> (постить), <code class="inl">threads_manage_insights</code> (видеть статистику), <code class="inl">threads_manage_replies</code> (комментарии) и <code class="inl">threads_keyword_search</code> (искать тренды).</li>
+      <li><b>Токен</b> - это длинный ключ-пароль, который разрешает постить от твоего имени. Берётся кнопкой «Генератор маркеров пользователя», живёт около 60 дней. Скопировал - вставил в файл secrets.json.</li>
+      <li><b>Python</b> - уже стоит на большинстве компьютеров. Ничего докупать и доустанавливать не нужно.</li>
     </ul>
-    <div class="callout">Добавил новое право - <b>перевыпусти токен</b>. Старый токен новый доступ не получит. На этом спотыкаются все.</div>
-    <p>Кладём токен в <code class="inl">secrets.json</code> и проверяем связь:</p>
+    <div class="callout"><b>Простыми словами:</b> API - это когда программа общается с Threads напрямую, без рук. Токен - ключ от твоего аккаунта. Разрешения - галочки, что этим ключом можно делать.</div>
+    <div class="callout">Добавил новую галочку-разрешение - <b>перевыпусти токен</b> (возьми новый). Старый ключ новые права не увидит. На этом спотыкаются все.</div>
+    <p>Кладём токен в файл <code class="inl">secrets.json</code> и проверяем связь (просто скопируй эти строки):</p>
     <div class="code"><span class="c"># secrets.json (не коммитить!)</span>
 { "access_token": "ТВОЙ_ТОКЕН", "user_id": "", "app_secret": "" }
 
@@ -269,17 +286,20 @@ python threads_client.py post-next --stateless      <span class="c"># для о�
     </ul>
 
     <h2>Чек-лист «с нуля»</h2>
-    <ol>
-      <li>Сделать публичный аккаунт Threads.</li>
-      <li>Завести приложение Meta, включить Threads API, выдать права (в т.ч. keyword_search).</li>
-      <li>Сгенерировать токен, положить в secrets.json, проверить <code class="inl">me</code> и <code class="inl">status</code>.</li>
-      <li>Заполнить Brand Brain: индивидуальность, тональность, оффер, границы, anti-examples.</li>
-      <li>Настроить трендоискатель, прогнать, одобрить 5-7 тем.</li>
-      <li>Сгенерировать первые треды, пройти очередь одобрения.</li>
-      <li>Включить публикацию: планировщик или облако (stateless).</li>
-      <li>Повесить UTM, через неделю собрать insights и первый отчёт.</li>
-      <li>Раз в 50 дней обновить токен.</li>
-    </ol>
+    <p>Делай по порядку и жми на пункт, когда сделал - галочка встанет, а прогресс сохранится в этом браузере.</p>
+    <div class="cl-progress" id="cl-progress">Готово 0 из 10</div>
+    <ul class="checklist" id="checklist">
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Завести открытый аккаунт Threads</b><span>Возьми готовый или заведи новый. В настройках приватности выключи «закрытый профиль» - иначе ключ не выдадут.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Поставить Claude и открыть папку проекта</b><span>Скачай приложение Claude (Claude Code), открой в нём папку с проектом. Это он будет искать темы и писать.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Создать приложение Meta</b><span>Зайди на developers.facebook.com, нажми «Создать приложение», добавь продукт «Threads API». Это бесплатно.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Поставить галочки-разрешения</b><span>basic, content_publish, manage_insights, manage_replies и keyword_search (для трендов).</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Получить токен и вставить в secrets.json</b><span>Кнопка «Генератор маркеров пользователя» - скопируй длинный ключ, вставь в файл secrets.json.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Проверить связь</b><span>Запусти <code class="inl">python threads_client.py me</code> и <code class="inl">status</code>. Показал твой аккаунт - значит всё подключено.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Заполнить Brand Brain</b><span>Опиши свою индивидуальность и тональность: кто ты, оффер, боли аудитории, 2-3 свои реальные фразы и список «так НЕ писать».</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Найти тренды и написать первые треды</b><span>Попроси Claude собрать тренды (команда trends + промпт), одобри 5-7 тем, дай Claude сгенерировать первые посты.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Одобрить и включить постинг</b><span>Прочитай черновики, поправь что не так, включи публикацию по расписанию - на компьютере или в облаке.</span></span></li>
+      <li><span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="ci"><b>Замерять и продлевать</b><span>Повесь UTM на ссылки, через неделю собери отчёт (<code class="inl">insights</code>). Раз в ~50 дней обнови токен.</span></span></li>
+    </ul>
 
     <div class="cta">
       <img src="/face1.jpg" alt="Саша Аксенов">
@@ -304,6 +324,7 @@ python threads_client.py post-next --stateless      <span class="c"># для о�
   <p class="fnote"><b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
 </footer>
 
+<script>(function(){var items=document.querySelectorAll('#checklist li'),prog=document.getElementById('cl-progress'),KEY='threads-guide-checklist';if(!items.length)return;var saved={};try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}function upd(){var d=0;items.forEach(function(li){if(li.classList.contains('done'))d++});if(prog)prog.textContent='Готово '+d+' из '+items.length;}items.forEach(function(li,i){if(saved[i])li.classList.add('done');li.addEventListener('click',function(e){if(e.target.tagName==='A'||e.target.tagName==='CODE')return;li.classList.toggle('done');saved[i]=li.classList.contains('done');try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}upd();});});upd();})();</script>
 <script>(function(){var n=document.querySelector('.nav'),b=n&&n.querySelector('.burger');if(!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);});document.addEventListener('click',function(e){if(!n.contains(e.target)){n.classList.remove('open');b.setAttribute('aria-expanded','false');}});n.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');});});})();</script>
 </body>
 </html>
