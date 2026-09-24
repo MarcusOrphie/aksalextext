@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Автоматизация Threads с ИИ - гайд от Саши Аксенова</title>
+<meta name="description" content="Как поставить Threads на умный конвейер с ИИ: поиск трендов, генерация в твоём стиле, публикация через официальный API и замер продаж. Без автопилота вслепую и серых схем.">
+<link rel="canonical" href="https://aksalex.com/guides/threads-avtomatizaciya/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Саша Аксенов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Автоматизация Threads с ИИ - подробный гайд">
+<meta property="og:description" content="Тренды, генерация в твоём голосе, публикация по расписанию и измеримые переходы в продукт. Пошагово и по-человечески.">
+<meta property="og:url" content="https://aksalex.com/guides/threads-avtomatizaciya/">
+<meta property="og:image" content="https://aksalex.com/face1.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<style>
+  :root{--paper:#faf5ec;--paper2:#fffdf8;--ink:#151210;--coral:#ff7f50;--coral-deep:#e85f2c;--coral-soft:#ffe6d8;--muted:#7b7168;--line:#e6ddcd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{background:var(--paper);color:#241f1b;font-family:"Nunito",system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.7;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,127,80,.14) 1.1px,transparent 1.2px);background-size:16px 16px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+  a{color:var(--coral-deep)}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink);margin-bottom:22px}
+  .nav .in{max-width:760px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .navlinks{display:flex;gap:18px;align-items:center}
+  .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .navlinks a.on{color:var(--coral-deep) !important}
+  .nav .navcta{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .nav .navcta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .nav .navcta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:38px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:11px;box-shadow:2px 2px 0 var(--ink);cursor:pointer;padding:0 11px;flex:none}
+  .burger span{display:block;height:3px;width:100%;background:var(--ink);border-radius:2px;transition:transform .22s ease,opacity .15s ease}
+  .nav.open .burger span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+  .nav.open .burger span:nth-child(2){opacity:0}
+  .nav.open .burger span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+  @media(max-width:759px){
+    .nav .in{position:relative}.brand{font-size:14px}.brand img{width:28px;height:28px}
+    .burger{display:flex}
+    .navlinks{position:absolute;top:calc(100% + 10px);right:0;flex-direction:column;align-items:stretch;gap:5px;background:var(--paper2);border:2.5px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);padding:12px;min-width:220px;display:none;z-index:60}
+    .nav.open .navlinks{display:flex}
+    .navlinks a:not(.btn){display:block;font-size:13.5px;padding:9px 11px;border-radius:9px;color:var(--ink)}
+    .nav .navcta{width:100%;justify-content:center;margin-top:4px}
+  }
+  .crumbs{font-size:13px;color:var(--muted);font-weight:700;margin:8px 0 14px}
+  .crumbs a{text-decoration:none}
+  .eyebrow{font-family:"Oswald";font-weight:600;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral-deep);display:block;margin-bottom:8px}
+  h1{font-family:"Oswald";font-weight:700;text-transform:uppercase;line-height:1.02;font-size:38px;color:var(--ink);letter-spacing:.005em;text-wrap:balance;margin-bottom:10px}
+  h1 em{font-style:normal;color:var(--coral)}
+  .ameta{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:18px}
+  .lead{font-size:19px;color:#2c2621;margin:0 0 8px;font-weight:700}
+  article p{font-size:17px;margin:16px 0;color:#2c2621}
+  article h2{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:27px;color:var(--coral-deep);letter-spacing:.01em;margin:36px 0 6px}
+  article h3{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:19px;color:var(--ink);letter-spacing:.01em;margin:24px 0 4px}
+  article ul{margin:14px 0;list-style:none;display:flex;flex-direction:column;gap:9px}
+  article ul li{position:relative;padding-left:26px;font-size:17px;color:#2c2621}
+  article ul li::before{content:"";position:absolute;left:2px;top:11px;width:10px;height:10px;border-radius:2px;background:var(--coral);border:2px solid var(--ink);transform:rotate(45deg)}
+  article ol{margin:14px 0;padding-left:26px;display:flex;flex-direction:column;gap:8px}
+  article ol li{font-size:17px;color:#2c2621;padding-left:4px}
+  code.inl{background:var(--coral-soft);border:1px solid var(--coral);border-radius:5px;padding:1px 6px;font-family:Consolas,Menlo,monospace;font-size:14px;color:#7a2d10;font-weight:700}
+  .code{background:#1e1a17;color:#f4ede1;border:2px solid var(--ink);border-radius:12px;padding:14px 16px;margin:16px 0;font-family:Consolas,Menlo,"SFMono-Regular",monospace;font-size:13.5px;line-height:1.65;overflow-x:auto;white-space:pre;box-shadow:5px 5px 0 var(--ink)}
+  .code .c{color:#ff9d73}
+  blockquote{background:var(--coral-soft);border:2px solid var(--ink);border-left:6px solid var(--coral);border-radius:12px;padding:16px 20px;margin:22px 0;font-size:18px;font-weight:800;color:#2a2015;box-shadow:5px 5px 0 var(--ink)}
+  .callout{background:#fff5ef;border:2px dashed var(--coral-deep);border-radius:14px;padding:16px 20px;margin:22px 0;font-size:16px;color:#3a2418;font-weight:700}
+  .callout b{color:var(--coral-deep)}
+  .tablewrap{overflow-x:auto;margin:22px 0;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink)}
+  table{width:100%;border-collapse:collapse;font-size:15px;background:var(--paper2);min-width:520px}
+  thead th{background:var(--coral);color:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.04em;text-align:left;padding:12px 14px;border-bottom:3px solid var(--ink)}
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--line);color:#2c2621;font-weight:700;vertical-align:top}
+  tbody tr:nth-child(even){background:#fbf6ec}
+  tbody tr:last-child td{border-bottom:none}
+  .cta{background:var(--coral);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:28px 24px;text-align:center;margin:44px 0 10px}
+  .cta img{width:78px;height:78px;border-radius:50%;border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.3);object-fit:cover;object-position:50% 22%;display:block;margin:0 auto 14px}
+  .cta .h{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.05;color:var(--paper);-webkit-text-stroke:2px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+  .cta .s{margin-top:10px;color:#3a2418;font-weight:800;font-size:15px}
+  .cta .btn{display:inline-block;margin-top:16px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:12px 26px;border-radius:999px;box-shadow:4px 4px 0 var(--ink);text-decoration:none}
+  footer{margin-top:44px;padding-top:28px;border-top:2px solid var(--ink);text-align:center}
+  .fbrand{display:inline-flex;align-items:center;gap:9px;justify-content:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);margin-bottom:16px;text-decoration:none}
+  .fbrand img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .fmenu{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 22px;margin-bottom:18px}
+  .fmenu a{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none}
+  .fmenu a:hover{color:var(--coral)}
+  .fnote{font-size:13px;color:var(--muted);font-weight:700}
+  .fnote b{color:var(--coral-deep)}
+  @media(min-width:640px){h1{font-size:48px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
+    <button class="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+    <div class="navlinks">
+      <a href="/aboutme">Обо мне</a>
+      <a href="/zalihvat">Залихват</a>
+      <a class="party-link" href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
+      <a href="/guides/" class="on">Гайды</a>
+      <a href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a href="/blog/">Блог</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="crumbs"><a href="/">Главная</a> · <a href="/guides/">Гайды</a> · Автоматизация Threads</div>
+
+  <span class="eyebrow">Гайд · нейросети + Threads</span>
+  <h1>Threads на <em>автопилоте</em> с умом</h1>
+  <div class="ameta">Саша Аксенов · для тех, кто хочет вести Threads, но не жить в нём</div>
+
+  <p class="lead">Представь: контент в Threads выходит сам, звучит как ты, цепляет актуальные темы и приводит людей в твой продукт. А ты тратишь на это час в неделю, а не пять вечеров.</p>
+
+  <article>
+    <p>Этот гайд - не про «поставил бота и забыл». Такие боты быстро превращают аккаунт в свалку и попадают под блок. Мы соберём другое: <b>умный конвейер, где рутину делает ИИ, а решения остаются за тобой</b>. Ниже - по шагам, по-человечески и сразу с рабочими командами.</p>
+
+    <blockquote>Главный принцип: мы строим не «полный автопилот», а управляемую систему Threads -> продукт. За контроль и измеримость платят. За автопостинг вслепую - банят.</blockquote>
+
+    <h2>Что получится на выходе</h2>
+    <p>Система из шести простых блоков. Каждый снимает с тебя кусок рутины:</p>
+    <ul>
+      <li><b>Brand Brain</b> - память твоего голоса, оффера и границ. Чтобы тексты были твои, а не «коуч с вебинара».</li>
+      <li><b>Трендоискатель</b> - ИИ сам находит горячие темы под твой продукт ещё до того, как ты сел писать.</li>
+      <li><b>Генератор</b> - превращает тему или твой старый материал в живой тред.</li>
+      <li><b>Очередь одобрения</b> - ты жмёшь «ок» до публикации. Ничего не уходит мимо тебя.</li>
+      <li><b>Публикатор</b> - постит через официальный API по расписанию, хоть из облака при выключенном компьютере.</li>
+      <li><b>Аналитика</b> - UTM плюс метрики Threads: видно, какой пост принёс переходы и продажи, а какой только лайки.</li>
+    </ul>
+
+    <h2>Что автоматизируем, а что нет</h2>
+    <p>Коротко, чтобы не наступить на грабли (это выжимка из анализа рынка):</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Делаем сразу</th><th>Откладываем</th><th>Не делаем никогда</th></tr></thead>
+      <tbody>
+        <tr><td>Brand Brain, голос и границы</td><td>Мультиагентные схемы</td><td>Автопилот без предпросмотра</td></tr>
+        <tr><td>Официальный API, без кода</td><td>Красивый дашборд</td><td>Массовые автокомменты под чужими постами</td></tr>
+        <tr><td>Очередь одобрения</td><td>Бейджи и стрики</td><td>Серый скрейпинг и браузер-боты</td></tr>
+        <tr><td>Тренд -> черновик -> пост</td><td>Сотни общих промптов</td><td>Обещание «гарантированных лидов»</td></tr>
+        <tr><td>UTM и недельный отчёт</td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+    <p>Спорные штуки делаем <b>режимами</b>, а не по умолчанию: автопубликация - только черновики / очередь / ограниченный автопилот; автоответы - классификация и черновик, но чувствительное всегда пишет человек.</p>
+
+    <h2>Сначала закон, потом посты</h2>
+    <div class="callout"><b>Важно для России.</b> С 1 сентября 2025 года реклама на ресурсах Meta в РФ запрещена (ФЗ №72-ФЗ), и Threads под этот риск попадает. Значит, для аудитории внутри РФ <b>не встраивай продающие ссылки и призывы «купи»</b>: веди пользу, экспертизу и охваты, а рекламный формат согласуй с юристом. Схема с продажами уместна для диаспоры и СНГ вне РФ и для англоязычного рынка.</div>
+    <p>Поэтому русскую версию запускаем в «РФ-безопасном» режиме: цепляем темы, даём пользу, набираем охваты. Ссылки на продукт включаем только там, где это разрешено.</p>
+
+    <h2>Что нужно до старта</h2>
+    <ul>
+      <li>Аккаунт Threads - <b>публичный</b> (у приватного не работает генератор токенов). Лучше отдельный под проект.</li>
+      <li>Приложение Meta на developers.facebook.com с продуктом «Threads API».</li>
+      <li>Права: <code class="inl">threads_basic</code>, <code class="inl">threads_content_publish</code>, <code class="inl">threads_manage_insights</code>, <code class="inl">threads_manage_replies</code>, а для трендов - <code class="inl">threads_keyword_search</code>.</li>
+      <li>Долгоживущий токен (около 60 дней) из «Генератора маркеров пользователя».</li>
+      <li>Python - только стандартная библиотека, ничего ставить не нужно.</li>
+    </ul>
+    <div class="callout">Добавил новое право - <b>перевыпусти токен</b>. Старый токен новый доступ не получит. На этом спотыкаются все.</div>
+    <p>Кладём токен в <code class="inl">secrets.json</code> и проверяем связь:</p>
+    <div class="code"><span class="c"># secrets.json (не коммитить!)</span>
+{ "access_token": "ТВОЙ_ТОКЕН", "user_id": "", "app_secret": "" }
+
+python threads_client.py me       <span class="c"># проверить токен и аккаунт</span>
+python threads_client.py status   <span class="c"># сколько постов в очереди</span></div>
+
+    <h2>Как устроена система</h2>
+    <p>Один простой поток слева направо. Человек стоит ровно в одном месте - на одобрении:</p>
+    <div class="code">Трендоискатель   ->  keyword_search + поиск в вебе
+Скоринг тем      ->  свежесть x связь с оффером x безопасность
+Генератор        ->  тред 3-5 частей в твоём голосе
+Очередь          ->  ты: ок / правка / в стоп
+Публикатор       ->  Threads API, по расписанию и из облака
+Аналитика        ->  UTM + метрики -> недельный отчёт</div>
+
+    <h2>Brand Brain: память твоего голоса</h2>
+    <p>Это короткий документ, который ты отдаёшь ИИ каждый раз. Без него любой ИИ звучит одинаково пресно. Самое ценное здесь - anti-examples: именно они убирают «нейросетевой» привкус.</p>
+    <div class="code">Кто говорит: роль + 1-2 личных факта для узнаваемости
+Оффер: что продаём и кому, одним предложением
+Аудитория и боли: 3-5 болей их словами
+Голос: 2-3 ТВОИХ реальных фразы
+Так НЕ писать: «unlock your potential», три эмодзи, «прогрев/воронка»
+Границы: чего не обещаем и не трогаем
+Пунктуация: короткий дефис, живой человеческий язык</div>
+
+    <h2>Шаг 1. Тренды: сначала ищем, потом пишем</h2>
+    <p>Это первый шаг каждого цикла. Сначала находим, о чём говорят люди прямо сейчас, и только потом садимся писать. Два источника дополняют друг друга.</p>
+    <h3>Источник А: поиск по Threads</h3>
+    <p>Официальный запрос (нужно право <code class="inl">threads_keyword_search</code>):</p>
+    <div class="code">GET https://graph.threads.net/v1.0/keyword_search
+    ?q=нейросети&search_type=TOP
+    &fields=id,text,timestamp,permalink&access_token=ТОКЕН</div>
+    <p>В нашем клиенте это одна команда - она соберёт кандидатов по твоим словам в <code class="inl">trends.md</code>:</p>
+    <div class="code">python threads_client.py trends "нейросети" "контент" "блог"</div>
+    <h3>Источник Б: свежие новости и споры</h3>
+    <p>ИИ дополняет картину поиском в вебе - то, чего ещё нет в Threads или что шире одной сети.</p>
+    <h3>Скоринг: какие темы брать</h3>
+    <p>Каждую тему оцениваем по трём осям от 0 до 3:</p>
+    <ul>
+      <li><b>Свежесть</b> - тема на подъёме или уже остыла.</li>
+      <li><b>Связь с оффером</b> - легко ли от неё перейти к твоей пользе без натяжки.</li>
+      <li><b>Безопасность</b> - нет ли репутационного или юридического риска (для РФ - нет ли продающего контекста).</li>
+    </ul>
+    <p>Берём темы, где высоки «связь с оффером» и «безопасность». Чистый хайп без связи с продуктом даёт лайки, но не переходы - проверено: пост-шутка собрал сто лайков и ноль продаж.</p>
+    <p>Готовый промпт для трендоискателя (отдай его ИИ):</p>
+    <div class="code">Ты трендоискатель для Threads под оффер: [оффер].
+Аудитория и боли: [из Brand Brain].
+1. Через keyword_search (TOP) по словам [5-10 слов] собери 10-15 тем.
+2. Поиском в вебе добери 5 свежих новостей и споров за 7 дней.
+3. Оцени каждую по осям свежесть / связь-с-оффером / безопасность (0-3).
+4. Верни топ-7: тема | почему заходит | угол под наш оффер | риск.
+Без продающих ссылок для РФ. Без чувствительных тем.
+Живой человеческий язык, короткий дефис.</div>
+    <p>На выходе - 5-7 одобренных тобой тем. Это и есть «ИИ ищет тренды с самого начала».</p>
+
+    <h2>Шаг 2. Генерация в твоём стиле</h2>
+    <p>Рабочий формат - тред из 3-5 частей (по умолчанию 4):</p>
+    <ul>
+      <li><b>Первая часть</b> - дерзко названная проблема. Хук без решения.</li>
+      <li><b>Средние части</b> - раскрытие пользы: новость, что понял, шаг мысли. На реальном опыте.</li>
+      <li><b>Последняя</b> - мостик и один призыв строкой (для разрешённых рынков; для РФ - без ссылки).</li>
+    </ul>
+    <p>Короткие треды из двух частей часто живее длинных. Каждая часть - до 500 символов. Язык живой, дефис вместо тире, никаких штампов из твоих anti-examples.</p>
+
+    <h2>Шаг 3. Очередь одобрения</h2>
+    <p>Три режима на выбор под твой уровень доверия:</p>
+    <ul>
+      <li><b>Только черновики</b> - ИИ пишет, ты публикуешь руками.</li>
+      <li><b>Очередь одобрения</b> - ИИ ставит в очередь, ты жмёшь «ок». Рекомендую по умолчанию.</li>
+      <li><b>Ограниченный автопилот</b> - только для безопасных форматов, например вопросов без ссылок.</li>
+    </ul>
+
+    <h2>Шаг 4. Публикация через официальный API</h2>
+    <p>Пост - это два запроса: создать текст-контейнер и опубликовать его. Тред - корневой пост плюс ответы через <code class="inl">reply_to_id</code>.</p>
+    <div class="code">POST /v1.0/{user_id}/threads          media_type=TEXT, text=..., [reply_to_id]
+POST /v1.0/{user_id}/threads_publish  creation_id=ID_из_первого_ответа</div>
+    <p>Наши команды на каждый день:</p>
+    <div class="code">python threads_client.py post-next                 <span class="c"># опубликовать следующий пост</span>
+python threads_client.py post-next --bank questions <span class="c"># из банка вопросов</span>
+python threads_client.py post-next --stateless      <span class="c"># для облака, без общего состояния</span></div>
+    <p>Защита от дублей: локально - файл состояния и интервал в 90 минут, в облаке - режим <code class="inl">--stateless</code> (клиент спрашивает у API, что уже вышло). Лимит Threads - 250 постов в сутки, хватает с запасом. Расписание: планировщик на компьютере или облачные routines по cron - тогда постинг идёт даже с выключенным ПК.</p>
+
+    <h2>Шаг 5. Комментарии: классификация, потом черновик</h2>
+    <ul>
+      <li>Тянем ответы через API.</li>
+      <li>ИИ раскладывает по полкам: вопрос по продукту, благодарность, возражение, спам, чувствительное.</li>
+      <li>На безопасные пишет черновик ответа твоим голосом.</li>
+      <li>Чувствительное (медицина, личные истории, конфликт) - только флаг тебе, без автоответа.</li>
+    </ul>
+    <p>Массовые автокомментарии под чужими постами не делаем: это спам и прямой путь к бану.</p>
+
+    <h2>Шаг 6. Замер: иначе это хобби, а не канал</h2>
+    <ul>
+      <li><b>UTM на каждой ссылке:</b> <code class="inl">?utm_source=threads&utm_medium=пост&utm_campaign=ддммгг</code>. Видно, что канал реально приносит.</li>
+      <li><b>Метрики Threads</b> через <code class="inl">insights</code>: просмотры, лайки, ответы, репосты. Считаем вовлечённость и группируем по темам.</li>
+      <li><b>Недельный отчёт:</b> топ-посты, что зашло, сколько переходов и продаж. Он же кормит трендоискатель на следующей неделе - петля обучения замыкается.</li>
+    </ul>
+    <blockquote>Считаем переходы, подписки и продажи, а не лайки. Много лайков и ноль переходов - это не успех, это сигнал, что тема не связана с продуктом.</blockquote>
+
+    <h2>С чего начать в первую очередь</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Приоритет</th><th>Функция</th><th>Зачем</th></tr></thead>
+      <tbody>
+        <tr><td>Обязательно</td><td>Brand Brain</td><td>Основа персонализации</td></tr>
+        <tr><td>Обязательно</td><td>API и путь без кода</td><td>Законная реализация</td></tr>
+        <tr><td>Обязательно</td><td>Очередь одобрения</td><td>Контроль риска</td></tr>
+        <tr><td>Обязательно</td><td>Тренд -> скоринг -> черновик -> пост</td><td>Центральный процесс</td></tr>
+        <tr><td>Обязательно</td><td>UTM и недельный отчёт</td><td>Связь с продуктом</td></tr>
+        <tr><td>Восторг</td><td>Память голоса с anti-examples</td><td>Отстройка от всех</td></tr>
+        <tr><td>Не делать</td><td>Массовый автокомментинг</td><td>Спам и риск блока</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Грабли, на которых спотыкаются</h2>
+    <ul>
+      <li><b>BOM в JSON.</b> PowerShell пишет невидимый символ в начало файла, и загрузка падает. Читай файлы как utf-8-sig.</li>
+      <li><b>Длинные тире.</b> Меняй все тире на короткий дефис - и в текстах, и в коде.</li>
+      <li><b>Двойной запуск.</b> Спасает интервал в 90 минут или режим stateless в облаке.</li>
+      <li><b>Новое право без перевыпуска токена.</b> Старый токен новый доступ не увидит.</li>
+      <li><b>Свежие посты без метрик.</b> Insights появляются не сразу - это нормально, не ошибка.</li>
+    </ul>
+
+    <h2>Чек-лист «с нуля»</h2>
+    <ol>
+      <li>Сделать публичный аккаунт Threads.</li>
+      <li>Завести приложение Meta, включить Threads API, выдать права (в т.ч. keyword_search).</li>
+      <li>Сгенерировать токен, положить в secrets.json, проверить <code class="inl">me</code> и <code class="inl">status</code>.</li>
+      <li>Заполнить Brand Brain: голос, оффер, границы, anti-examples.</li>
+      <li>Настроить трендоискатель, прогнать, одобрить 5-7 тем.</li>
+      <li>Сгенерировать первые треды, пройти очередь одобрения.</li>
+      <li>Включить публикацию: планировщик или облако (stateless).</li>
+      <li>Повесить UTM, через неделю собрать insights и первый отчёт.</li>
+      <li>Раз в 50 дней обновить токен.</li>
+    </ol>
+
+    <div class="cta">
+      <img src="/face1.jpg" alt="Саша Аксенов">
+      <div class="h">Хочешь так же поставить контент на конвейер?</div>
+      <div class="s">Залихват уже делает идеи, посты, сторис и рилз за 5 минут на нейросетях - в твоём стиле.</div>
+      <a class="btn" href="/zalihvat">Смотреть Залихват →</a>
+    </div>
+  </article>
+</div>
+
+<footer>
+  <a class="fbrand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
+  <div class="fmenu">
+    <a href="/aboutme">Обо мне</a>
+    <a href="/zalihvat">Залихват</a>
+    <a href="https://brands.aksalex.com">Тусовка брендов</a>
+    <a href="/guides/">Гайды</a>
+    <a href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
+    <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+    <a href="/blog/">Блог</a>
+  </div>
+  <p class="fnote"><b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
+</footer>
+
+<script>(function(){var n=document.querySelector('.nav'),b=n&&n.querySelector('.burger');if(!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);});document.addEventListener('click',function(e){if(!n.contains(e.target)){n.classList.remove('open');b.setAttribute('aria-expanded','false');}});n.querySelectorAll('.navlinks a').forEach(function(a){a.addEventListener('click',function(){n.classList.remove('open');});});})();</script>
+</body>
+</html>
