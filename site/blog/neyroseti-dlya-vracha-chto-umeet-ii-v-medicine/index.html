@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="p:domain_verify" content="c4b9d75b79be7b123df6bf78da25469f"/>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112136771', 'ym');
+
+    ym(112136771, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112136771" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Нейросети для врача: что уже умеет ИИ в медицине</title>
+<meta name="description" content="Разбираем, какие задачи врача нейросети уже закрывают: протоколы, объяснение диагнозов, разбор литературы - и где им доверять нельзя.">
+<link rel="canonical" href="https://aksalex.com/blog/neyroseti-dlya-vracha-chto-umeet-ii-v-medicine/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Саша Аксенов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Нейросети для врача: что уже умеет ИИ в медицине">
+<meta property="og:description" content="Что нейросети реально умеют в работе врача, а что пока остаётся только за человеком.">
+<meta property="og:url" content="https://aksalex.com/blog/neyroseti-dlya-vracha-chto-umeet-ii-v-medicine/">
+<meta property="og:image" content="https://aksalex.com/blog/neyroseti-dlya-vracha-chto-umeet-ii-v-medicine/cover.jpg">
+<meta property="og:site_name" content="Залихват">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Нейросети для врача: что уже умеет ИИ в медицине", "description": "Что нейросети реально умеют в работе врача, а что пока остаётся только за человеком.", "image": "https://aksalex.com/blog/neyroseti-dlya-vracha-chto-umeet-ii-v-medicine/cover.jpg", "datePublished": "2026-09-26", "dateModified": "2026-09-26", "author": {"@type": "Person", "name": "Саша Аксенов", "url": "https://aksalex.com/"}, "publisher": {"@type": "Organization", "name": "Залихват", "logo": {"@type": "ImageObject", "url": "https://aksalex.com/apple-touch-icon.png"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://aksalex.com/blog/neyroseti-dlya-vracha-chto-umeet-ii-v-medicine/"}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Может ли нейросеть поставить диагноз вместо врача?", "acceptedAnswer": {"@type": "Answer", "text": "Нет, и доверять ей это нельзя. Нейросеть может предложить черновик рассуждения или список версий для проверки, но окончательное решение и ответственность всегда остаются за врачом с лицензией."}}, {"@type": "Question", "name": "Безопасно ли загружать данные пациента в нейросеть?", "acceptedAnswer": {"@type": "Answer", "text": "Только если сервис даёт понятные гарантии хранения и обработки персональных данных и это согласовано с политикой клиники. Бесплатные публичные чат-боты для этого не подходят, потому что неясно, как и где хранятся введённые данные."}}, {"@type": "Question", "name": "Какие нейросети чаще всего используют врачи для документов?", "acceptedAnswer": {"@type": "Answer", "text": "Чаще всего это сервисы транскрибации речи в текст в связке с обычным текстовым чат-ботом, который раскладывает расшифровку по структуре протокола. Конкретный выбор зависит от требований клиники к хранению данных."}}, {"@type": "Question", "name": "Заменит ли ИИ врачей в ближайшие годы?", "acceptedAnswer": {"@type": "Answer", "text": "Судя по тому, что уже умеют нейросети, речь идёт о снятии рутины вокруг приёма, а не о замене клинического мышления и ответственности. Это разные по сложности задачи, и вторая нейросетям пока недоступна."}}, {"@type": "Question", "name": "С чего начать внедрение нейросетей в свою практику?", "acceptedAnswer": {"@type": "Answer", "text": "С одной конкретной повторяющейся задачи, которая отнимает больше всего времени вне приёма - чаще всего это протоколы или объяснения для пациентов. Попробовать на ней в течение пары недель и оценить реальную экономию времени, прежде чем расширять использование."}}]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://aksalex.com/"}, {"@type": "ListItem", "position": 2, "name": "Блог", "item": "https://aksalex.com/blog/"}, {"@type": "ListItem", "position": 3, "name": "Нейросети для врача: что уже умеет ИИ в медицине", "item": "https://aksalex.com/blog/neyroseti-dlya-vracha-chto-umeet-ii-v-medicine/"}]}
+</script>
+<style>
+  :root{--paper:#faf5ec;--paper2:#fffdf8;--ink:#151210;--coral:#ff7f50;--coral-deep:#e85f2c;--coral-soft:#ffe6d8;--muted:#7b7168;--line:#e6ddcd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:#241f1b;font-family:"Nunito",system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.7;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,127,80,.14) 1.1px,transparent 1.2px);background-size:16px 16px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+  a{color:var(--coral-deep)}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink);margin-bottom:22px}
+  .nav .in{max-width:760px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .navlinks{display:flex;gap:18px;align-items:center}
+  .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .navlinks a.on{color:var(--coral-deep) !important}
+  .nav .navcta{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .nav .navcta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .nav .navcta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  @media(max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}.brand{font-size:14px}.brand img{width:28px;height:28px}.nav .navcta{padding:7px 13px;font-size:12px;min-height:38px}}
+  .crumbs{font-size:13px;color:var(--muted);font-weight:700;margin:8px 0 14px}
+  .crumbs a{text-decoration:none}
+  h1{font-family:"Oswald";font-weight:700;text-transform:uppercase;line-height:1.02;font-size:38px;color:var(--ink);letter-spacing:.005em;text-wrap:balance;margin-bottom:10px}
+  .ameta{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:18px}
+  .hero{width:100%;border-radius:18px;border:3px solid var(--ink);box-shadow:7px 7px 0 var(--ink);display:block;margin:0 0 26px;aspect-ratio:16/9;height:auto;object-fit:cover;background:var(--coral-soft)}
+  article p{font-size:17px;margin:16px 0;color:#2c2621}
+  article h2{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:27px;color:var(--coral-deep);letter-spacing:.01em;margin:34px 0 6px}
+  article h3{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:19px;color:var(--ink);letter-spacing:.01em;margin:22px 0 4px}
+  article ul{margin:14px 0;list-style:none;display:flex;flex-direction:column;gap:9px}
+  article ul li{position:relative;padding-left:26px;font-size:17px;color:#2c2621}
+  article ul li::before{content:"";position:absolute;left:2px;top:11px;width:10px;height:10px;border-radius:2px;background:var(--coral);border:2px solid var(--ink);transform:rotate(45deg)}
+  blockquote{background:var(--coral-soft);border:2px solid var(--ink);border-left:6px solid var(--coral);border-radius:12px;padding:16px 20px;margin:22px 0;font-size:18px;font-weight:800;color:#2a2015;box-shadow:5px 5px 0 var(--ink)}
+  .tablewrap{overflow-x:auto;margin:22px 0;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink)}
+  table{width:100%;border-collapse:collapse;font-size:15px;background:var(--paper2);min-width:520px}
+  thead th{background:var(--coral);color:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.04em;text-align:left;padding:12px 14px;border-bottom:3px solid var(--ink)}
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--line);color:#2c2621;font-weight:700}
+  tbody tr:nth-child(even){background:#fbf6ec}
+  tbody tr:last-child td{border-bottom:none}
+  .faq{margin-top:36px;border-top:2px solid var(--ink);padding-top:8px}
+  .faq h3{color:var(--coral-deep)}
+  .faq p{margin-top:4px}
+  .cta{background:var(--coral);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:28px 24px;text-align:center;margin:40px 0 10px}
+  .cta img{width:78px;height:78px;border-radius:50%;border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.3);object-fit:cover;object-position:50% 22%;display:block;margin:0 auto 14px}
+  .cta .h{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.05;color:var(--paper);-webkit-text-stroke:2px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+  .cta .s{margin-top:10px;color:#3a2418;font-weight:800;font-size:15px}
+  .cta .btn{display:inline-block;margin-top:16px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:12px 26px;border-radius:999px;box-shadow:4px 4px 0 var(--ink);text-decoration:none}
+  footer{margin-top:44px;padding-top:28px;border-top:2px solid var(--ink);text-align:center}
+  .fbrand{display:inline-flex;align-items:center;gap:9px;justify-content:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);margin-bottom:16px}
+  .fbrand img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .fmenu{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 22px;margin-bottom:18px}
+  .fmenu a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .fmenu a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .fmenu .btn{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .fmenu .btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .fmenu .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .fnote{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .fnote b{color:var(--coral-deep)}
+  @media(max-width:600px){.fnote{white-space:normal}}
+  @media(min-width:640px){h1{font-size:48px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
+    <div class="navlinks">
+      <a href="/aboutme">Обо мне</a>
+      <a href="/zalihvat">Залихват</a>
+      <a class="party-link" href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
+      <a href="/guides/">Гайды</a>
+      <a class="btn sm btn-primary navcta" href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a href="/blog/" class="on">Блог</a>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+
+  <div class="crumbs"><a href="/">Главная</a> · <a href="/blog/">Блог</a> · Нейросети для врача: что уже умеет ИИ в медицине</div>
+
+  <article>
+    <h1>Нейросети для врача: что уже умеет ИИ в медицине</h1>
+    <div class="ameta">Саша Аксенов · 26 сентября 2026 · 6 мин чтения</div>
+    <img class="hero" src="cover.jpg" alt="Нейросети для врача: что уже умеет ИИ в медицине" width="1280" height="720">
+
+    <p>Врач за смену принимает десятки пациентов, а потом ещё пишет протоколы, заключения и направления дома вечером. Нейросети не заменят диагноз и не возьмут на себя ответственность за пациента, но часть рутины вокруг приёма они уже умеют снимать. Разберём по пунктам, что из этого работает сегодня, а что пока остаётся мифом из презентаций стартапов.</p>
+    <h2>Что нейросети действительно делают в работе врача</h2>
+    <p>Если убрать маркетинговые обещания, у нейросетей в медицине есть узкий, но полезный набор функций. Они хорошо работают с текстом: расшифровывают речь, структурируют записи, ищут и обобщают информацию. Они не ставят диагноз вместо врача и не несут ответственности за решение - это делает человек с лицензией и опытом.</p>
+    <p>Отсюда и главный принцип использования: нейросеть - это черновик и помощник, а не источник истины. Всё, что она выдала, врач проверяет своей головой и своими знаниями, прежде чем это попадёт к пациенту или в карту.</p>
+    <h3>Три задачи, где ИИ уже экономит время</h3>
+    <ul><li>Расшифровка и структурирование устного приёма в черновик протокола</li><li>Перевод заключения с медицинского языка на понятный пациенту</li><li>Быстрый поиск и сжатие профильных статей и клинических рекомендаций</li></ul>
+    <h2>Документы и записи пациента: где нейросеть экономит вечера</h2>
+    <p>Самая понятная польза - работа с документами. Диктофонная запись приёма превращается в текст, а дальше нейросеть раскладывает этот текст по разделам протокола: жалобы, анамнез, осмотр, план. Врачу остаётся прочитать, поправить формулировки и подписать - а не набирать всё с нуля после последнего пациента.</p>
+    <h3>Как это выглядит на практике</h3>
+    <ul><li>Запись разговора с пациентом на диктофон или в приложении с согласия пациента</li><li>Расшифровка речи в текст сервисом транскрибации</li><li>Нейросеть раскладывает текст по структуре протокола или выписки</li><li>Врач вычитывает черновик, убирает лишнее и добавляет клиническую оценку</li><li>Готовый документ уходит в карту или пациенту</li></ul>
+    <blockquote>Раньше я дописывала протоколы дома по вечерам. Сейчас черновик готов через пять минут после приёма, и я трачу время на то, чтобы его перепроверить, а не написать заново с нуля.</blockquote>
+    <h2>Общение с пациентом: понятные объяснения вместо медицинского языка</h2>
+    <p>Пациенты редко понимают, что написано в заключении, и после приёма ищут расшифровку терминов в интернете, часто в сомнительных источниках. Нейросеть может перевести формулировку из заключения на бытовой язык: объяснить, что означает термин, зачем назначен препарат и на что обратить внимание дома.</p>
+    <p>Это не отменяет очную консультацию - наоборот, освобождает время приёма от повторных базовых вопросов, потому что часть из них пациент уже проговорил с текстом-объяснением дома. Врач на приёме говорит о конкретике: течении именно его случая, а не о том, что вообще означает диагноз.</p>
+    <ul><li>Расшифровка терминов из заключения простыми словами</li><li>Памятка по приёму препарата: как и когда принимать, на что смотреть</li><li>Ответы на частые бытовые вопросы, которые не требуют осмотра</li></ul>
+    <h2>Ограничения и риски: где нейросети врача не заменят</h2>
+    <p>Главный риск - галлюцинации: нейросеть может уверенно назвать несуществующее исследование, неверную дозировку или устаревшую рекомендацию, и звучать это будет убедительно. Поэтому любой факт, цифру или ссылку на исследование, которые выдала нейросеть, нужно проверять по первоисточнику, а не переносить в документ на веру.</p>
+    <p>Второй риск - конфиденциальность. Персональные данные пациента нельзя вставлять в бесплатные публичные сервисы без понимания, где и как хранятся эти данные. Для клинической работы стоит смотреть в сторону решений с понятной политикой хранения данных и юридическим договором, а не просто удобного бесплатного чат-бота в браузере.</p>
+    <h3>Что можно доверить нейросети, а что нет</h3>
+    <div class="tablewrap"><table><thead><tr><th>Задача</th><th>Можно доверить нейросети</th><th>Остаётся за врачом</th></tr></thead><tbody><tr><td>Черновик протокола приёма</td><td>Да, как первый вариант</td><td>Финальная проверка и подпись</td></tr><tr><td>Перевод заключения на простой язык</td><td>Да, для объяснения пациенту</td><td>Точность формулировок диагноза</td></tr><tr><td>Поиск и сжатие статей</td><td>Да, для быстрого обзора</td><td>Оценка достоверности источника</td></tr><tr><td>Постановка диагноза</td><td>Нет</td><td>Полностью решение врача</td></tr><tr><td>Назначение и дозировка препарата</td><td>Нет</td><td>Полностью решение врача</td></tr></tbody></table></div>
+    <h2>Как начать использовать нейросети в своей практике</h2>
+    <p>Не нужно сразу перестраивать весь рабочий процесс. Логичнее выбрать одну повторяющуюся задачу, которая занимает больше всего времени вне приёма, и попробовать закрыть её нейросетью в течение недели-двух, прежде чем расширять использование дальше.</p>
+    <h3>Пошаговый план на первый месяц</h3>
+    <ul><li>Неделя 1: выбери одну рутинную задачу - например, протоколы приёма - и попробуй нейросеть только на ней</li><li>Неделя 2: сравни черновик нейросети и свой обычный текст, оцени, сколько правок реально требуется</li><li>Неделя 3: подключи вторую задачу, например объяснения для пациентов простым языком</li><li>Неделя 4: реши, какие инструменты остаются в постоянной работе, а какие не окупают время на проверку</li></ul>
+    <p>Такой постепенный подход даёт честную картину: где нейросеть реально экономит время, а где она только добавляет работу по проверке своих же ошибок.</p>
+
+    <section class="faq">
+      <h2>Частые вопросы</h2>
+      <h3>Может ли нейросеть поставить диагноз вместо врача?</h3>
+      <p>Нет, и доверять ей это нельзя. Нейросеть может предложить черновик рассуждения или список версий для проверки, но окончательное решение и ответственность всегда остаются за врачом с лицензией.</p>
+      <h3>Безопасно ли загружать данные пациента в нейросеть?</h3>
+      <p>Только если сервис даёт понятные гарантии хранения и обработки персональных данных и это согласовано с политикой клиники. Бесплатные публичные чат-боты для этого не подходят, потому что неясно, как и где хранятся введённые данные.</p>
+      <h3>Какие нейросети чаще всего используют врачи для документов?</h3>
+      <p>Чаще всего это сервисы транскрибации речи в текст в связке с обычным текстовым чат-ботом, который раскладывает расшифровку по структуре протокола. Конкретный выбор зависит от требований клиники к хранению данных.</p>
+      <h3>Заменит ли ИИ врачей в ближайшие годы?</h3>
+      <p>Судя по тому, что уже умеют нейросети, речь идёт о снятии рутины вокруг приёма, а не о замене клинического мышления и ответственности. Это разные по сложности задачи, и вторая нейросетям пока недоступна.</p>
+      <h3>С чего начать внедрение нейросетей в свою практику?</h3>
+      <p>С одной конкретной повторяющейся задачи, которая отнимает больше всего времени вне приёма - чаще всего это протоколы или объяснения для пациентов. Попробовать на ней в течение пары недель и оценить реальную экономию времени, прежде чем расширять использование.</p>
+    </section>
+
+    <a class="readnext" href="/blog/neyroseti-dlya-programmista/" style="display:block;margin:38px 0 6px;padding:20px 22px;background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--coral);text-decoration:none;color:inherit">
+      <div style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--coral-deep);margin-bottom:6px">Читайте дальше</div>
+      <div style="font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:20px;line-height:1.06;color:var(--ink);margin-bottom:8px">Нейросети для программиста: помощники для кода</div>
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.6;color:#2c2621;font-weight:600">Раз тема оказалась полезной, вот что почитать следующим. Где AI-помощники реально ускоряют разработку, а где код от нейросети нужно перепроверять построчно.</p>
+      <span style="font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;color:var(--coral-deep)">Читать статью →</span>
+    </a>
+
+    <div class="cta">
+      <img src="/apple-touch-icon.png" alt="Саша Аксенов">
+      <div class="h">Контент на автопилоте,<br>а не вручную</div>
+      <div class="s">«Залихват: автоматическая контент-машина» - выбираешь платформу, и нейросеть за секунды собирает идеи, хуки, сценарии и тексты под твою нишу.</div>
+      <a class="btn" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть Залихват →</a>
+    </div>
+  </article>
+
+  <footer>
+    <a class="fbrand" href="/"><svg viewBox="0 0 560 150" style="height:60px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <div class="fmenu">
+      <a href="/zalihvat">Залихват</a>
+      <a href="/guides/">Гайды</a>
+      <a href="/aboutme">Обо мне</a>
+      <a href="/blog/">Блог</a>
+      <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a class="btn" href="https://app.aksalex.com" target="_blank" rel="noopener">Войти</a>
+    </div>
+    <p class="fnote">Залихват · <b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
+    <p class="fnote" style="margin-top:6px"><a href="/offer.pdf" target="_blank" rel="noopener" style="color:#e85f2c;text-decoration:underline">Публичная оферта</a></p>
+  </footer>
+</div>
+</body>
+</html>
