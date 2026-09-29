@@ -34,7 +34,7 @@
   .spacer{position:relative;z-index:2;height:400vh;pointer-events:none}
 
   .overlay{position:fixed;left:0;right:0;z-index:20;text-align:center;pointer-events:none;padding:0 20px}
-  #headline{top:96px}
+  #headline{top:108px}
   #headline h1{font-size:clamp(28px,5.4vw,60px);color:var(--ink);text-shadow:0 2px 0 var(--paper)}
   #headline p{margin-top:12px;font-size:clamp(15px,2vw,19px);color:#4a443d;font-weight:700}
   #hint{bottom:80px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--coral-deep)}
@@ -82,14 +82,14 @@
   .swatch.on{border-color:var(--coral-deep);box-shadow:3px 3px 0 var(--coral)}
   .swatch .mini{position:absolute;inset:0}
   .swatch .mini svg{width:100%;height:100%;display:block}
-  @media(max-width:760px){#scenes{right:auto;left:0;top:58px;bottom:auto;transform:none;flex-direction:row;overflow-x:auto;width:100vw;padding:6px 12px;gap:7px}.swatch{width:44px;height:44px;flex:none}#headline{top:120px}#endtext{top:118px}}
+  @media(max-width:760px){#scenes{right:auto;left:0;top:92px;bottom:auto;transform:none;flex-direction:row;overflow-x:auto;width:100vw;padding:6px 12px;gap:7px}.swatch{width:44px;height:44px;flex:none}#headline{top:150px}#endtext{top:148px}}
   #ctrls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:42;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:calc(100vw - 24px)}
   .cbtn{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12.5px;letter-spacing:.05em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:100px;box-shadow:3px 3px 0 var(--ink);padding:9px 18px;cursor:pointer;line-height:1}
   .cbtn.on{background:var(--coral);color:var(--paper)}
   .cbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
   .cbtn.icon{width:42px;height:42px;padding:0;border-radius:50%;font-size:15px;display:inline-flex;align-items:center;justify-content:center}
   .cbtn.icon svg{display:block}
-  #endtext{top:86px}
+  #endtext{top:106px}
   #endtext h2{font-size:clamp(24px,4.4vw,48px);color:var(--ink);text-shadow:0 2px 0 var(--paper)}
   #endtext p{margin:12px auto 0;max-width:660px;font-size:clamp(14px,1.9vw,18px);color:#3a332c;font-weight:700;line-height:1.5}
   #board{position:fixed;inset:0;z-index:70;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(21,18,16,.45)}
@@ -106,12 +106,58 @@
   #board .close{position:absolute;top:10px;right:15px;font-size:24px;font-weight:800;color:var(--muted);cursor:pointer;line-height:1}
   #board .note{font-size:12px;color:var(--muted);margin-top:13px;text-align:center}
   @media(max-width:760px){
-    #headline{top:116px} #headline h1{font-size:26px}
-    #endtext{top:114px} #endtext h2{font-size:25px} #endtext p{font-size:13px;margin-top:8px}
+    #headline{top:150px} #headline h1{font-size:26px}
+    #endtext{top:150px} #endtext h2{font-size:25px} #endtext p{font-size:13px;margin-top:8px}
     #ad{bottom:92px} #sel{bottom:92px}
     #ctrls{gap:8px} .cbtn{font-size:11px;padding:8px 13px} .cbtn.icon{width:38px;height:38px}
     #hint{bottom:74px} #toast{bottom:74px}
   }
+  /* фокус на детали (моб.): убираем фон-переключатель и полосу сбора, деталь на весь экран */
+  body.focusing #scenes,body.focusing #fund{display:none}
+  body.focusing #headline,body.focusing #endtext,body.focusing #hint{opacity:0}
+
+  /* ── Сбор средств: прогресс-бар под навигацией ── */
+  #fund{position:fixed;top:47px;left:0;right:0;z-index:45;display:flex;align-items:center;gap:14px;padding:7px 18px;background:rgba(255,253,248,.93);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink)}
+  #fund .fund-txt{display:flex;flex-direction:column;line-height:1.12;flex:none}
+  #fund .fund-lbl{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.04em;color:var(--coral-deep)}
+  #fund .fund-num{font-size:12px;color:#4a443d;font-weight:700}
+  #fund .fund-num b{color:var(--ink)}
+  #fund .fund-bar{position:relative;flex:1;height:17px;background:var(--coral-soft);border:2px solid var(--ink);border-radius:100px;overflow:hidden;min-width:80px}
+  #fund .fund-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,var(--coral),var(--coral-deep));transition:width 1s cubic-bezier(.2,.7,.2,1)}
+  #fund .fund-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:"Oswald";font-weight:700;font-size:10.5px;color:var(--ink);z-index:1;text-shadow:0 1px 0 rgba(255,255,255,.6)}
+  #fund .fund-btn{flex:none;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.03em;color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:100px;box-shadow:3px 3px 0 var(--ink);padding:8px 15px;cursor:pointer;white-space:nowrap}
+  #fund .fund-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+  @media(max-width:760px){
+    #fund{top:46px;gap:9px;padding:6px 12px}
+    #fund .fund-lbl{display:none}
+    #fund .fund-num{font-size:11px;white-space:nowrap}
+    #fund .fund-btn{font-size:11px;padding:7px 11px}
+  }
+
+  /* ── Модалка «поддержать любой суммой» ── */
+  #support{position:fixed;inset:0;z-index:72;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(21,18,16,.45)}
+  #support.show{display:flex}
+  #support .scard{width:400px;max-width:100%;background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:10px 10px 0 var(--coral);padding:24px;position:relative}
+  #support h3{font-size:24px;margin-bottom:2px}
+  #support .sub{font-size:13px;color:var(--muted);font-weight:700;margin-bottom:16px;line-height:1.45}
+  #support .sup-amts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  #support .sup-amts button{font-family:"Oswald";font-weight:700;font-size:14px;border:2.5px solid var(--ink);border-radius:12px;background:var(--paper2);padding:11px 6px;cursor:pointer;color:var(--ink)}
+  #support .sup-amts button.on{background:var(--coral);color:var(--paper)}
+  #support .sup-amts button:active{transform:translate(2px,2px)}
+  #support .sup-custom{display:flex;align-items:center;gap:8px;border:2.5px solid var(--ink);border-radius:12px;padding:2px 12px;margin-bottom:14px}
+  #support .sup-cur{font-family:"Oswald";font-weight:700;font-size:16px;color:var(--muted)}
+  #support .sup-custom input{flex:1;border:none;outline:none;background:transparent;font-family:"Nunito";font-weight:700;font-size:16px;padding:11px 0;color:var(--ink);-moz-appearance:textfield}
+  #support .sup-custom input::-webkit-outer-spin-button,#support .sup-custom input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  #support .btn{display:block;width:100%;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:15px;border:2.5px solid var(--ink);border-radius:12px;padding:13px;cursor:pointer}
+  #support .btn-primary{background:var(--coral);color:var(--paper);box-shadow:4px 4px 0 var(--ink)}
+  #support .btn-primary:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  #support .close{position:absolute;top:10px;right:15px;font-size:24px;font-weight:800;color:var(--muted);cursor:pointer;line-height:1}
+  #support .note{font-size:12px;color:var(--muted);margin-top:12px;text-align:center}
+
+  /* «Отдалить» при фокусе на детали (моб.) */
+  #unfocus{position:fixed;top:58px;left:50%;transform:translateX(-50%);z-index:44;display:none;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.04em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:100px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;cursor:pointer}
+  #unfocus.show{display:block}
+  #unfocus:active{transform:translateX(-50%) translate(0,2px)}
 </style>
 </head>
 <body>
@@ -129,6 +175,15 @@
   </div>
 </nav>
 
+<div id="fund">
+  <div class="fund-txt">
+    <span class="fund-lbl">🚐 Собираем на настоящий автодом</span>
+    <span class="fund-num"><b id="fund-raised">—</b> из <span id="fund-goal">—</span></span>
+  </div>
+  <div class="fund-bar"><i id="fund-fill"></i><span class="fund-pct" id="fund-pct">0%</span></div>
+  <button id="fund-support" class="fund-btn">Поддержать любой суммой</button>
+</div>
+
 <canvas id="scene"></canvas>
 <div class="spacer"></div>
 
@@ -142,10 +197,25 @@
   <h2>Вот такой получается автодом!</h2>
   <p>Размести своё имя или логотип на машине - и когда автодом будет полностью выкуплен, все имена и логотипы мы перенесём на реальную машину!</p>
 </div>
+<button id="unfocus">⤢ Отдалить</button>
 <div id="ctrls">
   <button id="spinbtn" class="cbtn icon" title="Пауза / вращение">⏸</button>
   <button id="gridbtn" class="cbtn">Разметка секций</button>
   <button id="ratebtn" class="cbtn">🏆 Рейтинг</button>
+</div>
+<div id="support">
+  <div class="scard">
+    <span class="close" id="support-close">×</span>
+    <h3>Поддержать проект</h3>
+    <div class="sub">Любая сумма приближает нас к настоящему автодому. Спасибо! 🙌</div>
+    <div class="sup-amts" id="sup-amts"></div>
+    <div class="sup-custom">
+      <span class="sup-cur" id="sup-cur">₽</span>
+      <input id="sup-input" type="number" min="1" inputmode="numeric" placeholder="Своя сумма">
+    </div>
+    <button class="btn btn-primary" id="sup-go">Поддержать →</button>
+    <div class="note" id="sup-note">Оплата подключается · Prodamus</div>
+  </div>
 </div>
 <div id="board">
   <div class="bcard">
@@ -156,13 +226,13 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v11</div>
+<div class="tag">3D · Sunlight Adventure I68 · v13</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
   <span class="eyebrow">Рекламное место</span>
   <h3 id="ad-name">Деталь</h3>
-  <div class="price"><span id="ad-price">6000</span> <small>₽ / месяц</small></div>
+  <div class="price"><span id="ad-price">6000</span> <small id="ad-per">/ мес</small></div>
   <p>Твой логотип на этой детали автодома. Машина ездит - бренд видят вживую и в роликах путешествия.</p>
   <button class="btn btn-primary" id="ad-buy">Занять место →</button>
   <button class="btn btn-ghost" id="ad-logo">Загрузить логотип</button>
@@ -171,7 +241,7 @@
 
 <div id="sel">
   <span class="eyebrow">Выбрано секций</span>
-  <div class="price"><span id="sel-n">0</span> <small>× 300 ₽ = <b id="sel-sum">0</b> ₽</small></div>
+  <div class="price"><span id="sel-n">0</span> <small>секц. =</small> <b id="sel-sum">0</b></div>
   <button class="btn btn-primary" id="sel-logo">Загрузить логотип</button>
   <input id="sel-file" type="file" accept="image/*" style="display:none">
   <button class="btn btn-ghost" id="sel-buy">Занять выбранное →</button>
@@ -190,16 +260,27 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/
 
 let _s=1337; function rnd(){_s=(_s*1103515245+12345)&0x7fffffff;return _s/0x7fffffff;}
 
+// ── Валюта/цель по языку страницы ────────────────────────────────
+// RU-версия считает в рублях, EN-версия — в долларах. Оплата (Prodamus) в ₽.
+const RATE=95;                                   // ₽ за $1 — для конвертации панелей
+const LANG=(document.documentElement.lang==='en')?'en':'ru';
+const CUR = LANG==='en'
+  ? {sym:'$', pre:true,  loc:'en-US', cell:99,   cellSmall:25,   goal:100000,  raised:34700,   per:'/ mo'}
+  : {sym:'₽', pre:false, loc:'ru-RU', cell:8990,  cellSmall:2250, goal:9500000, raised:3290000, per:'/ мес'};
+function fmt(v){ const s=Math.round(v).toLocaleString(CUR.loc); return CUR.pre?(CUR.sym+s):(s+' '+CUR.sym); }
+function rub2(v){ return LANG==='en'?Math.round(v/RATE):v; }   // ₽-цена панели → в валюту витрины
+const isMobile=()=>matchMedia('(max-width:760px)').matches;
+
 // рекламные детали: имя меша -> подпись + цена
 const AD={
   'BODY_Left_Main_Wall':{n:'Левый борт',price:8000},
   'BODY_Right_Main_Wall':{n:'Правый борт',price:8000},
   'BODY_Roof_Panel':{n:'Крыша',price:6000},
   'BODY_Rear_Wall':{n:'Задняя стенка',price:5000},
-  'BODY_Front_Service_Hood_mesh.001':{n:'Капот',price:5000},
-  'BODY_Front_Roof_Crown_mesh':{n:'Лоб над кабиной',price:4000},
-  'BODY_Front_Bumper_mesh.001':{n:'Передний бампер',price:2500},
-  'BODY_Rear_Bumper_mesh':{n:'Задний бампер',price:2500},
+  'BODY_Front_Service_Hood':{n:'Капот',price:5000},
+  'BODY_Front_Roof_Crown':{n:'Лоб над кабиной',price:4000},
+  'BODY_Front_Bumper':{n:'Передний бампер',price:2500},
+  'BODY_Rear_Bumper':{n:'Задний бампер',price:2500},
   'PANEL_Left_Driver_Door':{n:'Водительская дверь',price:3000},
   'PANEL_Right_Entry_Door':{n:'Входная дверь',price:3000},
   'PANEL_Left_Garage_Door':{n:'Гаражная дверь',price:3500},
@@ -223,50 +304,98 @@ const warm=new THREE.PointLight(0xff7f50,0.35,60); warm.position.set(-6,3,4); sc
 
 const car=new THREE.Group(); scene.add(car);
 let parts=[], adMeshes=[], MR=3, ready=false;
-const cells=[]; let gridOn=false, hoverCell=null, cellCount=0, spin=true, pickTargets=[], logoTex=null; const CELL_PRICE=300;
-const CELLGEO=new THREE.PlaneGeometry(0.17*0.86,0.17*0.86);
-const _Z=new THREE.Vector3(0,0,1);
+const cells=[]; let gridOn=false, hoverCell=null, cellCount=0, spin=true, pickTargets=[], logoTex=null; const CELL_PRICE=CUR.cell;
+const CELL_BIG=0.17, CELL_SM=0.085;                 // размеры ячеек (встык, без зазоров)
+const CELLGEO=new THREE.PlaneGeometry(CELL_BIG,CELL_BIG);
+const CELLGEO_S=new THREE.PlaneGeometry(CELL_SM,CELL_SM);
+const SIDE_SMALL_FRAC=0.20;                          // доля мелких (дешёвых) ячеек на бортах
+function makeBorderTex(){ const s=64,c=document.createElement('canvas');c.width=c.height=s;const g=c.getContext('2d');g.clearRect(0,0,s,s);g.strokeStyle='rgba(232,95,44,0.95)';g.lineWidth=3;g.strokeRect(1.5,1.5,s-3,s-3);const t=new THREE.CanvasTexture(c);return t; }
+const BORDER_TEX=makeBorderTex();
 
 function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
+
+// Собственные векторы симметричной 3x3 (метод Якоби) — для устойчивой нормали панели
+function jacobi3(a){
+  a=[a[0].slice(),a[1].slice(),a[2].slice()];
+  const v=[[1,0,0],[0,1,0],[0,0,1]];
+  for(let it=0;it<24;it++){
+    let p=0,q=1,mx=Math.abs(a[0][1]);
+    if(Math.abs(a[0][2])>mx){mx=Math.abs(a[0][2]);p=0;q=2;}
+    if(Math.abs(a[1][2])>mx){mx=Math.abs(a[1][2]);p=1;q=2;}
+    if(mx<1e-11) break;
+    const phi=0.5*Math.atan2(2*a[p][q],a[q][q]-a[p][p]),c=Math.cos(phi),s=Math.sin(phi);
+    for(let k=0;k<3;k++){const kp=a[k][p],kq=a[k][q];a[k][p]=c*kp-s*kq;a[k][q]=s*kp+c*kq;}
+    for(let k=0;k<3;k++){const pk=a[p][k],qk=a[q][k];a[p][k]=c*pk-s*qk;a[q][k]=s*pk+c*qk;}
+    for(let k=0;k<3;k++){const kp=v[k][p],kq=v[k][q];v[k][p]=c*kp-s*kq;v[k][q]=s*kp+c*kq;}
+  }
+  const vals=[a[0][0],a[1][1],a[2][2]];
+  const vecs=[0,1,2].map(j=>new THREE.Vector3(v[0][j],v[1][j],v[2][j]).normalize());
+  return {vecs,vals};
+}
+// Базис панели через PCA мировых вершин: n=наименьший разброс(нормаль), u=наибольший, v=средний
+function panelBasis(M){
+  const pos=M.geometry.attributes.position, N=pos.count, step=Math.max(1,Math.floor(N/600));
+  const pts=[], c=new THREE.Vector3(), t=new THREE.Vector3();
+  for(let i=0;i<N;i+=step){ t.fromBufferAttribute(pos,i); M.localToWorld(t); const p=t.clone(); pts.push(p); c.add(p); }
+  c.multiplyScalar(1/pts.length);
+  let xx=0,xy=0,xz=0,yy=0,yz=0,zz=0;
+  for(const p of pts){const dx=p.x-c.x,dy=p.y-c.y,dz=p.z-c.z;xx+=dx*dx;xy+=dx*dy;xz+=dx*dz;yy+=dy*dy;yz+=dy*dz;zz+=dz*dz;}
+  const {vecs,vals}=jacobi3([[xx,xy,xz],[xy,yy,yz],[xz,yz,zz]]);
+  const idx=[0,1,2].sort((i,j)=>vals[i]-vals[j]);
+  let n=vecs[idx[0]], v=vecs[idx[1]], u=vecs[idx[2]];
+  if(n.dot(c)<0) n=n.clone().negate();                 // наружу от центра машины (car в начале координат)
+  if(v.y<0) v=v.clone().negate();                       // v — «вверх», чтобы лого не переворачивалось
+  u=new THREE.Vector3().crossVectors(v,n).normalize();  // правая тройка u×? → ортонормируем
+  if(u.lengthSq()<1e-6) u=vecs[idx[2]];
+  return {center:c, n, u, v};
+}
 
 // ячейки-секции: сетка мелких плиток только на теле панели (окна/контур отсекаются лучом)
 function buildCells(){
   parts.forEach(m=>{ m.position.copy(m.userData.homeP); m.quaternion.copy(m.userData.homeQ); });
   car.rotation.set(0,0,0); car.scale.setScalar(1); car.updateMatrixWorld(true);
   const glass=parts.filter(m=>/GLASS/.test(m.name));
-  const rc=new THREE.Raycaster(); rc.far=0.6;
-  const CELL=0.17;
-  for(const M of adMeshes){
-    M.geometry.computeBoundingBox();
-    const bb=M.geometry.boundingBox, mn=bb.min, mx=bb.max, sz=new THREE.Vector3().subVectors(mx,mn);
-    const dims=[['x',sz.x],['y',sz.y],['z',sz.z]].sort((a,b)=>a[1]-b[1]);
-    const nA=dims[0][0], vA=dims[1][0], uA=dims[2][0];
-    const sc=Math.max(M.scale.x,M.scale.y,M.scale.z)||1;
-    const uL=sz[uA], vL=sz[vA];
-    const nu=Math.max(1,Math.round(uL*sc/CELL)), nv=Math.max(1,Math.round(vL*sc/CELL));
-    // настоящая внешняя нормаль: от центра машины наружу
-    const wc=new THREE.Vector3().addVectors(mn,mx).multiplyScalar(0.5); M.localToWorld(wc);
-    const wnp=new THREE.Vector3(); wnp[nA]=1; wnp.transformDirection(M.matrixWorld).normalize();
-    const sgn=wnp.dot(wc)>=0?1:-1;
-    const wn=wnp.clone().multiplyScalar(sgn);
-    const nFace=sgn>0?mx[nA]:mn[nA];
+  const rc=new THREE.Raycaster(); rc.far=1.3;
+  // заполнить прямоугольную под-область панели ячейками заданного размера
+  function fillRegion(M,B,u0,u1,v0,v1,cell,geo,pkey,small){
+    const nu=Math.max(1,Math.round((u1-u0)/cell)), nv=Math.max(1,Math.round((v1-v0)/cell));
+    const quat=new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(B.u,B.v,B.n));
     const targets=[M].concat(glass);
+    let made=0;
     for(let i=0;i<nu;i++)for(let j=0;j<nv;j++){
-      const pl=new THREE.Vector3(); pl[uA]=mn[uA]+(i+0.5)/nu*uL; pl[vA]=mn[vA]+(j+0.5)/nv*vL; pl[nA]=nFace;
-      const wp=M.localToWorld(pl.clone());
-      rc.set(wp.clone().addScaledVector(wn,0.3), wn.clone().negate());
+      const du=u0+(i+0.5)/nu*(u1-u0), dv=v0+(j+0.5)/nv*(v1-v0);
+      const p=B.center.clone().addScaledVector(B.u,du).addScaledVector(B.v,dv);
+      rc.set(p.clone().addScaledVector(B.n,0.5), B.n.clone().negate());
       const hit=rc.intersectObjects(targets,false);
-      if(!hit.length || hit[0].object!==M) continue;   // нет тела / впереди окно / вне контура
-      const cm=new THREE.Mesh(CELLGEO, new THREE.MeshBasicMaterial({color:0xff7f50,transparent:true,opacity:0.34,depthWrite:false,side:THREE.DoubleSide}));
-      cm.position.copy(hit[0].point).addScaledVector(wn,0.012);
-      cm.quaternion.setFromUnitVectors(_Z,wn);
-      cm.visible=false; cm.userData.cell=true;
-      car.add(cm); cells.push(cm);
+      if(!hit.length || hit[0].object!==M) continue;                 // нет тела / окно / вне контура (луч идёт снаружи → первое попадание = внешняя грань)
+      const cm=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:BORDER_TEX,color:0xffffff,transparent:true,opacity:0.9,depthWrite:false,side:THREE.DoubleSide}));
+      cm.position.copy(hit[0].point).addScaledVector(B.n,0.012);
+      cm.quaternion.copy(quat);
+      cm.visible=false;
+      cm.userData={cell:true,panel:pkey,gi:i,gj:j,small:small,geo0:geo,price:(small?CUR.cellSmall:CUR.cell),adName:M.userData.adName};
+      car.add(cm); cells.push(cm); made++;
+    }
+    return made;
+  }
+  for(const M of adMeshes){
+    const B=panelBasis(M);
+    M.userData.faceN=B.n.clone(); M.userData.faceC=B.center.clone();   // для фокус-зума на мобилке
+    // экстенты панели вдоль u,v
+    const pos=M.geometry.attributes.position, N=pos.count, step=Math.max(1,Math.floor(N/600));
+    let u0=1/0,u1=-1/0,v0=1/0,v1=-1/0, t=new THREE.Vector3();
+    for(let i=0;i<N;i+=step){ t.fromBufferAttribute(pos,i); M.localToWorld(t); const d=t.clone().sub(B.center); const du=d.dot(B.u),dv=d.dot(B.v); if(du<u0)u0=du;if(du>u1)u1=du;if(dv<v0)v0=dv;if(dv>v1)v1=dv; }
+    const isSide=/Main_Wall/.test(M.name);
+    if(isSide){
+      // 80% крупные + 20% мелкие/дешёвые (передняя часть борта, ближе к кабине)
+      const cut=u1-(u1-u0)*SIDE_SMALL_FRAC;
+      fillRegion(M,B,u0,cut,v0,v1,CELL_BIG,CELLGEO,M.name,false);
+      fillRegion(M,B,cut,u1,v0,v1,CELL_SM,CELLGEO_S,M.name+'#s',true);
+    } else {
+      fillRegion(M,B,u0,u1,v0,v1,CELL_BIG,CELLGEO,M.name,false);
     }
   }
   cellCount=cells.length;
   pickTargets=cells.concat(adMeshes);
-  console.log('Секций (ячеек без окон):', cellCount);
 }
 
 const loader=new GLTFLoader();
@@ -320,12 +449,21 @@ function layout(){
   car.scale.setScalar(0.9+progress*0.12);
 }
 
+const _look=new THREE.Vector3();
 function frameCamera(){
   const vHalf=THREE.MathUtils.degToRad(camera.fov/2);
   const reachH=MR*(2.05-0.75*progress), reachV=MR*(1.3-0.45*progress);
   const D=Math.max(reachH/(Math.tan(vHalf)*camera.aspect), reachV/Math.tan(vHalf))*1.08;
-  camera.position.copy(CAM_DIR).multiplyScalar(D);
-  camera.lookAt(0,0,0);
+  // фокус на детали: приближаемся и центрируем её
+  let D2=D, tx=0,ty=0,tz=0;
+  if(focusK>0.001 && focusMesh){
+    const tgt=car.localToWorld(focusMesh.userData.faceC.clone());
+    tx=tgt.x*focusK*0.92; ty=tgt.y*focusK*0.92; tz=tgt.z*focusK*0.92;
+    D2=D*(1-0.46*focusK);
+  }
+  _look.set(tx,ty,tz);
+  camera.position.copy(CAM_DIR).multiplyScalar(D2).add(_look);
+  camera.lookAt(_look);
 }
 
 let _lw=0,_lh=0;
@@ -354,13 +492,19 @@ addEventListener('pointermove',e=>{
   if(down){ const dx=e.clientX-down.x,dy=e.clientY-down.y; moved=Math.max(moved,Math.abs(dx)+Math.abs(dy)); dragRotY=down.ry+dx*0.006; dragRotX=Math.max(-0.45,Math.min(0.5,down.rx+dy*0.004)); return; }
   if(gridOn) hoverPick(e);
 });
+function restoreCell(cm){
+  cm.material.map=BORDER_TEX; cm.material.color.setHex(0xffffff); cm.material.opacity=0.9;
+  const g0=cm.userData.geo0||CELLGEO;
+  if(cm.geometry!==g0){ cm.geometry.dispose(); cm.geometry=g0; }
+  cm.material.needsUpdate=true;
+}
 function hoverPick(e){
   nd.x=(e.clientX/innerWidth)*2-1; nd.y=-(e.clientY/innerHeight)*2+1; ray.setFromCamera(nd,camera);
   const h=ray.intersectObjects(pickTargets,false);
   const c=(h.length && h[0].object.userData.cell)?h[0].object:null;
-  if(hoverCell && hoverCell!==c && !hoverCell.userData.sel) hoverCell.material.opacity=0.34;
+  if(hoverCell && hoverCell!==c && !hoverCell.userData.sel) restoreCell(hoverCell);
   hoverCell=c;
-  if(c){ if(!c.userData.sel) c.material.opacity=0.62; canvas.style.cursor='pointer'; } else canvas.style.cursor='';
+  if(c){ if(!c.userData.sel){ c.material.map=null; c.material.color.setHex(0xff7f50); c.material.opacity=0.5; c.material.needsUpdate=true; } canvas.style.cursor='pointer'; } else canvas.style.cursor='';
 }
 addEventListener('pointerup',e=>{ if(down&&moved<6) pick(e); down=null; });
 function pick(e){
@@ -375,32 +519,71 @@ function pick(e){
 }
 function toggleCell(cm){
   cm.userData.sel=!cm.userData.sel;
-  if(cm.userData.sel){ cm.material.map=logoTex||null; cm.material.color.setHex(logoTex?0xffffff:0xe85f2c); cm.material.opacity=logoTex?1:0.92; }
-  else { cm.material.map=null; cm.material.color.setHex(0xff7f50); cm.material.opacity=0.34; }
-  cm.material.needsUpdate=true;
+  if(cm.userData.sel){ cm.material.map=null; cm.material.color.setHex(0xe85f2c); cm.material.opacity=0.55; cm.material.needsUpdate=true; }
+  else restoreCell(cm);
+  if(logoTex) reMapLogo();
   updateSel();
 }
+// Растянуть одно лого сплошным полотном по всем выбранным ячейкам (без разрывов), отдельно по каждой панели.
+function reMapLogo(){
+  if(!logoTex) return;
+  const byPanel=new Map();
+  for(const c of cells){ if(!c.userData.sel) continue; const p=c.userData.panel; if(!byPanel.has(p)) byPanel.set(p,[]); byPanel.get(p).push(c); }
+  byPanel.forEach(list=>{
+    let miU=1/0,maU=-1/0,miV=1/0,maV=-1/0;
+    for(const c of list){ const u=c.userData.gi,v=c.userData.gj; if(u<miU)miU=u; if(u>maU)maU=u; if(v<miV)miV=v; if(v>maV)maV=v; }
+    const W=maU-miU+1, H=maV-miV+1;
+    for(const c of list){
+      const u0=(c.userData.gi-miU)/W, u1=(c.userData.gi-miU+1)/W;
+      const v0=(c.userData.gj-miV)/H, v1=(c.userData.gj-miV+1)/H;
+      const g0=c.userData.geo0||CELLGEO;
+      if(c.geometry===g0) c.geometry=g0.clone();
+      const uv=c.geometry.attributes.uv;
+      uv.setXY(0,u0,v1); uv.setXY(1,u1,v1); uv.setXY(2,u0,v0); uv.setXY(3,u1,v0); uv.needsUpdate=true;
+      c.material.map=logoTex; c.material.color.setHex(0xffffff); c.material.opacity=1; c.material.needsUpdate=true;
+    }
+  });
+}
 function applyLogo(url){
-  new THREE.TextureLoader().load(url,tex=>{ tex.colorSpace=THREE.SRGBColorSpace; logoTex=tex;
-    for(const c of cells) if(c.userData.sel){ c.material.map=tex; c.material.color.setHex(0xffffff); c.material.opacity=1; c.material.needsUpdate=true; }
+  new THREE.TextureLoader().load(url,tex=>{ tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=8; logoTex=tex;
+    reMapLogo();
     document.querySelector('#sel .note').textContent='Логотип размещён (предпросмотр) на '+cells.reduce((a,c)=>a+(c.userData.sel?1:0),0)+' секц.';
   });
 }
 function updateSel(){
-  let n=0; for(const c of cells) if(c.userData.sel) n++;
+  let n=0,sum=0,sm=0; for(const c of cells) if(c.userData.sel){n++;sum+=c.userData.price;if(c.userData.small)sm++;}
   const el=document.getElementById('sel');
-  if(gridOn && n>0){ el.classList.add('show'); document.getElementById('sel-n').textContent=n; document.getElementById('sel-sum').textContent=(n*CELL_PRICE).toLocaleString('ru-RU'); }
+  if(gridOn && n>0){ el.classList.add('show'); document.getElementById('sel-n').textContent=n; document.getElementById('sel-sum').textContent=fmt(sum);
+    document.querySelector('#sel .note').textContent = sm>0 ? ('из них мелких: '+sm+' · дешевле') : 'Загрузи лого — увидишь его на машине заранее'; }
   else el.classList.remove('show');
 }
-function clearSel(){ for(const c of cells) if(c.userData.sel){c.userData.sel=false;c.material.color.setHex(0xff7f50);c.material.opacity=0.34;c.material.map=null;c.material.needsUpdate=true;} logoTex=null; updateSel(); }
+function clearSel(){ for(const c of cells) if(c.userData.sel){c.userData.sel=false;restoreCell(c);} logoTex=null; updateSel(); }
 function select(m){
   if(selected&&selected!==m) selected.material.emissive.setHex(0x000000);
   selected=m; m.material.emissive.setHex(0xff7f50); m.material.emissiveIntensity=0.55;
-  document.getElementById('ad-name').textContent=m.userData.adName;
-  document.getElementById('ad-price').textContent=m.userData.adPrice.toLocaleString('ru-RU');
-  document.getElementById('ad').classList.add('show');
   document.getElementById('toast').classList.remove('on');
+  if(isMobile()){ focusPart(m); return; }            // на мобилке — приближаем деталь и сразу в сетку
+  document.getElementById('ad-name').textContent=m.userData.adName;
+  document.getElementById('ad-price').textContent=fmt(rub2(m.userData.adPrice));
+  document.getElementById('ad-per').textContent=CUR.per;
+  document.getElementById('ad').classList.add('show');
 }
+// Мобильный «поп-ап»: разворачиваем деталь к камере, приближаем на весь экран, включаем сетку
+let focusMesh=null, focusK=0, focusTargetYaw=0, focusTargetPitch=0;
+function focusPart(m){
+  focusMesh=m;
+  spin=false; sbtn.innerHTML=IC_PLAY; sbtn.classList.add('on');
+  autoY+=dragRotY; dragRotY=0; down=null;
+  const fn=m.userData.faceN||new THREE.Vector3(0,0,1);
+  let d=(Math.atan2(CAM_DIR.x,CAM_DIR.z)-Math.atan2(fn.x,fn.z))-autoY;
+  d=Math.atan2(Math.sin(d),Math.cos(d));
+  focusTargetYaw=autoY+d;
+  focusTargetPitch=Math.max(-0.32,Math.min(0.4,-fn.y*0.55));
+  setGrid(true);
+  document.body.classList.add('focusing');
+  document.getElementById('unfocus').classList.add('show');
+}
+function unfocus(){ focusMesh=null; focusTargetPitch=0; document.body.classList.remove('focusing'); document.getElementById('unfocus').classList.remove('show'); }
 function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
 const gbtn=document.getElementById('gridbtn');
 function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible=on); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)hoverCell.material.opacity=0.34;hoverCell=null;} updateSel(); if(on) deselect(); }
@@ -417,7 +600,7 @@ sbtn.innerHTML=spin?IC_PAUSE:IC_PLAY;
 sbtn.onclick=()=>{ spin=!spin; sbtn.innerHTML=spin?IC_PAUSE:IC_PLAY; sbtn.classList.toggle('on',!spin); };
 const BUYERS=[{n:'Zalihvat',sec:14,sum:98000},{n:'Multihub',sec:9,sum:63000},{n:'Тусовка брендов',sec:5,sum:35000}];
 (function(){ const tb=document.getElementById('board-rows'),med=['🥇','🥈','🥉'],board=document.getElementById('board');
-  BUYERS.forEach((b,i)=>{const tr=document.createElement('tr');tr.innerHTML='<td class="rk">'+(med[i]||(i+1))+'</td><td>'+b.n+'</td><td>'+b.sec+'</td><td class="amt">'+b.sum.toLocaleString('ru-RU')+' ₽</td>';tb.appendChild(tr);});
+  BUYERS.forEach((b,i)=>{const tr=document.createElement('tr');tr.innerHTML='<td class="rk">'+(med[i]||(i+1))+'</td><td>'+b.n+'</td><td>'+b.sec+'</td><td class="amt">'+fmt(rub2(b.sum))+'</td>';tb.appendChild(tr);});
   document.getElementById('ratebtn').onclick=()=>board.classList.add('show');
   document.getElementById('board-close').onclick=()=>board.classList.remove('show');
   board.addEventListener('click',e=>{if(e.target===board)board.classList.remove('show');});
@@ -431,11 +614,50 @@ function tick(){
   ensureSize();
   if(typeof window.__fp==='number') onScroll();
   if(!down && spin) autoY+=0.0016;
+  focusK += ((focusMesh?1:0)-focusK)*0.12;
+  if(focusMesh && !down){ autoY += (focusTargetYaw-autoY)*0.12; dragRotX += (focusTargetPitch-dragRotX)*0.12; }
   car.rotation.y=autoY+dragRotY; car.rotation.x=dragRotX;
   layout();
   frameCamera();
   renderer.render(scene,camera);
 }
+
+// ── Прогресс сбора + «поддержать любой суммой» ──
+(function(){
+  document.getElementById('ad-per').textContent=CUR.per;
+  const goalEl=document.getElementById('fund-goal'), rEl=document.getElementById('fund-raised'),
+        fill=document.getElementById('fund-fill'), pct=document.getElementById('fund-pct');
+  goalEl.textContent=fmt(CUR.goal); rEl.textContent=fmt(CUR.raised);
+  const p=Math.max(0,Math.min(100,Math.round(CUR.raised/CUR.goal*100)));
+  pct.textContent=p+'%';
+  requestAnimationFrame(()=>{ setTimeout(()=>{ fill.style.width=p+'%'; },250); });
+
+  const modal=document.getElementById('support');
+  document.getElementById('sup-cur').textContent=CUR.sym;
+  const presets = LANG==='en'?[10,25,50,100,250,500]:[500,1000,2500,5000,10000,25000];
+  const host=document.getElementById('sup-amts'); let chosen=null;
+  const inp=document.getElementById('sup-input');
+  presets.forEach(v=>{ const b=document.createElement('button'); b.textContent=fmt(v);
+    b.onclick=()=>{ chosen=v; inp.value=''; [...host.children].forEach(x=>x.classList.toggle('on',x===b)); };
+    host.appendChild(b); });
+  inp.oninput=()=>{ chosen=null; [...host.children].forEach(x=>x.classList.remove('on')); };
+  function openSup(){ modal.classList.add('show'); }
+  function closeSup(){ modal.classList.remove('show'); }
+  const supBtn=document.getElementById('fund-support');
+  const setSupLabel=()=>{ supBtn.textContent = isMobile()?'Поддержать':'Поддержать любой суммой'; };
+  setSupLabel(); addEventListener('resize',setSupLabel);
+  supBtn.onclick=openSup;
+  document.getElementById('support-close').onclick=closeSup;
+  modal.addEventListener('click',e=>{ if(e.target===modal) closeSup(); });
+  document.getElementById('sup-go').onclick=()=>{
+    const amt=chosen||parseFloat(inp.value);
+    const note=document.getElementById('sup-note');
+    if(!amt||amt<=0){ note.textContent='Введите сумму'; return; }
+    note.textContent='Спасибо! '+fmt(amt)+' — оплата подключается (Prodamus)';
+  };
+})();
+document.getElementById('unfocus').onclick=unfocus;
+
 onScroll(); ensureSize(); tick();
 </script>
 <script>
