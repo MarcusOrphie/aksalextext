@@ -45,7 +45,7 @@
   .fade{opacity:0;transition:opacity .4s ease}
   .fade.on{opacity:1}
 
-  #ad{position:fixed;z-index:40;right:24px;top:50%;transform:translateY(-50%) translateX(30px);width:310px;max-width:calc(100vw - 40px);background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--coral);padding:22px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+  #ad{position:fixed;z-index:40;left:24px;top:50%;transform:translateY(-50%) translateX(-30px);width:310px;max-width:calc(100vw - 40px);background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--coral);padding:22px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
   #ad.show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
   #ad .eyebrow{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.18em;color:var(--coral-deep)}
   #ad h3{font-size:23px;margin:6px 0 4px}
@@ -62,9 +62,20 @@
 
   .tag{position:fixed;left:20px;bottom:22px;z-index:20;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.1em;color:var(--muted)}
   .loading{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--coral-deep)}
+  #bg{position:fixed;inset:0;z-index:0;overflow:hidden}
+  #bg svg{width:100%;height:100%;display:block}
+  body.hasbg::before{opacity:0}
+  #scenes{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:41;display:flex;flex-direction:column;gap:9px}
+  .swatch{width:54px;height:54px;border:2.5px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;overflow:hidden;padding:0;position:relative;background:var(--paper2);transition:transform .08s,box-shadow .08s}
+  .swatch:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+  .swatch.on{border-color:var(--coral-deep);box-shadow:3px 3px 0 var(--coral)}
+  .swatch .mini{position:absolute;inset:0}
+  .swatch .mini svg{width:100%;height:100%;display:block}
+  @media(max-width:760px){#scenes{right:auto;left:0;top:58px;bottom:auto;transform:none;flex-direction:row;overflow-x:auto;width:100vw;padding:6px 12px;gap:7px}.swatch{width:44px;height:44px;flex:none}}
 </style>
 </head>
 <body>
+<div id="bg"></div>
 <nav class="nav">
   <div class="in">
     <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
@@ -86,7 +97,8 @@
 </div>
 <div class="overlay fade on" id="hint">Крути и листай<span class="arrow">↓</span></div>
 <div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
-<div class="tag">3D · Sunlight Adventure I68 · v6</div>
+<div id="scenes"></div>
+<div class="tag">3D · Sunlight Adventure I68 · v7</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -117,9 +129,15 @@ const AD={
   'BODY_Roof_Panel':{n:'Крыша',price:6000},
   'BODY_Rear_Wall':{n:'Задняя стенка',price:5000},
   'BODY_Front_Service_Hood_mesh.001':{n:'Капот',price:5000},
+  'BODY_Front_Roof_Crown_mesh':{n:'Лоб над кабиной',price:4000},
+  'BODY_Front_Bumper_mesh.001':{n:'Передний бампер',price:2500},
+  'BODY_Rear_Bumper_mesh':{n:'Задний бампер',price:2500},
+  'PANEL_Left_Driver_Door':{n:'Водительская дверь',price:3000},
   'PANEL_Right_Entry_Door':{n:'Входная дверь',price:3000},
   'PANEL_Left_Garage_Door':{n:'Гаражная дверь',price:3500},
   'PANEL_Right_Garage_Door':{n:'Багажная дверь',price:3500},
+  'PANEL_Right_Service_Hatch':{n:'Сервисный лючок',price:2000},
+  'PANEL_Right_Utility_Hatch':{n:'Лючок',price:2000},
 };
 
 const canvas=document.getElementById('scene');
@@ -251,6 +269,66 @@ function tick(){
   renderer.render(scene,camera);
 }
 onScroll(); ensureSize(); tick();
+</script>
+<script>
+/* фоны-пейзажи */
+(function(){
+  var SCENES=[
+    {name:'Чистый', sky:'', svg:''},
+    {name:'Равнина', sky:'linear-gradient(180deg,#bfe4ff 0%,#e9f6ff 72%)', svg:
+      '<circle cx="134" cy="20" r="11" fill="#fff2c2"/>'+
+      '<polygon points="0,57 38,49 78,55 120,47 160,54 160,100 0,100" fill="#d2e8a8"/>'+
+      '<polygon points="0,66 52,60 104,66 160,61 160,100 0,100" fill="#abd57f"/>'+
+      '<polygon points="0,79 62,72 128,79 160,75 160,100 0,100" fill="#83bd5c"/>'},
+    {name:'Горы и озеро', sky:'linear-gradient(180deg,#a3c9ef 0%,#dcecfb 62%)', svg:
+      '<circle cx="132" cy="18" r="9" fill="#fff6d8"/>'+
+      '<polygon points="0,64 26,34 50,64" fill="#8090a6"/>'+
+      '<polygon points="34,64 66,24 100,64" fill="#6f7f97"/>'+
+      '<polygon points="86,64 118,30 152,64" fill="#7c8ca2"/>'+
+      '<polygon points="20,42 26,34 32,42" fill="#fff"/>'+
+      '<polygon points="59,35 66,24 73,35" fill="#fff"/>'+
+      '<polygon points="111,41 118,30 125,41" fill="#fff"/>'+
+      '<rect x="0" y="62" width="160" height="6" fill="#4e6f4a"/>'+
+      '<rect x="0" y="68" width="160" height="32" fill="#aacfe9"/>'+
+      '<rect x="0" y="68" width="160" height="4" fill="#c6def0"/>'},
+    {name:'Закат', sky:'linear-gradient(180deg,#ff9366 0%,#ffbf7e 45%,#ffe1b0 75%)', svg:
+      '<circle cx="80" cy="54" r="15" fill="#ffe08a"/>'+
+      '<polygon points="0,60 45,52 95,58 160,50 160,100 0,100" fill="#b06a4e"/>'+
+      '<polygon points="0,70 60,64 120,70 160,66 160,100 0,100" fill="#8a4d3c"/>'+
+      '<rect x="0" y="78" width="160" height="22" fill="#c77a52"/>'+
+      '<rect x="74" y="78" width="12" height="22" fill="#ffd98a" opacity="0.7"/>'},
+    {name:'Лес у воды', sky:'linear-gradient(180deg,#bfe6de 0%,#eaf7f3 70%)', svg:
+      '<circle cx="30" cy="20" r="8" fill="#fff6da"/>'+
+      '<polygon points="0,58 30,50 70,57 110,49 160,56 160,72 0,72" fill="#3f6b4b"/>'+
+      '<g fill="#2f5c40">'+[10,26,42,58,74,90,106,122,138,154].map(function(x){return '<polygon points="'+(x-5)+',62 '+x+',49 '+(x+5)+',62"/>';}).join('')+'</g>'+
+      '<rect x="0" y="70" width="160" height="30" fill="#9fd0cf"/>'+
+      '<rect x="0" y="70" width="160" height="3" fill="#bfe2e1"/>'},
+    {name:'Каньон', sky:'linear-gradient(180deg,#cfe0ef 0%,#f4e2c6 62%)', svg:
+      '<polygon points="0,58 18,40 26,40 30,58" fill="#c97b4c"/>'+
+      '<polygon points="58,60 78,44 112,44 122,60" fill="#b5673c"/>'+
+      '<polygon points="130,58 142,46 160,46 160,60" fill="#c9793f"/>'+
+      '<polygon points="0,64 160,60 160,100 0,100" fill="#e3c089"/>'+
+      '<polygon points="0,76 160,72 160,100 0,100" fill="#d4ab6f"/>'}
+  ];
+  function wrap(svg){return '<svg viewBox="0 0 160 100" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">'+svg+'</svg>';}
+  var bg=document.getElementById('bg'), host=document.getElementById('scenes'), sw=[];
+  SCENES.forEach(function(s,i){
+    var b=document.createElement('button'); b.className='swatch'; b.title=s.name;
+    var m=document.createElement('div'); m.className='mini';
+    if(i===0){ m.style.background='#faf5ec'; m.style.backgroundImage='radial-gradient(rgba(255,127,80,.35) 1.2px,transparent 1.3px)'; m.style.backgroundSize='7px 7px'; }
+    else { m.style.background=s.sky; m.innerHTML=wrap(s.svg); }
+    b.appendChild(m); b.addEventListener('click',function(){setScene(i);}); host.appendChild(b); sw.push(b);
+  });
+  function setScene(i){
+    sw.forEach(function(x,j){x.classList.toggle('on',j===i);});
+    if(i===0){ document.body.classList.remove('hasbg'); bg.style.background=''; bg.innerHTML=''; }
+    else { document.body.classList.add('hasbg'); bg.style.background=SCENES[i].sky; bg.innerHTML=wrap(SCENES[i].svg); }
+    try{localStorage.setItem('avtodom-bg',i);}catch(e){}
+  }
+  var saved=1; try{var v=localStorage.getItem('avtodom-bg'); if(v!==null)saved=+v;}catch(e){}
+  if(saved<0||saved>=SCENES.length)saved=1;
+  setScene(saved);
+})();
 </script>
 </body>
 </html>
