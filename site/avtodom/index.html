@@ -88,7 +88,7 @@
 </div>
 <div class="overlay fade on" id="hint">Крути и листай<span class="arrow">↓</span></div>
 <div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
-<div class="tag">3D-тест · автодом</div>
+<div class="tag">3D-тест · автодом · v4</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -202,12 +202,15 @@ function layout(){
   car.scale.setScalar(0.82+progress*0.16);
 }
 
-function resize(){
+let _lw=0,_lh=0;
+function ensureSize(){
   const w=innerWidth,h=innerHeight;
-  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
-  frameCamera();
+  if(w<2||h<2) return;
+  if(w===_lw&&h===_lh) return;
+  _lw=w;_lh=h;
+  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); frameCamera();
 }
-addEventListener('resize',resize); resize();
+addEventListener('resize',ensureSize); ensureSize();
 
 function onScroll(){
   const max=document.documentElement.scrollHeight-innerHeight;
@@ -256,6 +259,7 @@ document.getElementById('ad-logo').onclick=()=>{document.querySelector('#ad .not
 let ready=false;
 function tick(){
   requestAnimationFrame(tick);
+  ensureSize();
   if(typeof window.__fp==='number') onScroll();
   if(!down) autoY+=0.0018;
   car.rotation.y=autoY+dragRotY; car.rotation.x=dragRotX;
