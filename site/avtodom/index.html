@@ -21,7 +21,8 @@
   a{color:var(--coral-deep);text-decoration:none}
 
   .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink)}
-  .nav .in{max-width:1080px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .nav .in{max-width:100%;margin:0 auto;padding:11px 40px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  @media(max-width:760px){.nav .in{padding:11px 18px}}
   .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:16px;color:var(--ink)}
   .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
   .navlinks{display:flex;gap:16px;align-items:center}
@@ -29,7 +30,7 @@
   .navlinks a:hover{color:var(--coral)}
   @media(max-width:760px){.navlinks{display:none}}
 
-  #scene{position:fixed;inset:0;z-index:1;display:block}
+  #scene{position:fixed;inset:0;z-index:1;display:block;width:100%;height:100%}
   .spacer{position:relative;z-index:2;height:380vh;pointer-events:none}
 
   /* overlays */
@@ -88,7 +89,7 @@
 </div>
 <div class="overlay fade on" id="hint">Крути и листай<span class="arrow">↓</span></div>
 <div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
-<div class="tag">3D-тест · автодом · v4</div>
+<div class="tag">3D-тест · автодом · v5</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
