@@ -220,6 +220,7 @@ addEventListener('scroll',onScroll,{passive:true});
 
 // interaction: drag to rotate + click to select ad part
 const ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
+const _box=new THREE.Box3(), _cen=new THREE.Vector3();
 let down=null, moved=0, selected=null;
 canvas.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,ry:dragRotY,rx:dragRotX};moved=0;});
 addEventListener('pointermove',e=>{
@@ -259,6 +260,8 @@ function tick(){
   if(!down) autoY+=0.0018;
   car.rotation.y=autoY+dragRotY; car.rotation.x=dragRotX;
   layout();
+  _box.setFromObject(car); _box.getCenter(_cen);   // держим модель по центру кадра всегда
+  camera.lookAt(_cen);
   renderer.render(scene,camera);
   if(!ready){ready=true;document.getElementById('loading').style.display='none';}
 }
