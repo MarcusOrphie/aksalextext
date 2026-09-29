@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Автодом в 3D - собери машину под свой бренд</title>
-<meta name="description" content="Интерактивный 3D-автодом: детали собираются по скроллу, а на кузове можно занять место под свой логотип.">
+<meta name="description" content="Интерактивный 3D-автодом Sunlight: детали собираются по скроллу, а на кузове можно занять место под свой логотип.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,9 +31,8 @@
   @media(max-width:760px){.navlinks{display:none}}
 
   #scene{position:fixed;inset:0;z-index:1;display:block;width:100%;height:100%}
-  .spacer{position:relative;z-index:2;height:380vh;pointer-events:none}
+  .spacer{position:relative;z-index:2;height:400vh;pointer-events:none}
 
-  /* overlays */
   .overlay{position:fixed;left:0;right:0;z-index:20;text-align:center;pointer-events:none;padding:0 20px}
   #headline{top:96px}
   #headline h1{font-size:clamp(28px,5.4vw,60px);color:var(--ink);text-shadow:0 2px 0 var(--paper)}
@@ -46,8 +45,7 @@
   .fade{opacity:0;transition:opacity .4s ease}
   .fade.on{opacity:1}
 
-  /* selection panel */
-  #ad{position:fixed;z-index:40;right:20px;top:50%;transform:translateY(-50%) translateX(30px);width:300px;max-width:calc(100vw - 40px);background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--coral);padding:22px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+  #ad{position:fixed;z-index:40;right:24px;top:50%;transform:translateY(-50%) translateX(30px);width:310px;max-width:calc(100vw - 40px);background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--coral);padding:22px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
   #ad.show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
   #ad .eyebrow{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.18em;color:var(--coral-deep)}
   #ad h3{font-size:23px;margin:6px 0 4px}
@@ -85,133 +83,127 @@
 
 <div class="overlay fade on" id="headline">
   <h1>Соберём машину вместе<br>и отправимся в <em>путешествие</em>!</h1>
-  <p>Листай вниз - детали слетаются в одну машину</p>
+  <p>Листай вниз - детали слетаются в один автодом</p>
 </div>
 <div class="overlay fade on" id="hint">Крути и листай<span class="arrow">↓</span></div>
 <div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
-<div class="tag">3D-тест · автодом · v5</div>
+<div class="tag">3D · Sunlight Adventure I68 · v6</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
   <span class="eyebrow">Рекламное место</span>
   <h3 id="ad-name">Деталь</h3>
-  <div class="price"><span id="ad-price">5000</span> <small>₽ / месяц</small></div>
+  <div class="price"><span id="ad-price">6000</span> <small>₽ / месяц</small></div>
   <p>Твой логотип на этой детали автодома. Машина ездит - бренд видят вживую и в роликах путешествия.</p>
   <button class="btn btn-primary" id="ad-buy">Занять место →</button>
   <button class="btn btn-ghost" id="ad-logo">Загрузить логотип</button>
   <div class="note">Тестовый режим · оплата подключается</div>
 </div>
 
-<div class="loading" id="loading">Собираем автодом…</div>
+<div class="loading" id="loading">Загружаем автодом…</div>
 
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
 </script>
 <script type="module">
 import * as THREE from 'three';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
-const CREAM=0xf4efe6, DARK=0x2b2723, GLASS=0x223038, CORAL=0xff7f50, TIRE=0x1b1917, LAMP=0xfff0c8;
-
-// seeded rng for stable scatter
 let _s=1337; function rnd(){_s=(_s*1103515245+12345)&0x7fffffff;return _s/0x7fffffff;}
 
-const PARTS=[
-  {n:'Шасси',      t:'box',a:[4.9,0.22,1.94], p:[0.1,0.6,0],   c:DARK,  stag:[0,.2]},
-  // кузов = отдельные стенки, каждая своя деталь
-  {n:'Левый борт', t:'box',a:[3.4,1.3,0.08],  p:[-0.5,1.35,0.92], c:CREAM, ad:1,price:6000,stag:[.14,.42]},
-  {n:'Правый борт',t:'box',a:[3.4,1.3,0.08],  p:[-0.5,1.35,-0.92],c:CREAM, ad:1,price:6000,stag:[.16,.44]},
-  {n:'Задняя стенка',t:'box',a:[0.08,1.3,1.84],p:[-2.2,1.35,0], c:CREAM, ad:1,price:4000,stag:[.3,.56]},
-  {n:'Крыша',      t:'box',a:[3.55,0.16,1.94],p:[-0.45,2.03,0],c:CREAM, ad:1,price:6000,stag:[.4,.64]},
-  // кабина
-  {n:'Кабина',     t:'box',a:[1.2,1.05,1.82], p:[1.8,1.15,0],  c:CREAM, stag:[.2,.46]},
-  {n:'Спальник над кабиной',t:'box',a:[1.3,0.7,1.86],p:[1.75,2.05,0],c:CREAM,stag:[.34,.6]},
-  {n:'Лоб спальника',t:'box',a:[0.08,0.62,1.72],p:[2.4,2.05,0],c:CREAM, ad:1,price:3500,stag:[.5,.76]},
-  {n:'Лобовое стекло',t:'box',a:[0.09,0.66,1.62],p:[2.33,1.46,0],r:[0,0,-0.42],c:GLASS,glass:1,stag:[.55,.8]},
-  {n:'Решётка',    t:'box',a:[0.14,0.5,1.68], p:[2.46,0.95,0], c:DARK,  stag:[.5,.74]},
-  // детали
-  {n:'Дверь',      t:'box',a:[0.72,1.0,0.05], p:[-1.0,1.2,0.965],c:CORAL, stag:[.6,.84]},
-  {n:'Окно слева', t:'box',a:[1.3,0.5,0.03],  p:[0.2,1.65,0.965], c:GLASS,glass:1,stag:[.62,.85]},
-  {n:'Окно справа',t:'box',a:[1.3,0.5,0.03],  p:[0.2,1.65,-0.965],c:GLASS,glass:1,stag:[.62,.85]},
-  {n:'Окно сзади', t:'box',a:[0.03,0.5,1.0],  p:[-2.26,1.62,0], c:GLASS,glass:1,stag:[.64,.86]},
-  {n:'Бампер перед',t:'box',a:[0.22,0.26,1.94],p:[2.48,0.68,0], c:DARK,  stag:[.7,.9]},
-  {n:'Бампер зад', t:'box',a:[0.22,0.26,1.94],p:[-2.26,0.68,0],c:DARK,  stag:[.7,.9]},
-  {n:'Фара Л',     t:'box',a:[0.1,0.16,0.3],  p:[2.5,0.9,0.62], c:LAMP, stag:[.78,.94]},
-  {n:'Фара П',     t:'box',a:[0.1,0.16,0.3],  p:[2.5,0.9,-0.62],c:LAMP, stag:[.78,.94]},
-];
-// wheels
-for(const [x,z] of [[1.55,0.88],[1.55,-0.88],[-1.35,0.88],[-1.35,-0.88]]){
-  PARTS.push({n:'Колесо',t:'cyl',a:[0.46,0.46,0.34,22],p:[x,0.46,z],r:[Math.PI/2,0,0],c:TIRE,stag:[.05,.28]});
-}
+// рекламные детали: имя меша -> подпись + цена
+const AD={
+  'BODY_Left_Main_Wall':{n:'Левый борт',price:8000},
+  'BODY_Right_Main_Wall':{n:'Правый борт',price:8000},
+  'BODY_Roof_Panel':{n:'Крыша',price:6000},
+  'BODY_Rear_Wall':{n:'Задняя стенка',price:5000},
+  'BODY_Front_Service_Hood_mesh.001':{n:'Капот',price:5000},
+  'PANEL_Right_Entry_Door':{n:'Входная дверь',price:3000},
+  'PANEL_Left_Garage_Door':{n:'Гаражная дверь',price:3500},
+  'PANEL_Right_Garage_Door':{n:'Багажная дверь',price:3500},
+};
 
 const canvas=document.getElementById('scene');
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
 const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(40,1,0.1,200);
-const CAM_DIR=new THREE.Vector3(0.62,0.34,0.82).normalize();
+const camera=new THREE.PerspectiveCamera(40,1,0.1,500);
+const CAM_DIR=new THREE.Vector3(0.72,0.36,0.9).normalize();
+
+scene.add(new THREE.HemisphereLight(0xffffff,0xcdbfa6,1.15));
+const key=new THREE.DirectionalLight(0xffffff,1.5); key.position.set(6,10,7); scene.add(key);
+const fill=new THREE.DirectionalLight(0xfff0e0,0.6); fill.position.set(-7,4,-5); scene.add(fill);
+const warm=new THREE.PointLight(0xff7f50,0.35,60); warm.position.set(-6,3,4); scene.add(warm);
+
+const car=new THREE.Group(); scene.add(car);
+let parts=[], adMeshes=[], MR=3, ready=false;
+
+function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
+
+const loader=new GLTFLoader();
+loader.load('camper.glb', (gltf)=>{
+  const root=gltf.scene; root.updateWorldMatrix(true,true);
+  const meshes=[];
+  root.traverse(o=>{ if(o.isMesh && o.name!=='ENV_Studio_Ground_mesh' && o.name.indexOf('ENV_')<0) meshes.push(o); });
+  // общий bbox
+  const box=new THREE.Box3();
+  meshes.forEach(m=>{ m.updateWorldMatrix(true,false); box.expandByObject(m); });
+  const ctr=box.getCenter(new THREE.Vector3());
+  const size=box.getSize(new THREE.Vector3());
+  const S=6/Math.max(size.x,size.y,size.z);          // масштабируем: длинная сторона = 6
+  const sph=new THREE.Sphere(); box.getBoundingSphere(sph); MR=sph.radius*S;
+  // переносим каждый меш прямо в car, запекая мировой трансформ + центровку + масштаб
+  meshes.forEach((m,i)=>{
+    m.updateWorldMatrix(true,false);
+    const wp=new THREE.Vector3(),wq=new THREE.Quaternion(),ws=new THREE.Vector3();
+    m.matrixWorld.decompose(wp,wq,ws);
+    car.add(m);
+    wp.sub(ctr).multiplyScalar(S); ws.multiplyScalar(S);
+    m.position.copy(wp); m.quaternion.copy(wq); m.scale.copy(ws);
+    if(m.material){ m.material=m.material.clone(); m.material.emissive=new THREE.Color(0x000000); }
+    const homeP=wp.clone(), homeQ=wq.clone();
+    let dir=homeP.clone(); if(dir.lengthSq()<1e-4) dir.set(rnd()-.5,rnd()-.5,rnd()-.5);
+    dir.normalize();
+    const spread=MR*(0.35+rnd()*0.55);
+    const scat=homeP.clone().addScaledVector(dir,spread); scat.y+=(rnd()-0.5)*MR*0.35;
+    const scatQ=new THREE.Quaternion().setFromEuler(new THREE.Euler((rnd()-.5)*2.4,(rnd()-.5)*2.4,(rnd()-.5)*2.4));
+    const st=0.04+rnd()*0.5;
+    m.userData={homeP,homeQ,scat,scatQ,stag:[st,Math.min(1,st+0.42)]};
+    const ad=AD[m.name];
+    if(ad){ m.userData.ad=true; m.userData.adName=ad.n; m.userData.adPrice=ad.price; adMeshes.push(m); }
+    parts.push(m);
+  });
+  ready=true;
+  document.getElementById('loading').style.display='none';
+}, undefined, (err)=>{
+  document.getElementById('loading').textContent='Не удалось загрузить модель';
+  console.error(err);
+});
+
+function layout(){
+  if(!ready) return;
+  for(const m of parts){
+    const u=m.userData, rp=smooth(u.stag[0],u.stag[1],progress);
+    m.position.lerpVectors(u.scat,u.homeP,rp);
+    m.quaternion.slerpQuaternions(u.scatQ,u.homeQ,rp);
+  }
+  car.scale.setScalar(0.9+progress*0.12);
+}
+
 function frameCamera(){
   const vHalf=THREE.MathUtils.degToRad(camera.fov/2);
-  const reachH=5.8, reachV=2.7;                 // мир, который должен влезть в экран
-  const dW=reachH/(Math.tan(vHalf)*camera.aspect);
-  const dV=reachV/Math.tan(vHalf);
-  const D=Math.max(dW,dV)*1.12;
+  const reachH=MR*(2.05-0.75*progress), reachV=MR*(1.3-0.45*progress);
+  const D=Math.max(reachH/(Math.tan(vHalf)*camera.aspect), reachV/Math.tan(vHalf))*1.08;
   camera.position.copy(CAM_DIR).multiplyScalar(D);
   camera.lookAt(0,0,0);
 }
 
-scene.add(new THREE.HemisphereLight(0xffffff,0xdac9ad,1.05));
-const dir=new THREE.DirectionalLight(0xffffff,1.15); dir.position.set(6,10,7); scene.add(dir);
-const warm=new THREE.PointLight(0xff7f50,0.5,40); warm.position.set(-6,4,-4); scene.add(warm);
-
-const car=new THREE.Group(); scene.add(car);
-const adMeshes=[];
-const parts=PARTS.map(d=>{
-  let geo = d.t==='cyl' ? new THREE.CylinderGeometry(...d.a) : new THREE.BoxGeometry(...d.a);
-  const mat=new THREE.MeshStandardMaterial({color:d.c,roughness:d.glass?0.15:0.72,metalness:d.glass?0.4:0.08,transparent:true,opacity:1});
-  if(d.glass) mat.opacity=0.85;
-  const m=new THREE.Mesh(geo,mat);
-  const home={p:new THREE.Vector3(...d.p),r:new THREE.Euler(...(d.r||[0,0,0]))};
-  // scatter target - плоское кольцо вокруг центра, чтобы всё осталось в кадре
-  const ang=rnd()*Math.PI*2, rad=3.5+rnd()*1.9;
-  const scat=new THREE.Vector3(Math.cos(ang)*rad,(rnd()-0.5)*2.6,Math.sin(ang)*rad*0.72);
-  const scatR=new THREE.Euler(rnd()*6,rnd()*6,rnd()*6);
-  m.userData={home,scat,scatR,stag:d.stag,base:d.c,ad:!!d.ad,name:d.n,price:d.price||0,baseOp:d.glass?0.9:1};
-  if(d.ad) adMeshes.push(m);
-  car.add(m); return m;
-});
-
-// центрируем модель: сдвигаем так, чтобы середина собранной машины была в (0,0,0)
-parts.forEach(m=>{m.position.copy(m.userData.home.p);m.rotation.copy(m.userData.home.r);});
-car.updateMatrixWorld(true);
-const _ctr=new THREE.Box3().setFromObject(car).getCenter(new THREE.Vector3());
-parts.forEach(m=>{m.userData.home.p.sub(_ctr);m.userData.scat.sub(_ctr);});
-
-function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
-let progress=0, dragRotX=0, dragRotY=0, autoY=0;
-
-function layout(){
-  parts.forEach(m=>{
-    const u=m.userData, rp=smooth(u.stag[0],u.stag[1],progress);
-    m.position.lerpVectors(u.scat,u.home.p,rp);
-    m.rotation.set(
-      u.scatR.x+(u.home.r.x-u.scatR.x)*rp,
-      u.scatR.y+(u.home.r.y-u.scatR.y)*rp,
-      u.scatR.z+(u.home.r.z-u.scatR.z)*rp);
-    const baseOp=u.baseOp;
-    m.material.opacity=0.5+(baseOp-0.5)*Math.min(1,rp*1.6);
-  });
-  car.scale.setScalar(0.82+progress*0.16);
-}
-
 let _lw=0,_lh=0;
 function ensureSize(){
-  const w=innerWidth,h=innerHeight;
-  if(w<2||h<2) return;
-  if(w===_lw&&h===_lh) return;
-  _lw=w;_lh=h;
-  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); frameCamera();
+  const w=innerWidth,h=innerHeight; if(w<2||h<2) return;
+  if(w!==_lw||h!==_lh){ _lw=w;_lh=h; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
 }
-addEventListener('resize',ensureSize); ensureSize();
 
 function onScroll(){
   const max=document.documentElement.scrollHeight-innerHeight;
@@ -220,57 +212,46 @@ function onScroll(){
   document.getElementById('hint').classList.toggle('on',progress<0.08);
   document.getElementById('toast').classList.toggle('on',progress>0.9 && !selected);
 }
+let progress=0;
 addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',ensureSize);
 
-// interaction: drag to rotate + click to select ad part
-const ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
-const _box=new THREE.Box3(), _cen=new THREE.Vector3();
-let down=null, moved=0, selected=null;
+// вращение мышью + клик по детали
+const ray=new THREE.Raycaster(), nd=new THREE.Vector2();
+let down=null, moved=0, selected=null, dragRotX=0, dragRotY=0, autoY=0;
 canvas.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,ry:dragRotY,rx:dragRotX};moved=0;});
-addEventListener('pointermove',e=>{
-  if(!down)return; const dx=e.clientX-down.x, dy=e.clientY-down.y; moved=Math.max(moved,Math.abs(dx)+Math.abs(dy));
-  dragRotY=down.ry+dx*0.006; dragRotX=Math.max(-0.4,Math.min(0.5,down.rx+dy*0.004));
-});
-addEventListener('pointerup',e=>{
-  if(down && moved<6) pick(e); down=null;
-});
+addEventListener('pointermove',e=>{ if(!down)return; const dx=e.clientX-down.x,dy=e.clientY-down.y; moved=Math.max(moved,Math.abs(dx)+Math.abs(dy)); dragRotY=down.ry+dx*0.006; dragRotX=Math.max(-0.45,Math.min(0.5,down.rx+dy*0.004)); });
+addEventListener('pointerup',e=>{ if(down&&moved<6) pick(e); down=null; });
 function pick(e){
-  ndc.x=(e.clientX/innerWidth)*2-1; ndc.y=-(e.clientY/innerHeight)*2+1;
-  ray.setFromCamera(ndc,camera);
-  const hits=ray.intersectObjects(adMeshes,false);
-  if(hits.length){ select(hits[0].object); }
-  else deselect();
+  nd.x=(e.clientX/innerWidth)*2-1; nd.y=-(e.clientY/innerHeight)*2+1;
+  ray.setFromCamera(nd,camera);
+  const hit=ray.intersectObjects(adMeshes,false);
+  if(hit.length) select(hit[0].object); else deselect();
 }
 function select(m){
   if(selected&&selected!==m) selected.material.emissive.setHex(0x000000);
-  selected=m; m.material.emissive.setHex(0xff7f50); m.material.emissiveIntensity=0.5;
-  document.getElementById('ad-name').textContent=m.userData.name;
-  document.getElementById('ad-price').textContent=m.userData.price.toLocaleString('ru-RU');
+  selected=m; m.material.emissive.setHex(0xff7f50); m.material.emissiveIntensity=0.55;
+  document.getElementById('ad-name').textContent=m.userData.adName;
+  document.getElementById('ad-price').textContent=m.userData.adPrice.toLocaleString('ru-RU');
   document.getElementById('ad').classList.add('show');
   document.getElementById('toast').classList.remove('on');
 }
-function deselect(){
-  if(selected){selected.material.emissive.setHex(0x000000);selected=null;}
-  document.getElementById('ad').classList.remove('show');
-}
+function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
 document.getElementById('ad-close').onclick=deselect;
 document.getElementById('ad-buy').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: оплата и загрузка логотипа';};
 document.getElementById('ad-logo').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: загрузка логотипа на деталь';};
 
-let ready=false;
 function tick(){
   requestAnimationFrame(tick);
   ensureSize();
   if(typeof window.__fp==='number') onScroll();
-  if(!down) autoY+=0.0018;
+  if(!down) autoY+=0.0016;
   car.rotation.y=autoY+dragRotY; car.rotation.x=dragRotX;
   layout();
-  _box.setFromObject(car); _box.getCenter(_cen);   // держим модель по центру кадра всегда
-  camera.lookAt(_cen);
+  frameCamera();
   renderer.render(scene,camera);
-  if(!ready){ready=true;document.getElementById('loading').style.display='none';}
 }
-onScroll(); tick();
+onScroll(); ensureSize(); tick();
 </script>
 </body>
 </html>
