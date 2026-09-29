@@ -77,6 +77,7 @@
   .cbtn.on{background:var(--coral);color:var(--paper)}
   .cbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
   .cbtn.icon{width:42px;height:42px;padding:0;border-radius:50%;font-size:15px;display:inline-flex;align-items:center;justify-content:center}
+  .cbtn.icon svg{display:block}
   #endtext{top:86px}
   #endtext h2{font-size:clamp(24px,4.4vw,48px);color:var(--ink);text-shadow:0 2px 0 var(--paper)}
   #endtext p{margin:12px auto 0;max-width:660px;font-size:clamp(14px,1.9vw,18px);color:#3a332c;font-weight:700;line-height:1.5}
@@ -137,7 +138,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v9</div>
+<div class="tag">3D · Sunlight Adventure I68 · v10</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -347,7 +348,10 @@ const gbtn=document.getElementById('gridbtn');
 function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible=on); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){hoverCell.material.opacity=0.16;hoverCell=null;} }
 gbtn.onclick=()=>setGrid(!gridOn);
 const sbtn=document.getElementById('spinbtn');
-sbtn.onclick=()=>{ spin=!spin; sbtn.textContent=spin?'⏸':'▶'; sbtn.classList.toggle('on',!spin); };
+const IC_PAUSE='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><rect x="6" y="5" width="4.2" height="14" rx="1"/><rect x="13.8" y="5" width="4.2" height="14" rx="1"/></svg>';
+const IC_PLAY='<svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M9 5.5 L9 18.5 L19.5 12 Z"/></svg>';
+sbtn.innerHTML=spin?IC_PAUSE:IC_PLAY;
+sbtn.onclick=()=>{ spin=!spin; sbtn.innerHTML=spin?IC_PAUSE:IC_PLAY; sbtn.classList.toggle('on',!spin); };
 const BUYERS=[{n:'Zalihvat',sec:14,sum:98000},{n:'Multihub',sec:9,sum:63000},{n:'Тусовка брендов',sec:5,sum:35000}];
 (function(){ const tb=document.getElementById('board-rows'),med=['🥇','🥈','🥉'],board=document.getElementById('board');
   BUYERS.forEach((b,i)=>{const tr=document.createElement('tr');tr.innerHTML='<td class="rk">'+(med[i]||(i+1))+'</td><td>'+b.n+'</td><td>'+b.sec+'</td><td class="amt">'+b.sum.toLocaleString('ru-RU')+' ₽</td>';tb.appendChild(tr);});
