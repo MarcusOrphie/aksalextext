@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Автодом в 3D - собери машину под свой бренд</title>
+<meta name="description" content="Интерактивный 3D-автодом: детали собираются по скроллу, а на кузове можно занять место под свой логотип.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<style>
+  :root{--paper:#faf5ec;--paper2:#fffdf8;--ink:#151210;--coral:#ff7f50;--coral-deep:#e85f2c;--coral-soft:#ffe6d8;--muted:#7b7168}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:auto}
+  body{background:var(--paper);color:var(--ink);font-family:"Nunito",system-ui,sans-serif;font-weight:600;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,127,80,.16) 1.1px,transparent 1.2px);background-size:16px 16px}
+  h1,h2,h3{font-family:"Oswald",sans-serif;text-transform:uppercase;line-height:1.0;font-weight:700;letter-spacing:.01em}
+  em{font-style:normal;color:var(--coral)}
+  a{color:var(--coral-deep);text-decoration:none}
+
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink)}
+  .nav .in{max-width:1080px;margin:0 auto;padding:11px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:16px;color:var(--ink)}
+  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .navlinks{display:flex;gap:16px;align-items:center}
+  .navlinks a{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted)}
+  .navlinks a:hover{color:var(--coral)}
+  @media(max-width:760px){.navlinks{display:none}}
+
+  #scene{position:fixed;inset:0;z-index:1;display:block}
+  .spacer{position:relative;z-index:2;height:380vh;pointer-events:none}
+
+  /* overlays */
+  .overlay{position:fixed;left:0;right:0;z-index:20;text-align:center;pointer-events:none;padding:0 20px}
+  #headline{top:96px}
+  #headline h1{font-size:clamp(28px,5.4vw,60px);color:var(--ink);text-shadow:0 2px 0 var(--paper)}
+  #headline p{margin-top:12px;font-size:clamp(15px,2vw,19px);color:#4a443d;font-weight:700}
+  #hint{bottom:26px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--coral-deep)}
+  #hint .arrow{display:block;margin-top:8px;font-size:22px;animation:bob 1.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  #toast{bottom:30px;z-index:21}
+  #toast span{display:inline-block;background:var(--ink);color:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-size:13px;padding:11px 20px;border-radius:100px;box-shadow:4px 4px 0 var(--coral)}
+  .fade{opacity:0;transition:opacity .4s ease}
+  .fade.on{opacity:1}
+
+  /* selection panel */
+  #ad{position:fixed;z-index:40;right:20px;top:50%;transform:translateY(-50%) translateX(30px);width:300px;max-width:calc(100vw - 40px);background:var(--paper2);border:3px solid var(--ink);border-radius:20px;box-shadow:8px 8px 0 var(--coral);padding:22px;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+  #ad.show{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
+  #ad .eyebrow{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.18em;color:var(--coral-deep)}
+  #ad h3{font-size:23px;margin:6px 0 4px}
+  #ad .price{font-family:"Oswald";font-weight:700;font-size:28px;color:var(--ink)}
+  #ad .price small{font-size:14px;color:var(--muted);font-weight:600}
+  #ad p{font-size:14px;color:#4a443d;line-height:1.5;margin:10px 0 16px}
+  #ad .btn{display:block;width:100%;text-align:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.03em;border:2.5px solid var(--ink);border-radius:12px;padding:12px;cursor:pointer;margin-top:9px}
+  #ad .btn-primary{background:var(--coral);color:var(--paper);box-shadow:4px 4px 0 var(--ink)}
+  #ad .btn-ghost{background:var(--paper2);color:var(--ink)}
+  #ad .btn:active{transform:translate(2px,2px)}
+  #ad .close{position:absolute;top:10px;right:12px;font-size:22px;color:var(--muted);cursor:pointer;font-weight:800;line-height:1}
+  #ad .note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+  @media(max-width:760px){#ad{right:12px;left:12px;width:auto;top:auto;bottom:16px;transform:translateY(30px)}#ad.show{transform:translateY(0)}}
+
+  .tag{position:fixed;left:20px;bottom:22px;z-index:20;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.1em;color:var(--muted)}
+  .loading{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--coral-deep)}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
+    <div class="navlinks">
+      <a href="/aboutme">Обо мне</a>
+      <a href="/zalihvat">Залихват</a>
+      <a href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
+      <a href="/guides/">Гайды</a>
+      <a href="/blog/">Блог</a>
+    </div>
+  </div>
+</nav>
+
+<canvas id="scene"></canvas>
+<div class="spacer"></div>
+
+<div class="overlay fade on" id="headline">
+  <h1>Соберём машину вместе<br>и отправимся в <em>путешествие</em>!</h1>
+  <p>Листай вниз - детали слетаются в одну машину</p>
+</div>
+<div class="overlay fade on" id="hint">Крути и листай<span class="arrow">↓</span></div>
+<div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
+<div class="tag">3D-тест · автодом</div>
+
+<div id="ad">
+  <span class="close" id="ad-close">×</span>
+  <span class="eyebrow">Рекламное место</span>
+  <h3 id="ad-name">Деталь</h3>
+  <div class="price"><span id="ad-price">5000</span> <small>₽ / месяц</small></div>
+  <p>Твой логотип на этой детали автодома. Машина ездит - бренд видят вживую и в роликах путешествия.</p>
+  <button class="btn btn-primary" id="ad-buy">Занять место →</button>
+  <button class="btn btn-ghost" id="ad-logo">Загрузить логотип</button>
+  <div class="note">Тестовый режим · оплата подключается</div>
+</div>
+
+<div class="loading" id="loading">Собираем автодом…</div>
+
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const CREAM=0xf4efe6, DARK=0x2b2723, GLASS=0x223038, CORAL=0xff7f50, TIRE=0x1b1917, LAMP=0xfff0c8;
+
+// seeded rng for stable scatter
+let _s=1337; function rnd(){_s=(_s*1103515245+12345)&0x7fffffff;return _s/0x7fffffff;}
+
+const PARTS=[
+  {n:'Шасси',      t:'box',a:[4.8,0.22,1.92], p:[0,0.62,0],    c:DARK,  stag:[0,.22]},
+  {n:'Кузов',      t:'box',a:[4.2,1.35,1.84], p:[-0.1,1.42,0], c:CREAM, stag:[.12,.4]},
+  {n:'Кабина',     t:'box',a:[1.05,1.05,1.82],p:[1.95,1.2,0],  c:CREAM, stag:[.15,.42]},
+  {n:'Спальник над кабиной',t:'box',a:[1.5,0.72,1.86],p:[1.75,2.2,0],c:CREAM,stag:[.34,.6]},
+  {n:'Крыша',      t:'box',a:[4.2,0.18,1.9],  p:[-0.1,2.16,0], c:CREAM, ad:1,price:6000,stag:[.4,.62]},
+  {n:'Левый борт', t:'box',a:[3.4,1.0,0.06],  p:[-0.1,1.45,0.94], c:CREAM, ad:1,price:6000,stag:[.5,.78]},
+  {n:'Правый борт',t:'box',a:[3.4,1.0,0.06],  p:[-0.1,1.45,-0.94],c:CREAM, ad:1,price:6000,stag:[.5,.78]},
+  {n:'Задняя стенка',t:'box',a:[0.1,1.2,1.9], p:[-2.2,1.45,0], c:CREAM, ad:1,price:4000,stag:[.55,.8]},
+  {n:'Лоб спальника',t:'box',a:[0.08,0.6,1.7],p:[2.5,2.2,0],   c:CREAM, ad:1,price:3500,stag:[.6,.85]},
+  {n:'Лобовое стекло',t:'box',a:[0.09,0.62,1.62],p:[2.42,1.5,0],r:[0,0,-0.42],c:GLASS,glass:1,stag:[.62,.85]},
+  {n:'Окно слева', t:'box',a:[1.6,0.5,0.03],  p:[0.2,1.72,0.95], c:GLASS,glass:1,stag:[.65,.86]},
+  {n:'Окно справа',t:'box',a:[1.6,0.5,0.03],  p:[0.2,1.72,-0.95],c:GLASS,glass:1,stag:[.65,.86]},
+  {n:'Дверь',      t:'box',a:[0.72,1.0,0.05], p:[-0.9,1.3,0.95],c:CORAL, stag:[.68,.88]},
+  {n:'Решётка',    t:'box',a:[0.14,0.5,1.68], p:[2.48,1.05,0], c:DARK,  stag:[.6,.82]},
+  {n:'Бампер перед',t:'box',a:[0.22,0.26,1.92],p:[2.5,0.72,0], c:DARK,  stag:[.72,.9]},
+  {n:'Бампер зад', t:'box',a:[0.22,0.26,1.92],p:[-2.28,0.72,0],c:DARK,  stag:[.72,.9]},
+  {n:'Фара Л',     t:'box',a:[0.1,0.16,0.3],  p:[2.53,0.95,0.6], c:LAMP, stag:[.78,.94]},
+  {n:'Фара П',     t:'box',a:[0.1,0.16,0.3],  p:[2.53,0.95,-0.6],c:LAMP, stag:[.78,.94]},
+];
+// wheels
+for(const [x,z] of [[1.45,0.86],[1.45,-0.86],[-1.45,0.86],[-1.45,-0.86]]){
+  PARTS.push({n:'Колесо',t:'cyl',a:[0.46,0.46,0.34,20],p:[x,0.46,z],r:[Math.PI/2,0,0],c:TIRE,stag:[.05,.3]});
+}
+
+const canvas=document.getElementById('scene');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(40,1,0.1,100);
+camera.position.set(8.5,4.4,11); camera.lookAt(0,1.2,0);
+
+scene.add(new THREE.HemisphereLight(0xffffff,0xdac9ad,1.05));
+const dir=new THREE.DirectionalLight(0xffffff,1.15); dir.position.set(6,10,7); scene.add(dir);
+const warm=new THREE.PointLight(0xff7f50,0.5,40); warm.position.set(-6,4,-4); scene.add(warm);
+
+const car=new THREE.Group(); scene.add(car);
+const adMeshes=[];
+const parts=PARTS.map(d=>{
+  let geo = d.t==='cyl' ? new THREE.CylinderGeometry(...d.a) : new THREE.BoxGeometry(...d.a);
+  const mat=new THREE.MeshStandardMaterial({color:d.c,roughness:d.glass?0.15:0.72,metalness:d.glass?0.4:0.08,transparent:true,opacity:1});
+  if(d.glass) mat.opacity=0.85;
+  const m=new THREE.Mesh(geo,mat);
+  const home={p:new THREE.Vector3(...d.p),r:new THREE.Euler(...(d.r||[0,0,0]))};
+  // scatter target
+  const th=rnd()*Math.PI*2, ph=Math.acos(2*rnd()-1), rad=8+rnd()*6;
+  const scat=new THREE.Vector3(Math.sin(ph)*Math.cos(th),Math.abs(Math.cos(ph))*0.6+0.2,Math.sin(ph)*Math.sin(th)).multiplyScalar(rad);
+  const scatR=new THREE.Euler(rnd()*6,rnd()*6,rnd()*6);
+  m.userData={home,scat,scatR,stag:d.stag,base:d.c,ad:!!d.ad,name:d.n,price:d.price||0,baseOp:d.glass?0.9:1};
+  if(d.ad) adMeshes.push(m);
+  car.add(m); return m;
+});
+
+function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
+let progress=0, dragRotX=0, dragRotY=0, autoY=0;
+
+function layout(){
+  parts.forEach(m=>{
+    const u=m.userData, rp=smooth(u.stag[0],u.stag[1],progress);
+    m.position.lerpVectors(u.scat,u.home.p,rp);
+    m.rotation.set(
+      u.scatR.x+(u.home.r.x-u.scatR.x)*rp,
+      u.scatR.y+(u.home.r.y-u.scatR.y)*rp,
+      u.scatR.z+(u.home.r.z-u.scatR.z)*rp);
+    const baseOp=u.baseOp;
+    m.material.opacity=0.5+(baseOp-0.5)*Math.min(1,rp*1.6);
+  });
+  car.scale.setScalar(0.82+progress*0.16);
+}
+
+function resize(){
+  const w=innerWidth,h=innerHeight;
+  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+addEventListener('resize',resize); resize();
+
+function onScroll(){
+  const max=document.documentElement.scrollHeight-innerHeight;
+  progress=max>0?Math.min(1,Math.max(0,scrollY/max)):0;
+  document.getElementById('headline').classList.toggle('on',progress<0.4);
+  document.getElementById('hint').classList.toggle('on',progress<0.08);
+  document.getElementById('toast').classList.toggle('on',progress>0.9 && !selected);
+}
+addEventListener('scroll',onScroll,{passive:true});
+
+// interaction: drag to rotate + click to select ad part
+const ray=new THREE.Raycaster(), ndc=new THREE.Vector2();
+let down=null, moved=0, selected=null;
+canvas.addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,ry:dragRotY,rx:dragRotX};moved=0;});
+addEventListener('pointermove',e=>{
+  if(!down)return; const dx=e.clientX-down.x, dy=e.clientY-down.y; moved=Math.max(moved,Math.abs(dx)+Math.abs(dy));
+  dragRotY=down.ry+dx*0.006; dragRotX=Math.max(-0.4,Math.min(0.5,down.rx+dy*0.004));
+});
+addEventListener('pointerup',e=>{
+  if(down && moved<6) pick(e); down=null;
+});
+function pick(e){
+  ndc.x=(e.clientX/innerWidth)*2-1; ndc.y=-(e.clientY/innerHeight)*2+1;
+  ray.setFromCamera(ndc,camera);
+  const hits=ray.intersectObjects(adMeshes,false);
+  if(hits.length){ select(hits[0].object); }
+  else deselect();
+}
+function select(m){
+  if(selected&&selected!==m) selected.material.emissive.setHex(0x000000);
+  selected=m; m.material.emissive.setHex(0xff7f50); m.material.emissiveIntensity=0.5;
+  document.getElementById('ad-name').textContent=m.userData.name;
+  document.getElementById('ad-price').textContent=m.userData.price.toLocaleString('ru-RU');
+  document.getElementById('ad').classList.add('show');
+  document.getElementById('toast').classList.remove('on');
+}
+function deselect(){
+  if(selected){selected.material.emissive.setHex(0x000000);selected=null;}
+  document.getElementById('ad').classList.remove('show');
+}
+document.getElementById('ad-close').onclick=deselect;
+document.getElementById('ad-buy').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: оплата и загрузка логотипа';};
+document.getElementById('ad-logo').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: загрузка логотипа на деталь';};
+
+let ready=false;
+function tick(){
+  requestAnimationFrame(tick);
+  if(!down) autoY+=0.0018;
+  car.rotation.y=autoY+dragRotY; car.rotation.x=dragRotX;
+  layout();
+  renderer.render(scene,camera);
+  if(!ready){ready=true;document.getElementById('loading').style.display='none';}
+}
+onScroll(); tick();
+</script>
+</body>
+</html>
