@@ -72,6 +72,9 @@
   .swatch .mini{position:absolute;inset:0}
   .swatch .mini svg{width:100%;height:100%;display:block}
   @media(max-width:760px){#scenes{right:auto;left:0;top:58px;bottom:auto;transform:none;flex-direction:row;overflow-x:auto;width:100vw;padding:6px 12px;gap:7px}.swatch{width:44px;height:44px;flex:none}}
+  #gridbtn{position:fixed;bottom:76px;left:50%;transform:translateX(-50%);z-index:42;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12.5px;letter-spacing:.05em;color:var(--ink);background:var(--paper2);border:2.5px solid var(--ink);border-radius:100px;box-shadow:3px 3px 0 var(--ink);padding:9px 18px;cursor:pointer}
+  #gridbtn.on{background:var(--coral);color:var(--paper)}
+  #gridbtn:active{transform:translateX(-50%) translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 </style>
 </head>
 <body>
@@ -98,7 +101,8 @@
 <div class="overlay fade on" id="hint">Крути и листай<span class="arrow">↓</span></div>
 <div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
 <div id="scenes"></div>
-<div class="tag">3D · Sunlight Adventure I68 · v7</div>
+<button id="gridbtn">Разметка секций</button>
+<div class="tag">3D · Sunlight Adventure I68 · v8</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -155,8 +159,31 @@ const warm=new THREE.PointLight(0xff7f50,0.35,60); warm.position.set(-6,3,4); sc
 
 const car=new THREE.Group(); scene.add(car);
 let parts=[], adMeshes=[], MR=3, ready=false;
+const grids=[]; let gridOn=false;
 
 function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
+
+// разлиновка панели на секции: сетка линий на внешней грани детали
+function buildGrid(mesh){
+  mesh.geometry.computeBoundingBox();
+  const bb=mesh.geometry.boundingBox; const mn=bb.min, mx=bb.max;
+  const sz=new THREE.Vector3().subVectors(mx,mn);
+  const dims=[['x',sz.x],['y',sz.y],['z',sz.z]].sort((a,b)=>a[1]-b[1]);
+  const nA=dims[0][0], vA=dims[1][0], uA=dims[2][0];      // нормаль, и две большие оси
+  const uL=sz[uA], vL=sz[vA];
+  const sc=Math.max(mesh.scale.x,mesh.scale.y,mesh.scale.z)||1;
+  const cell=0.34;                                          // ~34см в мире
+  const nu=Math.max(1,Math.round(uL*sc/cell)), nv=Math.max(1,Math.round(vL*sc/cell));
+  const nOff=(nA==='x'?mx.x:nA==='y'?mx.y:mx.z)+sz[nA]*0.02+0.002;
+  function P(u,v){ const o=new THREE.Vector3(); o[uA]=mn[uA]+u*uL; o[vA]=mn[vA]+v*vL; o[nA]=nOff; return o; }
+  const pts=[];
+  for(let i=0;i<=nu;i++){ const u=i/nu; pts.push(P(u,0),P(u,1)); }
+  for(let j=0;j<=nv;j++){ const v=j/nv; pts.push(P(0,v),P(1,v)); }
+  const geo=new THREE.BufferGeometry().setFromPoints(pts);
+  const mat=new THREE.LineBasicMaterial({color:0xe85f2c,transparent:true,opacity:0.95,depthTest:false});
+  const ls=new THREE.LineSegments(geo,mat); ls.renderOrder=999;
+  return ls;
+}
 
 const loader=new GLTFLoader();
 loader.load('camper.glb', (gltf)=>{
@@ -191,6 +218,7 @@ loader.load('camper.glb', (gltf)=>{
     if(ad){ m.userData.ad=true; m.userData.adName=ad.n; m.userData.adPrice=ad.price; adMeshes.push(m); }
     parts.push(m);
   });
+  adMeshes.forEach(m=>{ try{ const g=buildGrid(m); m.add(g); g.visible=gridOn; grids.push(g); }catch(e){} });
   ready=true;
   document.getElementById('loading').style.display='none';
 }, undefined, (err)=>{
@@ -254,6 +282,9 @@ function select(m){
   document.getElementById('toast').classList.remove('on');
 }
 function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
+const gbtn=document.getElementById('gridbtn');
+function setGrid(on){ gridOn=on; grids.forEach(g=>g.visible=on); gbtn.classList.toggle('on',on); gbtn.textContent=on?'Скрыть секции':'Разметка секций'; }
+gbtn.onclick=()=>setGrid(!gridOn);
 document.getElementById('ad-close').onclick=deselect;
 document.getElementById('ad-buy').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: оплата и загрузка логотипа';};
 document.getElementById('ad-logo').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: загрузка логотипа на деталь';};
