@@ -47,7 +47,7 @@
   .stcard h1,.stcard h2{font-family:"Oswald";text-transform:uppercase;line-height:1.12;font-weight:700;font-size:clamp(23px,2.7vw,34px);letter-spacing:.01em;color:var(--coral-deep)}
   .stcard h1 em,.stcard h2 em{color:var(--ink)}
   .stcard p{margin-top:12px;font-size:clamp(14px,1.35vw,16.5px);color:#2c2621;font-weight:700;line-height:1.55}
-  #story .map-card{max-width:560px}
+  #story .map-card{width:min(880px,92vw);max-width:none}
   #story .map-card .lead{display:block;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(15px,1.8vw,20px);color:var(--coral-deep);margin-bottom:12px}
   #story .map{width:100%;background:transparent;border:0;box-shadow:none;padding:0}
   #story .map img{width:100%;height:auto;display:block;border-radius:12px;border:2px solid var(--ink)}
@@ -201,7 +201,7 @@
 <div id="fund">
   <div class="fund-txt">
     <span class="fund-lbl">Собираем автодом вместе</span>
-    <span class="fund-num"><b id="fund-raised">—</b> из <span id="fund-goal">—</span></span>
+    <span class="fund-num"><b id="fund-raised">-</b> из <span id="fund-goal">-</span></span>
   </div>
   <div class="fund-bar"><i id="fund-fill"></i></div>
   <span class="fund-pct" id="fund-pct">0%</span>
@@ -213,7 +213,7 @@
 
 <div id="story">
   <div class="story-step side-right" data-a="0" data-b="0.12">
-    <div class="stcard"><h1>Привет! Мы — <em>Саша, Настя, Даша и Женя</em></h1></div>
+    <div class="stcard"><h1>Привет! Мы - <em>Саша, Настя, Даша и Женя</em></h1></div>
   </div>
   <div class="story-step side-left" data-a="0.12" data-b="0.26">
     <div class="stcard"><h1>Мечтаем об автодоме и очень длинном путешествии по всей <em>Евразии</em></h1></div>
@@ -226,14 +226,14 @@
   </div>
   <div class="story-step side-right" data-a="0.50" data-b="0.63">
     <div class="stcard"><h1>Хотим объехать как можно больше <em>замечательных мест</em></h1>
-    <p>И снимать блог — как живём в автодоме вчетвером, с двумя детьми.</p></div>
+    <p>И снимать блог - как живём в автодоме вчетвером, с двумя детьми.</p></div>
   </div>
   <div class="story-step side-left" data-a="0.63" data-b="0.78">
-    <div class="stcard"><h1>Но вот незадача — <em>дом ещё нужно купить!</em></h1></div>
+    <div class="stcard"><h1>Но вот незадача - <em>дом ещё нужно купить!</em></h1></div>
   </div>
   <div class="story-step side-right" data-a="0.78" data-b="0.93">
     <div class="stcard"><h1>Разместите ваше лого или имя <em>на нашем автодоме</em></h1>
-    <p>Покажем ваши компании всему миру! Когда автодом выкупят, все логотипы и имена перенесём на реальную машину.</p></div>
+    <p>Покажем ваши компании всему миру! Когда выкупим автодом, все логотипы и имена перенесём на реальную машину.</p></div>
   </div>
 </div>
 <div class="overlay fade on" id="hint">Листай<span class="arrow">↓</span></div>
@@ -242,7 +242,7 @@
 <div class="fade" id="endtext">
   <div class="stcard">
     <h2>Перед вами <em>Sunlight Adventure I68</em></h2>
-    <p>Как раз на четверых — с креплениями для детских кресел. Осталось собрать его вместе!</p>
+    <p>Как раз на четверых - с креплениями для детских кресел. Осталось собрать его вместе!</p>
   </div>
 </div>
 <button id="unfocus">⤢ Отдалить</button>
@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v20</div>
+<div class="tag">3D · Sunlight Adventure I68 · v21</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -310,8 +310,8 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/
 let _s=1337; function rnd(){_s=(_s*1103515245+12345)&0x7fffffff;return _s/0x7fffffff;}
 
 // ── Валюта/цель по языку страницы ────────────────────────────────
-// RU-версия считает в рублях, EN-версия — в долларах. Оплата (Prodamus) в ₽.
-const RATE=95;                                   // ₽ за $1 — для конвертации панелей
+// RU-версия считает в рублях, EN-версия - в долларах. Оплата (Prodamus) в ₽.
+const RATE=95;                                   // ₽ за $1 - для конвертации панелей
 const LANG=(document.documentElement.lang==='en')?'en':'ru';
 const CUR = LANG==='en'
   ? {sym:'$', pre:true,  loc:'en-US', cell:99,   cellSmall:25,   goal:100000,  raised:34700,   per:'/ mo'}
@@ -363,7 +363,7 @@ const BORDER_TEX=makeBorderTex();
 
 function smooth(a,b,x){x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);}
 
-// Собственные векторы симметричной 3x3 (метод Якоби) — для устойчивой нормали панели
+// Собственные векторы симметричной 3x3 (метод Якоби) - для устойчивой нормали панели
 function jacobi3(a){
   a=[a[0].slice(),a[1].slice(),a[2].slice()];
   const v=[[1,0,0],[0,1,0],[0,0,1]];
@@ -391,9 +391,9 @@ function panelBasis(M){
   for(const p of pts){const dx=p.x-c.x,dy=p.y-c.y,dz=p.z-c.z;xx+=dx*dx;xy+=dx*dy;xz+=dx*dz;yy+=dy*dy;yz+=dy*dz;zz+=dz*dz;}
   const {vecs,vals}=jacobi3([[xx,xy,xz],[xy,yy,yz],[xz,yz,zz]]);
   const idx=[0,1,2].sort((i,j)=>vals[i]-vals[j]);
-  let n=vecs[idx[0]], a=vecs[idx[1]], b=vecs[idx[2]];   // n=нормаль; a,b — оси в плоскости панели
+  let n=vecs[idx[0]], a=vecs[idx[1]], b=vecs[idx[2]];   // n=нормаль; a,b - оси в плоскости панели
   if(n.dot(c)<0) n=n.clone().negate();                 // наружу от центра машины (car в начале координат)
-  // v — «вверх»: для стенок берём более вертикальную ось (чтобы лого не лежало на боку)
+  // v - «вверх»: для стенок берём более вертикальную ось (чтобы лого не лежало на боку)
   let v = (Math.abs(n.y)>0.7) ? a.clone() : ((Math.abs(a.y)>=Math.abs(b.y)?a:b).clone());
   if(v.y<0) v.negate();
   let u=new THREE.Vector3().crossVectors(v,n).normalize();   // горизонтальная ось, правая тройка (u×v=n)
@@ -680,11 +680,11 @@ function updateSel(){
   document.getElementById('sel-undo').disabled = undoStack.length===0;
   document.querySelector('#sel .note').textContent = n===0
     ? 'Тапай секции или «Выбрать всю деталь»'
-    : (sm>0 ? ('из них мелких: '+sm+' · дешевле') : 'Загрузи лого — увидишь его заранее');
+    : (sm>0 ? ('из них мелких: '+sm+' · дешевле') : 'Загрузи лого - увидишь его заранее');
 }
 function clearSel(){ pushUndo(); for(const c of cells) if(c.userData.sel){c.userData.sel=false;restoreCell(c);} logoTex=null; updateSel(); }
 // Клик по детали (сетка выкл): и на мобилке, и на десктопе разворачиваем деталь к камере,
-// приближаем на весь экран и включаем сетку — сразу выбирай секции.
+// приближаем на весь экран и включаем сетку - сразу выбирай секции.
 function select(m){
   if(selected&&selected!==m) selected.material.emissive.setHex(0x000000);
   selected=m; m.material.emissive.setHex(0xff7f50); m.material.emissiveIntensity=0.55;
@@ -778,7 +778,7 @@ function tick(){
     const amt=chosen||parseFloat(inp.value);
     const note=document.getElementById('sup-note');
     if(!amt||amt<=0){ note.textContent='Введите сумму'; return; }
-    note.textContent='Спасибо! '+fmt(amt)+' — оплата подключается (Prodamus)';
+    note.textContent='Спасибо! '+fmt(amt)+' - оплата подключается (Prodamus)';
   };
 })();
 document.getElementById('unfocus').onclick=unfocus;
