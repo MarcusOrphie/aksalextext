@@ -69,6 +69,9 @@
   #sel .btn-ghost{background:var(--paper2);color:var(--ink)}
   #sel .btn:active{transform:translate(2px,2px)}
   #sel .note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+  #sel .selrow{display:flex;gap:9px}
+  #sel .selrow .btn{flex:1}
+  #sel .btn:disabled{opacity:.4;cursor:default}
   @media(max-width:760px){#sel{left:12px;right:12px;width:auto;top:auto;bottom:76px;transform:translateY(30px)}#sel.show{transform:translateY(0)}}
 
   .tag{position:fixed;left:20px;bottom:22px;z-index:20;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.1em;color:var(--muted)}
@@ -226,7 +229,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v13</div>
+<div class="tag">3D · Sunlight Adventure I68 · v15</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -244,8 +247,9 @@
   <div class="price"><span id="sel-n">0</span> <small>секц. =</small> <b id="sel-sum">0</b></div>
   <button class="btn btn-primary" id="sel-logo">Загрузить логотип</button>
   <input id="sel-file" type="file" accept="image/*" style="display:none">
+  <button class="btn btn-ghost" id="sel-all">Выбрать всю деталь</button>
   <button class="btn btn-ghost" id="sel-buy">Занять выбранное →</button>
-  <button class="btn btn-ghost" id="sel-clear">Очистить</button>
+  <div class="selrow"><button class="btn btn-ghost" id="sel-undo">↶ Отменить</button><button class="btn btn-ghost" id="sel-clear">Очистить</button></div>
   <div class="note">Загрузи лого - увидишь его на машине заранее</div>
 </div>
 
@@ -304,7 +308,7 @@ const warm=new THREE.PointLight(0xff7f50,0.35,60); warm.position.set(-6,3,4); sc
 
 const car=new THREE.Group(); scene.add(car);
 let parts=[], adMeshes=[], MR=3, ready=false;
-const cells=[]; let gridOn=false, hoverCell=null, cellCount=0, spin=true, pickTargets=[], logoTex=null; const CELL_PRICE=CUR.cell;
+const cells=[], occupiedCells=[]; let gridOn=false, hoverCell=null, cellCount=0, spin=true, pickTargets=[], logoTex=null; const CELL_PRICE=CUR.cell;
 const CELL_BIG=0.17, CELL_SM=0.085;                 // размеры ячеек (встык, без зазоров)
 const CELLGEO=new THREE.PlaneGeometry(CELL_BIG,CELL_BIG);
 const CELLGEO_S=new THREE.PlaneGeometry(CELL_SM,CELL_SM);
@@ -432,6 +436,7 @@ loader.load('camper.glb', (gltf)=>{
     parts.push(m);
   });
   try{ buildCells(); }catch(e){ console.error('cells',e); }
+  try{ placeDemoLogos(); }catch(e){ console.error('demo',e); }
   ready=true;
   document.getElementById('loading').style.display='none';
 }, undefined, (err)=>{
@@ -479,6 +484,7 @@ function onScroll(){
   document.getElementById('hint').classList.toggle('on',progress<0.08);
   document.getElementById('toast').classList.toggle('on',progress>0.9 && !selected);
   document.getElementById('endtext').classList.toggle('on',progress>0.9);
+  refreshOccVis();
 }
 let progress=0;
 addEventListener('scroll',onScroll,{passive:true});
@@ -501,7 +507,8 @@ function restoreCell(cm){
 function hoverPick(e){
   nd.x=(e.clientX/innerWidth)*2-1; nd.y=-(e.clientY/innerHeight)*2+1; ray.setFromCamera(nd,camera);
   const h=ray.intersectObjects(pickTargets,false);
-  const c=(h.length && h[0].object.userData.cell)?h[0].object:null;
+  let c=(h.length && h[0].object.userData.cell)?h[0].object:null;
+  if(c && c.userData.occupied) c=null;                       // занятые ячейки не подсвечиваем
   if(hoverCell && hoverCell!==c && !hoverCell.userData.sel) restoreCell(hoverCell);
   hoverCell=c;
   if(c){ if(!c.userData.sel){ c.material.map=null; c.material.color.setHex(0xff7f50); c.material.opacity=0.5; c.material.needsUpdate=true; } canvas.style.cursor='pointer'; } else canvas.style.cursor='';
@@ -517,10 +524,31 @@ function pick(e){
   const hit=ray.intersectObjects(adMeshes,false);
   if(hit.length) select(hit[0].object); else deselect();
 }
+// ── История действий (undo) ──
+const undoStack=[];
+function snapshot(){ return {sel:new Set(cells.filter(c=>c.userData.sel)), logo:logoTex}; }
+function pushUndo(){ undoStack.push(snapshot()); if(undoStack.length>40) undoStack.shift(); }
+function paintSel(cm,on){ if(on){cm.material.map=null;cm.material.color.setHex(0xe85f2c);cm.material.opacity=0.55;cm.material.needsUpdate=true;} else restoreCell(cm); }
+function setSelection(snap){
+  logoTex=snap.logo;
+  for(const c of cells){ const want=snap.sel.has(c); if(c.userData.sel!==want){ c.userData.sel=want; paintSel(c,want); } }
+  if(logoTex) reMapLogo();
+  updateSel();
+}
+function undo(){ if(!undoStack.length) return; setSelection(undoStack.pop()); }
 function toggleCell(cm){
+  if(cm.userData.occupied) return;                 // занятые (пример-лого) не трогаем
+  pushUndo();
   cm.userData.sel=!cm.userData.sel;
-  if(cm.userData.sel){ cm.material.map=null; cm.material.color.setHex(0xe85f2c); cm.material.opacity=0.55; cm.material.needsUpdate=true; }
-  else restoreCell(cm);
+  paintSel(cm,cm.userData.sel);
+  if(logoTex) reMapLogo();
+  updateSel();
+}
+function selectAllPanel(){
+  if(!focusMesh) return;
+  pushUndo();
+  const keys=[focusMesh.name, focusMesh.name+'#s'];
+  for(const c of cells) if(keys.indexOf(c.userData.panel)>=0 && !c.userData.occupied && !c.userData.sel){ c.userData.sel=true; paintSel(c,true); }
   if(logoTex) reMapLogo();
   updateSel();
 }
@@ -550,25 +578,58 @@ function applyLogo(url){
     document.querySelector('#sel .note').textContent='Логотип размещён (предпросмотр) на '+cells.reduce((a,c)=>a+(c.userData.sel?1:0),0)+' секц.';
   });
 }
+// ── Пример-логотипы, «нанесённые» на кузов (видны без сетки, как образец заполнения) ──
+function placeLogoBlock(list, tex){
+  if(!list.length) return;
+  let miU=1/0,maU=-1/0,miV=1/0,maV=-1/0; for(const c of list){const u=c.userData.gi,v=c.userData.gj;if(u<miU)miU=u;if(u>maU)maU=u;if(v<miV)miV=v;if(v>maV)maV=v;}
+  const W=maU-miU+1,H=maV-miV+1;
+  for(const c of list){
+    const u0=(c.userData.gi-miU)/W,u1=(c.userData.gi-miU+1)/W,v0=(c.userData.gj-miV)/H,v1=(c.userData.gj-miV+1)/H;
+    const g0=c.userData.geo0||CELLGEO; if(c.geometry===g0) c.geometry=g0.clone();
+    const uv=c.geometry.attributes.uv; uv.setXY(0,u0,v1);uv.setXY(1,u1,v1);uv.setXY(2,u0,v0);uv.setXY(3,u1,v0); uv.needsUpdate=true;
+    c.material.map=tex; c.material.color.setHex(0xffffff); c.material.opacity=1; c.material.needsUpdate=true;
+    c.userData.occupied=true; occupiedCells.push(c);
+  }
+}
+function placeOnPanel(pkey,tex,fx,fy,w,h){
+  const list=cells.filter(c=>c.userData.panel===pkey && !c.userData.occupied);
+  if(!list.length) return;
+  let miU=1/0,maU=-1/0,miV=1/0,maV=-1/0; for(const c of list){const u=c.userData.gi,v=c.userData.gj;if(u<miU)miU=u;if(u>maU)maU=u;if(v<miV)miV=v;if(v>maV)maV=v;}
+  const gi0=Math.round(miU+Math.max(0,(maU-miU-w+1))*fx), gj0=Math.round(miV+Math.max(0,(maV-miV-h+1))*fy);
+  const block=list.filter(c=>c.userData.gi>=gi0&&c.userData.gi<gi0+w&&c.userData.gj>=gj0&&c.userData.gj<gj0+h);
+  placeLogoBlock(block,tex);
+}
+function refreshOccVis(){ const asm=progress>0.9; for(const c of occupiedCells) c.visible = gridOn || asm; }
+function placeDemoLogos(){
+  const L=(u)=>new Promise(r=>new THREE.TextureLoader().load(u,t=>{t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;r(t);},undefined,()=>r(null)));
+  Promise.all([L('logos/zalihvat.png'),L('logos/multihub.png'),L('logos/face.jpg')]).then(([zal,mh,face])=>{
+    if(zal){ placeOnPanel('BODY_Left_Main_Wall',zal,0.10,0.42,8,6); placeOnPanel('BODY_Rear_Wall',zal,0.5,0.6,7,6); placeOnPanel('BODY_Right_Garage_Door',zal,0.5,0.5,5,4); }
+    if(mh){ placeOnPanel('BODY_Left_Main_Wall',mh,0.66,0.42,6,6); placeOnPanel('BODY_Right_Main_Wall',mh,0.16,0.42,7,6); placeOnPanel('BODY_Front_Service_Hood',mh,0.5,0.5,7,4); }
+    if(face){ placeOnPanel('BODY_Right_Main_Wall',face,0.66,0.4,6,7); }
+    refreshOccVis();
+  });
+}
 function updateSel(){
   let n=0,sum=0,sm=0; for(const c of cells) if(c.userData.sel){n++;sum+=c.userData.price;if(c.userData.small)sm++;}
   const el=document.getElementById('sel');
-  if(gridOn && n>0){ el.classList.add('show'); document.getElementById('sel-n').textContent=n; document.getElementById('sel-sum').textContent=fmt(sum);
-    document.querySelector('#sel .note').textContent = sm>0 ? ('из них мелких: '+sm+' · дешевле') : 'Загрузи лого — увидишь его на машине заранее'; }
-  else el.classList.remove('show');
+  el.classList.toggle('show', gridOn && (n>0 || !!focusMesh));
+  document.getElementById('sel-n').textContent=n;
+  document.getElementById('sel-sum').textContent=fmt(sum);
+  document.getElementById('sel-all').style.display = focusMesh?'block':'none';
+  document.getElementById('sel-undo').disabled = undoStack.length===0;
+  document.querySelector('#sel .note').textContent = n===0
+    ? 'Тапай секции или «Выбрать всю деталь»'
+    : (sm>0 ? ('из них мелких: '+sm+' · дешевле') : 'Загрузи лого — увидишь его заранее');
 }
-function clearSel(){ for(const c of cells) if(c.userData.sel){c.userData.sel=false;restoreCell(c);} logoTex=null; updateSel(); }
+function clearSel(){ pushUndo(); for(const c of cells) if(c.userData.sel){c.userData.sel=false;restoreCell(c);} logoTex=null; updateSel(); }
+// Клик по детали (сетка выкл): и на мобилке, и на десктопе разворачиваем деталь к камере,
+// приближаем на весь экран и включаем сетку — сразу выбирай секции.
 function select(m){
   if(selected&&selected!==m) selected.material.emissive.setHex(0x000000);
   selected=m; m.material.emissive.setHex(0xff7f50); m.material.emissiveIntensity=0.55;
   document.getElementById('toast').classList.remove('on');
-  if(isMobile()){ focusPart(m); return; }            // на мобилке — приближаем деталь и сразу в сетку
-  document.getElementById('ad-name').textContent=m.userData.adName;
-  document.getElementById('ad-price').textContent=fmt(rub2(m.userData.adPrice));
-  document.getElementById('ad-per').textContent=CUR.per;
-  document.getElementById('ad').classList.add('show');
+  focusPart(m);
 }
-// Мобильный «поп-ап»: разворачиваем деталь к камере, приближаем на весь экран, включаем сетку
 let focusMesh=null, focusK=0, focusTargetYaw=0, focusTargetPitch=0;
 function focusPart(m){
   focusMesh=m;
@@ -583,12 +644,15 @@ function focusPart(m){
   document.body.classList.add('focusing');
   document.getElementById('unfocus').classList.add('show');
 }
-function unfocus(){ focusMesh=null; focusTargetPitch=0; document.body.classList.remove('focusing'); document.getElementById('unfocus').classList.remove('show'); }
+function clearFocusState(){ focusMesh=null; focusTargetPitch=0; document.body.classList.remove('focusing'); document.getElementById('unfocus').classList.remove('show'); }
+function unfocus(){ setGrid(false); }   // выходим из фокуса → сетка выкл, снова можно кликать детали
 function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
 const gbtn=document.getElementById('gridbtn');
-function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible=on); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)hoverCell.material.opacity=0.34;hoverCell=null;} updateSel(); if(on) deselect(); }
+function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); }
 gbtn.onclick=()=>setGrid(!gridOn);
 document.getElementById('sel-clear').onclick=clearSel;
+document.getElementById('sel-all').onclick=selectAllPanel;
+document.getElementById('sel-undo').onclick=undo;
 document.getElementById('sel-buy').onclick=()=>{document.querySelector('#sel .note').textContent='Скоро: оплата выбранных секций';};
 const _sf=document.getElementById('sel-file');
 document.getElementById('sel-logo').onclick=()=>_sf.click();
@@ -615,7 +679,7 @@ function tick(){
   if(typeof window.__fp==='number') onScroll();
   if(!down && spin) autoY+=0.0016;
   focusK += ((focusMesh?1:0)-focusK)*0.12;
-  if(focusMesh && !down){ autoY += (focusTargetYaw-autoY)*0.12; dragRotX += (focusTargetPitch-dragRotX)*0.12; }
+  if(focusMesh && !down && focusK<0.985){ autoY += (focusTargetYaw-autoY)*0.14; dragRotX += (focusTargetPitch-dragRotX)*0.14; }
   car.rotation.y=autoY+dragRotY; car.rotation.x=dragRotX;
   layout();
   frameCamera();
