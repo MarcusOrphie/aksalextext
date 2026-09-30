@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v24<span id="dbgstate"></span></div>
+<div class="tag">3D · Sunlight Adventure I68 · v25<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -419,7 +419,7 @@ function buildCells(){
       rc.set(p.clone().addScaledVector(B.n,0.5), B.n.clone().negate());
       const hit=rc.intersectObjects(targets,false);
       if(!hit.length || hit[0].object!==M) continue;                 // нет тела / окно / вне контура (луч идёт снаружи → первое попадание = внешняя грань)
-      const cm=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:BORDER_TEX,color:0xffffff,transparent:true,opacity:0.9,depthWrite:false,side:THREE.DoubleSide}));
+      const cm=new THREE.Mesh(geo, new THREE.MeshBasicMaterial({map:BORDER_TEX,color:0xffffff,transparent:false,alphaTest:0.5,depthWrite:true,side:THREE.DoubleSide}));
       cm.position.copy(hit[0].point).addScaledVector(B.n,0.012);
       cm.quaternion.copy(quat);
       cm.visible=false;
@@ -746,7 +746,7 @@ function tick(){
   layout();
   frameCamera();
   renderer.render(scene,camera);
-  if((++_tick&31)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; d.textContent=' · '+(gridOn?'G1':'G0')+' V'+v; } }
+  if((++_tick&15)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; let cl=0; try{cl=renderer.getContext().isContextLost()?1:0;}catch(_){} d.textContent=' · '+(gridOn?'G1':'G0')+' V'+v+' F'+((_tick>>4)&255)+' C'+cl; } }
 }
 
 // ── Прогресс сбора + «поддержать любой суммой» ──
