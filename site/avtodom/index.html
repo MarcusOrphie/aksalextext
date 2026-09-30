@@ -185,6 +185,7 @@
     <div class="navlinks">
       <a href="/aboutme">Обо мне</a>
       <a href="/zalihvat">Залихват</a>
+      <a href="/avtodom" style="color:#e85f2c;font-weight:800">Автодом</a>
       <a href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
       <a href="/guides/">Гайды</a>
       <a href="/blog/">Блог</a>
@@ -220,20 +221,20 @@
     <h1>Хотим объехать как можно больше <em>замечательных мест</em></h1>
     <p>и снимать блог — как живём в автодоме вчетвером, с двумя детьми</p>
   </div>
-  <div class="story-step" data-a="0.63" data-b="0.75">
+  <div class="story-step" data-a="0.63" data-b="0.78">
     <h1>Но вот незадача — <em>дом ещё нужно купить!</em></h1>
   </div>
-  <div class="story-step" data-a="0.75" data-b="0.905">
-    <h1>Перед вами <em>Sunlight Adventure I68</em></h1>
-    <p>как раз на четверых, с креплениями для детских кресел</p>
+  <div class="story-step" data-a="0.78" data-b="0.93">
+    <h1>Разместите ваше лого или имя <em>на нашем автодоме</em></h1>
+    <p>Покажем ваши компании всему миру! Когда автодом выкупят, все логотипы и имена перенесём на реальную машину.</p>
   </div>
 </div>
 <div class="overlay fade on" id="hint">Листай<span class="arrow">↓</span></div>
 <div class="overlay fade" id="toast"><span>Кликни на деталь машины - займи её под свой логотип</span></div>
 <div id="scenes"></div>
 <div class="overlay fade" id="endtext">
-  <h2>Разместите ваше лого или имя на нашем автодоме</h2>
-  <p>Мы собираемся показать ваши компании всему миру! Когда автодом будет полностью выкуплен, все логотипы и имена перенесём на реальную машину.</p>
+  <h2>Перед вами <em>Sunlight Adventure I68</em></h2>
+  <p>Как раз на четверых — с креплениями для детских кресел. Осталось собрать его вместе!</p>
 </div>
 <button id="unfocus">⤢ Отдалить</button>
 <div id="ctrls">
@@ -264,7 +265,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v18</div>
+<div class="tag">3D · Sunlight Adventure I68 · v19</div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -520,8 +521,8 @@ function onScroll(){
   progress=(typeof window.__fp==='number')?window.__fp:(max>0?Math.min(1,Math.max(0,scrollY/max)):0);
   for(const s of storySteps){ const a=+s.dataset.a,b=+s.dataset.b; s.classList.toggle('on', progress>=a && progress<b); }
   document.getElementById('hint').classList.toggle('on',progress<0.06);
-  document.getElementById('toast').classList.toggle('on',progress>0.92 && !selected);
-  document.getElementById('endtext').classList.toggle('on',progress>0.905);
+  document.getElementById('toast').classList.toggle('on',progress>0.955 && !selected);
+  document.getElementById('endtext').classList.toggle('on',progress>0.93);
   refreshOccVis();
 }
 let progress=0;
