@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v23</div>
+<div class="tag">3D · Sunlight Adventure I68 · v24<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -709,7 +709,7 @@ function clearFocusState(){ focusMesh=null; focusTargetPitch=0; document.body.cl
 function unfocus(){ setGrid(false); }   // выходим из фокуса → сетка выкл, снова можно кликать детали
 function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
 const gbtn=document.getElementById('gridbtn');
-function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); }
+function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); try{renderer.render(scene,camera);}catch(_){} const _d=document.getElementById('dbgstate'); if(_d){let v=0;for(const c of cells)if(c.visible)v++;_d.textContent=' · '+(gridOn?'G1':'G0')+' V'+v;} }
 gbtn.onclick=()=>setGrid(!gridOn);
 document.getElementById('sel-clear').onclick=clearSel;
 document.getElementById('sel-all').onclick=selectAllPanel;
@@ -734,6 +734,7 @@ document.getElementById('ad-close').onclick=deselect;
 document.getElementById('ad-buy').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: оплата и загрузка логотипа';};
 document.getElementById('ad-logo').onclick=()=>{document.querySelector('#ad .note').textContent='Скоро: загрузка логотипа на деталь';};
 
+let _tick=0;
 function tick(){
   requestAnimationFrame(tick);
   ensureSize();
@@ -745,6 +746,7 @@ function tick(){
   layout();
   frameCamera();
   renderer.render(scene,camera);
+  if((++_tick&31)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; d.textContent=' · '+(gridOn?'G1':'G0')+' V'+v; } }
 }
 
 // ── Прогресс сбора + «поддержать любой суммой» ──
@@ -786,6 +788,8 @@ document.getElementById('unfocus').onclick=unfocus;
 try{history.scrollRestoration='manual';}catch(e){}
 scrollTo(0,0);
 addEventListener('load',()=>scrollTo(0,0));
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();},false);
+canvas.addEventListener('webglcontextrestored',()=>{ try{renderer.render(scene,camera);}catch(_){} },false);
 onScroll(); ensureSize(); tick();
 </script>
 <script>
