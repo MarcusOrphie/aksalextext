@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v31<span id="dbgstate"></span></div>
+<div class="tag">3D · Sunlight Adventure I68 · v32<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -365,7 +365,7 @@ const warm=new THREE.PointLight(0xff7f50,0.35,60); warm.position.set(-6,3,4); sc
 const car=new THREE.Group(); scene.add(car);
 let parts=[], adMeshes=[], MR=3, ready=false;
 const cells=[], occupiedCells=[]; let gridOn=false, hoverCell=null, cellCount=0, spin=true, pickTargets=[], logoTex=null; const CELL_PRICE=CUR.cell;
-const CELL_BIG=0.17, CELL_SM=0.085;                 // размеры ячеек (встык, без зазоров)
+const CELL_BIG=0.32, CELL_SM=0.16;                  // размеры ячеек (крупнее - меньше мешей, легче для GPU)
 const CELLGEO=new THREE.PlaneGeometry(CELL_BIG,CELL_BIG);
 const CELLGEO_S=new THREE.PlaneGeometry(CELL_SM,CELL_SM);
 const SIDE_SMALL_FRAC=0.20;                          // доля мелких (дешёвых) ячеек на бортах
@@ -446,15 +446,7 @@ function buildCells(){
     const pos=M.geometry.attributes.position, N=pos.count, step=Math.max(1,Math.floor(N/600));
     let u0=1/0,u1=-1/0,v0=1/0,v1=-1/0, t=new THREE.Vector3();
     for(let i=0;i<N;i+=step){ t.fromBufferAttribute(pos,i); M.localToWorld(t); const d=t.clone().sub(B.center); const du=d.dot(B.u),dv=d.dot(B.v); if(du<u0)u0=du;if(du>u1)u1=du;if(dv<v0)v0=dv;if(dv>v1)v1=dv; }
-    const isSide=/Main_Wall/.test(M.name);
-    if(isSide){
-      // 80% крупные + 20% мелкие/дешёвые (передняя часть борта, ближе к кабине)
-      const cut=u1-(u1-u0)*SIDE_SMALL_FRAC;
-      fillRegion(M,B,u0,cut,v0,v1,CELL_BIG,CELLGEO,M.name,false);
-      fillRegion(M,B,cut,u1,v0,v1,CELL_SM,CELLGEO_S,M.name+'#s',true);
-    } else {
-      fillRegion(M,B,u0,u1,v0,v1,CELL_BIG,CELLGEO,M.name,false);
-    }
+    fillRegion(M,B,u0,u1,v0,v1,CELL_BIG,CELLGEO,M.name,false);
   }
   cellCount=cells.length;
   pickTargets=cells.concat(adMeshes);
