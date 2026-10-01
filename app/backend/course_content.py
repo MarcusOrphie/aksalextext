@@ -11,7 +11,7 @@ COURSES = {
     "proyavit": {
         "file": "course_content.json",
         "price_env": "COURSE_PRICE", "payurl_env": "COURSE_PAY_URL",
-        "default_price": 990, "title": "Проявить себя",
+        "default_price": 990, "title": "GodMode",
     },
     "neuroteacher": {
         "file": "course_content_teacher.json",

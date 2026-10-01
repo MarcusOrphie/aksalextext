@@ -567,7 +567,7 @@ async def prodamus_hook(request: Request):
         elif item["kind"] == "course":
             access.grant_course(email, item.get("course", "proyavit"))
             try:
-                mailer.send_course_access(email, item.get("label", "Проявить себя"))
+                mailer.send_course_access(email, item.get("label", "GodMode"))
             except Exception as e:
                 logging.error("PRODAMUS course email failed: %r", e)
         elif item["kind"] == "sub":

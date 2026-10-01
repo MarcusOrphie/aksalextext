@@ -173,7 +173,7 @@ def send_pixels_thanks(email: str, name: str = "", px: int = 0, total: int = 0):
     send(email, "Ваш логотип на Тусовке брендов - оплата прошла", html)
 
 
-def send_course_access(email: str, course_label: str = "Проявить себя"):
+def send_course_access(email: str, course_label: str = "GodMode"):
     """Письмо после покупки курса: доступ открыт, ссылка в кабинет на /course."""
     url = CABINET.rstrip("/") + "/course"
     html = f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"></head>
