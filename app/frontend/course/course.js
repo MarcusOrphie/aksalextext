@@ -17,7 +17,7 @@
   var PROYAVIT = CID === "proyavit";
   function cTitle(){ return (C && C.title) || (PROYAVIT ? "GodMode" : "Курс"); }
   function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Нельзя никем быть в серой толпе" : ""); }
-  function cHero(){ return (C && C.hero) || (PROYAVIT ? "13 уровней-квестов: от «страшно показаться» до системного блога. Отмечай задачи - копи XP, повышай ранг, открывай ачивки. Прогресс сохраняется и синхронизируется между устройствами." : ""); }
+  function cHero(){ return (C && C.hero) || (PROYAVIT ? "Цель курса - приучить тебя экспериментировать. Каждый уровень - эксперимент над реальной жизнью: гипотеза, действие, метрика, вывод. Прокачивай 4 сферы - тело, отношения, деньги, личность, - а блог строй как главный рычаг. Отмечай задачи, копи XP, повышай ранг." : ""); }
   function cTag(){ return (C && C.tag) || (PROYAVIT ? "Курс-игра · Залихват" : "Курс · Залихват"); }
 
   // ---------- i18n ----------
@@ -118,6 +118,7 @@
     if(c.module){ var m=C.modules.filter(function(x){return x.id===c.module;})[0]; return m?modDone(m):false; }
     if(c.streak) return streak()>=c.streak;
     if(c.xp) return xp()>=c.xp;
+    if(c.expcount){ var en=0; for(var k in state.done){ if(state.done[k] && k.indexOf("-exp")>=0) en++; } return en>=c.expcount; }
     return false;
   }
   function checkAchievements(){
@@ -194,6 +195,12 @@
       +'<pre>'+pre+'</pre></div>';
   }
   function lessonHTML(l){ return '<h3><span class="dot">◆</span> '+esc(l.h)+'</h3>'+l.body; }
+  function expHTML(e){
+    function row(k,v){ return v? '<div class="exp-row"><span class="exp-k">'+k+'</span><span class="exp-v">'+esc(v)+'</span></div>' : ''; }
+    var rows=row('Гипотеза', e.hypothesis)+row('Метрика', e.metric)+row('Срок', e.term)+row('Вывод', e.review);
+    var sphere = e.sphere? '<span class="exp-sphere">'+esc(e.sphere)+'</span>' : '';
+    return '<div class="exp"><div class="exp-h">'+ICON('🧪')+'<span class="exp-t">'+esc(e.title||'Эксперимент недели')+'</span>'+sphere+'</div>'+rows+'</div>';
+  }
   function examplesHTML(ex, mid){
     var opts=(ex&&ex.options)||[]; if(!opts.length) return "";
     var chips=opts.map(function(o,i){ return '<button class="ex-chip'+(i===0?' on':'')+'" data-ex="'+mid+'" data-i="'+i+'">'+esc(o.label)+'</button>'; }).join("");
@@ -222,6 +229,7 @@
     if(m.prompt) body+=promptHTML(m.prompt);
     if(m.prompts) m.prompts.forEach(function(p){ body+=promptHTML(p); });
     if(m.examples) body+=examplesHTML(m.examples, m.id);
+    if(m.experiment) body+=expHTML(m.experiment);
     if(m.hint) body+=hintHTML(m.hint);
     body+='<div class="tasks"><div class="th">'+L('lvlTasks')+'</div>';
     (m.tasks||[]).forEach(function(t){

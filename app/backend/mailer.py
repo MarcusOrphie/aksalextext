@@ -175,7 +175,7 @@ def send_pixels_thanks(email: str, name: str = "", px: int = 0, total: int = 0):
 
 def send_course_access(email: str, course_label: str = "GodMode"):
     """Письмо после покупки курса: доступ открыт, ссылка в кабинет на /course."""
-    url = CABINET.rstrip("/") + "/course"
+    url = CABINET.rstrip("/") + "/godmode"
     html = f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#faf5ec;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:28px 16px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
