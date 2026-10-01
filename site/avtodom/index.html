@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v25<span id="dbgstate"></span></div>
+<div class="tag">3D · Sunlight Adventure I68 · v27<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -307,6 +307,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/loaders/GLTFLoader.js';
 
+window.__m=(window.__m||0)+1;
 let _s=1337; function rnd(){_s=(_s*1103515245+12345)&0x7fffffff;return _s/0x7fffffff;}
 
 // ── Валюта/цель по языку страницы ────────────────────────────────
@@ -709,7 +710,7 @@ function clearFocusState(){ focusMesh=null; focusTargetPitch=0; document.body.cl
 function unfocus(){ setGrid(false); }   // выходим из фокуса → сетка выкл, снова можно кликать детали
 function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
 const gbtn=document.getElementById('gridbtn');
-function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); try{renderer.render(scene,camera);}catch(_){} const _d=document.getElementById('dbgstate'); if(_d){let v=0;for(const c of cells)if(c.visible)v++;_d.textContent=' · '+(gridOn?'G1':'G0')+' V'+v;} }
+function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); try{renderer.render(scene,camera);}catch(_){} const _d=document.getElementById('dbgstate'); if(_d){let v=0;for(const c of cells)if(c.visible)v++;let cg=0,cgv=0;for(const ch of car.children){if(ch.userData&&ch.userData.cell){cg++;if(ch.visible)cgv++;}}_d.textContent=' · M'+(window.__m||1)+' '+(gridOn?'G1':'G0')+' V'+v+' CG'+cg+'/'+cgv;} }
 gbtn.onclick=()=>setGrid(!gridOn);
 document.getElementById('sel-clear').onclick=clearSel;
 document.getElementById('sel-all').onclick=selectAllPanel;
@@ -746,7 +747,7 @@ function tick(){
   layout();
   frameCamera();
   renderer.render(scene,camera);
-  if((++_tick&15)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; let cl=0; try{cl=renderer.getContext().isContextLost()?1:0;}catch(_){} d.textContent=' · '+(gridOn?'G1':'G0')+' V'+v+' F'+((_tick>>4)&255)+' C'+cl; } }
+  if((++_tick&15)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; let cg=0,cgv=0; for(const ch of car.children){ if(ch.userData&&ch.userData.cell){cg++; if(ch.visible)cgv++;} } let cl=0; try{cl=renderer.getContext().isContextLost()?1:0;}catch(_){} d.textContent=' · M'+(window.__m||1)+' '+(gridOn?'G1':'G0')+' V'+v+' CG'+cg+'/'+cgv+' F'+((_tick>>4)&255)+' C'+cl; } }
 }
 
 // ── Прогресс сбора + «поддержать любой суммой» ──
