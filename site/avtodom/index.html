@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v27<span id="dbgstate"></span></div>
+<div class="tag">3D · Sunlight Adventure I68 · v28<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -340,7 +340,8 @@ const AD={
 };
 
 const canvas=document.getElementById('scene');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,preserveDrawingBuffer:true});
+renderer.autoClear=true;
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
 const scene=new THREE.Scene();
@@ -747,7 +748,7 @@ function tick(){
   layout();
   frameCamera();
   renderer.render(scene,camera);
-  if((++_tick&15)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; let cg=0,cgv=0; for(const ch of car.children){ if(ch.userData&&ch.userData.cell){cg++; if(ch.visible)cgv++;} } let cl=0; try{cl=renderer.getContext().isContextLost()?1:0;}catch(_){} d.textContent=' · M'+(window.__m||1)+' '+(gridOn?'G1':'G0')+' V'+v+' CG'+cg+'/'+cgv+' F'+((_tick>>4)&255)+' C'+cl; } }
+  if((++_tick&15)===0){ const d=document.getElementById('dbgstate'); if(d){ let v=0; for(const c of cells) if(c.visible)v++; let cg=0,cgv=0; for(const ch of car.children){ if(ch.userData&&ch.userData.cell){cg++; if(ch.visible)cgv++;} } let bt=0; scene.traverse(o=>{ if(o.visible&&o.material&&o.material.map===BORDER_TEX) bt++; }); let cl=0; try{cl=renderer.getContext().isContextLost()?1:0;}catch(_){} d.textContent=' · M'+(window.__m||1)+' '+(gridOn?'G1':'G0')+' V'+v+' CG'+cg+'/'+cgv+' BT'+bt+' F'+((_tick>>4)&255)+' C'+cl; } }
 }
 
 // ── Прогресс сбора + «поддержать любой суммой» ──
