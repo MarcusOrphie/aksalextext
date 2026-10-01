@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v28<span id="dbgstate"></span></div>
+<div class="tag">3D · Sunlight Adventure I68 · v29<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -340,11 +340,20 @@ const AD={
 };
 
 const canvas=document.getElementById('scene');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,preserveDrawingBuffer:true});
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true});   // непрозрачный canvas: надёжная композиция на всех GPU
 renderer.autoClear=true;
 renderer.setPixelRatio(Math.min(devicePixelRatio,2));
 renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
 const scene=new THREE.Scene();
+scene.background=new THREE.Color(0xdfeaf2);
+// фон рисуется внутри сцены (canvas непрозрачный). Мост для переключателя фонов:
+const _bgTex=new THREE.TextureLoader();
+window.__setBg=function(spec){
+  if(spec&&spec.img){ _bgTex.load(spec.img, t=>{ t.colorSpace=THREE.SRGBColorSpace; scene.background=t; }); }
+  else { scene.background=new THREE.Color(0xf4f1ea); }
+};
+// применяем сохранённый фон сразу (классический скрипт-переключатель выполняется раньше модуля)
+(function(){ let i=1; try{const v=localStorage.getItem('avtodom-bg2'); if(v!==null)i=+v;}catch(e){} if(i<=0) window.__setBg(null); else window.__setBg({img:'bg/bg'+i+'.jpg'}); })();
 const camera=new THREE.PerspectiveCamera(40,1,0.1,500);
 const CAM_DIR=new THREE.Vector3(0.72,0.36,0.9).normalize();
 
@@ -850,6 +859,7 @@ onScroll(); ensureSize(); tick();
     document.body.classList.add('hasbg');
     var s=LIST[i];
     bg.style.background=s.white?'#f4f1ea':("#0b0f14 url('"+s.img+"') center/cover no-repeat");
+    if(window.__setBg) window.__setBg(s.white?null:{img:s.img});
     try{localStorage.setItem('avtodom-bg2',i);}catch(e){}
   }
   var saved=1; try{var v=localStorage.getItem('avtodom-bg2'); if(v!==null)saved=+v;}catch(e){}
