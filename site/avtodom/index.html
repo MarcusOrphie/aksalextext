@@ -274,7 +274,7 @@
     <div class="note">Пример · реальный рейтинг заполнится после запуска</div>
   </div>
 </div>
-<div class="tag">3D · Sunlight Adventure I68 · v29<span id="dbgstate"></span></div>
+<div class="tag">3D · Sunlight Adventure I68 · v30<span id="dbgstate"></span></div>
 
 <div id="ad">
   <span class="close" id="ad-close">×</span>
@@ -720,7 +720,7 @@ function clearFocusState(){ focusMesh=null; focusTargetPitch=0; document.body.cl
 function unfocus(){ setGrid(false); }   // выходим из фокуса → сетка выкл, снова можно кликать детали
 function deselect(){ if(selected){selected.material.emissive.setHex(0x000000);selected=null;} document.getElementById('ad').classList.remove('show'); }
 const gbtn=document.getElementById('gridbtn');
-function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); try{renderer.render(scene,camera);}catch(_){} const _d=document.getElementById('dbgstate'); if(_d){let v=0;for(const c of cells)if(c.visible)v++;let cg=0,cgv=0;for(const ch of car.children){if(ch.userData&&ch.userData.cell){cg++;if(ch.visible)cgv++;}}_d.textContent=' · M'+(window.__m||1)+' '+(gridOn?'G1':'G0')+' V'+v+' CG'+cg+'/'+cgv;} }
+function setGrid(on){ gridOn=on; cells.forEach(c=>c.visible = on || (c.userData.occupied && progress>0.9)); gbtn.classList.toggle('on',on); gbtn.textContent=on?('Скрыть · '+cellCount+' секций'):'Разметка секций'; if(!on&&hoverCell){if(!hoverCell.userData.sel)restoreCell(hoverCell);hoverCell=null;} if(!on) clearFocusState(); updateSel(); if(on) deselect(); try{renderer.render(scene,camera);}catch(_){} try{ _lw=0; renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.render(scene,camera); }catch(_){} const _d=document.getElementById('dbgstate'); if(_d){let v=0;for(const c of cells)if(c.visible)v++;let cg=0,cgv=0;for(const ch of car.children){if(ch.userData&&ch.userData.cell){cg++;if(ch.visible)cgv++;}}_d.textContent=' · M'+(window.__m||1)+' '+(gridOn?'G1':'G0')+' V'+v+' CG'+cg+'/'+cgv;} }
 gbtn.onclick=()=>setGrid(!gridOn);
 document.getElementById('sel-clear').onclick=clearSel;
 document.getElementById('sel-all').onclick=selectAllPanel;
