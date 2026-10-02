@@ -15,9 +15,9 @@
 
   // хардкод-тексты «Проявить себя» (back-compat); прочие курсы берут из C
   var PROYAVIT = CID === "proyavit";
-  function cTitle(){ return (C && C.title) || (PROYAVIT ? "GodMode" : "Курс"); }
-  function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Нельзя никем быть в серой толпе" : ""); }
-  function cHero(){ return (C && C.hero) || (PROYAVIT ? "Цель курса - приучить тебя экспериментировать. Каждый уровень - эксперимент над реальной жизнью: гипотеза, действие, метрика, вывод. Прокачивай 4 сферы - тело, отношения, деньги, личность, - а блог строй как главный рычаг. Отмечай задачи, копи XP, повышай ранг." : ""); }
+  function cTitle(){ return (C && C.title) || (PROYAVIT ? "Шажок" : "Курс"); }
+  function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Не жди мотивации - проверяй гипотезы" : ""); }
+  function cHero(){ return (C && C.hero) || (PROYAVIT ? "За 21 день проверь одну гипотезу о своей жизни маленькими шажками и реши на своих данных, что работает именно для тебя." : ""); }
   function cTag(){ return (C && C.tag) || (PROYAVIT ? "MVL · Minimum Viable Life" : "Курс"); }
 
   // ---------- i18n ----------
@@ -31,7 +31,7 @@
       tHeader:"ИИ-наставник", tHi:"Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.",
       tPh:"Твой вопрос по уроку...", tFab:"Наставник",
       tErrA:"Не получилось ответить. Попробуй ещё раз.", tErrN:"Наставник сейчас не отвечает. Попробуй через минуту.",
-      gateBody:"Это интерактивный курс внутри кабинета - с прохождением, галочками, XP и ачивками. Войди в кабинет Залихват, чтобы открыть курс и сохранять прогресс.",
+      gateBody:"Это интерактивная программа внутри кабинета - проходишь шаг за шагом, прогресс сохраняется. Войди в кабинет, чтобы открыть «Шажок».",
       gateBtn:"Войти в кабинет →", buyGet:"Получить доступ", buyHow:"Как получить доступ →",
       familiar:"Знакомо?", whatGet:"Что получишь", forWhom:"Для кого:",
       ctaSub:"Пожизненный доступ, прохождение с галочками и XP, ИИ-наставник внутри.",
@@ -53,7 +53,7 @@
       tHeader:"AI mentor", tHi:"Hi! Ask anything about this lesson - I will help and point you to the next step.",
       tPh:"Your question about the lesson...", tFab:"Mentor",
       tErrA:"Could not answer. Try again.", tErrN:"The mentor is not responding. Try again in a minute.",
-      gateBody:"This is an interactive course inside your cabinet - with progress, checkboxes, XP and achievements. Sign in to your Zalihvat cabinet to open the course and save progress.",
+      gateBody:"This is an interactive program inside your cabinet - you go step by step and your progress is saved. Sign in to open \"Step by Step\".",
       gateBtn:"Sign in →", buyGet:"Get access", buyHow:"How to get access →",
       familiar:"Sound familiar?", whatGet:"What you get", forWhom:"For whom:",
       ctaSub:"Lifetime access, progress with checkboxes and XP, AI mentor inside.",
