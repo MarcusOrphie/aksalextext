@@ -375,8 +375,29 @@
     panel.innerHTML=''
       +'<div class="tt-head"><b>'+L('tHeader')+'</b><span class="tt-x" id="tt-x">✕</span></div>'
       +'<div class="tt-msgs" id="tt-msgs"><div class="tt-m bot">'+esc(L('tHi'))+'</div></div>'
+      +'<div class="tt-chips" id="tt-chips"></div>'
       +'<div class="tt-in"><textarea id="tt-q" rows="1" placeholder="'+esc(L('tPh'))+'"></textarea><button id="tt-send">→</button></div>';
     document.body.appendChild(fab); document.body.appendChild(panel);
+    if(PROYAVIT){
+      var starters = (LANG==="en") ? [
+        ["🧪 Experiment","Help me turn my situation into an experiment: "],
+        ["📊 Metric","Which one metric should I track for: "],
+        ["🎯 SMART goal","Build me a SMART goal: "]
+      ] : [
+        ["🧪 Эксперимент","Помоги превратить мою ситуацию в эксперимент: "],
+        ["📊 Метрика","Какую одну метрику выбрать, чтобы измерить: "],
+        ["🎯 SMART-цель","Собери мне SMART-цель: "]
+      ];
+      var chipsEl=document.getElementById("tt-chips");
+      chipsEl.innerHTML=starters.map(function(s,i){ return '<button class="tt-chip" data-i="'+i+'">'+esc(s[0])+'</button>'; }).join("");
+      chipsEl.querySelectorAll(".tt-chip").forEach(function(b){
+        b.addEventListener("click", function(){
+          var tpl=starters[+b.getAttribute("data-i")][1];
+          var ta=document.getElementById("tt-q"); ta.value=tpl; ta.focus();
+          ta.setSelectionRange(ta.value.length, ta.value.length);
+        });
+      });
+    }
     fab.addEventListener("click", function(){ panel.hidden=!panel.hidden; if(!panel.hidden) document.getElementById("tt-q").focus(); });
     document.getElementById("tt-x").addEventListener("click", function(){ panel.hidden=true; });
     var q=document.getElementById("tt-q"), send=document.getElementById("tt-send");

@@ -198,7 +198,7 @@ def tutor_endpoint(request: Request, req: TutorReq, user: dict = Depends(get_use
         return {"answer": "Ask a question about the lesson." if lang == "en" else "Задай вопрос по уроку - и я помогу."}
     m = course_content.module(req.course, req.module_id, lang) or {}
     title = course_content.load(req.course, lang).get("title", "")
-    return {"answer": tutor.ask(title, m, q, req.history, lang)}
+    return {"answer": tutor.ask(title, m, q, req.history, lang, course_id=req.course)}
 
 @app.post("/api/generate")
 @limiter.limit("40/hour")
