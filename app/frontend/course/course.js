@@ -18,15 +18,15 @@
   function cTitle(){ return (C && C.title) || (PROYAVIT ? "GodMode" : "Курс"); }
   function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Нельзя никем быть в серой толпе" : ""); }
   function cHero(){ return (C && C.hero) || (PROYAVIT ? "Цель курса - приучить тебя экспериментировать. Каждый уровень - эксперимент над реальной жизнью: гипотеза, действие, метрика, вывод. Прокачивай 4 сферы - тело, отношения, деньги, личность, - а блог строй как главный рычаг. Отмечай задачи, копи XP, повышай ранг." : ""); }
-  function cTag(){ return (C && C.tag) || (PROYAVIT ? "Система · Залихват" : "Курс · Залихват"); }
+  function cTag(){ return (C && C.tag) || (PROYAVIT ? "MVL · Minimum Viable Life" : "Курс"); }
 
   // ---------- i18n ----------
   var LANG = (window.ZH_LANG==="en") ? "en" : "ru";
   var T = {
     ru: {
       start:"Начать →", cont:"Продолжить →", maxRank:"максимальный ранг достигнут",
-      tasks:"задач", days:"дней подряд", ach:"Ачивки", lvlTasks:"Задачи модуля", info:"информация",
-      lvlDone:"✓ Модуль пройден - красавчик!", copy:"Копировать", copied:"Скопировано ✓",
+      tasks:"шагов", days:"дней подряд", ach:"Ачивки", lvlTasks:"Что сделать", info:"справка",
+      lvlDone:"✓ Шаг пройден", copy:"Копировать", copied:"Скопировано ✓",
       exTitle:"Примеры под твою сферу", hintTitle:"Подсказка наставника", ask:"Спросить наставника →",
       tHeader:"ИИ-наставник", tHi:"Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.",
       tPh:"Твой вопрос по уроку...", tFab:"Наставник",
@@ -39,16 +39,16 @@
       failH:"Не удалось загрузить курс", failMsg:"Попробуй обновить страницу.", failNet:"Проверь соединение и обнови страницу.", refreshBtn:"Обновить →",
       achSub:"открыто новое достижение", rankSub:"ты растёшь",
       toRank:function(n,x){return 'до ранга «'+n+'» - '+x+' XP';},
-      foot:function(t){return 'Залихват · курс «'+t+'»';},
-      heroMeta:function(mc,tc){return mc+' модулей · '+tc+' заданий · ИИ-наставник внутри';},
-      whatInside:function(mc){return 'Что внутри - '+mc+' модулей';},
-      heroFb:function(mc,tc){return mc+' модулей, '+tc+' заданий, XP и ачивки.';},
+      foot:function(t){return 'Саша Аксенов · «'+t+'»';},
+      heroMeta:function(mc,tc){return '21 день · '+mc+' шагов · ИИ-наставник';},
+      whatInside:function(mc){return 'Из чего состоит программа';},
+      heroFb:function(mc,tc){return '21 день, один эксперимент, честный вывод.';},
       achT:function(n){return 'Ачивка: '+n;}, rankT:function(n){return 'Новый ранг: '+n;}
     },
     en: {
       start:"Start →", cont:"Continue →", maxRank:"top rank reached",
-      tasks:"tasks", days:"day streak", ach:"Achievements", lvlTasks:"Module tasks", info:"info",
-      lvlDone:"✓ Module complete - nice!", copy:"Copy", copied:"Copied ✓",
+      tasks:"steps", days:"day streak", ach:"Achievements", lvlTasks:"To do", info:"info",
+      lvlDone:"✓ Step done", copy:"Copy", copied:"Copied ✓",
       exTitle:"Examples for your field", hintTitle:"Mentor tip", ask:"Ask the mentor →",
       tHeader:"AI mentor", tHi:"Hi! Ask anything about this lesson - I will help and point you to the next step.",
       tPh:"Your question about the lesson...", tFab:"Mentor",
@@ -61,10 +61,10 @@
       failH:"Could not load the course", failMsg:"Try refreshing the page.", failNet:"Check your connection and refresh.", refreshBtn:"Refresh →",
       achSub:"new achievement unlocked", rankSub:"you are leveling up",
       toRank:function(n,x){return 'to rank "'+n+'" - '+x+' XP';},
-      foot:function(t){return 'Zalihvat · course "'+t+'"';},
-      heroMeta:function(mc,tc){return mc+' modules · '+tc+' tasks · AI mentor inside';},
-      whatInside:function(mc){return 'What is inside - '+mc+' modules';},
-      heroFb:function(mc,tc){return mc+' modules, '+tc+' tasks, XP and achievements.';},
+      foot:function(t){return 'Sasha Aksenov · "'+t+'"';},
+      heroMeta:function(mc,tc){return '21 days · '+mc+' steps · AI mentor';},
+      whatInside:function(mc){return 'What the program includes';},
+      heroFb:function(mc,tc){return '21 days, one experiment, an honest verdict.';},
       achT:function(n){return 'Achievement: '+n;}, rankT:function(n){return 'New rank: '+n;}
     }
   };
@@ -168,18 +168,11 @@
       +'</svg>';
   }
   function renderBar(){
-    var x=xp(), pct=Math.round(doneCount()/allTasks.length*100), rk=rankFor(x), nr=nextRank(x), st=streak();
-    var toNext = nr? (nr.min-x) : 0;
-    var fill = nr? Math.round((x-rk.min)/(nr.min-rk.min)*100) : 100;
+    var done=doneCount(), total=allTasks.length||1, pct=Math.round(done/total*100);
     document.getElementById("pbar").innerHTML=
-      '<div class="ring">'+ring(pct)+'<span class="pct">'+pct+'%</span></div>'
-      +'<div class="pmeta">'
-        +'<div class="rank">'+ICON(rk.em)+' '+esc(rk.name)+' <small>· '+x+' XP</small></div>'
-        +'<div class="sub">'+(nr? L('toRank')(esc(nr.name),toNext) : L('maxRank'))+'</div>'
-        +'<div class="xpwrap"><i style="width:'+fill+'%"></i></div>'
-      +'</div>'
-      +'<div class="pstat"><b>'+doneCount()+'</b><span>'+L('tasks')+'</span></div>'
-      +'<div class="pstat"><b>'+st+'</b><span>'+L('days')+'</span></div>';
+      '<div class="pprog"><div class="pprog-top"><span class="pprog-lab">Прогресс программы</span>'
+      +'<span class="pprog-num">'+done+' / '+total+' шагов</span></div>'
+      +'<div class="pbarline"><i style="width:'+pct+'%"></i></div></div>';
   }
   function renderAch(){
     var el=document.getElementById("ach"); if(!el) return;
@@ -221,7 +214,6 @@
   }
   function moduleHTML(m, idx){
     var cnt=modCount(m), tot=(m.tasks||[]).length, done=modDone(m);
-    var mxp=(m.tasks||[]).reduce(function(s,t){return s+t.xp;},0);
     var body='';
     body+='<div class="why">'+esc(m.why)+'</div>';
     (m.lessons||[]).forEach(function(l){ body+=lessonHTML(l); });
@@ -236,8 +228,7 @@
       var on=!!state.done[t.id];
       body+='<div class="task'+(on?' on':'')+'" data-task="'+t.id+'">'
         +'<span class="box"><svg viewBox="0 0 20 20"><path d="M4 10l4 4 8-9"/></svg></span>'
-        +'<span class="tx">'+esc(t.text)+'</span>'
-        +'<span class="xp">+'+t.xp+' XP</span></div>';
+        +'<span class="tx">'+esc(t.text)+'</span></div>';
     });
     body+='</div>';
     body+='<div class="mdone-badge">'+L('lvlDone')+'</div>';
@@ -245,7 +236,7 @@
       +'<div class="mhead">'
         +'<div class="mnum"><span class="em">'+(done?'✓':m.num)+'</span></div>'
         +'<div class="mtit"><div class="mt-top"><h2>'+esc(m.title)+'</h2>'+(m.days?'<span class="days">'+esc(m.days)+'</span>':'')+'</div>'
-          +'<div class="mprog">'+(tot?('<b>'+cnt+'/'+tot+'</b> '+L('tasks')+' · '+mxp+' XP'):L('info'))+'</div></div>'
+          +'<div class="mprog">'+(tot?('<b>'+cnt+'/'+tot+'</b> '+L('tasks')):L('info'))+'</div></div>'
         +'<span class="mbadge-xp"></span>'
         +'<span class="chev"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>'
       +'</div>'
@@ -265,12 +256,11 @@
         +(cSub()?'<div class="sub">'+esc(cSub())+'</div>':'')
         +(cHero()?'<p>'+esc(cHero())+'</p>':'')
         +'<button class="cta" id="continue">'+(started?L('cont'):L('start'))+'</button>'
-      +'</div>'
-      +'<div class="ach-shelf"><div class="lab">'+ICON('🏅')+' '+L('ach')+'</div><div class="ach-row" id="ach"></div></div>';
+      +'</div>';
     C.modules.forEach(function(m,i){ html+=moduleHTML(m,i); });
     html+='<div class="foot">'+esc(L('foot')(cTitle()))+'</div>';
     app.innerHTML=html;
-    renderBar(); renderAch();
+    renderBar();
     var openIdx = firstIncomplete<0? 0 : firstIncomplete;
     var mods=app.querySelectorAll(".mod");
     if(mods[openIdx]) mods[openIdx].classList.add("open");
@@ -287,29 +277,20 @@
 
   function toggleTask(id){
     var was=!!state.done[id];
-    if(was) delete state.done[id]; else { state.done[id]=true; if(state.days.indexOf(todayStr())<0) state.days.push(todayStr()); }
+    if(was) delete state.done[id]; else state.done[id]=true;
     var tEl=app.querySelector('.task[data-task="'+id+'"]');
     if(tEl) tEl.classList.toggle("on", !was);
     C.modules.forEach(function(m){
       if((m.tasks||[]).some(function(t){return t.id===id;})){
         var mEl=document.getElementById(m.id); var d=modDone(m);
         if(mEl){ mEl.classList.toggle("done", d);
-          var cnt=modCount(m), mxp=m.tasks.reduce(function(s,t){return s+t.xp;},0);
-          mEl.querySelector(".mprog").innerHTML='<b>'+cnt+'/'+m.tasks.length+'</b> '+L('tasks')+' · '+mxp+' XP';
+          var cnt=modCount(m);
+          mEl.querySelector(".mprog").innerHTML='<b>'+cnt+'/'+m.tasks.length+'</b> '+L('tasks');
           mEl.querySelector(".mnum .em").textContent = d? '✓' : m.num;
         }
       }
     });
     renderBar();
-    if(!was){
-      var newly=checkAchievements();
-      newly.forEach(function(a){ showToast(a.em, L('achT')(a.name), L('achSub')); });
-      if(newly.some(function(a){return a.cond.all;})) confetti();
-    } else {
-      C.achievements.forEach(function(a){ if(state.ach[a.id] && !achEarned(a)){ state.ach[a.id]=false; } });
-      renderAch();
-    }
-    detectRankUp();
     scheduleSave();
   }
 
@@ -380,13 +361,13 @@
     document.body.appendChild(fab); document.body.appendChild(panel);
     if(PROYAVIT){
       var starters = (LANG==="en") ? [
-        ["🧪 Experiment","Help me turn my situation into an experiment: "],
-        ["📊 Metric","Which one metric should I track for: "],
-        ["🎯 SMART goal","Build me a SMART goal: "]
+        ["🔬 Hypothesis","Help me frame a hypothesis (If X in conditions Y, metric Z changes) for: "],
+        ["🪜 Smaller step","How do I make my step tiny enough not to skip it: "],
+        ["📊 Metric","Which one metric should I track for: "]
       ] : [
-        ["🧪 Эксперимент","Помоги превратить мою ситуацию в эксперимент: "],
-        ["📊 Метрика","Какую одну метрику выбрать, чтобы измерить: "],
-        ["🎯 SMART-цель","Собери мне SMART-цель: "]
+        ["🔬 Гипотеза","Помоги собрать гипотезу «Если X при Y → метрика Z» для: "],
+        ["🪜 Шаг меньше","Как сделать мой шажок настолько маленьким, чтобы не пропускать: "],
+        ["📊 Метрика","Какую одну метрику выбрать, чтобы измерить: "]
       ];
       var chipsEl=document.getElementById("tt-chips");
       chipsEl.innerHTML=starters.map(function(s,i){ return '<button class="tt-chip" data-i="'+i+'">'+esc(s[0])+'</button>'; }).join("");
@@ -489,7 +470,7 @@
       +buyBtn(L('buyGet'))+'</div>';
 
     html+='<div class="tz-foot">'+esc(L('paid'))+' <a href="#" id="tz-reload">'+L('refresh')+'</a></div>'
-      +'<div class="foot">Залихват · @zalihvat_ai</div>';
+      +'<div class="foot">Саша Аксенов</div>';
     app.innerHTML=html;
     var rl=document.getElementById("tz-reload");
     if(rl) rl.addEventListener("click", function(e){ e.preventDefault(); location.reload(); });
@@ -504,8 +485,6 @@
       }
       if(!state.started){ state.started=new Date().toISOString(); }
       flat();
-      _lastRank=rankFor(xp()).name;
-      C.achievements.forEach(function(a){ state.ach[a.id]= state.ach[a.id]||achEarned(a); });
       render();
       saveLocal();
     });
