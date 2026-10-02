@@ -18,15 +18,15 @@
   function cTitle(){ return (C && C.title) || (PROYAVIT ? "GodMode" : "Курс"); }
   function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Нельзя никем быть в серой толпе" : ""); }
   function cHero(){ return (C && C.hero) || (PROYAVIT ? "Цель курса - приучить тебя экспериментировать. Каждый уровень - эксперимент над реальной жизнью: гипотеза, действие, метрика, вывод. Прокачивай 4 сферы - тело, отношения, деньги, личность, - а блог строй как главный рычаг. Отмечай задачи, копи XP, повышай ранг." : ""); }
-  function cTag(){ return (C && C.tag) || (PROYAVIT ? "Курс-игра · Залихват" : "Курс · Залихват"); }
+  function cTag(){ return (C && C.tag) || (PROYAVIT ? "Система · Залихват" : "Курс · Залихват"); }
 
   // ---------- i18n ----------
   var LANG = (window.ZH_LANG==="en") ? "en" : "ru";
   var T = {
     ru: {
       start:"Начать →", cont:"Продолжить →", maxRank:"максимальный ранг достигнут",
-      tasks:"задач", days:"дней подряд", ach:"Ачивки", lvlTasks:"Задачи уровня", info:"информация",
-      lvlDone:"✓ Уровень пройден - красавчик!", copy:"Копировать", copied:"Скопировано ✓",
+      tasks:"задач", days:"дней подряд", ach:"Ачивки", lvlTasks:"Задачи модуля", info:"информация",
+      lvlDone:"✓ Модуль пройден - красавчик!", copy:"Копировать", copied:"Скопировано ✓",
       exTitle:"Примеры под твою сферу", hintTitle:"Подсказка наставника", ask:"Спросить наставника →",
       tHeader:"ИИ-наставник", tHi:"Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.",
       tPh:"Твой вопрос по уроку...", tFab:"Наставник",
@@ -40,15 +40,15 @@
       achSub:"открыто новое достижение", rankSub:"ты растёшь",
       toRank:function(n,x){return 'до ранга «'+n+'» - '+x+' XP';},
       foot:function(t){return 'Залихват · курс «'+t+'»';},
-      heroMeta:function(mc,tc){return mc+' уровней · '+tc+' заданий · ИИ-наставник внутри';},
-      whatInside:function(mc){return 'Что внутри - '+mc+' уровней';},
-      heroFb:function(mc,tc){return mc+' уровней, '+tc+' заданий, XP и ачивки.';},
+      heroMeta:function(mc,tc){return mc+' модулей · '+tc+' заданий · ИИ-наставник внутри';},
+      whatInside:function(mc){return 'Что внутри - '+mc+' модулей';},
+      heroFb:function(mc,tc){return mc+' модулей, '+tc+' заданий, XP и ачивки.';},
       achT:function(n){return 'Ачивка: '+n;}, rankT:function(n){return 'Новый ранг: '+n;}
     },
     en: {
       start:"Start →", cont:"Continue →", maxRank:"top rank reached",
-      tasks:"tasks", days:"day streak", ach:"Achievements", lvlTasks:"Level tasks", info:"info",
-      lvlDone:"✓ Level complete - nice!", copy:"Copy", copied:"Copied ✓",
+      tasks:"tasks", days:"day streak", ach:"Achievements", lvlTasks:"Module tasks", info:"info",
+      lvlDone:"✓ Module complete - nice!", copy:"Copy", copied:"Copied ✓",
       exTitle:"Examples for your field", hintTitle:"Mentor tip", ask:"Ask the mentor →",
       tHeader:"AI mentor", tHi:"Hi! Ask anything about this lesson - I will help and point you to the next step.",
       tPh:"Your question about the lesson...", tFab:"Mentor",
@@ -62,9 +62,9 @@
       achSub:"new achievement unlocked", rankSub:"you are leveling up",
       toRank:function(n,x){return 'to rank "'+n+'" - '+x+' XP';},
       foot:function(t){return 'Zalihvat · course "'+t+'"';},
-      heroMeta:function(mc,tc){return mc+' levels · '+tc+' tasks · AI mentor inside';},
-      whatInside:function(mc){return 'What is inside - '+mc+' levels';},
-      heroFb:function(mc,tc){return mc+' levels, '+tc+' tasks, XP and achievements.';},
+      heroMeta:function(mc,tc){return mc+' modules · '+tc+' tasks · AI mentor inside';},
+      whatInside:function(mc){return 'What is inside - '+mc+' modules';},
+      heroFb:function(mc,tc){return mc+' modules, '+tc+' tasks, XP and achievements.';},
       achT:function(n){return 'Achievement: '+n;}, rankT:function(n){return 'New rank: '+n;}
     }
   };
