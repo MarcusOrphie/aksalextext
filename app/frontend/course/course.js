@@ -18,7 +18,7 @@
   function cTitle(){ return (C && C.title) || (PROYAVIT ? "Шажок" : "Курс"); }
   function cSub(){ return (C && C.subtitle) || (PROYAVIT ? "Не жди мотивации - проверяй гипотезы" : ""); }
   function cHero(){ return (C && C.hero) || (PROYAVIT ? "За 21 день проверь одну гипотезу о своей жизни маленькими шажками и реши на своих данных, что работает именно для тебя." : ""); }
-  function cTag(){ return (C && C.tag) || (PROYAVIT ? "MVL · Minimum Viable Life" : "Курс"); }
+  function cTag(){ return (C && C.tag) || (PROYAVIT ? "" : "Курс"); }
 
   // ---------- i18n ----------
   var LANG = (window.ZH_LANG==="en") ? "en" : "ru";
@@ -251,7 +251,7 @@
     var started = doneCount()>0;
     var html='<div class="pbar" id="pbar"></div>'
       +'<div class="hero">'
-        +'<span class="tag">'+esc(cTag())+'</span>'
+        +(cTag()?'<span class="tag">'+esc(cTag())+'</span>':'')
         +'<h1>'+esc(cTitle())+'</h1>'
         +(cSub()?'<div class="sub">'+esc(cSub())+'</div>':'')
         +(cHero()?'<p>'+esc(cHero())+'</p>':'')
@@ -425,7 +425,7 @@
     var mc=t.modules_count||(t.modules||[]).length, tc=t.tasks_count||0, ac=t.achievements_count||0;
 
     var html='<div class="hero" style="margin-top:16px">'
-        +'<span class="tag">'+esc(tag)+'</span>'
+        +(tag?'<span class="tag">'+esc(tag)+'</span>':'')
         +'<h1>'+esc(title)+'</h1>'
         +(sub?'<div class="sub">'+esc(sub)+'</div>':'')
         +'<p>'+esc((ld&&ld.promise)||hero||L('heroFb')(mc,tc))+'</p>'
