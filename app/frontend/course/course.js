@@ -215,7 +215,7 @@
   function moduleHTML(m, idx){
     var cnt=modCount(m), tot=(m.tasks||[]).length, done=modDone(m);
     var body='';
-    body+='<div class="why">'+esc(m.why)+'</div>';
+    if(m.why) body+='<div class="why">'+esc(m.why)+'</div>';
     (m.lessons||[]).forEach(function(l){ body+=lessonHTML(l); });
     if(m.book){ var bh=(m.book.h||"").replace(/^[^0-9A-Za-zА-Яа-яЁё]+/,""); body+='<div class="book"><div class="bh">'+ICON('💡')+' '+esc(bh)+'</div><p>'+esc(m.book.text)+'</p></div>'; }
     if(m.prompt) body+=promptHTML(m.prompt);
