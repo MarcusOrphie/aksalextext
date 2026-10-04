@@ -62,6 +62,13 @@
   .prow .t{font-weight:700;color:var(--ink)}
   .prow.fix .t{font-weight:600;color:#3f3a34}
 
+  /* quotes */
+  .quotes{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px}
+  .qcard{position:relative;background:var(--paper2);border:1.5px solid var(--line);border-radius:16px;padding:30px 24px 22px;font-size:17px;font-weight:600;font-style:italic;color:#2f2a25;line-height:1.5}
+  .qcard::before{content:"\201C";position:absolute;top:6px;left:18px;font-family:Georgia,serif;font-style:normal;font-size:58px;line-height:1;color:var(--coral);opacity:.5}
+  .qcard:last-child{grid-column:1 / -1;background:var(--coral-soft);border-color:var(--coral)}
+  @media(max-width:860px){ .quotes{grid-template-columns:1fr} .qcard:last-child{grid-column:auto} }
+
   /* steps / how */
   .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
   .step{background:var(--paper2);border:1.5px solid var(--line);border-radius:16px;padding:22px 18px;position:relative}
@@ -173,6 +180,20 @@
           <path d="M55 330 L135 266 L215 186 L295 96" stroke="#e85f2c" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
         </svg>
       </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-k">Узнаёшь себя?</div>
+    <h2 class="sec-h">Если хоть одно - про тебя, ты по адресу</h2>
+    <div class="quotes">
+      <blockquote class="qcard">Я много думаю о переменах, но ничего устойчиво не меняется.</blockquote>
+      <blockquote class="qcard">Начинаю с энтузиазмом, бросаю через несколько дней и виню себя.</blockquote>
+      <blockquote class="qcard">Не понимаю, что мне реально помогает: ранний подъём, спорт, английский, отказ от соцсетей, новая система работы.</blockquote>
+      <blockquote class="qcard">У меня нет ресурса на курс, марафон и полную перестройку жизни.</blockquote>
+      <blockquote class="qcard">Мне надоели инфошум, «успешный успех» и советы, одинаковые для всех.</blockquote>
     </div>
   </div>
 </section>
