@@ -1,0 +1,20 @@
+[Unit]
+Description=Shazhok Telegram bot (voice/text -> 21-day experiment)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/shazhok-bot
+# секреты кабинета (ANTHROPIC_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_KEY) переиспользуем
+EnvironmentFile=/opt/zalihvat-app/.env
+# бот-специфичное (TELEGRAM_TOKEN, WHISPER_MODEL, SHAZHOK_DB, CABINET_URL)
+EnvironmentFile=/opt/shazhok-bot/.env
+ExecStart=/opt/shazhok-bot/venv/bin/python /opt/zalihvat-site/app/bot/shazhok_bot.py
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
