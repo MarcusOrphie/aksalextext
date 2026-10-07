@@ -42,6 +42,19 @@
   .sheet-btn:active{transform:scale(.98)}
   .tg-btn{display:inline-flex;align-items:center;gap:7px;margin:6px 0 2px;font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.02em;color:#fff;background:#2aabee;border:none;border-radius:10px;padding:10px 15px;text-decoration:none}
   .tg-btn:active{transform:scale(.98)}
+
+  /* интерактивные поля (цель / декомпозиция) */
+  .fld-l{display:block;font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.05em;color:var(--muted);margin:16px 0 6px}
+  .fld{width:100%;border:1.5px solid var(--line);border-radius:11px;padding:11px 13px;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);background:var(--paper2);resize:vertical;line-height:1.45}
+  .fld:focus{outline:none;border-color:var(--coral)}
+  .fld-btn{margin-top:10px;font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.02em;color:#fff;background:var(--coral);border:none;border-radius:999px;padding:11px 24px;cursor:pointer;box-shadow:0 4px 14px rgba(255,127,80,.35)}
+  .fld-btn:disabled{opacity:.6;cursor:default}
+  .fld-btn:active{transform:scale(.97)}
+  .fld-out{margin-top:12px;font-size:13.5px;color:#332e29;font-weight:500;line-height:1.5;white-space:pre-wrap}
+  .fld-out:empty{display:none}
+  .fld-wait{color:var(--muted);font-style:italic;font-weight:600}
+  .decompo-res{font-family:inherit;font-size:13.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word;background:var(--paper2);border:1.5px solid var(--line);border-radius:11px;padding:12px;margin:0 0 8px}
+  .copy2{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:.03em;color:var(--ink);background:var(--coral-soft);border:1.5px solid var(--coral);border-radius:8px;padding:6px 12px;cursor:pointer}
   .ring{flex:none;width:58px;height:58px;position:relative}
   .ring svg{transform:rotate(-90deg)}
   .ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-family:"Oswald";font-weight:700;font-size:15px}

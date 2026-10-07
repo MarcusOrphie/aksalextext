@@ -337,6 +337,36 @@
         var ta=document.getElementById("tt-q"); if(ta){ ta.value=q; ta.focus(); }
       });
     });
+    // Выбери цель -> Проверить (Наставник)
+    var gi=document.getElementById("goal-input"), gc=document.getElementById("goal-check"), go=document.getElementById("goal-out");
+    if(gi && state.goal_text) gi.value=state.goal_text;
+    if(gc && gi) gc.addEventListener("click", function(){
+      var g=(gi.value||"").trim(); if(!g){ gi.focus(); return; }
+      state.goal_text=g; scheduleSave();
+      var gi2=document.getElementById("goal-input2"); if(gi2) gi2.value=g;
+      gc.disabled=true; if(go) go.innerHTML='<div class="fld-wait">Наставник проверяет цель...</div>';
+      askTutor("Проверь мою цель по SMART (конкретная, измеримая, достижимая, значимая, с чётким сроком) и помоги сформулировать её точнее. Моя цель: «"+g+"». Коротко скажи, чего не хватает, и дай улучшенную формулировку цели одной фразой.", "s1", function(ans){ gc.disabled=false; if(go) go.textContent=ans; });
+    });
+    // Декомпозиция -> Декомпо! (10 гипотез)
+    var d2=document.getElementById("goal-input2"), db=document.getElementById("decompo-btn"), dout=document.getElementById("decompo-out");
+    if(d2 && !d2.value && state.goal_text) d2.value=state.goal_text;
+    if(db && d2) db.addEventListener("click", function(){
+      var g=(d2.value||"").trim(); if(!g){ d2.focus(); return; }
+      state.goal_text=g; scheduleSave();
+      db.disabled=true; if(dout) dout.innerHTML='<div class="fld-wait">Наставник раскладывает цель на гипотезы...</div>';
+      askTutor("Разбей мою цель на 10 гипотез-шажков. Каждая - короткая проверяемая гипотеза с измеримым результатом, желательно в формате «Если я буду [действие], то [показатель] изменится». Моя цель: «"+g+"». Выдай нумерованный список ровно из 10 пунктов, без вступления и заключения.", "s1", function(ans){
+        db.disabled=false;
+        if(!dout) return;
+        dout.innerHTML='<pre class="decompo-res"></pre><button class="copy2" type="button">'+L('copy')+'</button>';
+        dout.querySelector(".decompo-res").textContent=ans;
+        var cb=dout.querySelector(".copy2");
+        cb.addEventListener("click", function(){
+          function ok(){ cb.textContent=L('copied'); setTimeout(function(){ cb.textContent=L('copy'); },1600); }
+          if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ans).then(ok,ok); }
+          else { var ta=document.createElement("textarea"); ta.value=ans; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} ta.remove(); ok(); }
+        });
+      });
+    });
     var cont=document.getElementById("continue");
     if(cont) cont.addEventListener("click", function(){
       var target=null;
@@ -345,6 +375,16 @@
       var el=document.getElementById(target.id);
       if(el){ el.classList.add("open"); el.scrollIntoView({behavior:"smooth", block:"start"}); }
     });
+  }
+
+  function askTutor(question, module_id, done){
+    try{
+      fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},
+        body:JSON.stringify({course:CID, module_id:module_id||"", question:question, history:[], lang:LANG})})
+        .then(function(r){return r.json();})
+        .then(function(d){ done((d&&d.answer)||"Не получилось, попробуй ещё раз."); })
+        .catch(function(){ done("Наставник сейчас не отвечает, попробуй через минуту."); });
+    }catch(e){ done("Ошибка, попробуй ещё раз."); }
   }
 
   // ---------- ИИ-наставник ----------
