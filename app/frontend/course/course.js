@@ -345,7 +345,7 @@
       state.goal_text=g; scheduleSave();
       var gi2=document.getElementById("goal-input2"); if(gi2) gi2.value=g;
       gc.disabled=true; if(go) go.innerHTML='<div class="fld-wait">Наставник проверяет цель...</div>';
-      askTutor("Проверь мою цель по SMART (конкретная, измеримая, достижимая, значимая, с чётким сроком) и помоги сформулировать её точнее. Моя цель: «"+g+"». Коротко скажи, чего не хватает, и дай улучшенную формулировку цели одной фразой.", "s1", function(ans){ gc.disabled=false; if(go) go.textContent=ans; });
+      askTutor("Разбери мою цель по SMART. Для каждого из 5 критериев (конкретная, измеримая, достижимая, значимая, с чётким сроком) поставь в начале строки ✅ если критерий выполнен или ❌ если нет, и коротко поясни одной фразой. НЕ задавай мне вопросов. Если чего-то не хватает - строкой «Переформулировка:» дай готовую улучшенную цель одной фразой (сам прими разумные предположения, ничего не уточняй). Если цель уже соответствует SMART - вместо переформулировки напиши отдельной строкой: «Цель готова - переходи к следующему шагу!». Не используй звёздочки и markdown. Моя цель: «"+g+"».", "s1", function(ans){ gc.disabled=false; if(go) go.innerHTML=fmtTutor(ans); });
     });
     // Декомпозиция -> Декомпо! (10 гипотез)
     var d2=document.getElementById("goal-input2"), db=document.getElementById("decompo-btn"), dout=document.getElementById("decompo-out");
@@ -357,8 +357,7 @@
       askTutor("Разбей мою цель на 10 гипотез-шажков. Каждая - короткая проверяемая гипотеза с измеримым результатом, желательно в формате «Если я буду [действие], то [показатель] изменится». Моя цель: «"+g+"». Выдай нумерованный список ровно из 10 пунктов, без вступления и заключения.", "s1", function(ans){
         db.disabled=false;
         if(!dout) return;
-        dout.innerHTML='<pre class="decompo-res"></pre><button class="copy2" type="button">'+L('copy')+'</button>';
-        dout.querySelector(".decompo-res").textContent=ans;
+        dout.innerHTML='<div class="decompo-res">'+fmtTutor(ans)+'</div><button class="copy2" type="button">'+L('copy')+'</button>';
         var cb=dout.querySelector(".copy2");
         cb.addEventListener("click", function(){
           function ok(){ cb.textContent=L('copied'); setTimeout(function(){ cb.textContent=L('copy'); },1600); }
@@ -377,6 +376,13 @@
     });
   }
 
+  function fmtTutor(t){
+    var h=esc(t||"");
+    h=h.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+    h=h.replace(/(^|\n)\s*[-*]\s+/g,"$1• ");
+    h=h.replace(/\n/g,"<br>");
+    return h;
+  }
   function askTutor(question, module_id, done){
     try{
       fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},
