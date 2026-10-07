@@ -356,11 +356,32 @@
       db.disabled=true; if(dout) dout.innerHTML='<div class="fld-wait">Наставник раскладывает цель на гипотезы...</div>';
       askTutor("Разбей мою цель на 10 гипотез-шажков. Каждая - короткая проверяемая гипотеза с измеримым результатом, желательно в формате «Если я буду [действие], то [показатель] изменится». Моя цель: «"+g+"». Выдай нумерованный список ровно из 10 пунктов, без вступления и заключения.", "s1", function(ans){
         db.disabled=false;
+        state.hypotheses=ans; scheduleSave();
+        var hi0=document.getElementById("hyp-input"); if(hi0) hi0.value=ans;
         if(!dout) return;
         dout.innerHTML='<div class="decompo-res">'+fmtTutor(ans)+'</div><button class="copy2" type="button">'+L('copy')+'</button>';
         var cb=dout.querySelector(".copy2");
         cb.addEventListener("click", function(){
           function ok(){ cb.textContent=L('copied'); setTimeout(function(){ cb.textContent=L('copy'); },1600); }
+          if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ans).then(ok,ok); }
+          else { var ta=document.createElement("textarea"); ta.value=ans; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} ta.remove(); ok(); }
+        });
+      });
+    });
+    // Правильная гипотеза -> Оформить гипотезы (Наставник)
+    var hi=document.getElementById("hyp-input"), hf=document.getElementById("hyp-format"), ho=document.getElementById("hyp-out");
+    if(hi && !hi.value && state.hypotheses) hi.value=state.hypotheses;
+    if(hf && hi) hf.addEventListener("click", function(){
+      var t=(hi.value||"").trim(); if(!t){ hi.focus(); return; }
+      state.hypotheses=t; scheduleSave();
+      hf.disabled=true; if(ho) ho.innerHTML='<div class="fld-wait">Наставник оформляет гипотезы...</div>';
+      askTutor("Оформи мои гипотезы строго по шаблону «Я хочу [изменение]. Если я буду [действие] в течение 21 дня, то [показатель] изменится с [старт] до [цель]». Сохрани смысл, добавь измеримость и срок там, где их нет. Вот мои гипотезы:\n"+t+"\nВыдай готовый нумерованный список оформленных гипотез, без вступления и без markdown.", "s2", function(ans){
+        hf.disabled=false; state.hypotheses_fmt=ans; scheduleSave();
+        if(!ho) return;
+        ho.innerHTML='<div class="decompo-res">'+fmtTutor(ans)+'</div><button class="copy2" type="button">'+L('copy')+'</button>';
+        var cb2=ho.querySelector(".copy2");
+        cb2.addEventListener("click", function(){
+          function ok(){ cb2.textContent=L('copied'); setTimeout(function(){ cb2.textContent=L('copy'); },1600); }
           if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ans).then(ok,ok); }
           else { var ta=document.createElement("textarea"); ta.value=ans; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} ta.remove(); ok(); }
         });
