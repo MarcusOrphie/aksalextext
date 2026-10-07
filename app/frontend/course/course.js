@@ -261,9 +261,9 @@
     html+='<div class="foot">'+esc(L('foot')(cTitle()))+'</div>';
     app.innerHTML=html;
     renderBar();
-    var openIdx = firstIncomplete<0? 0 : firstIncomplete;
     var mods=app.querySelectorAll(".mod");
-    if(mods[openIdx]) mods[openIdx].classList.add("open");
+    // «Введение» (первый модуль) не раскрываем автоматически; открываем первый незавершённый из последующих
+    if(firstIncomplete>0 && mods[firstIncomplete]) mods[firstIncomplete].classList.add("open");
     bind();
     if(TUTOR_ON) initTutor();
   }
