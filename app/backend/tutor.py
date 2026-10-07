@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """ИИ-наставник курса. Дешёвая модель (Haiku). Отвечает по теме текущего урока и направляет."""
-import os, json, urllib.request, logging
+import os, json, time, urllib.request, logging
 
 API_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 TUTOR_MODEL = os.environ.get("TUTOR_MODEL", "claude-haiku-4-5").strip()
@@ -87,6 +87,10 @@ def ask(course_title: str, module: dict, question: str, history=None, lang: str 
                 "Если спрашивают не по теме курса - мягко верни к уроку. Никогда не используй длинное тире, только дефис (-). "
                 "Не выдумывай факты. Если не знаешь - честно скажи.\n\nКОНТЕКСТ ТЕКУЩЕГО УРОКА:\n" + ctx
             )
+    _today = time.strftime("%d.%m.%Y")
+    _dateline = ("Today is " + _today + " - use it when assessing deadlines and dates.\n\n") if lang == "en" \
+                else ("Сегодня " + _today + " - учитывай это при оценке сроков и дат (посчитай, сколько реально осталось до срока).\n\n")
+    system = _dateline + system
     msgs = []
     for h in (history or [])[-6:]:
         role = h.get("role")
