@@ -387,6 +387,22 @@
         });
       });
     });
+    // Упростить шажок (Наставник)
+    var si=document.getElementById("simplify-input"), sb2=document.getElementById("simplify-btn"), so2=document.getElementById("simplify-out");
+    if(sb2 && si) sb2.addEventListener("click", function(){
+      var t=(si.value||"").trim(); if(!t){ si.focus(); return; }
+      sb2.disabled=true; if(so2) so2.innerHTML='<div class="fld-wait">Наставник упрощает шаг...</div>';
+      askTutor("Мой ежедневный шажок и почему я его не делаю: "+t+". Предложи 3 версии того же шага настолько маленькие, чтобы их было невозможно не сделать, и подскажи, как изменить условия, чтобы не пропускать. Коротко, нумерованным списком, без markdown.", "s3", function(ans){
+        sb2.disabled=false; if(!so2) return;
+        so2.innerHTML='<div class="decompo-res">'+fmtTutor(ans)+'</div><button class="copy2" type="button">'+L('copy')+'</button>';
+        var cb3=so2.querySelector(".copy2");
+        cb3.addEventListener("click", function(){
+          function ok(){ cb3.textContent=L('copied'); setTimeout(function(){ cb3.textContent=L('copy'); },1600); }
+          if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(ans).then(ok,ok); }
+          else { var ta=document.createElement("textarea"); ta.value=ans; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");}catch(e){} ta.remove(); ok(); }
+        });
+      });
+    });
     var cont=document.getElementById("continue");
     if(cont) cont.addEventListener("click", function(){
       var target=null;
