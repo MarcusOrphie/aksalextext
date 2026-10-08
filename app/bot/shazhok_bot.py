@@ -6,7 +6,7 @@
 - Разбор свободной речи: Claude (Haiku). Голос: локальный faster-whisper (грузится по требованию).
 Секреты берутся из окружения (systemd EnvironmentFile), в git не попадают.
 """
-import os, sys, json, time, re, gc, sqlite3, logging, subprocess, tempfile
+import os, sys, json, time, re, gc, sqlite3, logging, subprocess, tempfile, datetime
 import requests
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -24,6 +24,10 @@ CLAUDE_MODEL = os.environ.get("BOT_MODEL", os.environ.get("TUTOR_MODEL", "claude
 WHISPER_MODEL = os.environ.get("WHISPER_MODEL", "small").strip()
 CABINET = os.environ.get("CABINET_URL", "https://app.aksalex.com").rstrip("/")
 COURSE_ID = "proyavit"
+# Ежедневный контроль: напоминание отправляется раз в сутки в это время по МСК
+MSK_OFFSET = int(os.environ.get("MSK_OFFSET", "3"))
+REMIND_HOUR = int(os.environ.get("REMIND_HOUR_MSK", "20"))
+REMIND_MIN = int(os.environ.get("REMIND_MIN", "0"))
 
 # переиспользуем access.py из бэкенда кабинета (проверка оплаты)
 sys.path.insert(0, "/opt/zalihvat-app/backend")
@@ -103,6 +107,16 @@ def init_db():
     c.execute("""CREATE TABLE IF NOT EXISTS users(
         tg_id INTEGER PRIMARY KEY, email TEXT, verified INTEGER DEFAULT 0,
         state TEXT DEFAULT '{}', updated TEXT)""")
+    c.execute("CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT)")
+    c.commit(); c.close()
+
+def meta_get(key, default=None):
+    c = db(); r = c.execute("SELECT value FROM meta WHERE key=?", (key,)).fetchone(); c.close()
+    return r["value"] if r else default
+
+def meta_set(key, value):
+    c = db()
+    c.execute("INSERT INTO meta(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value", (key, str(value)))
     c.commit(); c.close()
 
 def get_user(tg_id):
@@ -185,6 +199,61 @@ def claude(state, user_msg):
     except Exception as e:
         log.error("claude json parse: %r | raw=%s", e, out[:300])
         return state, "Немного запутался, переформулируй?"
+
+# ---------- ежедневный контроль (напоминания) ----------
+def now_msk():
+    return datetime.datetime.utcnow() + datetime.timedelta(hours=MSK_OFFSET)
+
+def _logged_today(state, today_ddmm):
+    try:
+        for e in (state.get("log") or []):
+            if str(e.get("date", "")).strip() == today_ddmm:
+                return True
+    except Exception:
+        pass
+    return False
+
+def _past_finish(state, today):
+    fin = str(state.get("finish") or "").strip()
+    try:
+        d = datetime.datetime.strptime(fin, "%d.%m.%Y").date()
+        return today.date() >= d
+    except Exception:
+        return False
+
+def maybe_send_reminders():
+    """Раз в сутки после REMIND_HOUR по МСК: пинг активным участникам, кто сегодня ещё не отметился."""
+    t = now_msk()
+    today_full = t.strftime("%d.%m.%Y")
+    if meta_get("last_remind_date") == today_full:
+        return
+    if (t.hour, t.minute) < (REMIND_HOUR, REMIND_MIN):
+        return
+    today_ddmm = t.strftime("%d.%m")
+    c = db(); rows = c.execute("SELECT tg_id, state FROM users WHERE verified=1").fetchall(); c.close()
+    sent = 0
+    for r in rows:
+        try:
+            st = json.loads(r["state"] or "{}")
+        except Exception:
+            st = {}
+        if st.get("stage") != "running":
+            continue
+        try:
+            if _past_finish(st, t):
+                send(r["tg_id"], "21 день позади - пора подвести итог! 🎯\n\n"
+                                 "Расскажи: что в итоге со «Смотрю на» (было -> стало)? Что реально сработало, а что нет? "
+                                 "Я помогу собрать честный вывод и выбрать следующий шажок.")
+                sent += 1
+            elif not _logged_today(st, today_ddmm):
+                send(r["tg_id"], "Как прошёл твой шажок сегодня? 🌱\n\n"
+                                 "Напиши или наговори голосом: что сделал, какой результат и что важного заметил. "
+                                 "Пропустил - просто скажи, что помешало, это тоже данные.")
+                sent += 1
+        except Exception as e:
+            log.error("remind to %s fail: %r", r["tg_id"], e)
+    meta_set("last_remind_date", today_full)
+    log.info("daily reminders sent: %d", sent)
 
 # ---------- handler ----------
 def handle(update):
@@ -278,6 +347,10 @@ def main():
                     log.exception("handle error: %r", e)
         except Exception as e:
             log.error("poll error: %r", e); time.sleep(3)
+        try:
+            maybe_send_reminders()
+        except Exception as e:
+            log.error("reminders error: %r", e)
 
 if __name__ == "__main__":
     main()
