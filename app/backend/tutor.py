@@ -98,7 +98,7 @@ def ask(course_title: str, module: dict, question: str, history=None, lang: str 
         if role in ("user", "assistant") and content:
             msgs.append({"role": role, "content": content})
     msgs.append({"role": "user", "content": str(question)[:2000]})
-    payload = {"model": TUTOR_MODEL, "max_tokens": 600,
+    payload = {"model": TUTOR_MODEL, "max_tokens": 1500,
                "system": [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}],
                "messages": msgs}
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
