@@ -347,14 +347,25 @@
       gc.disabled=true; if(go) go.innerHTML='<div class="fld-wait">Наставник проверяет цель...</div>';
       askTutor("Разбери мою цель по SMART. Для каждого из 5 критериев (конкретная, измеримая, достижимая, значимая, с чётким сроком) поставь в начале строки ✅ если критерий выполнен или ❌ если нет, и коротко поясни одной фразой. Для «Достижимая» оценивай срок ГРУБО, месяцами, НЕ считай дни вручную и не придирайся: если до дедлайна есть разумный запас и цель в принципе выполнима - ставь ✅; ❌ ставь только если срок уже прошёл или цель физически невозможна. НЕ задавай мне вопросов. Если чего-то не хватает - строкой «Переформулировка:» дай готовую улучшенную цель одной фразой (сам прими разумные предположения). Если цель уже соответствует SMART - вместо переформулировки напиши отдельной строкой: «Цель готова - переходи к следующему шагу!». Не используй звёздочки и markdown. Моя цель: «"+g+"».", "s1", function(ans){ gc.disabled=false; if(go) go.innerHTML=fmtTutor(ans); });
     });
-    // Декомпозиция -> Декомпо! (10 гипотез)
+    // Декомпозиция -> Декомпо! (выбор 3/5/10 гипотез)
     var d2=document.getElementById("goal-input2"), db=document.getElementById("decompo-btn"), dout=document.getElementById("decompo-out");
+    var nsel=document.getElementById("nsel");
+    if(nsel){
+      nsel.addEventListener("click", function(e){
+        var b=e.target.closest(".nbtn"); if(!b) return;
+        var btns=nsel.querySelectorAll(".nbtn");
+        for(var i=0;i<btns.length;i++) btns[i].classList.remove("on");
+        b.classList.add("on");
+      });
+    }
+    function decompoN(){ var on=nsel&&nsel.querySelector(".nbtn.on"); var n=on?parseInt(on.getAttribute("data-n"),10):3; return (n>0?n:3); }
     if(d2 && !d2.value && state.goal_text) d2.value=state.goal_text;
     if(db && d2) db.addEventListener("click", function(){
       var g=(d2.value||"").trim(); if(!g){ d2.focus(); return; }
       state.goal_text=g; scheduleSave();
+      var N=decompoN();
       db.disabled=true; if(dout) dout.innerHTML='<div class="fld-wait">Наставник раскладывает цель на гипотезы...</div>';
-      askTutor("Разбей мою цель на 10 гипотез-шажков. Каждая - короткая проверяемая гипотеза с измеримым результатом, желательно в формате «Если я буду [действие], то [показатель] изменится». Моя цель: «"+g+"». Выдай нумерованный список ровно из 10 пунктов, без вступления и заключения.", "s1", function(ans){
+      askTutor("Разбей мою цель на "+N+" гипотез-шажков. Каждая - короткая проверяемая гипотеза с измеримым результатом, желательно в формате «Если я буду [действие], то [показатель] изменится». Моя цель: «"+g+"». Выдай нумерованный список ровно из "+N+" пунктов, без вступления и заключения.", "s1", function(ans){
         db.disabled=false;
         state.hypotheses=ans; scheduleSave();
         var hi0=document.getElementById("hyp-input"); if(hi0) hi0.value=ans;
@@ -421,13 +432,13 @@
     return h;
   }
   function askTutor(question, module_id, done){
-    try{
-      fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},
-        body:JSON.stringify({course:CID, module_id:module_id||"", question:question, history:[], lang:LANG})})
-        .then(function(r){return r.json();})
-        .then(function(d){ done((d&&d.answer)||"Не получилось, попробуй ещё раз."); })
-        .catch(function(){ done("Наставник сейчас не отвечает, попробуй через минуту."); });
-    }catch(e){ done("Ошибка, попробуй ещё раз."); }
+    sb.auth.getSession().then(function(r){
+      var tk=(r&&r.data&&r.data.session&&r.data.session.access_token)||token; token=tk;
+      return fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+tk,"content-type":"application/json"},
+        body:JSON.stringify({course:CID, module_id:module_id||"", question:question, history:[], lang:LANG})});
+    }).then(function(r){return r.json();})
+      .then(function(d){ done((d&&d.answer)||"Не получилось, попробуй ещё раз."); })
+      .catch(function(){ done("Наставник сейчас не отвечает, попробуй через минуту."); });
   }
 
   // ---------- ИИ-наставник ----------
@@ -470,8 +481,11 @@
       q.value="";
       addMsg("me", text);
       var typing=addMsg("bot", "…"); typing.classList.add("typing");
-      fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+token,"content-type":"application/json"},
-        body:JSON.stringify({course:CID, module_id:currentModuleId(), question:text, history:tutorHist.slice(-6), lang:LANG})})
+      sb.auth.getSession().then(function(r){
+        var tk=(r&&r.data&&r.data.session&&r.data.session.access_token)||token; token=tk;
+        return fetch(API+"/tutor",{method:"POST",headers:{"Authorization":"Bearer "+tk,"content-type":"application/json"},
+          body:JSON.stringify({course:CID, module_id:currentModuleId(), question:text, history:tutorHist.slice(-6), lang:LANG})});
+      })
         .then(function(r){return r.json();})
         .then(function(d){ var a=(d&&d.answer)||L('tErrA'); typing.classList.remove("typing"); typing.textContent=a; tutorHist.push({role:"user",content:text}); tutorHist.push({role:"assistant",content:a}); scrollMsgs(); })
         .catch(function(){ typing.classList.remove("typing"); typing.textContent=L('tErrN'); });
