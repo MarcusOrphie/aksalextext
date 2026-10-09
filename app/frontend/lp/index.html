@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Шажок - 21-дневная лаборатория одного эксперимента</title>
-<meta name="description" content="Не жди мотивации - проверяй гипотезы. За 21 день проведи один измеримый эксперимент маленькими шажками и пойми, что реально работает для тебя.">
+<meta name="description" content="Не жди мотивации - достигай за 21 день. Один эксперимент и маленькие шажки каждый день, которые невозможно не сделать - и ты понимаешь, что реально работает именно для тебя.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
@@ -135,6 +135,13 @@
   .author-wins li::before{content:"✓";position:absolute;left:0;top:0;width:23px;height:23px;background:var(--ok-soft);color:var(--ok);border-radius:50%;font-size:13px;font-weight:900;display:grid;place-items:center}
   .author-kick{font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;font-size:19px;color:var(--coral-deep);margin-top:20px;line-height:1.2}
   .sign{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:15px;letter-spacing:.03em;color:var(--ink);margin-top:22px}
+  .author-photo{float:right;width:170px;height:170px;border-radius:50%;object-fit:cover;border:3px solid var(--coral);margin:0 0 14px 26px;box-shadow:0 12px 30px rgba(21,18,16,.14)}
+  .mid-cta{text-align:center;margin-top:30px}
+  .pay-free{display:inline-block;margin-bottom:14px;padding:8px 16px;background:rgba(255,127,80,.18);color:var(--coral);border:1.5px solid var(--coral);border-radius:999px;font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.03em}
+  .pay-price{font-family:"Oswald",sans-serif;font-weight:700;font-size:40px;color:var(--paper2);margin:14px 0 6px}
+  .pay-price s{color:#9a9088;font-size:26px;font-weight:600;margin-right:10px}
+  .pay-price b{color:var(--coral)}
+  @media(max-width:560px){ .author-photo{float:none;display:block;margin:0 auto 16px;width:140px;height:140px} .pay-price{font-size:32px} .pay-price s{font-size:21px} }
 
   footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:13px;font-weight:600}
   footer .fbrand{display:inline-flex;align-items:center;gap:8px;margin-bottom:8px}
@@ -158,7 +165,7 @@
       <span class="bc">Шажок</span>
     </a>
     <span class="sp"></span>
-    <a class="btn" href="/step-by-step">Начать</a>
+    <a class="btn" href="#pay">Забрать курс</a>
   </div>
 </header>
 
@@ -167,16 +174,14 @@
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <span class="tagline">MVL · Minimum Viable Life</span>
-        <h1>Проверь одну гипотезу <span class="accent">о своей жизни</span> за 21 день</h1>
-        <div class="lead">Не жди мотивации - проводи эксперименты</div>
+        <h1>Делай шаги к своей цели <span class="accent">через эксперименты</span></h1>
+        <div class="lead">Не жди мотивации - достигай за 21 день!</div>
         <div class="free-banner">🎁 Первые 10 мест на курсе - бесплатно!<span>Мне очень важно ваше мнение о Шажке :)</span></div>
-        <p>Не нужно перестраивать всю жизнь сразу. Берёшь одну проблему, превращаешь её в маленький безопасный эксперимент, меряешь результат - и на своих данных решаешь, что реально работает именно для тебя.</p>
+        <p>Не нужно перестраивать всю жизнь разом. Берёшь одну проблему, превращаешь её в маленький безопасный шажок-эксперимент, измеряешь результат и на своих данных решаешь, верное ли у тебя направление.</p>
         <div class="cta-row">
-          <a class="btn lg" href="/step-by-step">Погнали в курс →</a>
+          <a class="btn lg" href="#pay">Забрать курс →</a>
           <a class="btn ghost lg" href="#how">Как это работает</a>
         </div>
-        <div class="micro">21 день · 15-30 минут в день · ведение голосом или текстом в Telegram-боте</div>
       </div>
       <div class="hero-art">
         <svg viewBox="0 0 360 440" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -199,7 +204,7 @@
 <section>
   <div class="wrap">
     <div class="sec-k">Узнаёшь себя?</div>
-    <h2 class="sec-h">Если хоть одно - про тебя, ты по адресу</h2>
+    <h2 class="sec-h">Если хоть одно про тебя, ты по адресу</h2>
     <div class="quotes">
       <blockquote class="qcard">Я много думаю о переменах, но ничего устойчиво не меняется.</blockquote>
       <blockquote class="qcard">Начинаю с энтузиазмом, бросаю через несколько дней и виню себя.</blockquote>
@@ -213,26 +218,27 @@
 <section>
   <div class="wrap">
     <div class="sec-k">Знакомо?</div>
-    <h2 class="sec-h">Ты не ленивый. Просто способ был неподходящий</h2>
+    <h2 class="sec-h">Это не лень. Просто способы были неподходящие</h2>
     <div class="pains">
       <div class="pcard"><div class="prow"><span class="ic x">✕</span><span class="t">Каждый понедельник начинаешь новую жизнь - и бросаешь к пятнице</span></div><div class="prow fix"><span class="ic v">✓</span><span class="t">Один маленький шажок в день, который невозможно не сделать</span></div></div>
-      <div class="pcard"><div class="prow"><span class="ic x">✕</span><span class="t">Настраиваешь приложения и системы вместо реальных изменений</span></div><div class="prow fix"><span class="ic v">✓</span><span class="t">Одна гипотеза, одна метрика, честный вывод за 21 день</span></div></div>
+      <div class="pcard"><div class="prow"><span class="ic x">✕</span><span class="t">Настраиваешь приложения и системы вместо реальных изменений</span></div><div class="prow fix"><span class="ic v">✓</span><span class="t">Один эксперимент, шажки каждый день, одна метрика, понятный вывод через 21 день</span></div></div>
       <div class="pcard"><div class="prow"><span class="ic x">✕</span><span class="t">Пропустил день - и бросил всё</span></div><div class="prow fix"><span class="ic v">✓</span><span class="t">Пропуск это данные «что помешало», а не провал</span></div></div>
       <div class="pcard"><div class="prow"><span class="ic x">✕</span><span class="t">Боишься менять, потому что страшно ошибиться</span></div><div class="prow fix"><span class="ic v">✓</span><span class="t">Бюджет ошибки: заранее знаешь, сколько готов потерять</span></div></div>
     </div>
+    <div class="mid-cta"><a class="btn lg" href="#pay">Забрать курс →</a></div>
   </div>
 </section>
 
 <section id="how" class="alt">
   <div class="wrap">
     <div class="sec-k">Как это работает</div>
-    <h2 class="sec-h">Один эксперимент. Три недели. Честный вывод</h2>
-    <p class="sec-sub">Метод взят из работы product manager: гипотеза → маленький тест → метрика → решение. Только применяешь его к своей жизни.</p>
+    <h2 class="sec-h">Один эксперимент и три недели маленьких шажков</h2>
+    <p class="sec-sub">Шажок построен на методах развития продукта и роста стартапов: гипотеза → маленький тест → метрика → решение. Я применяю такой же подход в своей жизни уже 15 лет - и он работает!</p>
     <div class="steps">
-      <div class="step"><div class="n">1</div><h3>Выбери одну точку</h3><p>Оцени 4 сферы жизни и возьми одну проблему. Не всё сразу - только то, что болит сейчас.</p><div class="wk">День 0</div></div>
-      <div class="step"><div class="n">2</div><h3>Собери гипотезу</h3><p>«Если я сделаю X, то метрика Z изменится». Baseline + бюджет ошибки. Всё в Google Таблице.</p><div class="wk">День 0</div></div>
-      <div class="step"><div class="n">3</div><h3>Делай шажки</h3><p>15-30 минут в день, 3 недельных спринта. Раз в неделю - короткое ретро без вины за пропуски.</p><div class="wk">Недели 1-3</div></div>
-      <div class="step"><div class="n">4</div><h3>Прими решение</h3><p>Сравни baseline и финал. Продолжить, изменить или остановить - и выбрать следующий шажок.</p><div class="wk">Финал</div></div>
+      <div class="step"><div class="n">1</div><h3>Выбери цель</h3><p>По специальному понятному и оцифрованному шаблону.</p></div>
+      <div class="step"><div class="n">2</div><h3>Собери эксперимент</h3><p>Эксперимент собирается по принципу: «Если я сделаю X, то изменится Z», опираясь на метрику Y. Внутренний Наставник во всём поможет.</p></div>
+      <div class="step"><div class="n">3</div><h3>Делай шажки</h3><p>15-30 минут в день, 3 недельных спринта. Раз в неделю - короткое ретро без переживаний за пропуски и ошибки.</p></div>
+      <div class="step"><div class="n">4</div><h3>Прими решение</h3><p>Посмотри на финальную метрику и реши: продолжить, изменить или остановить. И выбирай следующий шажок.</p></div>
     </div>
   </div>
 </section>
@@ -240,15 +246,14 @@
 <section>
   <div class="wrap">
     <div class="sec-k">Что ты получишь</div>
-    <h2 class="sec-h">Не «новую жизнь», а то, что реально работает у тебя</h2>
+    <h2 class="sec-h">Система, которая не подводит</h2>
     <div class="outs">
-      <div class="out"><span class="ic v">✓</span>Один проверенный шажок, который держится в твоей реальной жизни</div>
-      <div class="out"><span class="ic v">✓</span>Навык превращать любую проблему в безопасный эксперимент</div>
-      <div class="out"><span class="ic v">✓</span>Честный вывод: продолжить, изменить или остановить</div>
-      <div class="out"><span class="ic v">✓</span>Готовый scorecard в Google Таблице и выбранный следующий эксперимент</div>
-      <div class="out"><span class="ic v">✓</span>ИИ-наставник внутри: поможет собрать гипотезу и метрику</div>
-      <div class="out"><span class="ic v">✓</span>Спокойная система без игр, стыда и давления</div>
+      <div class="out"><span class="ic v">✓</span>Система «Шажок» с пошаговой инструкцией, как менять свою жизнь с помощью шажков</div>
+      <div class="out"><span class="ic v">✓</span>Телеграм-бот, которому ты пишешь или наговариваешь голосом о своих успехах и изменениях</div>
+      <div class="out"><span class="ic v">✓</span>Наставник, который поможет 24/7 с шажками и метриками</div>
+      <div class="out"><span class="ic v">✓</span>Никакого самобичевания и вины! Ты проводишь эксперимент</div>
     </div>
+    <div class="mid-cta"><a class="btn lg" href="#pay">Забрать курс →</a></div>
   </div>
 </section>
 
@@ -257,33 +262,9 @@
     <div class="sec-k">Почему это работает</div>
     <h2 class="sec-h">Система вместо мотивации</h2>
     <div class="why">
-      <div class="card"><h3>Маленький шаг побеждает</h3><p>Большое пугает и откладывается. Шажок настолько мал, что его невозможно не сделать - а он запускает движение.</p></div>
-      <div class="card h"><h3>Ошибка - это данные</h3><p>У эксперимента нет провалов, есть результаты. Не сработало - ты дёшево и быстро это узнал, а не потерял год.</p></div>
-      <div class="card"><h3>Принцип MVL</h3><p>Как MVP в стартапах: проверяешь жизнеспособность идеи на маленьком, прежде чем внедрять в жизнь. Minimum Viable Life.</p></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-k">Твой scorecard</div>
-    <h2 class="sec-h">Весь прогресс - в одной Google Таблице</h2>
-    <div class="sc-grid">
-      <table class="xtab">
-        <caption>Дневник эксперимента</caption>
-        <thead><tr><th>Гипотеза</th><th>Метрика</th><th>Срок</th><th>Итог</th></tr></thead>
-        <tbody>
-          <tr><td>Гуляю 10 мин после обеда</td><td>Энергия 1-10</td><td>7 дней</td><td>6 to 8</td></tr>
-          <tr><td>5 откликов в день</td><td>Приглашений</td><td>7 дней</td><td>3</td></tr>
-          <tr><td>Телефон вне спальни</td><td>Часы сна</td><td>7 дней</td><td>6.2 to 7.4</td></tr>
-        </tbody>
-      </table>
-      <ul class="sc-list">
-        <li>Baseline и цель - видно, куда движешься</li>
-        <li>Дневник на 21 день: сделал / что помешало</li>
-        <li>Недельное ретро и решение продолжить-изменить-остановить</li>
-        <li>Скопировал шаблон - и просто ведёшь, без приложений</li>
-      </ul>
+      <div class="card"><h3>Маленький шаг побеждает</h3><p>Большая цель сразу пугает, и движение к ней откладывается. А шажок настолько мал, что его невозможно не сделать - а это уже запускает движение к цели.</p></div>
+      <div class="card h"><h3>Ошибка - это данные</h3><p>У эксперимента нет провалов, есть результат и опыт. Не сработало - ты дёшево и быстро узнаешь результат, а не тыкаешься в одно и то же год.</p></div>
+      <div class="card"><h3>Принцип экспериментирования</h3><p>Как минимальная жизнеспособная версия в стартапах: проверяешь жизнеспособность идеи шажками, прежде чем внедрять в жизнь.</p></div>
     </div>
   </div>
 </section>
@@ -306,29 +287,18 @@
         <li>Ждёшь терапию или медицинский результат (это обучение)</li>
       </ul></div>
     </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-k">Вопросы</div>
-    <h2 class="sec-h">Коротко о главном</h2>
-    <div class="faq">
-      <div class="q"><h3>Сколько времени это занимает?</h3><p>15-30 минут в день. Программа рассчитана на плотный график - сменный, семейный, рабочий.</p></div>
-      <div class="q"><h3>Нужно устанавливать приложение?</h3><p>Нет. Весь прогресс ведётся в одной Google Таблице по готовому шаблону - копируешь и заполняешь.</p></div>
-      <div class="q"><h3>А если пропущу день?</h3><p>Ничего страшного. Пропуск - это данные: записываешь «что помешало» и корректируешь условия. Никаких серий и наказаний.</p></div>
-      <div class="q"><h3>Это терапия или коучинг?</h3><p>Нет. Это обучающая система про проверку гипотез. При вопросах здоровья и тяжёлых эмоций - к профильному специалисту.</p></div>
-    </div>
+    <div class="mid-cta"><a class="btn lg" href="#pay">Забрать курс →</a></div>
   </div>
 </section>
 
 <section class="alt">
   <div class="wrap">
-    <div class="sec-k">От автора</div>
+    <div class="sec-k">От Саши Аксенова</div>
     <h2 class="sec-h">15 лет я живу по этой системе</h2>
     <div class="author">
+      <img class="author-photo" src="/avatar.jpg" alt="Саша Аксенов" width="170" height="170">
       <p>Каждый из нас бесконечно откладывает свои цели, мечты и желания - потому что боится большой и неопределённой работы ради цели.</p>
-      <p>Я 15 лет живу по этой системе, и благодаря ей:</p>
+      <p>Я 15 лет живу по этой системе шажков, и благодаря ей:</p>
       <ul class="author-wins">
         <li>нашёл своё предназначение</li>
         <li>встретил замечательную жену - у нас двое маленьких детей</li>
@@ -340,17 +310,18 @@
       </ul>
       <p>Перед вами «Шажок» - система улучшения жизни с помощью экспериментов для достижения любых ваших целей за 21 день: в отношениях, финансах, здоровье, спорте - да где угодно.</p>
       <p class="author-kick">Система даёт тебе карту, компас, направление и чёткую структуру, по которой ты придёшь к своей цели.</p>
-      <div class="sign">- Саша Аксенов</div>
     </div>
   </div>
 </section>
 
 <section>
   <div class="wrap">
-    <div class="final">
-      <h2>Начни с одного шажка</h2>
-      <p>За 21 день ты не «станешь другим человеком». Ты получишь доказательство того, что работает именно для тебя - и следующий шаг.</p>
-      <a class="btn lg" href="/step-by-step">Погнали в курс →</a>
+    <div class="final" id="pay">
+      <div class="pay-free">🎁 Первые 10 мест - бесплатно!</div>
+      <h2>Забери курс «Шажок»</h2>
+      <div class="pay-price"><s>5999 ₽</s> <b>3499 ₽</b></div>
+      <p>Пожизненный доступ. Ведение в Telegram-боте голосом или текстом. Наставник 24/7 внутри. А первые 10 участников проходят бесплатно - просто оставь отзыв о Шажке.</p>
+      <a class="btn lg" href="/step-by-step">Забрать курс →</a>
     </div>
   </div>
 </section>
