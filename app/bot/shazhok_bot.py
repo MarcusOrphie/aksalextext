@@ -319,9 +319,9 @@ def handle(update):
         return
 
     low = user_text.lower().lstrip("/")
-    if low in ("сброс", "reset"):
+    if low in ("sbros", "сброс", "reset"):
         upsert(tgid, state="{}")
-        send(chat, "Эксперимент сброшен. Расскажи, что хочешь изменить - начнём заново.")
+        send(chat, "Шажок сброшен. Расскажи свой новый шажок по шаблону «Шажок 1» - начнём заново.")
         return
     if low in ("статус", "status"):
         user_text = "Покажи краткий статус по формуле: Я хочу, Мой шажок, какой день из 21, как идёт метрика против «Сейчас»."
@@ -339,6 +339,11 @@ def handle(update):
 def main():
     init_db()
     tg("deleteWebhook")
+    tg("setMyCommands", commands=[
+        {"command": "start", "description": "Начать"},
+        {"command": "status", "description": "Как проходит твой шажок"},
+        {"command": "sbros", "description": "Начать новый шажок"},
+    ])
     log.info("shazhok-bot started | model=%s | whisper=%s | access=%s", CLAUDE_MODEL, WHISPER_MODEL, bool(access))
     offset = None
     while True:
