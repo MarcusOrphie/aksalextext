@@ -144,9 +144,15 @@ def transcribe(ogg_path):
         log.error("ffmpeg fail: %r", e); return ""
     text, model = "", None
     try:
+        import wave as wavmod, numpy as np
         from faster_whisper import WhisperModel
+        # читаем 16кГц моно s16le WAV в float32 numpy и отдаём массив напрямую -
+        # так обходим декодер PyAV (в новых версиях av.open убрал metadata_errors и ломал faster-whisper)
+        with wavmod.open(wav, "rb") as wf:
+            frames = wf.readframes(wf.getnframes())
+        audio = np.frombuffer(frames, dtype=np.int16).astype(np.float32) / 32768.0
         model = WhisperModel(WHISPER_MODEL, device="cpu", compute_type="int8")
-        segs, _ = model.transcribe(wav, language="ru", beam_size=1, vad_filter=True)
+        segs, _ = model.transcribe(audio, language="ru", beam_size=1)
         text = " ".join(s.text.strip() for s in segs).strip()
     except Exception as e:
         log.error("whisper fail: %r", e)
