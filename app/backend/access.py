@@ -90,3 +90,43 @@ def has_course(email: str, course: str = "proyavit") -> bool:
         return False
     node = _read(COURSE_KEY).get(email)
     return isinstance(node, dict) and course in (node.get("courses") or [])
+
+
+# ---- Первые N мест бесплатно (акция запуска) ----
+FREE_KEY = "_system/course_free.json"   # course -> {emails:[...]}
+FREE_LIMIT = int(os.environ.get("COURSE_FREE_LIMIT", "10"))
+
+
+def free_count(course: str = "proyavit") -> int:
+    node = _read(FREE_KEY).get(course)
+    emails = node.get("emails") if isinstance(node, dict) else None
+    return len(emails) if isinstance(emails, list) else 0
+
+
+def free_left(course: str = "proyavit", limit: int = None) -> int:
+    limit = FREE_LIMIT if limit is None else limit
+    return max(0, limit - free_count(course))
+
+
+def claim_free_slot(email: str, course: str = "proyavit", limit: int = None) -> bool:
+    """Выдать бесплатный доступ одному из первых N. True если доступ уже есть или выдан сейчас."""
+    email = (email or "").strip().lower()
+    if not email:
+        return False
+    limit = FREE_LIMIT if limit is None else limit
+    d = _read(FREE_KEY)
+    node = d.get(course)
+    if not isinstance(node, dict):
+        node = {"emails": []}
+    emails = node.get("emails") if isinstance(node.get("emails"), list) else []
+    if email in emails:
+        return True
+    if len(emails) >= limit:
+        return False
+    emails.append(email)
+    node["emails"] = emails
+    d[course] = node
+    if not _write(d, FREE_KEY):
+        return False
+    grant_course(email, course)
+    return True

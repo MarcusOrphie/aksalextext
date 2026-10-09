@@ -2,6 +2,7 @@
 """Контент курсов. Реестр из нескольких курсов по id. Каждый - свой JSON того же формата,
 что ждёт фронтовый движок. Контент отдаётся только авторизованным с доступом (см. main.py)."""
 import os, json, logging
+import access
 
 _DIR = os.path.dirname(__file__)
 _CACHE = {}
@@ -74,6 +75,15 @@ def pay_url(course_id: str = "proyavit") -> str:
     return os.environ.get(c.get("payurl_env", ""), "").strip()
 
 
+def old_price(course_id: str = "proyavit") -> int:
+    """Старая (зачёркнутая) цена для показа скидки. Пока только для proyavit через COURSE_OLD_PRICE."""
+    raw = os.environ.get("COURSE_OLD_PRICE", "") if course_id == "proyavit" else ""
+    try:
+        return int(raw) if raw else 0
+    except ValueError:
+        return 0
+
+
 def module(course_id: str, module_id: str, lang: str = "ru"):
     """Найти модуль по id - для контекста ИИ-наставника."""
     for m in load(course_id, lang).get("modules", []):
@@ -97,4 +107,5 @@ def teaser(course_id: str = "proyavit", lang: str = "ru") -> dict:
             "modules_count": len(mods), "tasks_count": total_tasks,
             "achievements_count": len(c.get("achievements", [])),
             "modules": mods,
-            "price": price(course_id), "pay_url": pay_url(course_id)}
+            "price": price(course_id), "old_price": old_price(course_id), "pay_url": pay_url(course_id),
+            "free_left": access.free_left(course_id)}

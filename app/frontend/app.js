@@ -71,12 +71,23 @@
   // общая метка входа для главной и гайдов (кука на .aksalex.com - только почта, не токен; для UX и подстановки в оплату)
   function setSharedEmail(email) { try { if (!email) return; document.cookie = "zh_email=" + encodeURIComponent(email) + "; domain=.aksalex.com; path=/; max-age=2592000; SameSite=Lax; Secure"; } catch (e) {} }
   function clearSharedEmail() { try { document.cookie = "zh_email=; domain=.aksalex.com; path=/; max-age=0; SameSite=Lax; Secure"; } catch (e) {} }
+  // безопасный внутренний путь из ?next= (только same-site, напр. /step-by-step)
+  function safeNext() {
+    try {
+      const n = new URLSearchParams(location.search).get("next") || "";
+      if (/^\/[A-Za-z0-9/_-]*$/.test(n) && !n.startsWith("//")) return n;
+    } catch (e) {}
+    return "";
+  }
   async function refresh() {
     if (recovering) return;                 // не перерисовывать экран сброса пароля кабинетом
     const { data } = await sb.auth.getSession();
     if (recovering) return;                 // событие сброса могло прийти во время await
     const s = data.session;
     if (s) {
+      // пришли по ссылке с ?next= (напр. с /step-by-step) - после входа возвращаем туда
+      const nx = safeNext();
+      if (nx) { location.replace(nx); return; }
       signedIn = true;
       setAuthUI(true);
       $("usermail").textContent = s.user.email || s.user.phone || "профиль";

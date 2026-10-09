@@ -172,6 +172,10 @@ def course_endpoint(course: str = "proyavit", lang: str = "ru", user: dict = Dep
     lang = "en" if lang == "en" else "ru"
     email = user["email"]
     entitled = access.has_course(email, course) or paid_plan(email) == "unlimited"
+    if not entitled and email:
+        # акция запуска: первые N мест бесплатно - выдаём при первом открытии курса
+        if access.claim_free_slot(email, course):
+            entitled = True
     if entitled:
         return {"access": True, "course": course_content.load(course, lang)}
     return {"access": False, "teaser": course_content.teaser(course, lang)}

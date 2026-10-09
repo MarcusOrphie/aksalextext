@@ -31,8 +31,8 @@
       tHeader:"ИИ-наставник", tHi:"Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.",
       tPh:"Твой вопрос по уроку...", tFab:"Наставник",
       tErrA:"Не получилось ответить. Попробуй ещё раз.", tErrN:"Наставник сейчас не отвечает. Попробуй через минуту.",
-      gateBody:"Это интерактивная программа внутри кабинета - проходишь шаг за шагом, прогресс сохраняется. Войди в кабинет, чтобы открыть «Шажок».",
-      gateBtn:"Войти в кабинет →", buyGet:"Получить доступ", buyHow:"Как получить доступ →",
+      gateBody:"Это интерактивная программа внутри кабинета - проходишь шаг за шагом, прогресс сохраняется. Зарегистрируйся или войди, чтобы открыть «Шажок».",
+      gateBtn:"Зарегистрироваться / войти →", buyGet:"Получить доступ", buyHow:"Как получить доступ →",
       familiar:"Знакомо?", whatGet:"Что получишь", forWhom:"Для кого:",
       ctaSub:"Пожизненный доступ, прохождение с галочками и XP, ИИ-наставник внутри.",
       paid:"Уже оплатил(а)? Открой курс с той же почтой, что и в кабинете.", refresh:"Обновить доступ",
@@ -552,9 +552,11 @@
 
   // ---------- gate / teaser / boot ----------
   function gate(){
+    var nx=encodeURIComponent(location.pathname||"/step-by-step");
     app.innerHTML='<div class="gate"><h2>'+esc(cTitle())+'</h2>'
+      +'<div class="gate-free">🎁 Первые 10 мест - бесплатно!<br>Мне очень важно ваше мнение о Шажке :)</div>'
       +'<p>'+esc(L('gateBody'))+'</p>'
-      +'<a class="btn" href="/">'+L('gateBtn')+'</a></div>';
+      +'<a class="btn" href="/?next='+nx+'">'+L('gateBtn')+'</a></div>';
   }
   function teaser(user, t){
     t=t||{};
@@ -562,9 +564,11 @@
     var payUrl=t.pay_url||"";
     if(payUrl){ payUrl += (payUrl.indexOf("?")>=0?"&":"?")+"customer_email="+encodeURIComponent(user.email); }
     var priceTxt = t.price? (t.price+" ₽") : "";
+    var oldTxt = (t.old_price && t.old_price>(t.price||0)) ? (t.old_price+" ₽") : "";
+    function priceFrag(){ return oldTxt ? '<s class="tz-old">'+oldTxt+'</s> <b>'+priceTxt+'</b>' : priceTxt; }
     function buyBtn(label){
       return payUrl
-        ? '<a class="tz-buy" href="'+payUrl+'" target="_blank" rel="noopener">'+esc(label)+(priceTxt?' · '+priceTxt:'')+' →</a>'
+        ? '<a class="tz-buy" href="'+payUrl+'" target="_blank" rel="noopener">'+esc(label)+(priceTxt?' · '+priceFrag():'')+' →</a>'
         : '<a class="tz-buy" href="https://t.me/zalihvat_bot" target="_blank" rel="noopener">'+L('buyHow')+'</a>';
     }
     var tag = t.tag||cTag(), title=t.title||cTitle(), sub=t.subtitle||cSub(), hero=t.hero||cHero();
@@ -611,7 +615,7 @@
 
     // финальный CTA
     html+='<div class="ld-cta">'
-      +'<div class="ld-cta-t">'+esc(title)+(priceTxt?' - '+priceTxt:'')+'</div>'
+      +'<div class="ld-cta-t">'+esc(title)+(priceTxt?' - '+priceFrag():'')+'</div>'
       +'<div class="ld-cta-s">'+esc(L('ctaSub'))+'</div>'
       +buyBtn(L('buyGet'))+'</div>';
 
