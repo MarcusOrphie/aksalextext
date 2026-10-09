@@ -414,6 +414,28 @@
         });
       });
     });
+    // Отзыв о курсе
+    var rvEmail=document.getElementById("rev-email"), rvName=document.getElementById("rev-name"),
+        rvText=document.getElementById("rev-text"), rvSend=document.getElementById("rev-send"), rvOut=document.getElementById("rev-out");
+    if(rvEmail) rvEmail.value = email || "";
+    if(rvSend && rvText){
+      rvSend.addEventListener("click", function(){
+        var txt=(rvText.value||"").trim();
+        if(!txt){ rvText.focus(); if(rvOut) rvOut.innerHTML='<div class="fld-wait">Напиши пару слов - и жми отправить.</div>'; return; }
+        rvSend.disabled=true; if(rvOut) rvOut.innerHTML='<div class="fld-wait">Отправляю...</div>';
+        sb.auth.getSession().then(function(r){
+          var tk=(r&&r.data&&r.data.session&&r.data.session.access_token)||token; token=tk;
+          return fetch(API+"/course/review",{method:"POST",headers:{"Authorization":"Bearer "+tk,"content-type":"application/json"},
+            body:JSON.stringify({course:CID, name:(rvName&&rvName.value)||"", text:txt})});
+        }).then(function(r){return r.json();})
+          .then(function(d){
+            rvSend.disabled=false;
+            if(d&&d.ok){ if(rvOut) rvOut.innerHTML=''; rvText.value=''; celebrate("Спасибо! Я учту все пожелания 🫶"); }
+            else { if(rvOut) rvOut.innerHTML='<div class="fld-wait">Не отправилось, попробуй ещё раз.</div>'; }
+          })
+          .catch(function(){ rvSend.disabled=false; if(rvOut) rvOut.innerHTML='<div class="fld-wait">Сеть подвела, попробуй ещё раз.</div>'; });
+      });
+    }
     var cont=document.getElementById("continue");
     if(cont) cont.addEventListener("click", function(){
       var target=null;
@@ -430,6 +452,33 @@
     h=h.replace(/(^|\n)\s*[-*]\s+/g,"$1• ");
     h=h.replace(/\n/g,"<br>");
     return h;
+  }
+  function celebrate(msg){
+    var ov=document.createElement("div"); ov.className="fw-ov";
+    var cv=document.createElement("canvas"); cv.className="fw-cv";
+    var card=document.createElement("div"); card.className="fw-card"; card.textContent=msg||"Спасибо!";
+    ov.appendChild(cv); ov.appendChild(card); document.body.appendChild(ov);
+    var ctx=cv.getContext("2d"), DPR=Math.min(window.devicePixelRatio||1,2), W=0, H=0;
+    var parts=[], running=true, t0=Date.now(), iv=null;
+    function resize(){ W=cv.width=Math.floor(innerWidth*DPR); H=cv.height=Math.floor(innerHeight*DPR); cv.style.width=innerWidth+"px"; cv.style.height=innerHeight+"px"; }
+    function close(){ running=false; if(iv){ clearInterval(iv); iv=null; } window.removeEventListener("resize", resize); if(ov.parentNode) ov.parentNode.removeChild(ov); }
+    var colors=["#ff7f50","#e85f2c","#2f9e60","#ffd43b","#4dabf7","#f06595"];
+    function burst(cx,cy){ for(var i=0;i<46;i++){ var a=6.283*i/46, sp=(2+Math.random()*4)*DPR; parts.push({x:cx,y:cy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:1,col:colors[(Math.random()*colors.length)|0]}); } }
+    function salvo(){ if(running) burst((0.2+Math.random()*0.6)*W,(0.18+Math.random()*0.4)*H); }
+    resize(); window.addEventListener("resize", resize); ov.addEventListener("click", close);
+    salvo(); iv=setInterval(salvo, 350);
+    (function loop(){
+      ctx.clearRect(0,0,W,H);
+      for(var i=parts.length-1;i>=0;i--){ var p=parts[i]; p.vy+=0.06*DPR; p.x+=p.vx; p.y+=p.vy; p.vx*=0.99; p.life-=0.014;
+        if(p.life<=0){ parts.splice(i,1); continue; }
+        ctx.globalAlpha=Math.max(p.life,0); ctx.fillStyle=p.col; ctx.beginPath(); ctx.arc(p.x,p.y,3*DPR,0,6.283); ctx.fill(); }
+      ctx.globalAlpha=1;
+      if(Date.now()-t0>4200 && iv){ clearInterval(iv); iv=null; }
+      if(!running) return;
+      if(iv===null && parts.length===0){ close(); return; }
+      requestAnimationFrame(loop);
+    })();
+    setTimeout(close, 8000);
   }
   function askTutor(question, module_id, done){
     sb.auth.getSession().then(function(r){

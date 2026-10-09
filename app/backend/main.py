@@ -31,6 +31,7 @@ import prodamus
 import course_content
 import tutor
 import pixels
+import reviews
 
 ALLOWED_ORIGIN = os.environ.get("ALLOWED_ORIGIN", "https://app.aksalex.com")
 FREE_LIMIT = int(os.environ.get("FREE_LIMIT", "1"))
@@ -387,6 +388,38 @@ def feedback_endpoint(request: Request, req: FeedbackReq, user: dict = Depends(g
         raise HTTPException(status_code=400, detail="плохая оценка")
     ok = feedback.record(user["id"], req.platform, req.item, req.vote)
     return {"ok": bool(ok)}
+
+class ReviewReq(BaseModel):
+    course: str = Field(default="proyavit", max_length=32)
+    name: str = Field(default="", max_length=120)
+    text: str = Field(max_length=4000)
+
+@app.post("/api/course/review")
+@limiter.limit("30/hour")
+def course_review_endpoint(request: Request, req: ReviewReq, user: dict = Depends(get_user)):
+    if not req.text.strip():
+        raise HTTPException(status_code=400, detail="пустой отзыв")
+    rec = reviews.add(user["email"], req.name, req.text, req.course)
+    if not rec:
+        raise HTTPException(status_code=500, detail="не сохранилось")
+    # уведомление админу на почту - чтобы менеджерить отзывы в инбоксе
+    try:
+        who = (rec.get("name") or "") + " <" + (rec.get("email") or "") + ">"
+        html = ("<p><b>Новый отзыв о курсе «" + str(rec.get("course")) + "»</b></p>"
+                "<p>От: " + who + "<br>Когда: " + str(rec.get("date")) + "</p>"
+                "<blockquote style=\"border-left:3px solid #ff7f50;padding-left:12px;color:#333\">"
+                + str(rec.get("text")).replace("\n", "<br>") + "</blockquote>")
+        for adm in UNLIMITED_EMAILS:
+            mailer.send(adm, "Отзыв о курсе: " + (rec.get("name") or rec.get("email") or ""), html)
+    except Exception as e:
+        logging.error("review mail failed: %r", e)
+    return {"ok": True}
+
+@app.get("/api/course/reviews")
+def course_reviews_list(course: str = "", user: dict = Depends(get_user)):
+    if user["email"] not in UNLIMITED_EMAILS:
+        raise HTTPException(status_code=403, detail="только для админа")
+    return {"items": reviews.all_reviews(course or None)}
 
 class CarEditReq(BaseModel):
     generation_id: str = Field(max_length=64)
