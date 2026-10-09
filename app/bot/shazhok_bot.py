@@ -144,9 +144,15 @@ def transcribe(ogg_path):
         log.error("ffmpeg fail: %r", e); return ""
     text, model = "", None
     try:
+        import wave as wavmod, numpy as np
         from faster_whisper import WhisperModel
+        # читаем 16кГц моно s16le WAV в float32 numpy и отдаём массив напрямую -
+        # так обходим декодер PyAV (в новых версиях av.open убрал metadata_errors и ломал faster-whisper)
+        with wavmod.open(wav, "rb") as wf:
+            frames = wf.readframes(wf.getnframes())
+        audio = np.frombuffer(frames, dtype=np.int16).astype(np.float32) / 32768.0
         model = WhisperModel(WHISPER_MODEL, device="cpu", compute_type="int8")
-        segs, _ = model.transcribe(wav, language="ru", beam_size=1, vad_filter=True)
+        segs, _ = model.transcribe(audio, language="ru", beam_size=1)
         text = " ".join(s.text.strip() for s in segs).strip()
     except Exception as e:
         log.error("whisper fail: %r", e)
@@ -269,8 +275,7 @@ def handle(update):
         if not u:
             upsert(tgid, email=None, verified=0, state="{}")
         if u and u["verified"]:
-            send(chat, "С возвращением! Пиши или наговаривай голосом - я веду твой эксперимент.\n"
-                       "Команды: /статус - где ты сейчас, /сброс - начать новый эксперимент.")
+            send(chat, "С возвращением! Пиши или наговаривай голосом - я веду твой шажок.")
         else:
             send(chat, "Привет! Это «Шажок» - бот для твоего 21-дневного эксперимента.\n\n"
                        "Чтобы начать, напиши почту, с которой ты оплатил курс.")
@@ -319,9 +324,15 @@ def handle(update):
         return
 
     low = user_text.lower().lstrip("/")
-    if low in ("сброс", "reset"):
+    if low in ("sbros", "сброс", "reset"):
         upsert(tgid, state="{}")
-        send(chat, "Эксперимент сброшен. Расскажи, что хочешь изменить - начнём заново.")
+        send(chat, "Шажок сброшен!\n"
+                   "Расскажи свой новый шажок по шаблону ниже и начнём заново:\n\n"
+                   "Я хочу: твоя цель\n"
+                   "Мой шажок: твой шажок, который прописывали ранее\n"
+                   "Смотрю на: время, число - что-то, что можно измерить в изменениях\n"
+                   "Сейчас: нынешняя ситуация в числовом выражении\n"
+                   "Хочу: цель в числовом выражении")
         return
     if low in ("статус", "status"):
         user_text = "Покажи краткий статус по формуле: Я хочу, Мой шажок, какой день из 21, как идёт метрика против «Сейчас»."
@@ -339,6 +350,11 @@ def handle(update):
 def main():
     init_db()
     tg("deleteWebhook")
+    tg("setMyCommands", commands=[
+        {"command": "start", "description": "Начать"},
+        {"command": "status", "description": "Как проходит твой шажок"},
+        {"command": "sbros", "description": "Начать новый шажок"},
+    ])
     log.info("shazhok-bot started | model=%s | whisper=%s | access=%s", CLAUDE_MODEL, WHISPER_MODEL, bool(access))
     offset = None
     while True:
