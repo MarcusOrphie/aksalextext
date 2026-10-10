@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Сборка дневного брифа «Кино и Слова» из ideas/brief.json:
+Сборка дневного брифа «Эксперименты» из ideas/brief.json:
 - рендер красивой HTML-страницы в site/ideas/<date>.html + обновление site/ideas/index.html
 - дозапись в журнал ideas/journal.md (для самообучения, чтобы не повторяться)
 - отправка брифа в Telegram-личку (если заданы TG_BOT_TOKEN и TG_CHAT_ID)
@@ -69,6 +69,8 @@ def card_html(it):
       </div>
       <div class="row"><span class="fmt">{esc(it.get('format',''))}</span></div>
       <div class="row"><div class="k">Хук</div><div class="v hook">{esc(it.get('hook',''))}</div></div>
+      <div class="row"><div class="k">Эксперимент</div><div class="v">{esc(it.get('experiment',''))}</div></div>
+      <div class="row"><div class="k">Шажки</div><div class="v">{esc(it.get('steps',''))}</div></div>
       <div class="row"><div class="k">Сценарий</div><div class="v">{esc(it.get('scenario',''))}</div></div>
       <div class="row"><div class="k">Визуал</div><div class="v">{esc(it.get('visual',''))}</div></div>
       <div class="row"><div class="k">Тренд-зацепка</div><div class="v">{esc(it.get('trend_hook',''))}</div></div>
@@ -77,14 +79,14 @@ def card_html(it):
 
 def render_page(d):
     date = d.get("date")
-    cinema = "\n".join(card_html(x) for x in d.get("cinema", []))
-    words = "\n".join(card_html(x) for x in d.get("words", []))
+    business = "\n".join(card_html(x) for x in d.get("business", []))
+    life = "\n".join(card_html(x) for x in d.get("life", []))
     return f"""<!doctype html>
 <html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Кино и Слова · идеи на {esc(date)}</title>
+<title>Эксперименты · идеи на {esc(date)}</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -96,17 +98,17 @@ def render_page(d):
 <div class="wrap">
   <div class="top">
     <div class="eyebrow">Контент-машина Залихват</div>
-    <h1>Кино и Слова</h1>
+    <h1>Эксперименты</h1>
     <div class="date">10 идей · {esc(date)}</div>
   </div>
   <div class="trend"><b>Тренд дня.</b> {esc(d.get('trend_summary',''))}</div>
   <div class="fav">🏆 Фаворит дня: <b>{esc(d.get('favorite',''))}</b></div>
 
-  <div class="sech">Кино <span>5</span></div>
-{cinema}
+  <div class="sech">Бизнес и бренды <span>5</span></div>
+{business}
 
-  <div class="sech">Слова <span>5</span></div>
-{words}
+  <div class="sech">Жизнь и культура <span>5</span></div>
+{life}
 
   <footer>Контент-машина «Залихват» · сгенерировано {esc(date)}</footer>
 </div>
@@ -127,14 +129,14 @@ def update_index(date):
         open(idx, "w", encoding="utf-8").write(
             '<!doctype html><html lang="ru"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<title>Кино и Слова · архив идей</title><meta name="robots" content="noindex">'
+            '<title>Эксперименты · архив идей</title><meta name="robots" content="noindex">'
             '<style>body{font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:0 20px;background:#faf5ec;color:#151210}'
             'h1{font-size:24px}a{color:#e85f2c}</style></head><body>'
-            '<h1>Кино и Слова · архив идей</h1><ul>\n<!--ROWS-->\n' + row + '</ul></body></html>')
+            '<h1>Эксперименты · архив идей</h1><ul>\n<!--ROWS-->\n' + row + '</ul></body></html>')
 
 def journal_append(d):
     lines = [f"\n## {d.get('date')}", f"_Тренд:_ {d.get('trend_summary','')[:200]}"]
-    for tag, arr in (("Кино", d.get("cinema", [])), ("Слова", d.get("words", []))):
+    for tag, arr in (("Бизнес", d.get("business", [])), ("Жизнь", d.get("life", []))):
         for it in arr:
             lines.append(f"- [{tag}] {it.get('idea','')} ({it.get('virality','')}%)")
     open(JOURNAL, "a", encoding="utf-8").write("\n".join(lines) + "\n")
@@ -162,11 +164,13 @@ def tg_text(d):
         s = [f"<b>{tag} · 5</b>"]
         for it in arr:
             s.append(f"\n<b>{esc(it.get('idea',''))}</b> — {it.get('virality','')}%\n"
-                     f"Хук: {esc(it.get('hook',''))}\n{esc(it.get('scenario',''))}")
+                     f"Хук: {esc(it.get('hook',''))}\n"
+                     f"Эксперимент: {esc(it.get('experiment',''))}\n"
+                     f"Шажки: {esc(it.get('steps',''))}\n{esc(it.get('scenario',''))}")
         return "\n".join(s)
-    head = (f"<b>Кино и Слова · {d.get('date')}</b>\n\nТренд дня: {esc(d.get('trend_summary',''))}\n"
+    head = (f"<b>Эксперименты · {d.get('date')}</b>\n\nТренд дня: {esc(d.get('trend_summary',''))}\n"
             f"\n🏆 Фаворит: {esc(d.get('favorite',''))}\n\n{SITE_URL}/ideas/{d.get('date')}.html")
-    return [head, block("КИНО", d.get("cinema", [])), block("СЛОВА", d.get("words", []))]
+    return [head, block("БИЗНЕС И БРЕНДЫ", d.get("business", [])), block("ЖИЗНЬ И КУЛЬТУРА", d.get("life", []))]
 
 def main():
     src = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "brief.json")
@@ -179,7 +183,7 @@ def main():
     update_index(d["date"])
     journal_append(d)
     res = tg_send(tg_text(d))
-    print(f"BUILT ideas {d['date']} | cinema {len(d.get('cinema',[]))} words {len(d.get('words',[]))} | tg: {res}")
+    print(f"BUILT ideas {d['date']} | business {len(d.get('business',[]))} life {len(d.get('life',[]))} | tg: {res}")
     print(f"URL: {SITE_URL}/ideas/{d['date']}.html")
 
 if __name__ == "__main__":
