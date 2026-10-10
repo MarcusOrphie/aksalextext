@@ -142,6 +142,7 @@
   .pay-price{font-family:"Oswald",sans-serif;font-weight:700;font-size:40px;color:var(--paper2);margin:14px 0 6px}
   .pay-price s{color:#9a9088;font-size:26px;font-weight:600;margin-right:10px}
   .pay-price b{color:var(--coral)}
+  .pay-cnt{display:inline-block;margin:0 0 4px;font-family:"Oswald",sans-serif;font-weight:700;font-size:14px;letter-spacing:.02em;color:var(--paper2);background:rgba(255,255,255,.12);border:1.5px solid var(--coral);border-radius:999px;padding:4px 15px}
   @media(max-width:560px){ .author-photo{float:none;display:block;margin:0 auto 16px;width:140px;height:140px} .pay-price{font-size:32px} .pay-price s{font-size:21px} }
 
   footer{padding:40px 0 60px;text-align:center;color:var(--muted);font-size:13px;font-weight:600}
@@ -339,10 +340,11 @@
 <section>
   <div class="wrap">
     <div class="final" id="pay">
-      <div class="pay-free">🎁 Первые 10 мест - бесплатно!</div>
+      <div class="pay-free" id="pay-badge">🎁 Первые 10 мест - бесплатно!</div>
       <h2>Курс «Шажок»</h2>
-      <div class="pay-price"><s>5999 ₽</s> <b>3499 ₽</b></div>
-      <p>Пожизненный доступ. Ведение в Telegram-боте голосом или текстом. Наставник 24/7 внутри. А первые 10 участников проходят бесплатно - просто оставь отзыв о Шажке.</p>
+      <div class="pay-price" id="pay-price"><s>3499 ₽</s> <b>Бесплатно</b></div>
+      <div class="pay-cnt" id="pay-cnt"></div>
+      <p id="pay-desc">Пожизненный доступ. Ведение в Telegram-боте голосом или текстом. Наставник 24/7 внутри. Первые 10 участников - бесплатно, просто оставь отзыв о Шажке.</p>
       <a class="btn lg" href="/step-by-step">Забрать курс →</a>
     </div>
   </div>
@@ -357,5 +359,27 @@
   </div>
 </footer>
 
+<script>
+(function(){
+  fetch("/api/course/free?course=proyavit").then(function(r){return r.json();}).then(function(d){
+    if(!d || typeof d.taken !== "number") return;
+    var limit = d.limit || 10, taken = d.taken, left = (typeof d.left === "number") ? d.left : (limit - taken);
+    var price = document.getElementById("pay-price"),
+        cnt   = document.getElementById("pay-cnt"),
+        badge = document.getElementById("pay-badge"),
+        desc  = document.getElementById("pay-desc");
+    if (cnt) cnt.textContent = "Занято " + taken + "/" + limit;
+    if (left > 0) {
+      if (price) price.innerHTML = '<s>3499 ₽</s> <b>Бесплатно</b>';
+      if (badge) badge.textContent = "🎁 Первые " + limit + " мест - бесплатно! Осталось " + left;
+      if (desc)  desc.textContent = "Пожизненный доступ. Ведение в Telegram-боте голосом или текстом. Наставник 24/7 внутри. Первые " + limit + " участников - бесплатно, просто оставь отзыв о Шажке.";
+    } else {
+      if (price) price.innerHTML = '<s>5999 ₽</s> <b>3499 ₽</b>';
+      if (badge) badge.textContent = "Бесплатные места закончились";
+      if (desc)  desc.textContent = "Пожизненный доступ. Ведение в Telegram-боте голосом или текстом. Наставник 24/7 внутри.";
+    }
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
