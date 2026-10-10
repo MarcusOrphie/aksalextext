@@ -181,8 +181,14 @@ def download_voice(file_id):
 def claude(state, user_msg):
     if not ANTHROPIC_KEY:
         return state, "Бот временно недоступен (нет ключа модели)."
+    today = now_msk()
+    finish = today + datetime.timedelta(days=21)
+    dateline = ("ВАЖНО: сегодня " + today.strftime("%d.%m.%Y") + " (по МСК). Когда ставишь start - это "
+                "ТОЛЬКО сегодняшняя дата " + today.strftime("%d.%m.%Y") + ", а finish = сегодня + 21 день, то есть "
+                + finish.strftime("%d.%m.%Y") + ". Никогда не выдумывай другой год или другую дату, бери их отсюда. "
+                "Все даты в формате дд.мм.гггг.\n\n")
     body = {"model": CLAUDE_MODEL, "max_tokens": 1500,
-            "system": SYS,
+            "system": dateline + SYS,
             "messages": [{"role": "user",
                           "content": "ТЕКУЩЕЕ СОСТОЯНИЕ (JSON):\n" + json.dumps(state, ensure_ascii=False) +
                                      "\n\nСООБЩЕНИЕ ПОЛЬЗОВАТЕЛЯ:\n" + user_msg +
