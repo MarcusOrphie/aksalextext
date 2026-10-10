@@ -91,9 +91,21 @@ def tg(method, **params):
     except Exception as e:
         log.error("tg %s fail: %r", method, e); return {}
 
+def _md_to_html(t):
+    # markdown из мозга -> Telegram HTML: экранируем спецсимволы, затем **жирный**/__жирный__ -> <b>
+    t = t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    t = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", t, flags=re.S)
+    t = re.sub(r"__(.+?)__", r"<b>\1</b>", t, flags=re.S)
+    return t
+
 def send(chat_id, text):
     for i in range(0, len(text), 3800):
-        tg("sendMessage", chat_id=chat_id, text=text[i:i+3800], disable_web_page_preview=True)
+        chunk = text[i:i+3800]
+        r = tg("sendMessage", chat_id=chat_id, text=_md_to_html(chunk),
+               parse_mode="HTML", disable_web_page_preview=True)
+        if not (isinstance(r, dict) and r.get("ok")):
+            # запасной вариант - без разметки (на случай битого HTML при разрезе)
+            tg("sendMessage", chat_id=chat_id, text=chunk, disable_web_page_preview=True)
 
 def action(chat_id, a="typing"):
     tg("sendChatAction", chat_id=chat_id, action=a)
