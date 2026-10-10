@@ -103,6 +103,15 @@
   .hub{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:920px;margin:8px auto 0;padding-bottom:8px}
   .hcard{position:relative;display:flex;flex-direction:column;gap:12px;background:var(--paper2);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--ink);padding:26px 26px 24px;text-decoration:none;color:var(--ink);transition:transform .09s ease,box-shadow .09s ease}
   .hcard:hover{transform:translate(-2px,-2px);box-shadow:11px 11px 0 var(--ink)}
+  .shazhok-promo{display:flex;align-items:center;gap:26px;justify-content:space-between;background:var(--ink);color:var(--paper2);border:3px solid var(--ink);border-radius:22px;box-shadow:8px 8px 0 var(--coral);padding:26px 32px;margin:0 0 26px;text-decoration:none;transition:transform .1s ease,box-shadow .1s ease}
+  .shazhok-promo:hover{transform:translate(-2px,-2px);box-shadow:11px 11px 0 var(--coral)}
+  .sp-text{max-width:640px}
+  .sp-badge{display:inline-block;margin-bottom:10px;padding:6px 14px;background:rgba(255,127,80,.18);color:var(--coral);border:1.5px solid var(--coral);border-radius:999px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.04em}
+  .sp-text h2{font-family:"Oswald";text-transform:uppercase;font-weight:700;font-size:34px;line-height:1;color:var(--coral);margin:4px 0 8px}
+  .sp-text p{font-size:15.5px;color:#e7e0d6;font-weight:600;line-height:1.5;margin:0 0 16px}
+  .sp-cta{display:inline-flex;align-items:center;gap:8px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:14px;letter-spacing:.02em;color:var(--ink);background:var(--coral);border-radius:999px;padding:11px 24px;box-shadow:0 5px 16px rgba(255,127,80,.4)}
+  .sp-art{flex:none;width:200px;height:auto}
+  @media(max-width:760px){.shazhok-promo{flex-direction:column;align-items:flex-start;gap:14px;padding:22px 20px}.sp-art{display:none}.sp-text h2{font-size:27px}}
   .hcard:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
   .hcard.c-coral{box-shadow:8px 8px 0 var(--coral)}
   .hcard.c-coral:hover{box-shadow:11px 11px 0 var(--coral)}
@@ -170,6 +179,39 @@
     <h1>Остров сокров<em>ии</em>щ</h1>
     <p class="sub">Привет, я Саша Аксенов, product-менеджер, маркетолог, автоматизатор и автор AI-продуктов.</p>
   </header>
+
+  <a class="shazhok-promo" href="https://app.aksalex.com/lp">
+    <div class="sp-text">
+      <span class="sp-badge">🎁 Новый курс · первые 10 мест бесплатно</span>
+      <h2>Курс «Шажок»</h2>
+      <p>Достигай своей цели за 21 день через маленькие эксперименты и шажки. Ведение голосом или текстом в Telegram-боте, ИИ-наставник 24/7 внутри.</p>
+      <span class="sp-cta">Забрать курс →</span>
+    </div>
+    <svg class="sp-art" viewBox="0 0 210 150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <g id="pf" fill="#ff7f50">
+          <path d="M -11,-27 C -3,-30 7,-30 13,-25 C 18,-21 19,-14 18,-7 C 17,1 15,6 15,13 C 15,25 16,33 12,38 C 8,42 3,43 -1,41 C -6,43 -10,39 -11,33 C -13,26 -9,19 -8,11 C -7,7 -7,6 -7,4 C -8,-7 -10,-17 -11,-27 Z"/>
+          <ellipse cx="-10" cy="-33" rx="4.6" ry="6.2" transform="rotate(-14 -10 -33)"/>
+          <ellipse cx="-3" cy="-37" rx="3.7" ry="5.2" transform="rotate(-4 -3 -37)"/>
+          <ellipse cx="3.5" cy="-37.5" rx="3.3" ry="4.7" transform="rotate(6 3.5 -37.5)"/>
+          <ellipse cx="9" cy="-35" rx="2.9" ry="4.1" transform="rotate(16 9 -35)"/>
+          <ellipse cx="13.5" cy="-31" rx="2.4" ry="3.3" transform="rotate(26 13.5 -31)"/>
+        </g>
+      </defs>
+      <path d="M26,130 C 70,110 92,88 128,62 C 152,44 168,38 182,30" stroke="#ff7f50" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+      <use href="#pf" transform="translate(40,122) rotate(14) scale(.52)"/>
+      <use href="#pf" transform="translate(100,84) rotate(14) scale(-.52,.52)"/>
+      <g transform="translate(182,30) scale(.9)" fill="#ff7f50">
+        <ellipse cx="0" cy="2" rx="18" ry="5"/>
+        <path d="M-18,2 L18,2 C18,20 11,31 0,33 C -11,31 -18,20 -18,2 Z"/>
+        <path d="M-18,4 C -30,4 -31,20 -18,23" fill="none" stroke="#ff7f50" stroke-width="2.6"/>
+        <path d="M18,4 C 30,4 31,20 18,23" fill="none" stroke="#ff7f50" stroke-width="2.6"/>
+        <rect x="-4" y="33" width="8" height="10"/>
+        <path d="M-14,56 L14,56 L7,43 L-7,43 Z"/>
+        <rect x="-15" y="56" width="30" height="6" rx="2.5"/>
+      </g>
+    </svg>
+  </a>
 
   <main class="hub">
 
