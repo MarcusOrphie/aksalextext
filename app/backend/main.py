@@ -181,6 +181,14 @@ def course_endpoint(course: str = "proyavit", lang: str = "ru", user: dict = Dep
     return {"access": False, "teaser": course_content.teaser(course, lang)}
 
 
+@app.get("/api/course/free")
+def course_free_count(course: str = "proyavit"):
+    """Публичный счётчик занятых бесплатных мест (для гейта/лендинга, без авторизации)."""
+    if not course_content.valid(course):
+        raise HTTPException(status_code=404, detail="unknown course")
+    return {"taken": access.free_count(course), "limit": access.FREE_LIMIT, "left": access.free_left(course)}
+
+
 class TutorReq(BaseModel):
     course: str = Field(default="proyavit", max_length=40)
     module_id: str = Field(default="", max_length=64)

@@ -31,7 +31,7 @@
       tHeader:"ИИ-наставник", tHi:"Привет! Спроси что угодно по текущему уроку - помогу и подскажу следующий шаг.",
       tPh:"Твой вопрос по уроку...", tFab:"Наставник",
       tErrA:"Не получилось ответить. Попробуй ещё раз.", tErrN:"Наставник сейчас не отвечает. Попробуй через минуту.",
-      gateBody:"Это интерактивная программа внутри кабинета - проходишь шаг за шагом, прогресс сохраняется. Зарегистрируйся или войди, чтобы открыть «Шажок».",
+      gateBody:"Зарегистрируйся или войди в кабинет Шажка, прогресс внутри курса сохраняется.",
       gateBtn:"Зарегистрироваться / войти →", buyGet:"Получить доступ", buyHow:"Как получить доступ →",
       familiar:"Знакомо?", whatGet:"Что получишь", forWhom:"Для кого:",
       ctaSub:"Пожизненный доступ, прохождение с галочками и XP, ИИ-наставник внутри.",
@@ -554,9 +554,13 @@
   function gate(){
     var nx=encodeURIComponent(location.pathname||"/step-by-step");
     app.innerHTML='<div class="gate"><h2>'+esc(cTitle())+'</h2>'
-      +'<div class="gate-free">🎁 Первые 10 мест - бесплатно!<br>Мне очень важно ваше мнение о Шажке :)</div>'
+      +'<div class="gate-free">🎁 Первые 10 мест - бесплатно!<br>Мне очень важно ваше мнение о Шажке :)<br><span class="gate-cnt" id="free-cnt">Занято 0/10</span></div>'
       +'<p>'+esc(L('gateBody'))+'</p>'
       +'<a class="btn" href="/?next='+nx+'">'+L('gateBtn')+'</a></div>';
+    fetch(API+"/course/free?course="+encodeURIComponent(CID)).then(function(r){return r.json();}).then(function(d){
+      var el=document.getElementById("free-cnt");
+      if(el && d && typeof d.taken==="number"){ el.textContent="Занято "+d.taken+"/"+(d.limit||10); }
+    }).catch(function(){});
   }
   function teaser(user, t){
     t=t||{};

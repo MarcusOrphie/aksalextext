@@ -46,6 +46,7 @@
   .hero .micro{font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:.04em;color:var(--muted);margin-top:16px}
   .hero-art{display:flex;justify-content:center}
   .hero-art svg{width:100%;max-width:380px;height:auto}
+  .art-mini{display:none}
 
   /* sections */
   section{padding:52px 0;position:relative;z-index:1}
@@ -149,7 +150,9 @@
 
   @media(max-width:860px){
     .hero-grid{grid-template-columns:1fr;gap:28px}
-    .hero-art{order:-1}.hero-art svg{max-width:260px}
+    .hero-art{order:0;margin-top:10px}
+    .art-full{display:none}
+    .art-mini{display:block;max-width:320px}
     .hero h1{font-size:44px}
     .pains,.outs,.why,.sc-grid,.aud,.steps{grid-template-columns:1fr}
     .sec-h{font-size:28px}.final h2{font-size:32px}
@@ -184,7 +187,7 @@
         </div>
       </div>
       <div class="hero-art">
-        <svg viewBox="0 0 360 440" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <svg class="art-full" viewBox="0 0 360 440" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M116,404 C 96,366 112,338 136,326 C 160,314 176,294 170,266 C 164,236 196,230 214,218 C 234,204 250,192 244,166 C 240,146 268,142 288,126" fill="none" stroke="#e85f2c" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"/>
           <g transform="translate(133,393) rotate(10)"><image href="foot.png" x="-15" y="-28.5" width="30" height="57"/></g>
           <g transform="translate(133,308) rotate(12) scale(-1,1)"><image href="foot.png" x="-15" y="-28.5" width="30" height="57"/></g>
@@ -192,6 +195,20 @@
           <g transform="translate(217,184) rotate(16) scale(-1,1)"><image href="foot.png" x="-15" y="-28.5" width="30" height="57"/></g>
           <g transform="translate(295,155) rotate(16)"><image href="foot.png" x="-15" y="-28.5" width="30" height="57"/></g>
           <g transform="translate(306,34)" stroke="#151210" stroke-width="3" stroke-linejoin="round" fill="#ff7f50">
+            <ellipse cx="0" cy="2" rx="20" ry="5.5"/>
+            <path d="M-20,2 L20,2 C20,22 12,34 0,36 C -12,34 -20,22 -20,2 Z"/>
+            <path d="M-20,4 C -33,4 -34,22 -20,25" fill="none"/>
+            <path d="M20,4 C 33,4 34,22 20,25" fill="none"/>
+            <rect x="-4.5" y="35" width="9" height="11"/>
+            <path d="M-15,61 L15,61 L8,46 L-8,46 Z"/>
+            <rect x="-17" y="61" width="34" height="7" rx="2.5"/>
+          </g>
+        </svg>
+        <svg class="art-mini" viewBox="0 0 300 215" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M84,184 C 128,150 150,122 176,100 C 200,80 214,70 224,60" fill="none" stroke="#e85f2c" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round"/>
+          <g transform="translate(92,180) rotate(16)"><image href="foot.png" x="-16" y="-30" width="32" height="61"/></g>
+          <g transform="translate(150,118) rotate(16) scale(-1,1)"><image href="foot.png" x="-16" y="-30" width="32" height="61"/></g>
+          <g transform="translate(232,44) scale(1.05)" stroke="#151210" stroke-width="3" stroke-linejoin="round" fill="#ff7f50">
             <ellipse cx="0" cy="2" rx="20" ry="5.5"/>
             <path d="M-20,2 L20,2 C20,22 12,34 0,36 C -12,34 -20,22 -20,2 Z"/>
             <path d="M-20,4 C -33,4 -34,22 -20,25" fill="none"/>
