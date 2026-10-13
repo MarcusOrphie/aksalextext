@@ -94,7 +94,7 @@ def has_course(email: str, course: str = "proyavit") -> bool:
 
 # ---- Первые N мест бесплатно (акция запуска) ----
 FREE_KEY = "_system/course_free.json"   # course -> {emails:[...]}
-FREE_LIMIT = int(os.environ.get("COURSE_FREE_LIMIT", "10"))
+FREE_LIMIT = int(os.environ.get("COURSE_FREE_LIMIT", "5"))
 
 
 def free_count(course: str = "proyavit") -> int:

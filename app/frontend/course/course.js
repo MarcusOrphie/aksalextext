@@ -554,7 +554,7 @@
   function gate(){
     var nx=encodeURIComponent(location.pathname||"/step-by-step");
     app.innerHTML='<div class="gate"><h2>'+esc(cTitle())+'</h2>'
-      +'<div class="gate-free">🎁 Первые 10 мест - бесплатно!<br>Мне очень важно ваше мнение о Шажке :)<br><span class="gate-cnt" id="free-cnt">Занято 0/10</span></div>'
+      +'<div class="gate-free">🎁 Первые 5 мест - бесплатно!<br>Мне очень важно ваше мнение о Шажке :)<br><span class="gate-cnt" id="free-cnt">Занято 0/5</span></div>'
       +'<p>'+esc(L('gateBody'))+'</p>'
       +'<a class="btn" href="/?next='+nx+'">'+L('gateBtn')+'</a></div>';
     fetch(API+"/course/free?course="+encodeURIComponent(CID)).then(function(r){return r.json();}).then(function(d){
