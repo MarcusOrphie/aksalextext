@@ -66,6 +66,8 @@
   .hero-art{display:flex;justify-content:center}
   .hero-art svg{width:100%;max-width:380px;height:auto}
   .art-mini{display:none}
+  .video-frame{margin:24px auto 0;max-width:760px;border:1.5px solid var(--line);border-radius:18px;overflow:hidden;background:#111;box-shadow:0 14px 40px rgba(21,18,16,.12)}
+  .video-frame video{display:block;width:100%;max-height:72vh;height:auto}
 
   /* sections */
   section{padding:52px 0;position:relative;z-index:1}
@@ -243,6 +245,18 @@
   </div>
 </section>
 
+<section id="video-sec" hidden>
+  <div class="wrap">
+    <div class="sec-k">Видео</div>
+    <h2 class="sec-h">Коротко о «Шажке»</h2>
+    <div class="video-frame">
+      <video id="promo-video" controls playsinline preload="metadata">
+        <source id="promo-src" src="/lp/promo.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
 <section>
   <div class="wrap">
     <div class="sec-k">Узнаёшь себя?</div>
@@ -398,6 +412,12 @@
       if (desc)  desc.textContent = "Пожизненный доступ. Ведение в Telegram-боте голосом или текстом. Наставник 24/7 внутри.";
     }
   }).catch(function(){});
+})();
+(function(){
+  var v = document.getElementById("promo-video"), sec = document.getElementById("video-sec");
+  if (!v || !sec) return;
+  // показываем блок только когда ролик реально подгрузился (пока файла нет - блок скрыт)
+  v.addEventListener("loadedmetadata", function(){ sec.hidden = false; });
 })();
 </script>
 </body>
