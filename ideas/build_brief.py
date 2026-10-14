@@ -135,11 +135,43 @@ def update_index(date):
             '<h1>Эксперименты · архив идей</h1><ul>\n<!--ROWS-->\n' + row + '</ul></body></html>')
 
 def journal_append(d):
+    if os.path.exists(JOURNAL) and f"## {d.get('date')}" in open(JOURNAL, encoding="utf-8").read():
+        return  # запись за эту дату уже есть, не дублируем при повторном запуске
     lines = [f"\n## {d.get('date')}", f"_Тренд:_ {d.get('trend_summary','')[:200]}"]
     for tag, arr in (("Бизнес", d.get("business", [])), ("Жизнь", d.get("life", []))):
         for it in arr:
             lines.append(f"- [{tag}] {it.get('idea','')} ({it.get('virality','')}%)")
     open(JOURNAL, "a", encoding="utf-8").write("\n".join(lines) + "\n")
+
+def tg_chunks(text, limit=3900):
+    """Режем текст на куски под лимит Telegram (4096), по пустым строкам и строкам."""
+    out, cur = [], ""
+    def push():
+        nonlocal cur
+        if cur.strip():
+            out.append(cur)
+        cur = ""
+    for para in text.split("\n\n"):
+        cand = para if not cur else cur + "\n\n" + para
+        if len(cand) <= limit:
+            cur = cand
+            continue
+        push()
+        if len(para) <= limit:
+            cur = para
+            continue
+        for line in para.split("\n"):
+            cand = line if not cur else cur + "\n" + line
+            if len(cand) <= limit:
+                cur = cand
+                continue
+            push()
+            while len(line) > limit:
+                out.append(line[:limit])
+                line = line[limit:]
+            cur = line
+    push()
+    return out
 
 def tg_send(text):
     if not (TG_TOKEN and TG_CHAT):
@@ -153,11 +185,14 @@ def tg_send(text):
             return r.get("ok")
         except Exception as e:
             return f"err {e}"
-    # чанкуем по 3900 символов
+    # чанкуем по 3900 символов: Telegram рубит всё, что длиннее 4096
     out = []
-    for chunk in text:
-        out.append(str(send(chunk)))
-    return ",".join(out)
+    for part in text:
+        for chunk in tg_chunks(part):
+            out.append(send(chunk))
+    if out and all(r is True for r in out):
+        return "True"
+    return ",".join(str(r) for r in out)
 
 def tg_text(d):
     def block(tag, arr):
