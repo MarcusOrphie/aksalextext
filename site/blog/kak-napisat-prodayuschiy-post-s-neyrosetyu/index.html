@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="p:domain_verify" content="c4b9d75b79be7b123df6bf78da25469f"/>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=112136771', 'ym');
+
+    ym(112136771, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/112136771" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Как написать продающий пост с помощью нейросети</title>
+<meta name="description" content="Как написать продающий пост с помощью нейросети: структура, примеры хуков, частые ошибки и промты, которые дают черновик без шаблонных фраз.">
+<link rel="canonical" href="https://aksalex.com/blog/kak-napisat-prodayuschiy-post-s-neyrosetyu/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Саша Аксенов">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Как написать продающий пост с помощью нейросети">
+<meta property="og:description" content="Структура продающего поста и промты для нейросети: от хука до предложения, без воды и штампов.">
+<meta property="og:url" content="https://aksalex.com/blog/kak-napisat-prodayuschiy-post-s-neyrosetyu/">
+<meta property="og:image" content="https://aksalex.com/blog/kak-napisat-prodayuschiy-post-s-neyrosetyu/cover.jpg">
+<meta property="og:site_name" content="Залихват">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap">
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "Как написать продающий пост с помощью нейросети", "description": "Структура продающего поста и промты для нейросети: от хука до предложения, без воды и штампов.", "image": "https://aksalex.com/blog/kak-napisat-prodayuschiy-post-s-neyrosetyu/cover.jpg", "datePublished": "2026-10-26", "dateModified": "2026-10-26", "author": {"@type": "Person", "name": "Саша Аксенов", "url": "https://aksalex.com/"}, "publisher": {"@type": "Organization", "name": "Залихват", "logo": {"@type": "ImageObject", "url": "https://aksalex.com/apple-touch-icon.png"}}, "mainEntityOfPage": {"@type": "WebPage", "@id": "https://aksalex.com/blog/kak-napisat-prodayuschiy-post-s-neyrosetyu/"}}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Можно ли публиковать текст от нейросети без правок?", "acceptedAnswer": {"@type": "Answer", "text": "Лучше не стоит - такой текст легко отличить по общим фразам. Прочитай черновик вслух и замени канцелярские обороты и шаблонные обещания на свои слова."}}, {"@type": "Question", "name": "Сколько раз просить нейросеть переписать пост?", "acceptedAnswer": {"@type": "Answer", "text": "Обычно достаточно двух-трёх заходов: сначала варианты хука, потом доработка структуры под твой тон. Если результат всё ещё общий, дело в слишком общем описании задачи, а не в количестве попыток."}}, {"@type": "Question", "name": "Как написать хук, если продукт самый обычный?", "acceptedAnswer": {"@type": "Answer", "text": "Ищи не уникальность продукта, а конкретную ситуацию клиента: что он чувствует перед покупкой и что меняется после. Обычная услуга становится интересной, если показана через реальную боль."}}, {"@type": "Question", "name": "Нужен ли призыв к действию в конце продающего поста?", "acceptedAnswer": {"@type": "Answer", "text": "Да, читатель должен понимать, что делать дальше - написать в директ, перейти по ссылке, оставить заявку. Без ясного следующего шага даже сильный текст про боль и решение часто остаётся без отклика."}}, {"@type": "Question", "name": "Чем продающий пост отличается от обычного информационного?", "acceptedAnswer": {"@type": "Answer", "text": "Информационный пост делится пользой без расчёта на немедленное действие, а продающий ведёт к конкретному шагу - покупке, записи, заявке. Предложение в конце есть только во втором."}}]}
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://aksalex.com/"}, {"@type": "ListItem", "position": 2, "name": "Блог", "item": "https://aksalex.com/blog/"}, {"@type": "ListItem", "position": 3, "name": "Как написать продающий пост с помощью нейросети", "item": "https://aksalex.com/blog/kak-napisat-prodayuschiy-post-s-neyrosetyu/"}]}
+</script>
+<style>
+  :root{--paper:#faf5ec;--paper2:#fffdf8;--ink:#151210;--coral:#ff7f50;--coral-deep:#e85f2c;--coral-soft:#ffe6d8;--muted:#7b7168;--line:#e6ddcd}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper);color:#241f1b;font-family:"Nunito",system-ui,-apple-system,sans-serif;font-weight:600;line-height:1.7;position:relative}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,127,80,.14) 1.1px,transparent 1.2px);background-size:16px 16px}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px 60px;position:relative;z-index:1}
+  a{color:var(--coral-deep)}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(250,245,236,.86);backdrop-filter:blur(8px);border-bottom:2px solid var(--ink);margin-bottom:22px}
+  .nav .in{max-width:760px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);text-decoration:none}
+  .brand img{width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .navlinks{display:flex;gap:18px;align-items:center}
+  .navlinks a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .navlinks a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .navlinks a.on{color:var(--coral-deep) !important}
+  .nav .navcta{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .nav .navcta:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .nav .navcta:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  @media(max-width:759px){.navlinks{gap:10px}.navlinks a:not(.btn){display:none}.brand{font-size:14px}.brand img{width:28px;height:28px}.nav .navcta{padding:7px 13px;font-size:12px;min-height:38px}}
+  .crumbs{font-size:13px;color:var(--muted);font-weight:700;margin:8px 0 14px}
+  .crumbs a{text-decoration:none}
+  h1{font-family:"Oswald";font-weight:700;text-transform:uppercase;line-height:1.02;font-size:38px;color:var(--ink);letter-spacing:.005em;text-wrap:balance;margin-bottom:10px}
+  .ameta{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:18px}
+  .hero{width:100%;border-radius:18px;border:3px solid var(--ink);box-shadow:7px 7px 0 var(--ink);display:block;margin:0 0 26px;aspect-ratio:16/9;height:auto;object-fit:cover;background:var(--coral-soft)}
+  article p{font-size:17px;margin:16px 0;color:#2c2621}
+  article h2{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:27px;color:var(--coral-deep);letter-spacing:.01em;margin:34px 0 6px}
+  article h3{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:19px;color:var(--ink);letter-spacing:.01em;margin:22px 0 4px}
+  article ul{margin:14px 0;list-style:none;display:flex;flex-direction:column;gap:9px}
+  article ul li{position:relative;padding-left:26px;font-size:17px;color:#2c2621}
+  article ul li::before{content:"";position:absolute;left:2px;top:11px;width:10px;height:10px;border-radius:2px;background:var(--coral);border:2px solid var(--ink);transform:rotate(45deg)}
+  blockquote{background:var(--coral-soft);border:2px solid var(--ink);border-left:6px solid var(--coral);border-radius:12px;padding:16px 20px;margin:22px 0;font-size:18px;font-weight:800;color:#2a2015;box-shadow:5px 5px 0 var(--ink)}
+  .tablewrap{overflow-x:auto;margin:22px 0;border:3px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink)}
+  table{width:100%;border-collapse:collapse;font-size:15px;background:var(--paper2);min-width:520px}
+  thead th{background:var(--coral);color:var(--paper);font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.04em;text-align:left;padding:12px 14px;border-bottom:3px solid var(--ink)}
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--line);color:#2c2621;font-weight:700}
+  tbody tr:nth-child(even){background:#fbf6ec}
+  tbody tr:last-child td{border-bottom:none}
+  .faq{margin-top:36px;border-top:2px solid var(--ink);padding-top:8px}
+  .faq h3{color:var(--coral-deep)}
+  .faq p{margin-top:4px}
+  .cta{background:var(--coral);border:3px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 var(--ink);padding:28px 24px;text-align:center;margin:40px 0 10px}
+  .cta img{width:78px;height:78px;border-radius:50%;border:3px solid var(--ink);box-shadow:4px 4px 0 rgba(0,0,0,.3);object-fit:cover;object-position:50% 22%;display:block;margin:0 auto 14px}
+  .cta .h{font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:26px;line-height:1.05;color:var(--paper);-webkit-text-stroke:2px var(--ink);text-shadow:3px 3px 0 var(--ink)}
+  .cta .s{margin-top:10px;color:#3a2418;font-weight:800;font-size:15px}
+  .cta .btn{display:inline-block;margin-top:16px;font-family:"Oswald";font-weight:700;text-transform:uppercase;font-size:18px;letter-spacing:.03em;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);padding:12px 26px;border-radius:999px;box-shadow:4px 4px 0 var(--ink);text-decoration:none}
+  footer{margin-top:44px;padding-top:28px;border-top:2px solid var(--ink);text-align:center}
+  .fbrand{display:inline-flex;align-items:center;gap:9px;justify-content:center;font-family:"Oswald";font-weight:700;text-transform:uppercase;letter-spacing:.03em;font-size:16px;color:var(--ink);margin-bottom:16px}
+  .fbrand img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);object-fit:cover;object-position:50% 22%}
+  .fmenu{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px 22px;margin-bottom:18px}
+  .fmenu a:not(.btn){font-family:"Oswald";font-weight:600;text-transform:uppercase;font-size:12.5px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .15s,text-shadow .15s}
+  .fmenu a:not(.btn):hover{color:var(--coral);text-shadow:0 0 9px rgba(255,127,80,.75)}
+  .fmenu .btn{color:var(--paper);background:var(--coral);border:2.5px solid var(--ink);border-radius:11px;box-shadow:3px 3px 0 var(--ink);padding:8px 16px;min-height:42px;display:inline-flex;align-items:center;transition:transform .12s,box-shadow .12s}
+  .fmenu .btn:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+  .fmenu .btn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+  .fnote{font-size:13px;color:var(--muted);font-weight:700;white-space:nowrap}
+  .fnote b{color:var(--coral-deep)}
+  @media(max-width:600px){.fnote{white-space:normal}}
+  @media(min-width:640px){h1{font-size:48px}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="in">
+    <a class="brand" href="/"><img src="/face1.jpg" alt="Саша Аксенов">Саша Аксенов</a>
+    <div class="navlinks">
+      <a href="/aboutme">Обо мне</a>
+      <a href="/zalihvat">Залихват</a>
+      <a class="party-link" href="https://brands.aksalex.com" style="color:#e85f2c;font-weight:800">Тусовка брендов</a>
+      <a href="/guides/">Гайды</a>
+      <a class="btn sm btn-primary navcta" href="https://app.aksalex.com" target="_blank" rel="noopener">Кабинет</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a href="/blog/" class="on">Блог</a>
+    </div>
+  </div>
+</nav>
+<div class="wrap">
+
+  <div class="crumbs"><a href="/">Главная</a> · <a href="/blog/">Блог</a> · Как написать продающий пост с помощью нейросети</div>
+
+  <article>
+    <h1>Как написать продающий пост с помощью нейросети</h1>
+    <div class="ameta">Саша Аксенов · 26 октября 2026 · 6 мин чтения</div>
+    <img class="hero" src="cover.jpg" alt="Как написать продающий пост с помощью нейросети" width="1280" height="720">
+
+    <p>Рекламный пост читают по-другому, чем обычный. Человек либо цепляется за первую строчку, либо пролистывает дальше за секунду. Нейросеть не напишет за тебя продающий текст с нуля так, чтобы он звучал как твой голос, но может собрать крепкий черновик по правильной структуре, если задать ей верные вопросы.</p>
+    <h2>Почему обычный рассказ о продукте не продаёт</h2>
+    <p>Пост вида «у нас новый курс, записывайтесь» читатель видит как рекламу и пролистывает - мозг давно научился отфильтровывать такие сигналы. Продающий пост работает иначе: он сначала говорит о проблеме читателя, а предложение появляется только тогда, когда человек уже узнал в тексте себя.</p>
+    <p>Это касается любого формата - курса, услуги мастера, товара на маркетплейсе. Разница между постом, который читают до конца, и постом, который закрывают сразу, обычно в первых строчках и в том, о ком текст: о продукте или о читателе.</p>
+    <h2>Структура, на которую стоит опираться</h2>
+    <h3>Пять блоков продающего поста</h3>
+    <ul><li>Хук - первая строчка, которая останавливает скролл</li><li>Боль - конкретная ситуация, в которой читатель узнаёт себя</li><li>Поворот - почему привычный способ решения не работает</li><li>Решение - твой продукт или услуга как логичный следующий шаг</li><li>Доказательство и предложение - что подтверждает твои слова и что делать дальше</li></ul>
+    <p>Не обязательно использовать все пять блоков в каждом посте - иногда хватает хука, боли и решения. Но держать эту структуру в голове помогает не скатиться в сухое описание характеристик.</p>
+    <h2>Как просить нейросеть сделать черновик</h2>
+    <p>Самая частая ошибка - просить нейросеть «написать продающий пост про услугу». В ответ выходит текст с общими фразами про «уникальный подход», который сложно отличить от сотен таких же. Чем подробнее вводные, тем живее черновик.</p>
+    <blockquote>Нейросеть пишет настолько конкретно, насколько конкретно ты описал ситуацию клиента - общий запрос даёт общий текст.</blockquote>
+    <p>Опиши нейросети реальную историю: кто твой клиент, с какой проблемой приходит, что уже пробовал и почему не сработало, что получает после работы с тобой. Попроси несколько вариантов хука отдельно от текста - так проще выбрать живой вариант.</p>
+    <ul><li>Опиши конкретного клиента, а не абстрактную аудиторию</li><li>Назови проблему словами, которыми говорит сам клиент</li><li>Попроси 3-5 вариантов хука, а не один готовый пост</li><li>Дай пример своего реального тона, чтобы черновик звучал похоже</li></ul>
+    <h2>Разбор: слабый хук и доработанный вариант</h2>
+    <p>Разница между постом, который пролистывают, и постом, который читают, часто видна уже в первой строке. Вот как можно превратить общий заход в конкретный, используя черновик нейросети как основу.</p>
+    <div class="tablewrap"><table><thead><tr><th>Слабый вариант</th><th>Что не так</th><th>Доработанный вариант</th></tr></thead><tbody><tr><td>У нас лучшие услуги маникюра в городе</td><td>Общая похвала без читателя внутри</td><td>Три часа на работу, а лак облез через два дня? Разберём, почему так бывает</td></tr><tr><td>Запишитесь на консультацию по финансам</td><td>Нет конкретной боли</td><td>Зарплата приходит, а к концу месяца снова пустой кошелёк - давай разберём, куда уходят деньги</td></tr><tr><td>Новый курс по английскому уже доступен</td><td>Продукт в центре, не человек</td><td>Учишь язык три года, а на созвоне с партнёром опять молчишь - знакомо?</td></tr></tbody></table></div>
+    <h2>Частые ошибки после черновика от нейросети</h2>
+    <p>Готовый текст от нейросети редко можно публиковать без правок - он пишется без твоего живого опыта и голоса. Вот что обычно приходится убирать.</p>
+    <ul><li>Канцелярские обороты вроде «данный продукт» или «в современных реалиях»</li><li>Обещания без подтверждения - убери то, что не можешь подтвердить фактом</li><li>Одинаковые конструкции предложений подряд - перечитай вслух</li><li>Избыточные превосходные степени: «лучший», «уникальный», «революционный»</li></ul>
+    <p>Хорошая проверка - прочитать черновик вслух. Если фраза режет слух или звучит не как ты говоришь с подругой, её стоит переписать своими словами, даже если по смыслу всё верно.</p>
+    <h2>Форматы: лента, сторис и подпись к видео</h2>
+    <p>Структура остаётся той же, но объём и темп подачи различаются по форматам. В ленте есть время развернуть историю, в сторис решения принимаются за секунды, а подпись к видео работает вместе с роликом, а не отдельно.</p>
+    <p>Попроси нейросеть адаптировать один черновик под разные форматы - это быстрее, чем писать каждый заново: структура боли и решения сохраняется, меняется только подача и длина.</p>
+
+    <section class="faq">
+      <h2>Частые вопросы</h2>
+      <h3>Можно ли публиковать текст от нейросети без правок?</h3>
+      <p>Лучше не стоит - такой текст легко отличить по общим фразам. Прочитай черновик вслух и замени канцелярские обороты и шаблонные обещания на свои слова.</p>
+      <h3>Сколько раз просить нейросеть переписать пост?</h3>
+      <p>Обычно достаточно двух-трёх заходов: сначала варианты хука, потом доработка структуры под твой тон. Если результат всё ещё общий, дело в слишком общем описании задачи, а не в количестве попыток.</p>
+      <h3>Как написать хук, если продукт самый обычный?</h3>
+      <p>Ищи не уникальность продукта, а конкретную ситуацию клиента: что он чувствует перед покупкой и что меняется после. Обычная услуга становится интересной, если показана через реальную боль.</p>
+      <h3>Нужен ли призыв к действию в конце продающего поста?</h3>
+      <p>Да, читатель должен понимать, что делать дальше - написать в директ, перейти по ссылке, оставить заявку. Без ясного следующего шага даже сильный текст про боль и решение часто остаётся без отклика.</p>
+      <h3>Чем продающий пост отличается от обычного информационного?</h3>
+      <p>Информационный пост делится пользой без расчёта на немедленное действие, а продающий ведёт к конкретному шагу - покупке, записи, заявке. Предложение в конце есть только во втором.</p>
+    </section>
+
+    <a class="readnext" href="/blog/kak-vybrat-avto-s-probegom-s-neyrosetyu/" style="display:block;margin:38px 0 6px;padding:20px 22px;background:var(--paper2);border:3px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--coral);text-decoration:none;color:inherit">
+      <div style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--coral-deep);margin-bottom:6px">Читайте дальше</div>
+      <div style="font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:20px;line-height:1.06;color:var(--ink);margin-bottom:8px">Как выбрать автомобиль с пробегом с помощью нейросети</div>
+      <p style="margin:0 0 10px;font-size:15px;line-height:1.6;color:#2c2621;font-weight:600">Раз тема оказалась полезной, вот что почитать следующим. Нейросети при покупке авто с пробегом: от подбора модели до проверки объявления и договора.</p>
+      <span style="font-family:'Oswald',sans-serif;font-weight:700;text-transform:uppercase;font-size:14px;color:var(--coral-deep)">Читать статью →</span>
+    </a>
+
+    <div class="cta">
+      <img src="/apple-touch-icon.png" alt="Саша Аксенов">
+      <div class="h">Контент на автопилоте,<br>а не вручную</div>
+      <div class="s">«Залихват: автоматическая контент-машина» - выбираешь платформу, и нейросеть за секунды собирает идеи, хуки, сценарии и тексты под твою нишу.</div>
+      <a class="btn" href="https://app.aksalex.com" target="_blank" rel="noopener">Открыть Залихват →</a>
+    </div>
+  </article>
+
+  <footer>
+    <a class="fbrand" href="/"><svg viewBox="0 0 560 150" style="height:60px;width:auto;display:block" role="img" aria-label="Залихват"><path d="M42 64 L68 83 L42 102" fill="none" stroke="#151210" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M64 64 L90 83 L64 102" fill="none" stroke="#ff7f50" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><g transform="skewX(-13)" font-family="Oswald,'Arial Black',sans-serif" font-weight="700" font-size="72" letter-spacing="0.5"><text x="142" y="112" fill="#151210">ЗАЛИХВАТ</text><text x="138" y="108" fill="#ff7f50" stroke="#151210" stroke-width="2.4" paint-order="stroke">ЗАЛИХВАТ</text></g></svg></a>
+    <div class="fmenu">
+      <a href="/zalihvat">Залихват</a>
+      <a href="/guides/">Гайды</a>
+      <a href="/aboutme">Обо мне</a>
+      <a href="/blog/">Блог</a>
+      <a href="https://www.instagram.com/marcusorphie/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://t.me/xAkse" target="_blank" rel="noopener">Помощь</a>
+      <a class="btn" href="https://app.aksalex.com" target="_blank" rel="noopener">Войти</a>
+    </div>
+    <p class="fnote">Залихват · <b>Саша Аксенов</b>. Нейросети и автоматизация для блога, работы и жизни.</p>
+    <p class="fnote" style="margin-top:6px"><a href="/offer.pdf" target="_blank" rel="noopener" style="color:#e85f2c;text-decoration:underline">Публичная оферта</a></p>
+  </footer>
+</div>
+</body>
+</html>
